@@ -1,6 +1,6 @@
 # pygeometa
 
-pygeometa is a Python package to generate metadata for meteorological datasets.
+pygeometa is a Python package to generate metadata for geospatial datasets.
 
 ## Table of Content
 * Overview
@@ -19,7 +19,10 @@ pygeometa is a Python package to generate metadata for meteorological datasets.
 
 ## Overview
 
-TODO
+pygeometa is a Python package to generate metadata for geospatial datasets.
+
+
+
 
 ## Installation
 
@@ -74,7 +77,9 @@ pip install -r requirements-dev.txt
 
 ### Adding Another Metadata Format
 
-TODO
+List of supported metadata formats in `pygeometa/templates/`
+
+TODO - howto add new metadata formats
 
 ### Running Tests
 
@@ -82,7 +87,7 @@ TODO
 
 ### Code Conventions
 
-- [PEP8](https://www.python.org/dev/peps/pep-0008)
+* [PEP8](https://www.python.org/dev/peps/pep-0008)
 
 ### Bugs and Issues
 
