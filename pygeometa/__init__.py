@@ -75,7 +75,7 @@ def render_template(record, record_format, path=None):
         raise RuntimeError('Missing metadata template')
 
     xml = template.render(record=read_mcf(record),
-                          software_version=__version__)
+                          software_version=__version__).encode('utf-8')
     return pretty_print(xml)
 
 
