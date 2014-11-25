@@ -44,7 +44,7 @@ if len(sys.argv) < 3:
 
 if sys.argv[2] not in SUPPORTED_FORMATS:
     print('Invalid format {}. Supported formats: {}'.format(sys.argv[2],
-          '.'.join(SUPPORTED_FORMATS)))
+          ','.join(SUPPORTED_FORMATS)))
     sys.exit(2)
 
 print(render_template(sys.argv[1], sys.argv[2]))
