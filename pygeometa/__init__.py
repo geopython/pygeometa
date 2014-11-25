@@ -28,6 +28,7 @@
 #
 # =================================================================
 
+import codecs
 from ConfigParser import ConfigParser
 import os
 import sys
@@ -46,8 +47,9 @@ def read_mcf(mcf):
     """returns dict of ConfigParser object"""
 
     c = ConfigParser()
-    c.read(mcf)
-    return c.__dict__['_sections']
+    with codecs.open(mcf, encoding='utf-8') as fh:
+        c.readfp(fh)
+        return c.__dict__['_sections']
 
 
 def pretty_print(xml):
