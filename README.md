@@ -1,23 +1,20 @@
-pygeometa
-=========
+# pygeometa
 
 pygeometa is a Python package to generate metadata for meteorological datasets.
 
-Installation
-------------
+## Installation
 
 pygeometa is best installed and used within a Python virtualenv.
 
-Requirements
-^^^^^^^^^^^^
+### Requirements
 
 Python 2.6 and above.  Works with Python 3.
 
-Dependencies
-^^^^^^^^^^^^
+### Dependencies
 
-Installing the Package
-^^^^^^^^^^^^^^^^^^^^^^
+See `requirements.txt`
+
+### Installing the Package
 
 ```bash
 virtualenv my-env
@@ -30,18 +27,15 @@ python setup.py build
 python setup.py install
 ```
 
-Running
-^^^^^^^
+### Running
 
 ```bash
 generate_metadata.py path/to/file.mcf iso19139
 ```
 
-Development
------------
+## Development
 
-Setting up a Development Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Setting up a Development Environment
 
 Same as installing a package.  Use a virtualenv.  Also install developer requirements:
 
@@ -49,19 +43,19 @@ Same as installing a package.  Use a virtualenv.  Also install developer require
 pip install -r requirements-dev.txt
 ```
 
-Adding Another Metadata Format
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Adding Another Metadata Format
 
-Running Tests
-^^^^^^^^^^^^^
+TODO
 
-Code Conventions
-^^^^^^^^^^^^^^^^
+### Running Tests
 
-- PEP8
+TODO
 
-Bugs and Issues
-^^^^^^^^^^^^^^^
+### Code Conventions
+
+- [PEP8](https://www.python.org/dev/peps/pep-0008)
+
+### Bugs and Issues
 
 All bugs, enhancements and issues can be logged on SSC GitLab at
 http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
