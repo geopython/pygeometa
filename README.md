@@ -34,6 +34,15 @@ generate_metadata.py path/to/file.mcf iso19139  # to stdout
 generate_metadata.py path/to/file.mcf iso19139 > some_file.xml  # to file
 ```
 
+### Using the API from Python
+
+```python
+from pygeometa import render_template
+xml_string = render_template('/path/to/file.mcf', 'iso19139')
+with open('output.xml', 'w') as ff:
+    ff.write(xml_string)
+```
+
 ## Development
 
 ### Setting up a Development Environment
