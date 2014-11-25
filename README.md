@@ -2,6 +2,25 @@
 
 pygeometa is a Python package to generate metadata for meteorological datasets.
 
+## Table of Content
+* Overview
+* Installation
+  * Requirements
+  * Dependencies
+  * Installing the Package
+* Running
+  * Using the API from Python
+* Development
+  * Setting up a Development Environment
+  * Adding Another Metadata Format
+  * Running Tests
+  * Code Conventions
+  * Bugs and Issues
+
+## Overview
+
+TODO
+
 ## Installation
 
 pygeometa is best installed and used within a Python virtualenv.
@@ -27,7 +46,7 @@ python setup.py build
 python setup.py install
 ```
 
-### Running
+## Running
 
 ```bash
 generate_metadata.py path/to/file.mcf iso19139  # to stdout
