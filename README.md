@@ -34,7 +34,7 @@ Running
 ^^^^^^^
 
 ```bash
-python pygeometa.py path/to/file.mcf iso19139
+generate_metadata.py path/to/file.mcf iso19139
 ```
 
 Development
