@@ -26,7 +26,11 @@
   {% include "contact.j2" %}
   </gmd:contact>
   <gmd:dateStamp>
+    {% if record['metadata']['datestamp']|length > 11 %}
     <gco:DateTime>{{ record['metadata']['datestamp'] }}</gco:DateTime>
+    {% else %}
+    <gco:Date>{{ record['metadata']['datestamp'] }}</gco:Date>
+    {% endif %}
   </gmd:dateStamp>
   <gmd:metadataStandardName>
     <gco:CharacterString>ISO 19115:2003 - Geographic information - Metadata</gco:CharacterString>
