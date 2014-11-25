@@ -31,7 +31,7 @@ python setup.py install
 
 ```bash
 generate_metadata.py path/to/file.mcf iso19139  # to stdout
-generate_metadata.py path/to/file.mcf iso19139  > some_file.xml  # to file
+generate_metadata.py path/to/file.mcf iso19139 > some_file.xml  # to file
 ```
 
 ## Development
