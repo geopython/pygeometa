@@ -26,6 +26,8 @@ cd my-env
 git clone http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa.git
 cd pygeometa
 pip install -r requirements.txt
+python setup.py build
+python setup.py install
 ```
 
 Running
