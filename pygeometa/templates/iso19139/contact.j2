@@ -1,0 +1,71 @@
+<gmd:CI_ResponsibleParty>
+  <gmd:individualName>
+    <gco:CharacterString>{{ contact['individualname']|e }}</gco:CharacterString>
+  </gmd:individualName>
+  <gmd:organisationName>
+    <gco:CharacterString>{{ contact['organization']|e }}</gco:CharacterString>
+  </gmd:organisationName>
+  <gmd:positionName>
+    <gco:CharacterString>{{ contact['positionname']|e }}</gco:CharacterString>
+  </gmd:positionName>
+  <gmd:contactInfo>
+    <gmd:CI_Contact>
+      <gmd:phone>
+        <gmd:CI_Telephone>
+          {% if contact['phone'] %}
+          <gmd:voice>
+            <gco:CharacterString>{{ contact['phone'] }}</gco:CharacterString>
+          </gmd:voice>
+          {% else %}
+          <gmd:voice gco:nilReason="missing"/>
+          {% endif %}
+          {% if contact['fax'] %}
+          <gmd:facsimile>
+            <gco:CharacterString>{{ contact['fax'] }}</gco:CharacterString>
+          </gmd:facsimile>
+          {% else %}
+          <gmd:facsimile gco:nilReason="missing"/>
+          {% endif %}
+        </gmd:CI_Telephone>
+      </gmd:phone>
+      <gmd:address>
+        <gmd:CI_Address>
+          <gmd:deliveryPoint>
+            <gco:CharacterString>{{ contact['address']|e }}</gco:CharacterString>
+          </gmd:deliveryPoint>
+          <gmd:deliveryPoint>
+            <gco:CharacterString>{{ contact['city']|e }}</gco:CharacterString>
+          </gmd:deliveryPoint>
+          <gmd:administrativeArea>
+            <gco:CharacterString>{{ contact['administrativearea']|e }}</gco:CharacterString>
+          </gmd:administrativeArea>
+          <gmd:postalCode>
+            <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
+          </gmd:postalCode>
+          <gmd:country>
+            <gco:CharacterString>{{ contact['country'] }}</gco:CharacterString>
+          </gmd:country>
+          <gmd:electronicMailAddress>
+            <gco:CharacterString>{{ contact['email'] }}</gco:CharacterString>
+          </gmd:electronicMailAddress>
+        </gmd:CI_Address>
+      </gmd:address>
+      <gmd:onlineResource>
+        <gmd:CI_OnlineResource>
+          <gmd:linkage>
+            <gmd:URL>{{ contact['url'] }}</gmd:URL>
+          </gmd:linkage>
+        </gmd:CI_OnlineResource>
+      </gmd:onlineResource>
+      <gmd:hoursOfService>
+        <gco:CharacterString>{{ contact['hoursofservice'] }}</gco:CharacterString>
+      </gmd:hoursOfService>
+      <gmd:contactInstructions>
+        <gco:CharacterString>{{ contact['contactinstructions'] }}</gco:CharacterString>
+      </gmd:contactInstructions>
+    </gmd:CI_Contact>
+  </gmd:contactInfo>
+  <gmd:role>
+    <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="{{ role }}" codeSpace="ISOTC211/19115">{{ role }}</gmd:CI_RoleCode>
+  </gmd:role>
+</gmd:CI_ResponsibleParty>
