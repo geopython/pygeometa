@@ -30,14 +30,16 @@
 
 import codecs
 from ConfigParser import ConfigParser
+import logging
 import os
-import sys
 from xml.dom import minidom
 
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 
 __version__ = '0.1.0'
+
+LOGGER = logging.getLogger(__name__)
 
 TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
                                os.sep)
@@ -47,6 +49,7 @@ def read_mcf(mcf):
     """returns dict of ConfigParser object"""
 
     c = ConfigParser()
+    LOGGER.debug('reading {}'.format(mcf))
     with codecs.open(mcf, encoding='utf-8') as fh:
         c.readfp(fh)
         return c.__dict__['_sections']
@@ -55,33 +58,41 @@ def read_mcf(mcf):
 def pretty_print(xml):
     """clean up indentation and spacing"""
 
+    LOGGER.debug('pretty-printing XML')
     val = minidom.parseString(xml)
     return '\n'.join([l for l in
                       val.toprettyxml(indent=' '*2).split('\n') if l.strip()])
 
 
-def render_template(record, record_format, path=None):
+def render_template(mcf, schema, path=None):
     """convenience function to render Jinja2 template"""
 
+    LOGGER.debug('Evaluating schema path')
     if path is None:  # default templates dir
-        abspath = '{}{}{}'.format(TEMPLATES, os.sep, record_format)
+        abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
     else:  # user-defined
         pass
 
+    LOGGER.debug('Setting up template environment {}'.format(abspath))
     env = Environment(loader=FileSystemLoader(abspath))
     env.globals.update(zip=zip)
 
     try:
+        LOGGER.debug('Loading template')
         template = env.get_template('main.j2')
     except TemplateNotFound:
-        raise RuntimeError('Missing metadata template')
+        msg = 'Missing metadata template'
+        LOGGER.exception(msg)
+        raise RuntimeError(msg)
 
-    xml = template.render(record=read_mcf(record),
+    LOGGER.debug('Processing template')
+    xml = template.render(record=read_mcf(mcf),
                           software_version=__version__).encode('utf-8')
     return pretty_print(xml)
 
 
-def get_supported_formats():
-    """returns a list of supported formats"""
+def get_supported_schemas():
+    """returns a list of supported schemas"""
 
+    LOGGER.debug('Generating list of supported schemas')
     return os.listdir(TEMPLATES)

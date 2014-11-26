@@ -31,20 +31,26 @@
 #
 # =================================================================
 
-import os
-import sys
+import click
 
-from pygeometa import get_supported_formats, render_template
+from pygeometa import get_supported_schemas, render_template
 
-SUPPORTED_FORMATS = get_supported_formats()
+SUPPORTED_SCHEMAS = get_supported_schemas()
 
-if len(sys.argv) < 3:
-    print('Usage: {} <mcf file> <format>'.format(sys.argv[0]))
-    sys.exit(1)
 
-if sys.argv[2] not in SUPPORTED_FORMATS:
-    print('Invalid format {}. Supported formats: {}'.format(sys.argv[2],
-          ','.join(SUPPORTED_FORMATS)))
-    sys.exit(2)
+@click.command()
+@click.option('--mcf',
+              type=click.Path(exists=True, resolve_path=True),
+              help='Path to metadata control file (.mcf)')
+@click.option('--schema',
+              type=click.Choice(SUPPORTED_SCHEMAS),
+              help='Metadata schema')
+def process_args(mcf, schema):
+    if mcf is None or schema is None:
+        raise click.UsageError('Missing arguments')
+    else:
+        click.echo_via_pager(render_template(mcf, schema))
 
-print(render_template(sys.argv[1], sys.argv[2]))
+
+if __name__ == '__main__':
+    process_args()
