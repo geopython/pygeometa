@@ -2,21 +2,21 @@
 
 pygeometa is a Python package to generate metadata for geospatial datasets.
 
-## Table of Content
-* Overview
-* Installation
-  * Requirements
-  * Dependencies
-  * Installing the Package
-* Running
-  * From the command line
-  * Using the API from Python
-* Development
-  * Setting up a Development Environment
-  * Adding Another Metadata Format
-  * Running Tests
-  * Code Conventions
-  * Bugs and Issues
+## Table of Contents
+* [Overview](#overview)
+* [Installation](#installation)
+  * [Requirements](#requirements)
+  * [Dependencies](#depedencies)
+  * [Installing the Package](installing-the-package)
+* [Running](#running)
+  * [From the command line](#from-the-command-line)
+  * [Using the API from Python](#using-the-api-from-python)
+* [Development](#development)
+  * [Setting up a Development Environment](#setting-up-a-development-environment)
+  * [Adding Another Metadata Format](#adding-another-metadata-format)
+  * [Running Tests](#running-tests)
+  * [Code Conventions](#code-conventions)
+  * [Bugs and Issues](#bugs-and-issues)
 
 ## Overview
 
@@ -24,9 +24,9 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 
 Workflow to generate metadata XML:
 1. Install pygeometa
-2. Create a .mcd file that contains metadata information 
-  1. Refer to the `sample.mcd` example
-3. Run pygeometa for the .mcd file with a specified target metadata format
+2. Create a .mcf file that contains metadata information 
+  1. Refer to the [sample.mcf](/ec-msc/pygeometa/blob/master/sample.mcf) example
+3. Run pygeometa for the .mcf file with a specified target metadata format
 
 
 ## Installation
@@ -90,7 +90,7 @@ To add support to new metadata formats:
 ```bash
 cp -r pygeometa/templates/iso19139 pygeometa/templates/new-format
 ```
-Then modify *.j2 files in the new pygeometa/templates/new-format directory to comply to new metadata format.
+Then modify `*.j2` files in the new pygeometa/templates/new-format directory to comply to new metadata format.
 
 ### Running Tests
 
