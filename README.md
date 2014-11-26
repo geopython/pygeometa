@@ -17,6 +17,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
   * [Running Tests](#running-tests)
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
+* [Contact](#contact)
 
 ## Overview
 
@@ -104,3 +105,8 @@ TODO
 
 All bugs, enhancements and issues can be logged on SSC GitLab at
 http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
+
+## Contact
+
+* [Tom Kralidis](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=cn%3DKralidis\\%2C+Tom%2Cou%3DDAT-GES%2Cou%3DMON-STR%2Cou%3DMON-DIR%2Cou%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
+* [Alexandre Leroux](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=cn%3DLeroux\\%2C+Alexandre%2Cou%3DDPS-DPS%2Cou%3DCAN-OPE%2Cou%3DCAN-CEN%2Cou%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
