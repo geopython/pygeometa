@@ -91,7 +91,7 @@ To add support to new metadata formats:
 ```bash
 cp -r pygeometa/templates/iso19139 pygeometa/templates/new-format
 ```
-Then modify `*.j2` files in the new pygeometa/templates/new-format directory to comply to new metadata format.
+Then modify `*.j2` files in the new `pygeometa/templates/new-format` directory to comply to new metadata format.
 
 ### Running Tests
 
