@@ -18,6 +18,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
   * [To do](#to-do)
+* [History](#history)
 * [Contact](#contact)
 
 ## Overview
