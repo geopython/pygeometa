@@ -111,6 +111,12 @@ http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 * Support local metadata format, in addition to the formats provided in `pygeometa/templates/`
 
+## History
+
+pygeometa originated within the [pygdm](https://wiki.cmc.ec.gc.ca/wiki/Pygdm) project, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.
+
+pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
+
 ## Contact
 
 * [Tom Kralidis](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=cn%3DKralidis\\%2C+Tom%2Cou%3DDAT-GES%2Cou%3DMON-STR%2Cou%3DMON-DIR%2Cou%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
