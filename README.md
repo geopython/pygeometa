@@ -26,7 +26,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 
 Workflow to generate metadata XML:
 1. Install pygeometa
-2. Create a .mcf file that contains metadata information 
+2. Create a 'metadata config file' .mcf file that contains metadata information 
   1. Refer to the [sample.mcf](/ec-msc/pygeometa/blob/master/sample.mcf) example
 3. Run pygeometa for the .mcf file with a specified target metadata format
 
@@ -41,7 +41,7 @@ Python 2.6 and above.  Works with Python 3.
 
 ### Dependencies
 
-See `requirements.txt`
+See [requirements.txt](requirements.txt)
 
 ### Installing the Package
 
