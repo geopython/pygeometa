@@ -1,9 +1,9 @@
 # Metadata Control File Reference
 
 ## Table of Contents
-* [Basic Concepts](#Basic concepts)
-* [Encoding](#Encoding)
-* [Sections](#Sections)
+* [Basic Concepts](#basic-concepts)
+* [Encoding](#encoding)
+* [Sections](#sections)
   * [Metadata](#metadata)
   * [Spatial](#spatial)
   * [Identification](#identification)
