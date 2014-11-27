@@ -3,6 +3,7 @@ identifier=3f342f64-9348-11df-ba6a-0014c2c00eab
 language=eng; CAN
 charset=utf8
 parentidentifier=someparentid
+hierarchylevel=dataset
 datestamp=2014-11-11
 dataseturi=http://some/minted/uri
 
