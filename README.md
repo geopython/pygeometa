@@ -117,6 +117,8 @@ http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
 
+* Document 'Running tests'
+
 ## History
 
 pygeometa originated within the [pygdm](https://wiki.cmc.ec.gc.ca/wiki/Pygdm) project, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.
