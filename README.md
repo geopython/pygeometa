@@ -21,6 +21,8 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 * [History](#history)
 * [Contact](#contact)
 * [Metadata Control File Reference](#metadata-control-file-reference)
+ * [Sections](#sections)
+ * [Encoding](#encoding)
 
 ## Overview
 
@@ -194,7 +196,7 @@ keywords_type|Mandatory|subject matter used to group similar keywords (must be o
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 date|Mandatory|reference date for the cited resource|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 datetype|Mandatory|date used for the reference date (must be one of 'revision', 'publication', 'creation')|creation|ISO 19115:2003 Section B.3.2.4
-fees,Mandatory,"fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'",None,ISO 19115:2003 Section B.2.10.6
+fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights,Mandatory,Information about rights held in and over the resource,Copyright (c) 2010 Her Majesty the Queen in Right of Canada,DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
