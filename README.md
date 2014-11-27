@@ -13,7 +13,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
   * [Using the API from Python](#using-the-api-from-python)
 * [Development](#development)
   * [Setting up a Development Environment](#setting-up-a-development-environment)
-  * [Adding Another Metadata Format](#adding-another-metadata-format)
+  * [Adding Another Metadata Schema to the Core](#adding-another-metadata-schema-to-the-core)
   * [Running Tests](#running-tests)
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
@@ -31,7 +31,7 @@ Workflow to generate metadata XML:
 2. Create a 'metadata control file' .mcf file that contains metadata information 
   1. Modify the [sample.mcf](/ec-msc/pygeometa/blob/master/sample.mcf) example
   2. Refer to the [Metadata Control File Reference documentation](/ec-msc/pygeometa/blob/master/MCF_Reference.md) 
-3. Run pygeometa for the .mcf file with a specified target metadata format
+3. Run pygeometa for the .mcf file with a specified target metadata schema
 
 
 ## Installation
@@ -66,13 +66,18 @@ python setup.py install
 ```bash
 generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139  # to stdout
 generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139 > some_file.xml  # to file
+# use your own defined schema
+generate_metadata.py --mcf=path/to/file.mcf --schema_local=/path/to/my-schema > some_file.xml  # to file
 ```
 
 ### Using the API from Python
 
 ```python
 from pygeometa import render_template
-xml_string = render_template('/path/to/file.mcf', 'iso19139')
+# default schema
+xml_string = render_template('/path/to/file.mcf', schema='iso19139')
+# user-defined schema
+xml_string = render_template('/path/to/file.mcf', schema_local='/path/to/new-schema')
 with open('output.xml', 'w') as ff:
     ff.write(xml_string)
 ```
@@ -87,15 +92,15 @@ Same as installing a package.  Use a virtualenv.  Also install developer require
 pip install -r requirements-dev.txt
 ```
 
-### Adding Another Metadata Format
+### Adding Another Metadata Schema to the Core
 
-List of supported metadata formats in `pygeometa/templates/`
+List of supported metadata schemas in `pygeometa/templates/`
 
-To add support to new metadata formats:
+To add support to new metadata schemas:
 ```bash
-cp -r pygeometa/templates/iso19139 pygeometa/templates/new-format
+cp -r pygeometa/templates/iso19139 pygeometa/templates/new-schema
 ```
-Then modify `*.j2` files in the new `pygeometa/templates/new-format` directory to comply to new metadata format.
+Then modify `*.j2` files in the new `pygeometa/templates/new-schema` directory to comply to new metadata schema.
 
 ### Running Tests
 
@@ -111,8 +116,6 @@ All bugs, enhancements and issues can be logged on SSC GitLab at
 http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
-
-* Support local metadata format, in addition to the formats provided in `pygeometa/templates/`
 
 ## History
 

@@ -64,14 +64,18 @@ def pretty_print(xml):
                       val.toprettyxml(indent=' '*2).split('\n') if l.strip()])
 
 
-def render_template(mcf, schema, path=None):
+def render_template(mcf, schema=None, schema_local=None):
     """convenience function to render Jinja2 template"""
 
     LOGGER.debug('Evaluating schema path')
-    if path is None:  # default templates dir
+    if schema is None and schema_local is None:
+        msg = 'schema or schema_local required'
+        LOGGER.exception(msg)
+        raise RuntimeError(msg)
+    if schema_local is None:  # default templates dir
         abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
-    else:  # user-defined
-        pass
+    elif schema is None:  # user-defined
+        abspath = schema_local
 
     LOGGER.debug('Setting up template environment {}'.format(abspath))
     env = Environment(loader=FileSystemLoader(abspath))
