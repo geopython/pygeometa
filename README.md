@@ -104,7 +104,13 @@ Then modify `*.j2` files in the new `pygeometa/templates/new-schema` directory t
 
 ### Running Tests
 
-TODO
+```bash
+# via distutils
+python setup.py test
+# manually
+cd tests
+python run_tests.py
+```
 
 ### Code Conventions
 
@@ -117,7 +123,7 @@ http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
 
-* Document 'Running tests'
+* todo
 
 ## History
 

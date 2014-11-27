@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 # =================================================================
 #
-# $Id$
+# Copyright (c) 2014 Her Majesty the Queen in Right of Canada
 #
-# Copyright (c) YYYY Her Majesty the Queen in Right of Canada
-#
-# Author: Firstname Lastname <firstname.lastname@ec.gc.ca>
+# Author: Tom Kralidis <tom.kralidis@ec.gc.ca>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -30,10 +28,13 @@
 #
 # =================================================================
 
+import os
 import unittest
 
 from pygeometa import (read_mcf, pretty_print,
                        render_template, get_supported_schemas)
+
+THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def msg(test_id, test_description):
@@ -57,9 +58,9 @@ class PygeometaTest(unittest.TestCase):
         """Test reading MCF files"""
 
         with self.assertRaises(IOError):
-            mcf = read_mcf('../404.mcf')
+            mcf = read_mcf(get_abspath('../404.mcf'))
 
-        mcf = read_mcf('../sample.mcf')
+        mcf = read_mcf(get_abspath('../sample.mcf'))
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
@@ -67,7 +68,7 @@ class PygeometaTest(unittest.TestCase):
     def test_pretty_print(self):
         """Test pretty-printing"""
 
-        xml = render_template('../sample.mcf', 'iso19139')
+        xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
         xml2 = pretty_print(xml)
 
         self.assertIsInstance(xml2, unicode, 'Expected unicode string')
@@ -86,24 +87,31 @@ class PygeometaTest(unittest.TestCase):
     def test_render_template(self):
         """test template rendering"""
 
-        xml = render_template('../sample.mcf', 'iso19139')
+        xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
         self.assertIsInstance(xml, unicode, 'Expected unicode string')
 
         # no schema provided
         with self.assertRaises(RuntimeError):
-            render_template('../sample.mcf')
+            render_template(get_abspath('../sample.mcf'))
 
         # bad schema provided
         with self.assertRaises(RuntimeError):
-            xml = render_template('../sample.mcf', 'bad_schema')
+            xml = render_template(get_abspath('../sample.mcf'), 'bad_schema')
 
         # bad schema_local provided
         with self.assertRaises(RuntimeError):
-            xml = render_template('../sample.mcf',
+            xml = render_template(get_abspath('../sample.mcf'),
                                   schema_local='/bad_schema/path')
 
         # good schema_local provided
-        xml = render_template('../sample.mcf', schema_local='sample_schema')
+        xml = render_template(get_abspath('../sample.mcf'),
+                              schema_local=get_abspath('sample_schema'))
+
+
+def get_abspath(filepath):
+    """helper function absolute file access"""
+
+    return os.path.join(THISDIR, filepath)
 
 
 if __name__ == '__main__':

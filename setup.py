@@ -28,9 +28,10 @@
 #
 # =================================================================
 
+from distutils.core import setup, Command
 import os
 import sys
-from distutils.core import setup
+
 import pygeometa
 
 # set dependencies
@@ -56,6 +57,21 @@ SCRIPTS = [
 ]
 
 URL = 'http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa'
+
+
+class PyTest(Command):
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import subprocess
+        errno = subprocess.call([sys.executable, 'tests/run_tests.py'])
+        raise SystemExit(errno)
 
 
 # from https://wiki.python.org/moin/Distutils/Cookbook/AutoPackageDiscovery
@@ -95,7 +111,6 @@ def find_packages_templates(location='.'):
             packages.append(root.replace(os.sep, '.').replace('..', ''))
 
     return {'pygeometa': ['templates/*/*.j2']}
-    print packages
     return packages
 
 
@@ -125,5 +140,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Scientific/Engineering :: GIS'
-    ]
+    ],
+    cmdclass={'test': PyTest},
+    test_suite='tests.run_tests'
 )
