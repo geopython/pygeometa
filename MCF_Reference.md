@@ -7,9 +7,9 @@
   * [Metadata](#metadata)
   * [Spatial](#spatial)
   * [Identification](#identification)
-  * [Contact:main](#contact:main)
-  * [Contact:distribution](#contact:distribution)
-  * [Contact:*](#contact:*)
+  * [Contact:main](#contact&#58;main)
+  * [Contact:distribution](#contact&#58;distribution)
+  * [Contact:*](#contact&#58;*)
 
 ## Basic Concepts
 
