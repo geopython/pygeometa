@@ -1,5 +1,16 @@
 # Metadata Control File Reference
 
+## Table of Contents
+* [Basic Concepts](#Basic concepts)
+* [Encoding](#Encoding)
+* [Sections](#Sections)
+  * [Metadata](#metadata)
+  * [Spatial](#spatial)
+  * [Identification](#identification)
+  * [Contact:main](#contact:main)
+  * [Contact:distribution](#contact:distribution)
+  * [Contact:*](#contact:*)
+
 ## Basic Concepts
 
 * sections are case insensitive
@@ -14,7 +25,7 @@
 
 The MCF must be utf8 encoding.
 
-## Is your MCF Encoded as UTF8?
+Is your MCF Encoded as UTF8?
 
 ```bash
 # editing in vim
