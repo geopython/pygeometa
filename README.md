@@ -45,7 +45,7 @@ pygeometa is best installed and used within a Python virtualenv.
 
 ### Dependencies
 
-See [requirements.txt](requirements.txt)
+Dependencies are listed in [requirements.txt](requirements.txt). Dependencies are automatically installed during pygeometa's installation.
 
 ### Installing the Package
 
