@@ -198,7 +198,7 @@ date|Mandatory|reference date for the cited resource|2000-09-01 or 2000-09-01T00
 datetype|Mandatory|date used for the reference date (must be one of 'revision', 'publication', 'creation')|creation|ISO 19115:2003 Section B.3.2.4
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
-rights,Mandatory,Information about rights held in and over the resource,Copyright (c) 2010 Her Majesty the Queen in Right of Canada,DMCI 1.1
+rights|Mandatory|Information about rights held in and over the resource|Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 temporal_begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
 temporal_end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
@@ -222,9 +222,9 @@ address|Mandatory|address line for the location (as described in ISO 11180| Anne
 city|Mandatory|city of the location|Toronto|ISO 19115:2003 Section B.3.2.2
 administrativearea|Mandatory|state, province of the location|Ontario|ISO 19115:2003 Section B.3.2.2
 postalcode|Mandatory|ZIP or other postal code|M3H 5T4|ISO 19115:2003 Section B.3.2.2
-country,Mandatory,country of the physical address,Canada,ISO 19115:2003 Section B.3.2.2
+country|Mandatory|country of the physical address|Canada|ISO 19115:2003 Section B.3.2.2
 email|Mandatory|address of the electronic mailbox of the responsible organization or individual|tom.kralidis@ec.gc.ca|ISO 19115:2003 Section B.3.2.2
-hoursofservice,Optional,time period (including time zone) when individuals can contact the organization or individual,0700h - 1500h EST,ISO 19115:2003 Section B.3.2.3
+hoursofservice|Optional|time period (including time zone) when individuals can contact the organization or individual|0700h - 1500h EST|ISO 19115:2003 Section B.3.2.3
 contactinstructions|Optional|supplementalinstructions on how or when to contact the individual or organization|contact during working business hours|ISO 19115:2003 Section B.3.2.3
 
 #### `[contact:distribution]`
@@ -236,7 +236,7 @@ If contact information is the same for both, specify only `ref=contact:main` to 
 
 #### `[distribution:*]`
 
-MCF files can have 1..n `[distribution:*]` sections as required (e.g. `[distribution:wms], `[distribution:waf]`, etc.).
+MCF files can have 1..n `[distribution:*]` sections as required (e.g. `[distribution:wms]`, `[distribution:waf]`, etc.).
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
