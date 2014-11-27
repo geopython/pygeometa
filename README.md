@@ -40,7 +40,8 @@ pygeometa is best installed and used within a Python virtualenv.
 
 ### Requirements
 
-Python 2.6 and above.  Works with Python 3.
+* Python 2.6 and above.  Works with Python 3.
+* Python [virtualenv](https://virtualenv.pypa.io/) package
 
 ### Dependencies
 
