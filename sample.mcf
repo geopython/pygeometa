@@ -10,7 +10,6 @@ dataseturi=http://some/minted/uri
 [spatial]
 datatype=vector
 geomtype=point
-count=222
 crs=4326
 bbox=-141,42,-52,84
 
