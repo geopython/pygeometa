@@ -229,7 +229,7 @@
                   {% if record['identification']['temporal_end'] == 'now' %}
                   <gml:endPosition indeterminatePosition="now"/>
                   {% else %}
-                  <gml:beginPosition>{{ record['identification']['temporal_end'] }}</gml:beginPosition>
+                  <gml:endPosition>{{ record['identification']['temporal_end'] }}</gml:endPosition>
                   {% endif %}
                 </gml:TimePeriod>
               </gmd:extent>
