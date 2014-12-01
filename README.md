@@ -124,7 +124,8 @@ http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
 
-* todo
+* Consider using reveal.js to provide a generic presentation of pygeometa along with the code
+* Consider using Jekyll or Sphinx to provide pygeometa documentation
 
 ## History
 
