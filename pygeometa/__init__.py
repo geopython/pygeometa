@@ -32,6 +32,7 @@ import codecs
 from ConfigParser import ConfigParser
 import logging
 import os
+import re
 from xml.dom import minidom
 
 from jinja2 import Environment, FileSystemLoader
@@ -43,6 +44,16 @@ LOGGER = logging.getLogger(__name__)
 
 TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
                                os.sep)
+
+
+def normalize_datestring(datestring):
+    """groks date string into ISO8601"""
+
+    if datestring.startswith('$Date'):  # it's an svn Date keyword
+        rp = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
+        mo = re.match(rp, datestring)
+        return '%sT%s' % mo.group('date', 'time')
+    return datestring
 
 
 def read_mcf(mcf):
@@ -79,6 +90,7 @@ def render_template(mcf, schema=None, schema_local=None):
 
     LOGGER.debug('Setting up template environment {}'.format(abspath))
     env = Environment(loader=FileSystemLoader(abspath))
+    env.filters['normalize_datestring'] = normalize_datestring
     env.globals.update(zip=zip)
 
     try:

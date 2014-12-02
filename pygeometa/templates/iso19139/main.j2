@@ -23,10 +23,11 @@
   {% include "contact.j2" %}
   </gmd:contact>
   <gmd:dateStamp>
-    {% if record['metadata']['datestamp']|length > 11 %}
-    <gco:DateTime>{{ record['metadata']['datestamp'] }}</gco:DateTime>
+    {% set datestamp = record['metadata']['datestamp']|normalize_datestring %}
+    {% if datestamp|length > 11 %}
+    <gco:DateTime>{{ datestamp }}</gco:DateTime>
     {% else %}
-    <gco:Date>{{ record['metadata']['datestamp'] }}</gco:Date>
+    <gco:Date>{{ datestamp }}</gco:Date>
     {% endif %}
   </gmd:dateStamp>
   <gmd:metadataStandardName>
