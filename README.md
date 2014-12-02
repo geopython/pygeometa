@@ -40,11 +40,12 @@ pygeometa is best installed and used within a Python virtualenv.
 
 ### Requirements
 
-Python 2.6 and above.  Works with Python 3.
+* Python 2.6 and above.  Works with Python 3.
+* Python [virtualenv](https://virtualenv.pypa.io/) package
 
 ### Dependencies
 
-See [requirements.txt](requirements.txt)
+Dependencies are listed in [requirements.txt](requirements.txt). Dependencies are automatically installed during pygeometa's installation.
 
 ### Installing the Package
 
@@ -123,7 +124,8 @@ http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
 
-* todo
+* Consider using reveal.js to provide a generic presentation of pygeometa along with the code
+* Consider using Jekyll or Sphinx to provide pygeometa documentation
 
 ## History
 
