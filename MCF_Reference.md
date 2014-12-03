@@ -51,7 +51,7 @@ language|Mandatory|primary language used for documenting metadata, the metadata 
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
-datestamp|Mandatory|date that the metadata was created|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
+datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $Date$ variable to have this value updated at every Subversion commit |2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Mandatory|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
 ### `[spatial]`
