@@ -2,6 +2,7 @@
 
 ## Table of Contents
 * [Basic Concepts](#basic-concepts)
+* [Nesting MCF Files](#nesting-mcf-files)
 * [Encoding](#encoding)
 * [Sections](#sections)
   * [Metadata](#metadata)
