@@ -13,14 +13,28 @@
 
 ## Basic Concepts
 
-* sections are case insensitive
-* section parameters are case insensitive
-* section parameter values are case sensitive
-* if an optional section is specified, then its child parameters' cardinality are enforced
-* filename conventions are up to the user. However, below are some suggestions:
+* Sections are case insensitive
+* Section parameters are case insensitive
+* Section parameter values are case sensitive
+* If an optional section is specified, then its child parameters' cardinality are enforced
+* Filename conventions are up to the user. However, below are some suggestions:
  * use ``.mcf`` as file extension
  * name the MCF file basename the same as the dataset (e.g. ``foo.shp``, ``foo.mcf``)
-* to add a comment in an MCF file, everything that follows a hash tag (``#``) will be ignored
+* To add a comment in an MCF file, everything that follows a hash tag (``#``) will be ignored
+
+## Nesting MCF files
+
+In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF files together. pygeometa allows chaining MCF files to inherit values from other MCF files.
+
+To use MCF file nesting:
+* At the top of the [metadata] section of an MCF file add ``base_mcf=foo.mcf``
+
+Notes about nesting MCF files: 
+* You can refer to one and only one ``base_mcf`` in a MCF file
+* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
+* MCF files can be nested in chains, meaning a MCF file can be used by a 'child' MCF file and use a 'parent' MCF file
+* The base_mcf file must be in the same folder than the current MCF file
+
 
 ## Encoding
 
