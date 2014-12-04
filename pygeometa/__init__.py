@@ -63,7 +63,11 @@ def read_mcf(mcf):
     LOGGER.debug('reading {}'.format(mcf))
     with codecs.open(mcf, encoding='utf-8') as fh:
         c.readfp(fh)
-        return c.__dict__['_sections']
+        mcf_dict = c.__dict__['_sections']
+        if 'base_mcf' in mcf_dict['metadata']:  # overwrite
+            base_mcf = read_mcf(mcf_dict['metadata']['base_mcf'])
+            mcf_dict.update(base_mcf)
+        return mcf_dict
 
 
 def pretty_print(xml):
