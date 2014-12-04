@@ -66,7 +66,12 @@ def read_mcf(mcf):
         mcf_dict = c.__dict__['_sections']
         if 'base_mcf' in mcf_dict['metadata']:  # overwrite
             base_mcf = read_mcf(mcf_dict['metadata']['base_mcf'])
-            mcf_dict.update(base_mcf)
+
+            for key, value in base_mcf.iteritems():
+                for key1, value1 in base_mcf[key].iteritems():
+                    if key in mcf_dict and key1 in mcf_dict[key]:
+                        base_mcf[key][key1] = mcf_dict[key][key1]
+            return base_mcf
         return mcf_dict
 
 
