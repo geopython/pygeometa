@@ -30,7 +30,8 @@ Workflow to generate metadata XML:
 1. Install pygeometa
 2. Create a 'metadata control file' .mcf file that contains metadata information 
   1. Modify the [sample.mcf](/ec-msc/pygeometa/blob/master/sample.mcf) example
-  2. Refer to the [Metadata Control File Reference documentation](/ec-msc/pygeometa/blob/master/doc/MCF_Reference.md) 
+  2. pygeometa supports nesting MCF files together, allowing providing a single MCF file for common metadata parameters (e.g. common contact information)
+  3. Refer to the [Metadata Control File Reference documentation](/ec-msc/pygeometa/blob/master/doc/MCF_Reference.md) 
 3. Run pygeometa for the .mcf file with a specified target metadata schema
 
 
