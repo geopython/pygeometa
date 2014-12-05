@@ -318,8 +318,13 @@
               <gmd:protocol>
                 <gco:CharacterString>{{ v['type'] }}</gco:CharacterString>
               </gmd:protocol>
-              <gmd:name>
-                <gco:CharacterString>{{ v['name'] }}</gco:CharacterString>
+              <gmd:name xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>{{ v['name_en'] }}</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#locale-fr">{{ v['name_fr'] }}</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
               </gmd:name>
               <gmd:description xsi:type="gmd:PT_FreeText_PropertyType">
                 <gco:CharacterString>{{ v['description_en'] }}</gco:CharacterString>

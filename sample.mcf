@@ -81,7 +81,8 @@ function=download
 [distribution:wms]
 url=http://dd.meteo.gc.ca
 type=OGC:WMS
-name=roads
+name_en=roads
+name_fr=routes
 description_en=description in English
 description_fr=description in French
 function=download
