@@ -141,7 +141,8 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|http://host/path|ISO 19115:2003 Section B.3.2.5
 type|Mandatory|connection protocol to be used.  Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv|WWW:LINK|ISO 19115:2003 Section B.3.2.5
-name|Mandatory|name of the online resource|roads|ISO 19115:2003 Section B.3.2.5
+name_en|Mandatory|English name of the online resource|roads|ISO 19115:2003 Section B.3.2.5
+name_fr|Mandatory|French name of the online resource|roads|ISO 19115:2003 Section B.3.2.5
 description_en|Mandatory|detailed text description of what the online resources is/does (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.5
 description_fr|Mandatory|detailed text description of what the online resources is/does (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.5
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')||ISO 19115:2003 Section B.3.2.5
