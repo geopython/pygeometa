@@ -46,13 +46,19 @@ TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
                                os.sep)
 
 
-def normalize_datestring(datestring):
+def normalize_datestring(datestring, fmt='default'):
     """groks date string into ISO8601"""
 
-    if datestring.startswith('$Date'):  # it's an svn Date keyword
-        rp = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
-        mo = re.match(rp, datestring)
-        return '%sT%s' % mo.group('date', 'time')
+    re1 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
+    re2 = r'\$Date: (?P<year>\d{4})'
+
+    if datestring.startswith('$Date'):  # svn Date keyword
+        if fmt == 'year':
+            mo = re.match(re1, datestring)
+            return mo.group('year')
+        else:  # default
+            mo = re.match(re2, datestring)
+            return '%sT%s' % mo.group('date', 'time')
     return datestring
 
 
@@ -72,7 +78,6 @@ def read_mcf(mcf):
             for key, value in base_mcf.iteritems():
                 for key1, value1 in base_mcf[key].iteritems():
                     if key in mcf_dict and key1 in mcf_dict[key]:
-                    #if key in mcf_dict:  # overwrite
                         base_mcf[key][key1] = mcf_dict[key][key1]
 
             # now add child values not in parent values
