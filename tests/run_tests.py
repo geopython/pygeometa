@@ -111,7 +111,13 @@ class PygeometaTest(unittest.TestCase):
         """test nested mcf support"""
 
         mcf = read_mcf(get_abspath('child.mcf'))
-        print mcf['metadata']
+
+        self.assertEquals(mcf['metadata']['identifier'], '1234',
+                          'Expected specific identifier')
+
+        self.assertEquals(mcf['identification']['title_en'],
+                          'title in English',
+                          'Expected specific title')
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
