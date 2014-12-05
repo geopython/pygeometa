@@ -65,12 +65,20 @@ def read_mcf(mcf):
         c.readfp(fh)
         mcf_dict = c.__dict__['_sections']
         if 'base_mcf' in mcf_dict['metadata']:  # overwrite
-            base_mcf = read_mcf(mcf_dict['metadata']['base_mcf'])
+            base_mcf_path = get_abspath(mcf, mcf_dict['metadata']['base_mcf'])
+            base_mcf = read_mcf(base_mcf_path)
 
+            # overwrite parent values with child values
             for key, value in base_mcf.iteritems():
                 for key1, value1 in base_mcf[key].iteritems():
                     if key in mcf_dict and key1 in mcf_dict[key]:
+                    #if key in mcf_dict:  # overwrite
                         base_mcf[key][key1] = mcf_dict[key][key1]
+
+            # now add child values not in parent values
+            for key, value in mcf_dict.iteritems():
+                for key1, value1 in mcf_dict[key].iteritems():
+                    base_mcf[key][key1] = mcf_dict[key][key1]
             return base_mcf
         return mcf_dict
 
@@ -121,3 +129,10 @@ def get_supported_schemas():
 
     LOGGER.debug('Generating list of supported schemas')
     return os.listdir(TEMPLATES)
+
+
+def get_abspath(mcf, filepath):
+    """helper function absolute file access"""
+
+    abspath = os.path.dirname(os.path.realpath(mcf))
+    return os.path.join(abspath, filepath)

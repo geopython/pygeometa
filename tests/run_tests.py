@@ -107,6 +107,14 @@ class PygeometaTest(unittest.TestCase):
         xml = render_template(get_abspath('../sample.mcf'),
                               schema_local=get_abspath('sample_schema'))
 
+    def test_nested_mcf(self):
+        """test nested mcf support"""
+
+        mcf = read_mcf(get_abspath('child.mcf'))
+        print mcf['metadata']
+
+        self.assertIsInstance(mcf, dict, 'Expected dict')
+
 
 def get_abspath(filepath):
     """helper function absolute file access"""
