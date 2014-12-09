@@ -56,7 +56,7 @@ SCRIPTS = [
     os.path.join('bin', 'generate_metadata.py')
 ]
 
-URL = 'http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa'
+URL = 'http://gitlab.ssc.etg.gc.ca/ec-msc/pygeometa'
 
 
 class PyTest(Command):

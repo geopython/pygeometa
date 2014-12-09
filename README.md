@@ -54,7 +54,7 @@ Dependencies are listed in [requirements.txt](requirements.txt). Dependencies ar
 virtualenv my-env
 cd my-env
 . bin/activate
-git clone http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa.git
+git clone http://gitlab.ssc.etg.gc.ca/ec-msc/pygeometa.git
 cd pygeometa
 pip install -r requirements.txt
 python setup.py build
@@ -121,7 +121,7 @@ python run_tests.py
 ### Bugs and Issues
 
 All bugs, enhancements and issues can be logged on SSC GitLab at
-http://gitlab-omnibus.ssc.etg.gc.ca/ec-msc/pygeometa/issues
+http://gitlab.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ### To do
 
