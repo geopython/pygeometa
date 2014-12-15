@@ -65,27 +65,33 @@ def normalize_datestring(datestring, fmt='default'):
 def read_mcf(mcf):
     """returns dict of ConfigParser object"""
 
+    mcf_list = []
+
+    def makelist(mcf2):
+        c = ConfigParser()
+        LOGGER.debug('reading {}'.format(mcf2))
+        with codecs.open(mcf2, encoding='utf-8') as fh:
+            c.readfp(fh)
+            mcf_dict = c.__dict__['_sections']
+            if 'metadata' in mcf_dict and 'base_mcf' in mcf_dict['metadata']:
+                base_mcf_path = get_abspath(mcf,
+                                            mcf_dict['metadata']['base_mcf'])
+                makelist(base_mcf_path)
+                mcf_list.append(mcf2)
+            else:  # leaf
+                mcf_list.append(mcf2)
+
+    makelist(mcf)
+
     c = ConfigParser()
-    LOGGER.debug('reading {}'.format(mcf))
-    with codecs.open(mcf, encoding='utf-8') as fh:
-        c.readfp(fh)
-        mcf_dict = c.__dict__['_sections']
-        if 'base_mcf' in mcf_dict['metadata']:  # overwrite
-            base_mcf_path = get_abspath(mcf, mcf_dict['metadata']['base_mcf'])
-            base_mcf = read_mcf(base_mcf_path)
 
-            # overwrite parent values with child values
-            for key, value in base_mcf.iteritems():
-                for key1, value1 in base_mcf[key].iteritems():
-                    if key in mcf_dict and key1 in mcf_dict[key]:
-                        base_mcf[key][key1] = mcf_dict[key][key1]
-
-            # now add child values not in parent values
-            for key, value in mcf_dict.iteritems():
-                for key1, value1 in mcf_dict[key].iteritems():
-                    base_mcf[key][key1] = mcf_dict[key][key1]
-            return base_mcf
-        return mcf_dict
+    for mcf_file in mcf_list:
+        print mcf_file
+        LOGGER.debug('reading {}'.format(mcf))
+        with codecs.open(mcf_file, encoding='utf-8') as fh:
+            c.readfp(fh)
+    mcf_dict = c.__dict__['_sections']
+    return mcf_dict
 
 
 def pretty_print(xml):
