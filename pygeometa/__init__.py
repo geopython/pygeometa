@@ -86,7 +86,6 @@ def read_mcf(mcf):
     c = ConfigParser()
 
     for mcf_file in mcf_list:
-        print mcf_file
         LOGGER.debug('reading {}'.format(mcf))
         with codecs.open(mcf_file, encoding='utf-8') as fh:
             c.readfp(fh)
