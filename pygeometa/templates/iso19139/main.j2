@@ -259,7 +259,7 @@
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
-                <gmd:URL>{{ v['url'] }}</gmd:URL>
+                <gmd:URL>{{ v['url']|e }}</gmd:URL>
               </gmd:linkage>
               <gmd:protocol>
                 <gco:CharacterString>{{ v['type'] }}</gco:CharacterString>

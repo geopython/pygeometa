@@ -49,8 +49,8 @@ TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
 def normalize_datestring(datestring, fmt='default'):
     """groks date string into ISO8601"""
 
-    re1 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
-    re2 = r'\$Date: (?P<year>\d{4})'
+    re1 = r'\$Date: (?P<year>\d{4})'
+    re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
 
     if datestring.startswith('$Date'):  # svn Date keyword
         if fmt == 'year':
