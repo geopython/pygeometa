@@ -122,7 +122,9 @@ The `[contact:main]` section provides information for the `pointOfContact` role 
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-organization|Mandatory|name of the responsible organization|Environment Canada|ISO 19115:2003 Section B.3.2.1
+organization|Mandatory|name of the responsible organization (English)|Environment Canada|ISO 19115:2003 Section B.3.2.1
+organization_en|Mandatory|name of the responsible organization (English)|Environment Canada|Harmonized NAP
+organization_fr|Mandatory|name of the responsible organization (French)|Environment Canada|Harmonzed NAP
 url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
 individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Kralidis, Tom|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1

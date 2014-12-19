@@ -2,8 +2,13 @@
   <gmd:individualName>
     <gco:CharacterString>{{ contact['individualname']|e }}</gco:CharacterString>
   </gmd:individualName>
-  <gmd:organisationName>
-    <gco:CharacterString>{{ contact['organization']|e }}</gco:CharacterString>
+  <gmd:organisationName xsi:type="gmd:PT_FreeText_PropertyType">
+    <gco:CharacterString>{{ contact['organization_en']|e }}</gco:CharacterString>
+    <gmd:PT_FreeText>
+      <gmd:textGroup>
+        <gmd:LocalisedCharacterString locale="#locale-fr">{{ contact['organization_fr']|e }}</gmd:LocalisedCharacterString>
+      </gmd:textGroup>
+    </gmd:PT_FreeText>
   </gmd:organisationName>
   <gmd:positionName>
     <gco:CharacterString>{{ contact['positionname']|e }}</gco:CharacterString>
