@@ -4,6 +4,7 @@
 * [Basic Concepts](#basic-concepts)
 * [Nesting MCF Files](#nesting-mcf-files)
 * [Encoding](#encoding)
+* [Keyword Substitution](#keyword-substitution)
 * [Sections](#sections)
   * [Metadata](#metadata)
   * [Spatial](#spatial)
