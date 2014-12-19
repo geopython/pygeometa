@@ -238,10 +238,10 @@
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
           <gmd:useLimitation xsi:type="gmd:PT_FreeText_PropertyType"> >
-            <gco:CharacterString>{{ record['identification']['rights_en'] }}</gco:CharacterString>
+            <gco:CharacterString>{{ record['identification']['rights_en']|normalize_datestring('year') }}</gco:CharacterString>
             <gmd:PT_FreeText>
               <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['rights_fr']|e }}</gmd:LocalisedCharacterString>
+                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['rights_fr']|normalize_datestring('year')|e }}</gmd:LocalisedCharacterString>
               </gmd:textGroup>
             </gmd:PT_FreeText>
           </gmd:useLimitation>
