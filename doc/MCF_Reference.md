@@ -55,6 +55,15 @@ file -i file.txt
 iconv -f iso8859-1 -t utf-8 file.mcf > file.mcf.new
 ```
 
+## Keyword Substitution
+
+If you're using keyword substitution for some values such as $Date$, Subversion files need to have keyword substitution enabled. To enable the $Date$ keyword substitution on sample.mcf:
+```
+svn propset svn:keywords "Date" sample.mcf
+```
+You need to run this command once per new MCF file which has the $Date$ keyword.
+
+
 ## Sections
 
 ### `[metadata]`
