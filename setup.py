@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2014 Her Majesty the Queen in Right of Canada
 #
-# Author: Firstname Lastname <firstname.lastname@ec.gc.ca>
+# Author: Tom Kralidis <tom.kralidis@ec.gc.ca>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
