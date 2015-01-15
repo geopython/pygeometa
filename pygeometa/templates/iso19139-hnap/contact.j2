@@ -10,8 +10,13 @@
       </gmd:textGroup>
     </gmd:PT_FreeText>
   </gmd:organisationName>
-  <gmd:positionName>
-    <gco:CharacterString>{{ contact['positionname']|e }}</gco:CharacterString>
+  <gmd:positionName xsi:type="gmd:PT_FreeText_PropertyType">
+    <gco:CharacterString>{{ contact['positionname_en']|e }}</gco:CharacterString>
+    <gmd:PT_FreeText>
+      <gmd:textGroup>
+        <gmd:LocalisedCharacterString locale="#locale-fr">{{ contact['positionname_fr']|e }}</gmd:LocalisedCharacterString>
+      </gmd:textGroup>
+    </gmd:PT_FreeText>
   </gmd:positionName>
   <gmd:contactInfo>
     <gmd:CI_Contact>
@@ -41,8 +46,13 @@
           <gmd:deliveryPoint>
             <gco:CharacterString>{{ contact['city']|e }}</gco:CharacterString>
           </gmd:deliveryPoint>
-          <gmd:administrativeArea>
-            <gco:CharacterString>{{ contact['administrativearea']|e }}</gco:CharacterString>
+          <gmd:administrativeArea xsi:type="gmd:PT_FreeText_PropertyType">
+            <gco:CharacterString>{{ contact['administrativearea_en']|e }}</gco:CharacterString>
+            <gmd:PT_FreeText>
+              <gmd:textGroup>
+                <gmd:LocalisedCharacterString locale="#locale-fr">{{ contact['administrativearea_en']|e }}</gmd:LocalisedCharacterString>
+              </gmd:textGroup>
+            </gmd:PT_FreeText>
           </gmd:administrativeArea>
           <gmd:postalCode>
             <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
