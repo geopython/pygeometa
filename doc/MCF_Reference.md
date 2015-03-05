@@ -99,8 +99,10 @@ title_en|Mandatory|name by which the cited resource is known (English)|Important
 title_fr|Mandatory|name by which the cited resource is known (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.1
 abstract_en|Mandatory|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 abstract_fr|Mandatory|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-keywords_en|Mandatory|category keywords (English)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_en|Mandatory|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_gc_cst_en|Optional|category keywords (English), HNAP requires a minimum of 1 keyword from the GoC Core Subject Thesaurus|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_gc_cst_fr|Optional|category keywords (French), HNAP requires a minimum of 1 keyword from the GoC Core Subject Thesaurus|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_en|Mandatory|category keywords (English), becomes Optional if keywords_gc_cst_en is provided|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_fr|Mandatory|category keywords (French), becomes Optional if keywords_gc_cst_fr is provided|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 date|Mandatory|reference date for the cited resource|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
