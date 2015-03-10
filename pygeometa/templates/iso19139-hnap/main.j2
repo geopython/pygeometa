@@ -164,6 +164,7 @@
           </gmd:maintenanceAndUpdateFrequency>
         </gmd:MD_MaintenanceInformation>
       </gmd:resourceMaintenance>
+      {% if not record['identification']['keywords_gc_cst_en'] %}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
         {% for kw_en, kw_fr in zip(record['identification']['keywords_en'].split(','), record['identification']['keywords_fr'].split(',')) %}
@@ -181,6 +182,7 @@
           </gmd:type>
         </gmd:MD_Keywords>
       </gmd:descriptiveKeywords>
+      {% endif %}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
         {% for kw_en, kw_fr in zip(record['identification']['keywords_gc_cst_en'].split(','), record['identification']['keywords_gc_cst_fr'].split(',')) %}
