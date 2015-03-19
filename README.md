@@ -72,6 +72,12 @@ generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139 > some_file.xml  #
 generate_metadata.py --mcf=path/to/file.mcf --schema_local=/path/to/my-schema > some_file.xml  # to file
 ```
 
+### Supported schemas
+Schemas supported by pygeometa:
+* iso19139, [reference](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557)
+* iso19139-hnap, [reference](http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP)
+* Local schema, specified with ```--schema_local=/path/to/my-schema```
+
 ### Using the API from Python
 
 ```python
