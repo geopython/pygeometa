@@ -197,10 +197,10 @@
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:keyword>
+        {% endfor %}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="{{ record['identification']['keywords_type'] }}" codeSpace="ISOTC211/19115">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
-        {% endfor %}
           <gmd:thesaurusName>
             <gmd:CI_Citation>
               <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
