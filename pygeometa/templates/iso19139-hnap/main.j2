@@ -274,7 +274,26 @@
         {% set bbox = record['spatial']['bbox'].split(',') %}
         <gmd:EX_Extent>
           <gmd:geographicElement>
+            {% if record['spatial']['crs'] != '4326' %}
+            <gmd:EX_BoundingPolygon>
+              <gmd:extentTypeCode>
+                <gco:Boolean>1</gco:Boolean>
+              </gmd:extentTypeCode>
+              <gmd:polygon>
+                <gml:Polygon srsName="{{ record['spatial']['crs'] }}" srsDimension="2">
+                  <gml:exterior>
+                    <gml:LinearRing>
+                      <gml:posList srsName="{{ record['spatial']['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>
+                    </gml:LinearRing>
+                  <gml:exterior>
+                </gml:Polygon>
+              </gmd:polygon>
+            </gmd:EX_BoundingPolygon>
+            {% else %}
             <gmd:EX_GeographicBoundingBox>
+              <gmd:extentTypeCode>
+                <gco:Boolean>1</gco:Boolean>
+              </gmd:extentTypeCode>
               <gmd:westBoundLongitude>
                 <gco:Decimal>{{ bbox[0] }}</gco:Decimal>
               </gmd:westBoundLongitude>
@@ -288,6 +307,7 @@
                 <gco:Decimal>{{ bbox[3] }}</gco:Decimal>
               </gmd:northBoundLatitude>
             </gmd:EX_GeographicBoundingBox>
+            {% endif %}
           </gmd:geographicElement>
           <gmd:temporalElement>
             <gmd:EX_TemporalExtent>
