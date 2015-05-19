@@ -22,7 +22,7 @@
 * Filename conventions are up to the user. However, below are some suggestions:
  * use ``.mcf`` as file extension
  * name the MCF file basename the same as the dataset (e.g. ``foo.shp``, ``foo.mcf``)
-* To add a comment in an MCF file, everything that follows a hash tag (``#``) will be ignored
+* To add a comment in an MCF file, a line that begins with a hash tag (``#``) will be ignored
 
 ## Nesting MCF files
 
