@@ -170,7 +170,7 @@
           </gmd:maintenanceAndUpdateFrequency>
         </gmd:MD_MaintenanceInformation>
       </gmd:resourceMaintenance>
-      {% if not record['identification']['keywords_gc_cst_en'] %}
+      {% if record['identification']['keywords_en'] and record['identification']['keywords_fr']%}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
         {% for kw_en, kw_fr in zip(record['identification']['keywords_en'].split(','), record['identification']['keywords_fr'].split(',')) %}
