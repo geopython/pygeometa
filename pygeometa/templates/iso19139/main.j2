@@ -168,10 +168,10 @@
         <gmd:MD_Keywords>
         {% for kw_en, kw_fr in zip(record['identification']['keywords_en'].split(','), record['identification']['keywords_fr'].split(',')) %}
           <gmd:keyword xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ kw_en|e }}</gco:CharacterString>
+            <gco:CharacterString>{{ kw_en|trim|e }}</gco:CharacterString>
               <gmd:PT_FreeText>
                 <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#locale-fr">{{ kw_fr|e }}</gmd:LocalisedCharacterString>
+                  <gmd:LocalisedCharacterString locale="#locale-fr">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:keyword>
