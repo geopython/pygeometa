@@ -29,9 +29,9 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 Workflow to generate metadata XML:
 1. Install pygeometa
 2. Create a 'metadata control file' .mcf file that contains metadata information 
-  1. Modify the [sample.mcf](/ec-msc/pygeometa/blob/master/sample.mcf) example
+  1. Modify the [sample.mcf](https://github.com/geopython/pygeometa/blob/master/sample.mcf) example
   2. pygeometa supports nesting MCF files together, allowing providing a single MCF file for common metadata parameters (e.g. common contact information)
-  3. Refer to the [Metadata Control File Reference documentation](/ec-msc/pygeometa/blob/master/doc/MCF_Reference.md) 
+  3. Refer to the [Metadata Control File Reference documentation](https://github.com/geopython/pygeometa/blob/master/doc/MCF_Reference.md) 
 3. Run pygeometa for the .mcf file with a specified target metadata schema
 
 
@@ -137,9 +137,9 @@ http://gitlab.ssc.etg.gc.ca/ec-msc/pygeometa/issues
 
 ## History
 
-pygeometa originated within the [pygdm](https://wiki.cmc.ec.gc.ca/wiki/Pygdm) project, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.
+pygeometa originated within the `pygdm` project, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
 
-pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
+In 2015 pygeometa was made publically available in support of the Treasury Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
 
 ## Contact
 

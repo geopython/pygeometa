@@ -126,18 +126,18 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 organization|Mandatory|name of the responsible organization (English)|Environment Canada|ISO 19115:2003 Section B.3.2.1
 organization_en|Mandatory|name of the responsible organization (English)|Environment Canada|Harmonized NAP
-organization_fr|Mandatory|name of the responsible organization (French)|Environment Canada|Harmonzed NAP
+organization_fr|Mandatory|name of the responsible organization (French)|Environment Canada|Harmonized NAP
 url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
-individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Kralidis, Tom|ISO 19115:2003 Section B.3.2.1
+individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Lastname, Firstname|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1
-phone|Mandatory|telephone number by which individuals can speak to the responsible organization or individual|+01-416-739-4907|ISO 19115:2003 Section B.3.2.7
-fax|Mandatory|telephone number of a facsimile machine for the responsible organization or individual|+01-416-739-4261|ISO 19115:2003 Section B.3.2.7
-address|Mandatory|address line for the location (as described in ISO 11180| Annex A)|4905 Dufferin Street, 4N204|ISO 19115:2003 Section B.3.2.2
+phone|Mandatory|telephone number by which individuals can speak to the responsible organization or individual|+01-123-456-7890|ISO 19115:2003 Section B.3.2.7
+fax|Mandatory|telephone number of a facsimile machine for the responsible organization or individual|+01-123-456-7890|ISO 19115:2003 Section B.3.2.7
+address|Mandatory|address line for the location (as described in ISO 11180| Annex A)|4905 Dufferin Street|ISO 19115:2003 Section B.3.2.2
 city|Mandatory|city of the location|Toronto|ISO 19115:2003 Section B.3.2.2
 administrativearea|Mandatory|state, province of the location|Ontario|ISO 19115:2003 Section B.3.2.2
 postalcode|Mandatory|ZIP or other postal code|M3H 5T4|ISO 19115:2003 Section B.3.2.2
 country|Mandatory|country of the physical address|Canada|ISO 19115:2003 Section B.3.2.2
-email|Mandatory|address of the electronic mailbox of the responsible organization or individual|tom.kralidis@ec.gc.ca|ISO 19115:2003 Section B.3.2.2
+email|Mandatory|address of the electronic mailbox of the responsible organization or individual|foo@bar.tld|ISO 19115:2003 Section B.3.2.2
 hoursofservice|Optional|time period (including time zone) when individuals can contact the organization or individual|0700h - 1500h EST|ISO 19115:2003 Section B.3.2.3
 contactinstructions|Optional|supplementalinstructions on how or when to contact the individual or organization|contact during working business hours|ISO 19115:2003 Section B.3.2.3
 

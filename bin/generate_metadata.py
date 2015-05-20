@@ -1,12 +1,25 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-15 -*-
 # =================================================================
 #
-# $Id$
+# Terms and Conditions of Use
 #
-# Copyright (c) 2014 Her Majesty the Queen in Right of Canada
+# Unless otherwise noted, computer program source code of this
+# distribution # is covered under Crown Copyright, Government of
+# Canada, and is distributed under the MIT License.
 #
-# Author: Tom Kralidis <tom.kralidis@ec.gc.ca>
+# The Canada wordmark and related graphics associated with this
+# distribution are protected under trademark law and copyright law.
+# No permission is granted to use them outside the parameters of
+# the Government of Canada's corporate identity program. For
+# more information, see
+# http://www.tbs-sct.gc.ca/fip-pcim/index-eng.asp
+#
+# Copyright title to all 3rd party software distributed with this
+# software is held by the respective copyright holders as noted in
+# those files. Users are asked to read the 3rd Party Licenses
+# referenced with those assets.
+#
+# Copyright (c) 2015 Government of Canada
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
