@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/geopython/pygeometa.png)](https://travis-ci.org/geopython/pygeometa)
+
 # pygeometa
 
 pygeometa is a Python package to generate metadata for geospatial datasets.
