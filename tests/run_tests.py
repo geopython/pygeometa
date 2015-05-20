@@ -93,10 +93,10 @@ class PygeometaTest(unittest.TestCase):
     def test_get_supported_schemas(self):
         """Test supported schemas"""
 
-        schemas = get_supported_schemas()
+        schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
         self.assertEqual(len(schemas), 2, 'Expected 2 supported schemas')
-        self.assertEqual(schemas, ['iso19139', 'iso19139-hnap'],
+        self.assertEqual(schemas, sorted(['iso19139', 'iso19139-hnap']),
                          'Expected exact list of supported schemas %r' % schemas)
 
     def test_render_template(self):
