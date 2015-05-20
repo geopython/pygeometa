@@ -66,7 +66,6 @@ def normalize_datestring(datestring, fmt='default'):
 
     re1 = r'\$Date: (?P<year>\d{4})'
     re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
-    #re3 = r'(?P<start>.*)\$Date: (?P<year>\d{4})(?P<end>.*)'
     re3 = r'(?P<start>.*)\$Date: (?P<year>\d{4}).*\$(?P<end>.*)'
 
     if datestring.startswith('$Date'):  # svn Date keyword
