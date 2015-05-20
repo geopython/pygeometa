@@ -79,7 +79,7 @@ SCRIPTS = [
 
 URL = 'https://github.com/geopython/pygeometa'
 
-if os.path.isfile('MANIFEST')
+if os.path.isfile('MANIFEST'):
     os.unlink('MANIFEST')
 
 class PyTest(Command):
