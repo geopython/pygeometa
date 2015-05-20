@@ -63,6 +63,12 @@ DESCRIPTION = '''
 pygeometa is a Python package to generate metadata for meteorological datasets
 '''
 
+try:
+    import pypandoc
+    LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    LONG_DESCRIPTION = open('README.md').read()
+
 CONTACT = 'Meteorological Service of Canada, Environment Canada'
 
 EMAIL = 'tom.kralidis@ec.gc.ca'
@@ -73,6 +79,8 @@ SCRIPTS = [
 
 URL = 'https://github.com/geopython/pygeometa'
 
+if os.path.isfile('MANIFEST')
+    os.unlink('MANIFEST')
 
 class PyTest(Command):
     user_options = []
@@ -133,7 +141,7 @@ setup(
     name='pygeometa',
     version=pygeometa.__version__,
     description=DESCRIPTION.strip(),
-    long_description=open('README.md').read(),
+    long_description=LONG_DESCRIPTION,
     license='MIT',
     platforms='all',
     keywords=' '.join(KEYWORDS),

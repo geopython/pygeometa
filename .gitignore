@@ -43,3 +43,4 @@ docs/_build/
 # pygeometa
 *.mcf
 *.xml
+MANIFEST
