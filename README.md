@@ -10,7 +10,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 * [Quickstart](#quickstart)
 * [Installation](#installation)
   * [Requirements](#requirements)
-  * [Dependencies](#depedencies)
+  * [Dependencies](#dependencies)
   * [Installing the Package](#installing-the-package)
 * [Running](#running)
   * [From the command line](#from-the-command-line)
@@ -21,7 +21,6 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
   * [Running Tests](#running-tests)
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
-  * [To do](#to-do)
 * [History](#history)
 * [Contact](#contact)
 
@@ -141,12 +140,6 @@ python run_tests.py
 
 All bugs, enhancements and issues can be logged on SSC GitLab at
 https://github.com/geopython/pygeometa/issues
-
-### To do
-
-* Validation of MCF files (e.g. missing non-optional values, duplicate base_mcf, etc)
-* Consider using reveal.js to provide a generic presentation of pygeometa along with the code
-* Consider using Jekyll or Sphinx to provide pygeometa documentation
 
 ## History
 
