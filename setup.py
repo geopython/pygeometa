@@ -131,7 +131,6 @@ def find_packages_templates(location='.'):
     packages = []
     for root, dirs, files in os.walk(location):
         if 'templates' in dirs:  # include as a package_data key
-            print root, dirs, files
             packages.append(root.replace(os.sep, '.').replace('..', ''))
 
     return {'pygeometa': ['templates/*/*.j2']}
