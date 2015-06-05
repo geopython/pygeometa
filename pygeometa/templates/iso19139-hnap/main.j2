@@ -40,7 +40,7 @@
     <gco:CharacterString>{{ record['metadata']['dataseturi'] }}</gco:CharacterString>
   </gmd:dataSetURI>
   <gmd:locale>
-    <gmd:PT_Locale id="locale-fr">
+    <gmd:PT_Locale id="fra">
       <gmd:languageCode>
         <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeSpace="ISO 639-2" codeListValue="fra">French</gmd:LanguageCode>
       </gmd:languageCode>
@@ -129,7 +129,7 @@
             <gco:CharacterString>{{ record['identification']['title_en']|e }}</gco:CharacterString>
               <gmd:PT_FreeText>
                 <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#locale-fr">{{ record['identification']['title_fr']|e }}</gmd:LocalisedCharacterString>
+                  <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['title_fr']|e }}</gmd:LocalisedCharacterString>
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:title>
@@ -156,7 +156,7 @@
         <gco:CharacterString>{{ record['identification']['abstract_en']|e }}</gco:CharacterString>
           <gmd:PT_FreeText>
             <gmd:textGroup>
-              <gmd:LocalisedCharacterString locale="#locale-fr">{{ record['identification']['abstract_fr']|e }}</gmd:LocalisedCharacterString>
+              <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['abstract_fr']|e }}</gmd:LocalisedCharacterString>
             </gmd:textGroup>
           </gmd:PT_FreeText>
       </gmd:abstract>
@@ -178,7 +178,7 @@
             <gco:CharacterString>{{ kw_en|trim|e }}</gco:CharacterString>
               <gmd:PT_FreeText>
                 <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#locale-fr">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
+                  <gmd:LocalisedCharacterString locale="#fra">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:keyword>
@@ -196,7 +196,7 @@
             <gco:CharacterString>{{ kw_en|trim|e }}</gco:CharacterString>
               <gmd:PT_FreeText>
                 <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#locale-fr">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
+                  <gmd:LocalisedCharacterString locale="#fra">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:keyword>
@@ -361,7 +361,7 @@
                 <gco:CharacterString>{{ v['name_en'] }}</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#locale-fr">{{ v['name_fr'] }}</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#fra">{{ v['name_fr'] }}</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:name>
@@ -369,7 +369,7 @@
                 <gco:CharacterString>{{ v['description_en'] }}</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#locale-fr">{{ v['description_fr'] }}</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#fra">{{ v['description_fr'] }}</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:description>
