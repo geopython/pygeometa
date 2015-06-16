@@ -55,7 +55,7 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--mcf',
               type=click.Path(exists=True, resolve_path=True),
               help='Path to metadata control file (.mcf)')
-@click.option('--output', type=click.File('wb'),
+@click.option('--output', type=click.File('w', encoding='utf-8'),
               help='Name of output file')
 @click.option('--schema',
               type=click.Choice(SUPPORTED_SCHEMAS),
@@ -73,7 +73,7 @@ def process_args(mcf, schema, schema_local, output):
         if output is None:
             click.echo_via_pager(content)
         else:
-            click.echo(content, file=output)
+            output.write(content)
 
 
 if __name__ == '__main__':
