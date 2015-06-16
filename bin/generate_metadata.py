@@ -55,6 +55,8 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
 @click.option('--mcf',
               type=click.Path(exists=True, resolve_path=True),
               help='Path to metadata control file (.mcf)')
+@click.option('--output', type=click.File('w', encoding='utf-8'),
+              help='Name of output file')
 @click.option('--schema',
               type=click.Choice(SUPPORTED_SCHEMAS),
               help='Metadata schema')
@@ -62,12 +64,16 @@ SUPPORTED_SCHEMAS = get_supported_schemas()
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
-def process_args(mcf, schema, schema_local):
+def process_args(mcf, schema, schema_local, output):
     if mcf is None or (schema is None and schema_local is None):
         raise click.UsageError('Missing arguments')
     else:
-        click.echo_via_pager(render_template(mcf, schema=schema,
-                                             schema_local=schema_local))
+        content = render_template(mcf, schema=schema,
+                                  schema_local=schema_local)
+        if output is None:
+            click.echo_via_pager(content)
+        else:
+            output.write(content)
 
 
 if __name__ == '__main__':
