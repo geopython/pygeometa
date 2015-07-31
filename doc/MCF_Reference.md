@@ -2,9 +2,8 @@
 
 ## Table of Contents
 * [Basic Concepts](#basic-concepts)
-* [Nesting MCF Files](#nesting-mcf-files)
 * [Encoding](#encoding)
-* [Keyword Substitution](#keyword-substitution)
+* [Nesting MCF Files](#nesting-mcf-files)
 * [Sections](#sections)
   * [Metadata](#metadata)
   * [Spatial](#spatial)
@@ -12,6 +11,8 @@
   * [Contact:main](#contact&#58;main)
   * [Contact:distribution](#contact&#58;distribution)
   * [Contact:*](#contact&#58;*)
+* [Tips](#tips)
+  * [Keyword Substitution with Subversion](#keyword-substitution-with-subversion)
 
 ## Basic Concepts
 
@@ -23,20 +24,6 @@
  * use ``.mcf`` as file extension
  * name the MCF file basename the same as the dataset (e.g. ``foo.shp``, ``foo.mcf``)
 * To add a comment in an MCF file, a line that begins with a hash tag (``#``) will be ignored
-
-## Nesting MCF files
-
-In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF files together. pygeometa allows chaining MCF files to inherit values from other MCF files. Example: multiple datasets MCF files can refer a single MCF file that contain contact information common to all those datasets.
-
-To use MCF file nesting:
-* At the top of the [metadata] section of an MCF file add ``base_mcf=foo.mcf``
-
-Notes about nesting MCF files: 
-* You can refer to one and only one ``base_mcf`` in a MCF file
-* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
-* MCF files can be nested in chains, meaning a MCF file can be used by a 'child' MCF file and use a 'parent' MCF file
-* The base_mcf file must be in the same folder than the current MCF file
-
 
 ## Encoding
 
@@ -56,14 +43,18 @@ file -i file.txt
 iconv -f iso8859-1 -t utf-8 file.mcf > file.mcf.new
 ```
 
-## Keyword Substitution
+## Nesting MCF files
 
-If you're using keyword substitution for some values such as $Date$, Subversion files need to have keyword substitution enabled. To enable the $Date$ keyword substitution on sample.mcf:
-```
-svn propset svn:keywords "Date" sample.mcf
-```
-You need to run this command once per new MCF file which has the $Date$ keyword.
+In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF files together. pygeometa allows chaining MCF files to inherit values from other MCF files. Example: multiple datasets MCF files can refer a single MCF file that contain contact information common to all those datasets.
 
+To use MCF file nesting:
+* At the top of the [metadata] section of an MCF file add ``base_mcf=foo.mcf``
+
+Notes about nesting MCF files: 
+* You can refer to one and only one ``base_mcf`` in a MCF file
+* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
+* MCF files can be nested in chains, meaning a MCF file can be used by a 'child' MCF file and use a 'parent' MCF file
+* The base_mcf file must be in the same folder than the current MCF file
 
 ## Sections
 
@@ -161,3 +152,14 @@ name_fr|Mandatory|French name of the online resource|roads|ISO 19115:2003 Sectio
 description_en|Mandatory|detailed text description of what the online resources is/does (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.5
 description_fr|Mandatory|detailed text description of what the online resources is/does (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.5
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')||ISO 19115:2003 Section B.3.2.5
+
+## Tips
+
+### Keyword Substitution with Subversion
+
+Users storing MCF files in Subversion can leverage [keyword substitution](http://svnbook.red-bean.com/en/1.7/svn.advanced.props.special.keywords.html) in MCF files for values such as $Date$. 
+
+Subversion files need to have keyword substitution enabled. Example, run the following command once per new MCF file to enable the $Date$ keyword substitution on sample.mcf:
+```
+svn propset svn:keywords "Date" sample.mcf
+```
