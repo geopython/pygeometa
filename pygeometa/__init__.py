@@ -61,6 +61,17 @@ TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
                                os.sep)
 
 
+def get_distribution_language(section):
+    """derive language of a given distribution construct"""
+
+    tokens = section.split(':')
+
+    if len(tokens) > 2:  # has language
+        return tokens[-1]
+    else:
+        return 'eng-CAN'
+
+
 def normalize_datestring(datestring, fmt='default'):
     """groks date string into ISO8601"""
 
@@ -138,6 +149,7 @@ def render_template(mcf, schema=None, schema_local=None):
     LOGGER.debug('Setting up template environment {}'.format(abspath))
     env = Environment(loader=FileSystemLoader(abspath))
     env.filters['normalize_datestring'] = normalize_datestring
+    env.filters['get_distribution_language'] = get_distribution_language
     env.globals.update(zip=zip)
 
     try:
