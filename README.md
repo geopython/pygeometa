@@ -27,7 +27,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 
 ## Overview
 
-pygeometa is a Python package to generate metadata for geospatial datasets.
+pygeometa is a Python package to generate metadata for geospatial datasets. Metadata content is managed by pygeometa in simple Metadata Control Files (MCF) which consist of 'parameter = value' pairs. pygeometa generates metadata records from MCF files based on the schema specified by the user, such as ISO-19139. pygeometa supports nesting MCF files, which reduces duplication of metadata content common to multiple records and ease maintenance.
 
 ## Features
 
