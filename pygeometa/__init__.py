@@ -64,12 +64,10 @@ TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
 def get_distribution_language(section):
     """derive language of a given distribution construct"""
 
-    tokens = section.split(':')
-
-    if len(tokens) > 2:  # has language
-        return tokens[-1]
-    else:
-        return 'eng-CAN'
+    try:
+        return section.split(':')[1].split('_')[1]
+    except IndexError as err:
+        return 'en'
 
 
 def normalize_datestring(datestring, fmt='default'):
