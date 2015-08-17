@@ -269,6 +269,16 @@
   </gmd:identificationInfo>
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
+      {% for k, v in record.iteritems() %}
+      {% if k.startswith('distribution:') and v['format'] and v['format_version'] %}
+      <gmd:distributionFormat>
+        <gmd:MD_Format>
+          <gmd:name>{{ v['format'] }}</gmd:name>
+          <gmd:version>{{ v['format_version'] }}</gmd:version>
+        </gmd:MD_Format>
+      </gmd:distributionFormat>
+      {% endif %}
+      {% endfor %}
       <gmd:distributor>
         <gmd:MD_Distributor>
           <gmd:distributorContact>
