@@ -133,20 +133,25 @@
                 </gmd:textGroup>
               </gmd:PT_FreeText>
           </gmd:title>
+          {% for date_type in ['creation', 'publication', 'revision'] %}
+          {% set date_parameter = '%s_date' % date_type %}
+          {% if record['identification'][date_parameter] %}
           <gmd:date>
             <gmd:CI_Date>
               <gmd:date>
-                {% if record['identification']['date']|length > 11 %}
-                <gco:DateTime>{{ record['identification']['date'] }}</gco:DateTime>
+                {% if record['identification'][date_parameter]|length > 11 %}
+                <gco:DateTime>{{ record['identification'][date_parameter] }}</gco:DateTime>
                 {% else %}
-                <gco:Date>{{ record['identification']['date'] }}</gco:Date>
+                <gco:Date>{{ record['identification'][date_parameter] }}</gco:Date>
                 {% endif %}
               </gmd:date>
               <gmd:dateType>
-                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication" codeSpace="ISOTC211/19115">{{ record['identification']['datetype'] }}</gmd:CI_DateTypeCode>
+                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="{{ date_type }}" codeSpace="ISOTC211/19115">{{ date_type }}</gmd:CI_DateTypeCode>
               </gmd:dateType>
             </gmd:CI_Date>
           </gmd:date>
+          {% endif %}
+          {% endfor %}
           <gmd:citedResponsibleParty>
             {% include "contact.j2" %}
           </gmd:citedResponsibleParty>
