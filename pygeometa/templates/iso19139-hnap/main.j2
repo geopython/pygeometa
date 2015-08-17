@@ -332,9 +332,20 @@
           </gmd:temporalElement>
         </gmd:EX_Extent>
       </gmd:extent>
+      {% if record['identification']['url'] %}
       <gmd:supplementalInformation>
         <gco:CharacterString>{{ record['identification']['url'] }}</gco:CharacterString>
       </gmd:supplementalInformation>
+      {% elif record['identification']['url_en'] %}
+      <gmd:supplementalInformation xsi:type="gmd:PT_FreeText_PropertyType">
+        <gco:CharacterString>{{ record['identification']['url_en'] }}</gco:CharacterString>
+        <gmd:PT_FreeText>
+          <gmd:textGroup>
+            <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['url_fr'] }}</gmd:LocalisedCharacterString>
+          </gmd:textGroup>
+        </gmd:PT_FreeText>
+      </gmd:supplementalInformation>
+      {% endif %}
     </gmd:MD_DataIdentification>
   </gmd:identificationInfo>
   <gmd:distributionInfo>
