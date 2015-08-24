@@ -102,13 +102,14 @@ def read_mcf(mcf):
         with codecs.open(mcf2, encoding='utf-8') as fh:
             c.readfp(fh)
             mcf_dict = c.__dict__['_sections']
-            if 'metadata' in mcf_dict and 'base_mcf' in mcf_dict['metadata']:
-                base_mcf_path = get_abspath(mcf,
-                                            mcf_dict['metadata']['base_mcf'])
-                makelist(base_mcf_path)
-                mcf_list.append(mcf2)
-            else:  # leaf
-                mcf_list.append(mcf2)
+            for section in mcf_dict.keys():
+                if 'base_mcf' in mcf_dict[section]:
+                    base_mcf_path = get_abspath(mcf,
+                                                mcf_dict[section]['base_mcf'])
+                    makelist(base_mcf_path)
+                    mcf_list.append(mcf2)
+                else:  # leaf
+                    mcf_list.append(mcf2)
 
     makelist(mcf)
 
