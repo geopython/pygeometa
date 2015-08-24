@@ -66,7 +66,7 @@ def get_distribution_language(section):
 
     try:
         return section.split(':')[1].split('_')[1]
-    except IndexError as err:
+    except IndexError:
         return 'en'
 
 
@@ -97,6 +97,7 @@ def read_mcf(mcf):
     mcf_list = []
 
     def makelist(mcf2):
+        """recursive function for MCF by reference inclusion"""
         c = ConfigParser()
         LOGGER.debug('reading {}'.format(mcf2))
         with codecs.open(mcf2, encoding='utf-8') as fh:
