@@ -9,6 +9,7 @@ Distribution identifier:
 
 Distribution parameters:
 * Name of the distribution method needs to be specified with name_en= and name=Fr
+* Do not provide values for the 'description' parameter in the MCF file since HNAP requires a special description that is built by pygeometa
 * Content type needs to be specified with hnap_contenttype_en= and hnap_contenttype_fr= and be a valid HNAP value
  * Valid values are: Web Service,Service Web,Dataset,Données,API,Application,Supporting Document,Document de soutien 
 * Format needs to be specified with format_en= and format_fr=, based on the valid HNAP values
