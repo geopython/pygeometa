@@ -106,6 +106,8 @@ accessconstraints|Mandatory|access constraints applied to assure the protection 
 rights_en|Mandatory|Information about rights held in and over the resource (English). The $Date$ variable instead of yearvalue to update to current year at Subversion commit time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 rights_fr|Mandatory|Information about rights held in and over the resource (French). The $Date$ variable instead of yearvalue to update to current year at Subversion commit time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
+url_en|Optional|English URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
+url_fr|Optional|French URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 temporal_begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
 temporal_end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
 status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')",completed,ISO 19115:2003 Section B.2.2.1
