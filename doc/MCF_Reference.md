@@ -11,6 +11,7 @@
   * [Contact:main](#contact&#58;main)
   * [Contact:distribution](#contact&#58;distribution)
   * [Contact:*](#contact&#58;*)
+  * [Distribution:*](#distribution&#58;*)
 * [Tips](#tips)
   * [Keyword Substitution with Subversion](#keyword-substitution-with-subversion)
 
