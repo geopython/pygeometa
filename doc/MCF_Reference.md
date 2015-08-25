@@ -156,7 +156,11 @@ name_en|Mandatory|English name of the online resource|roads|ISO 19115:2003 Secti
 name_fr|Mandatory|French name of the online resource|roads|ISO 19115:2003 Section B.3.2.5
 description_en|Mandatory|detailed text description of what the online resources is/does (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.5
 description_fr|Mandatory|detailed text description of what the online resources is/does (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.5
-function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')||ISO 19115:2003 Section B.3.2.5
+function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
+format|Optional|Format of the distribution method|WMS|HNAP 2.3
+format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
+forma_frt|Optional|French format of the distribution method|WMS|HNAP 2.3
+format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 
 ## Tips
 
