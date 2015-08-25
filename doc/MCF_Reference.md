@@ -48,13 +48,15 @@ iconv -f iso8859-1 -t utf-8 file.mcf > file.mcf.new
 In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF files together. pygeometa allows chaining MCF files to inherit values from other MCF files. Example: multiple datasets MCF files can refer a single MCF file that contain contact information common to all those datasets.
 
 To use MCF file nesting:
-* At the top of the [metadata] section of an MCF file add ``base_mcf=foo.mcf``
+* At the top of any section of an MCF file add ``base_mcf=foo.mcf``
+* Specify the corresponding section the base_mcf file
 
 Notes about nesting MCF files: 
-* You can refer to one and only one ``base_mcf`` in a MCF file
-* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
-* MCF files can be nested in chains, meaning a MCF file can be used by a 'child' MCF file and use a 'parent' MCF file
+* You can refer to one ``base_mcf`` per section of a MCF file
 * The base_mcf file must be in the same folder than the current MCF file
+* Multiple sections can refer to the same base_mcf file
+* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
+* MCF files can be nested in chains, meaning a MCF file can be use a 'child' MCF file and be used by a 'parent' MCF file
 
 ## Sections
 
