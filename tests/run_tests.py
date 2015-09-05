@@ -127,10 +127,10 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('child.mcf'))
 
-        self.assertEquals(mcf['metadata']['identifier'], '1234',
+        self.assertEqual(mcf['metadata']['identifier'], '1234',
                           'Expected specific identifier')
 
-        self.assertEquals(mcf['identification']['title_en'],
+        self.assertEqual(mcf['identification']['title_en'],
                           'title in English',
                           'Expected specific title')
 
