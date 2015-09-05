@@ -69,7 +69,7 @@ try:
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
 except(IOError, ImportError):
     with open('README.md') as f:
-        LONG_DESCRIPTION = f.read().splitlines()
+        LONG_DESCRIPTION = f.read()
 
 CONTACT = 'Meteorological Service of Canada, Environment Canada'
 
