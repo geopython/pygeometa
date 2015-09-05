@@ -50,7 +50,8 @@ import sys
 import pygeometa
 
 # set dependencies
-INSTALL_REQUIRES = [line.strip() for line in open('requirements.txt')]
+with open('requirements.txt') as f:
+    INSTALL_REQUIRES = f.read().splitlines()
 
 KEYWORDS = [
     'geospatial',
@@ -67,7 +68,8 @@ try:
     import pypandoc
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
 except(IOError, ImportError):
-    LONG_DESCRIPTION = open('README.md').read()
+    with open('README.md') as f:
+        LONG_DESCRIPTION = f.read().splitlines()
 
 CONTACT = 'Meteorological Service of Canada, Environment Canada'
 
