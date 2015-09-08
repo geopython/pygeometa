@@ -61,7 +61,7 @@ KEYWORDS = [
 ]
 
 DESCRIPTION = '''
-pygeometa is a Python package to generate metadata for meteorological datasets
+pygeometa is a Python package to generate metadata for geospatial datasets
 '''
 
 try:
