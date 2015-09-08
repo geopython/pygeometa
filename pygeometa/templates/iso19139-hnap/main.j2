@@ -457,11 +457,16 @@
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
       {% for k, v in record.iteritems() %}
-      {% if k.startswith('distribution:') and v['format'] and v['format_version'] %}
+      {% if k.startswith('distribution:') and v['format_en'] and v['format_fr'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
-          <gmd:name>
-            <gco:CharacterString>{{ v['format'] }}</gco:CharacterString>
+          <gmd:name xsi:type="gmd:PT_FreeText_PropertyType">
+            <gco:CharacterString>{{ v['format_en'] }}</gco:CharacterString>
+            <gmd:PT_FreeText>
+              <gmd:textGroup>
+                <gmd:LocalisedCharacterString locale="#fra">{{ v['format_fr'] }}</gmd:LocalisedCharacterString>
+              </gmd:textGroup>
+            </gmd:PT_FreeText>
           </gmd:name>
           <gmd:version>
             <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
