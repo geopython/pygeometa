@@ -44,7 +44,6 @@
 # =================================================================
 
 import codecs
-from ConfigParser import ConfigParser
 import logging
 import os
 import re
@@ -52,6 +51,8 @@ from xml.dom import minidom
 
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
+
+from six.moves.configparser import ConfigParser
 
 __version__ = '0.1.0'
 
