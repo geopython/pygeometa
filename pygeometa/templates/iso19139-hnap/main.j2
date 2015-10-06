@@ -456,7 +456,7 @@
   </gmd:identificationInfo>
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
-      {% for k, v in record.iteritems() %}
+      {% for k, v in record.items() %}
       {% if k.startswith('distribution:') and v['format_en'] and v['format_fr'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
@@ -490,7 +490,7 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% for k, v in record.iteritems() %}
+        {% for k, v in record.items() %}
           {% if k.startswith('distribution:') %}
           <gmd:onLine xlink:role="urn:xml:lang:{{ k|get_distribution_language }}">
             <gmd:CI_OnlineResource>

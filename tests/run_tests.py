@@ -46,6 +46,8 @@
 import os
 import unittest
 
+from six import text_type
+
 from pygeometa import (read_mcf, pretty_print,
                        render_template, get_supported_schemas)
 
@@ -62,7 +64,7 @@ class PygeometaTest(unittest.TestCase):
     def setUp(self):
         """setup test fixtures, etc."""
 
-        print msg(self.id(), self.shortDescription())
+        print(msg(self.id(), self.shortDescription()))
 
     def tearDown(self):
         """return to pristine state"""
@@ -86,7 +88,7 @@ class PygeometaTest(unittest.TestCase):
         xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
         xml2 = pretty_print(xml)
 
-        self.assertIsInstance(xml2, unicode, 'Expected unicode string')
+        self.assertIsInstance(xml2, text_type, 'Expected unicode string')
         self.assertEqual(xml2[-1], '>', 'Expected closing bracket')
         self.assertTrue(xml2.startswith('<?xml'), 'Expected XML declaration')
 
@@ -103,7 +105,7 @@ class PygeometaTest(unittest.TestCase):
         """test template rendering"""
 
         xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
-        self.assertIsInstance(xml, unicode, 'Expected unicode string')
+        self.assertIsInstance(xml, text_type, 'Expected unicode string')
 
         # no schema provided
         with self.assertRaises(RuntimeError):

@@ -280,7 +280,7 @@
   </gmd:identificationInfo>
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
-      {% for k, v in record.iteritems() %}
+      {% for k, v in record.items() %}
       {% if k.startswith('distribution:') and v['format'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
@@ -305,7 +305,7 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% for k, v in record.iteritems() %}
+        {% for k, v in record.items() %}
           {% if k.startswith('distribution:') %}
           <gmd:onLine>
             <gmd:CI_OnlineResource>
