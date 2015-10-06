@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+{% import 'common/iso19139-charstring.j2' as cs %}
 <gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd">
   <gmd:fileIdentifier>
     <gco:CharacterString>{{ record['metadata']['identifier'] }}</gco:CharacterString>
@@ -137,14 +138,7 @@
     <gmd:MD_DataIdentification>
       <gmd:citation>
         <gmd:CI_Citation>
-          <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ record['identification']['title_en']|e }}</gco:CharacterString>
-              <gmd:PT_FreeText>
-                <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['title_fr']|e }}</gmd:LocalisedCharacterString>
-                </gmd:textGroup>
-              </gmd:PT_FreeText>
-          </gmd:title>
+          {{ cs.get_freetext('title', 'fra', get_charstring('title', record['identification'], 'en', 'fr')) }}
           {% for date_type in ['creation', 'publication', 'revision'] %}
           {% set date_parameter = '%s_date' % date_type %}
           {% if record['identification'][date_parameter] %}
@@ -169,14 +163,7 @@
           </gmd:citedResponsibleParty>
         </gmd:CI_Citation>
       </gmd:citation>
-      <gmd:abstract xsi:type="gmd:PT_FreeText_PropertyType">
-        <gco:CharacterString>{{ record['identification']['abstract_en']|e }}</gco:CharacterString>
-          <gmd:PT_FreeText>
-            <gmd:textGroup>
-              <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['abstract_fr']|e }}</gmd:LocalisedCharacterString>
-            </gmd:textGroup>
-          </gmd:PT_FreeText>
-      </gmd:abstract>
+      {{ cs.get_freetext('abstract', 'fra', get_charstring('abstract', record['identification'], 'en', 'fr')) }}
       <gmd:status>
         <gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['status'] }}">{{ record['identification']['status'] }}</gmd:MD_ProgressCode>
       </gmd:status>
@@ -190,16 +177,10 @@
       {% if record['identification']['keywords_en'] and record['identification']['keywords_fr']%}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-        {% for kw_en, kw_fr in zip(record['identification']['keywords_en'].split(','), record['identification']['keywords_fr'].split(',')) %}
-          <gmd:keyword xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ kw_en|trim|e }}</gco:CharacterString>
-              <gmd:PT_FreeText>
-                <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#fra">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
-                </gmd:textGroup>
-              </gmd:PT_FreeText>
-          </gmd:keyword>
-        {% endfor %}
+          {% set keywords = get_charstring('keywords', record['identification'], 'en', 'fr') %}
+          {% for kw1, kw2 in zip(keywords[0].split(','), keywords[1].split(',')) %}
+          {{ cs.get_freetext('keyword', 'fra', [kw1, kw2]) }}
+          {% endfor %}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
@@ -208,16 +189,10 @@
       {% endif %}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-        {% for kw_en, kw_fr in zip(record['identification']['keywords_gc_cst_en'].split(','), record['identification']['keywords_gc_cst_fr'].split(',')) %}
-          <gmd:keyword xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ kw_en|trim|e }}</gco:CharacterString>
-              <gmd:PT_FreeText>
-                <gmd:textGroup>
-                  <gmd:LocalisedCharacterString locale="#fra">{{ kw_fr|trim|e }}</gmd:LocalisedCharacterString>
-                </gmd:textGroup>
-              </gmd:PT_FreeText>
-          </gmd:keyword>
-        {% endfor %}
+          {% set keywords = get_charstring('keywords_gc_cst', record['identification'], 'en', 'fr') %}
+          {% for kw1, kw2 in zip(keywords[0].split(','), keywords[1].split(',')) %}
+          {{ cs.get_freetext('keyword', 'fra', [kw1, kw2]) }}
+          {% endfor %}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
@@ -262,14 +237,7 @@
       </gmd:descriptiveKeywords>
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-          <gmd:keyword xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ record['identification']['hnap_category_information_en'] }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['hnap_category_information_fr'] }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:keyword>
+          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_information', record['identification'], 'en', 'fr')) }}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="theme"/>
           </gmd:type>
@@ -294,14 +262,7 @@
       </gmd:descriptiveKeywords>
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-          <gmd:keyword xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ record['identification']['hnap_category_geography_en'] }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['hnap_category_geography_fr'] }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:keyword>
+          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_geography', record['identification'], 'en', 'fr')) }}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="place"/>
           </gmd:type>
@@ -326,14 +287,7 @@
       </gmd:descriptiveKeywords>
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-          <gmd:keyword>
-            <gco:CharacterString>{{ record['identification']['hnap_category_content_en'] }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['hnap_category_content_fr'] }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:keyword>
+          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_content', record['identification'], 'en', 'fr')) }}
           <gmd:type>
             <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="theme"/>
           </gmd:type>
@@ -358,14 +312,10 @@
       </gmd:descriptiveKeywords>
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
-          <gmd:useLimitation xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ record['identification']['rights_en']|normalize_datestring('year') }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['rights_fr']|normalize_datestring('year')|e }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:useLimitation>
+          {% set uselim = get_charstring('rights', record['identification'], 'en', 'fr') %}
+          {% set uselim_en = normalize_datestring(uselim[0], 'year') %}
+          {% set uselim_fr = normalize_datestring(uselim[1], 'year') %}
+          {{ cs.get_freetext('useLimitation', 'fra', [uselim_en, uselim_fr]) }}
           <gmd:accessConstraints>
             <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['accessconstraints'] }}">{{ record['identification']['accessconstraints'] }}</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
@@ -439,18 +389,7 @@
         </gmd:EX_Extent>
       </gmd:extent>
       {% if record['identification']['url'] %}
-      <gmd:supplementalInformation>
-        <gco:CharacterString>{{ record['identification']['url'] }}</gco:CharacterString>
-      </gmd:supplementalInformation>
-      {% elif record['identification']['url_en'] %}
-      <gmd:supplementalInformation xsi:type="gmd:PT_FreeText_PropertyType">
-        <gco:CharacterString>{{ record['identification']['url_en'] }}</gco:CharacterString>
-        <gmd:PT_FreeText>
-          <gmd:textGroup>
-            <gmd:LocalisedCharacterString locale="#fra">{{ record['identification']['url_fr'] }}</gmd:LocalisedCharacterString>
-          </gmd:textGroup>
-        </gmd:PT_FreeText>
-      </gmd:supplementalInformation>
+      {{ cs.get_freetext('supplementalInformation', 'fra', get_charstring('url', record['identification'], 'en', 'fr')) }}
       {% endif %}
     </gmd:MD_DataIdentification>
   </gmd:identificationInfo>
@@ -460,14 +399,7 @@
       {% if k.startswith('distribution:') and v['format_en'] and v['format_fr'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
-          <gmd:name xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ v['format_en'] }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ v['format_fr'] }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:name>
+          {{ cs.get_freetext('name', 'fra', get_charstring('format', v, 'en', 'fr')) }}
           <gmd:version>
             <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
           </gmd:version>
@@ -500,14 +432,7 @@
               <gmd:protocol>
                 <gco:CharacterString>{{ v['type'] }}</gco:CharacterString>
               </gmd:protocol>
-              <gmd:name xsi:type="gmd:PT_FreeText_PropertyType">
-                <gco:CharacterString>{{ v['name_en'] }}</gco:CharacterString>
-                <gmd:PT_FreeText>
-                  <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#fra">{{ v['name_fr'] }}</gmd:LocalisedCharacterString>
-                  </gmd:textGroup>
-                </gmd:PT_FreeText>
-              </gmd:name>
+              {{ cs.get_freetext('name', 'fra', get_charstring('name', v, 'en', 'fr')) }}
               <gmd:description xsi:type="gmd:PT_FreeText_PropertyType">
                 <gco:CharacterString>{{ v['hnap_contenttype_en'] }};{{ v['format_en'] }};eng</gco:CharacterString>
                 <gmd:PT_FreeText>

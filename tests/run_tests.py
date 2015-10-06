@@ -49,7 +49,7 @@ import unittest
 from six import text_type
 
 from pygeometa import (read_mcf, pretty_print,
-                       render_template, get_supported_schemas)
+                       render_template, get_charstring, get_supported_schemas)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -92,10 +92,40 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(xml2[-1], '>', 'Expected closing bracket')
         self.assertTrue(xml2.startswith('<?xml'), 'Expected XML declaration')
 
+    def test_get_charstring(self):
+        """Test support of unilingual or multilingual value(s)"""
+
+        values = get_charstring('title', {'title': 'foo'}, 'en')
+        self.assertEqual(values, ['foo', None], 'Expected specific values')
+
+        values = get_charstring('title',
+                                {'title_en': 'foo', 'title_fr': 'bar'},
+                                'en', 'fr')
+        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
+
+        values = get_charstring('title',
+                                {'title': 'foo', 'title_fr': 'bar'},
+                                'en', 'fr')
+        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
+
+        values = get_charstring('title',
+                                {'title_fr': 'foo', 'title_en': 'bar'},
+                                'fr', 'en')
+        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
+
+        values = get_charstring('title',
+                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        self.assertEqual(values, ['foo', None], 'Expected specific values')
+
+        values = get_charstring('notfound',
+                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        self.assertEqual(values, [None, None], 'Expected specific values')
+
     def test_get_supported_schemas(self):
         """Test supported schemas"""
 
         schemas = sorted(get_supported_schemas())
+        schemas.remove('common')  # remove shared snippets
         self.assertIsInstance(schemas, list, 'Expected list')
         self.assertEqual(len(schemas), 2, 'Expected 2 supported schemas')
         self.assertEqual(schemas, sorted(['iso19139', 'iso19139-hnap']),

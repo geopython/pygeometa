@@ -1,6 +1,7 @@
 [metadata]
 identifier=3f342f64-9348-11df-ba6a-0014c2c00eab
-language=eng; CAN
+language=en
+language_alternate=fr
 charset=utf8
 parentidentifier=someparentid
 hierarchylevel=dataset
@@ -20,8 +21,8 @@ title_en=title in English
 title_fr=title in French
 abstract_en=abstract in English
 abstract_fr=abstract in French
-keywords_en=kw1,kw2,kw3
-keywords_fr=kw1,kw2,kw3
+keywords_en=kw1 in English,kw2 in English,kw3 in English
+keywords_fr=kw1 in French,kw2 in French,kw3 in French
 keywords_type=theme
 keywords_gc_cst_en=kw1,kw2
 keywords_gc_cst_fr=kw1,kw2
