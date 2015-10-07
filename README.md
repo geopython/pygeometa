@@ -54,7 +54,7 @@ pygeometa is best installed and used within a Python virtualenv.
 
 ### Requirements
 
-* Python 2.7 and above.  Works with Python 3.
+* Python 2.7 and above.  Works with Python 3
 * Python [virtualenv](https://virtualenv.pypa.io/) package
 
 ### Dependencies
@@ -139,12 +139,11 @@ python run_tests.py
 
 ### Bugs and Issues
 
-All bugs, enhancements and issues can be logged on SSC GitLab at
-https://github.com/geopython/pygeometa/issues
+All bugs, enhancements and issues are managed on [GitHub](https://github.com/geopython/pygeometa/issues).
 
 ## History
 
-pygeometa originated within the `pygdm` project, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
+pygeometa originated within an internal project called pygdm, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
 
 In 2015 pygeometa was made publically available in support of the Treasury Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
 
