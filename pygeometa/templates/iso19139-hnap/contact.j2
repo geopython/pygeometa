@@ -1,23 +1,7 @@
 <gmd:CI_ResponsibleParty>
-  <gmd:individualName>
-    <gco:CharacterString>{{ contact['individualname']|e }}</gco:CharacterString>
-  </gmd:individualName>
-  <gmd:organisationName xsi:type="gmd:PT_FreeText_PropertyType">
-    <gco:CharacterString>{{ contact['organization_en']|e }}</gco:CharacterString>
-    <gmd:PT_FreeText>
-      <gmd:textGroup>
-        <gmd:LocalisedCharacterString locale="#fra">{{ contact['organization_fr']|e }}</gmd:LocalisedCharacterString>
-      </gmd:textGroup>
-    </gmd:PT_FreeText>
-  </gmd:organisationName>
-  <gmd:positionName xsi:type="gmd:PT_FreeText_PropertyType">
-    <gco:CharacterString>{{ contact['positionname_en']|e }}</gco:CharacterString>
-    <gmd:PT_FreeText>
-      <gmd:textGroup>
-        <gmd:LocalisedCharacterString locale="#fra">{{ contact['positionname_fr']|e }}</gmd:LocalisedCharacterString>
-      </gmd:textGroup>
-    </gmd:PT_FreeText>
-  </gmd:positionName>
+  {{ cs.get_freetext('individualName', 'fra', get_charstring('individualname', contact, 'en', 'fr')) }}
+  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+  {{ cs.get_freetext('positionName', 'fra', get_charstring('positionname', contact, 'en', 'fr')) }}
   <gmd:contactInfo>
     <gmd:CI_Contact>
       <gmd:phone>
@@ -40,29 +24,14 @@
       </gmd:phone>
       <gmd:address>
         <gmd:CI_Address>
-          <gmd:deliveryPoint>
-            <gco:CharacterString>{{ contact['address']|e }}</gco:CharacterString>
-          </gmd:deliveryPoint>
-          <gmd:deliveryPoint>
-            <gco:CharacterString>{{ contact['city']|e }}</gco:CharacterString>
-          </gmd:deliveryPoint>
-          <gmd:administrativeArea xsi:type="gmd:PT_FreeText_PropertyType">
-            <gco:CharacterString>{{ contact['administrativearea_en']|e }}</gco:CharacterString>
-            <gmd:PT_FreeText>
-              <gmd:textGroup>
-                <gmd:LocalisedCharacterString locale="#fra">{{ contact['administrativearea_fr']|e }}</gmd:LocalisedCharacterString>
-              </gmd:textGroup>
-            </gmd:PT_FreeText>
-          </gmd:administrativeArea>
+          {{ cs.get_freetext('deliveryPoint', 'fra', get_charstring('address', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('city', 'fra', get_charstring('city', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('administrativeArea', 'fra', get_charstring('administrativearea', contact, 'en', 'fr')) }}
           <gmd:postalCode>
             <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
           </gmd:postalCode>
-          <gmd:country>
-            <gco:CharacterString>{{ contact['country'] }}</gco:CharacterString>
-          </gmd:country>
-          <gmd:electronicMailAddress>
-            <gco:CharacterString>{{ contact['email'] }}</gco:CharacterString>
-          </gmd:electronicMailAddress>
+          {{ cs.get_freetext('country', 'fra', get_charstring('country', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('electronicMailAddress', 'fra', get_charstring('email', contact, 'en', 'fr')) }}
         </gmd:CI_Address>
       </gmd:address>
       <gmd:onlineResource>
@@ -75,12 +44,8 @@
           </gmd:protocol>
         </gmd:CI_OnlineResource>
       </gmd:onlineResource>
-      <gmd:hoursOfService>
-        <gco:CharacterString>{{ contact['hoursofservice'] }}</gco:CharacterString>
-      </gmd:hoursOfService>
-      <gmd:contactInstructions>
-        <gco:CharacterString>{{ contact['contactinstructions'] }}</gco:CharacterString>
-      </gmd:contactInstructions>
+      {{ cs.get_freetext('hoursOfService', 'fra', get_charstring('hoursofservice', contact, 'en', 'fr')) }}
+      {{ cs.get_freetext('contactInstructions', 'fra', get_charstring('contactinstructions', contact, 'en', 'fr')) }}
     </gmd:CI_Contact>
   </gmd:contactInfo>
   <gmd:role>

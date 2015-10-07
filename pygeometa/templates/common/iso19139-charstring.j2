@@ -1,0 +1,16 @@
+{% macro get_freetext(element, language_alternate, myvars) -%}
+{% if language_alternate is none or myvars[1] is none %}
+      <gmd:{{ element }}>
+        <gco:CharacterString>{{ myvars[0]|trim|e }}</gco:CharacterString>
+      </gmd:{{ element }}>
+{% else %}
+      <gmd:{{ element }} xsi:type="gmd:PT_FreeText_PropertyType">
+        <gco:CharacterString>{{ myvars[0]|trim|e }}</gco:CharacterString>
+          <gmd:PT_FreeText>
+            <gmd:textGroup>
+              <gmd:LocalisedCharacterString locale="#locale-{{ language_alternate }}">{{ myvars[1]|trim|e }}</gmd:LocalisedCharacterString>
+            </gmd:textGroup>
+          </gmd:PT_FreeText>
+      </gmd:{{ element }}>
+{% endif %}
+{% endmacro %}

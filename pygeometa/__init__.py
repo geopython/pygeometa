@@ -62,6 +62,39 @@ TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
                                os.sep)
 
 
+def get_charstring(option, section_items, language,
+                   language_alternate=None):
+    """convenience function to return unilingual or multilingual value(s)"""
+
+    section_items = dict(section_items)
+    option_value1 = None
+    option_value2 = None
+
+    if 'language_alternate' is None:  # unilingual
+        option_tmp = '{}_{}'.format(option, language)
+        if option_tmp in section_items:
+            option_value1 = section_items[option_tmp]
+        else:
+            try:
+                option_value1 = section_items[option]
+            except KeyError:
+                pass  # default=None
+    else:  # multilingual
+        option_tmp = '{}_{}'.format(option, language)
+        if option_tmp in section_items:
+            option_value1 = section_items[option_tmp]
+        else:
+            try:
+                option_value1 = section_items[option]
+            except KeyError:
+                pass  # default=None
+        option_tmp2 = '{}_{}'.format(option, language_alternate)
+        if option_tmp2 in section_items:
+            option_value2 = section_items[option_tmp2]
+
+    return [option_value1, option_value2]
+
+
 def get_distribution_language(section):
     """derive language of a given distribution construct"""
 
@@ -148,10 +181,13 @@ def render_template(mcf, schema=None, schema_local=None):
         abspath = schema_local
 
     LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader(abspath))
+    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]))
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
+    env.filters['get_charstring'] = get_charstring
     env.globals.update(zip=zip)
+    env.globals.update(get_charstring=get_charstring)
+    env.globals.update(normalize_datestring=normalize_datestring)
 
     try:
         LOGGER.debug('Loading template')
