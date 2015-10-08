@@ -8,7 +8,7 @@ addons:
   apt:
     packages:
       - pandoc
-      - python-docutils
+      - python-docutils=0.12+dfsg-1
 
 install:
   - pip install -r requirements.txt
