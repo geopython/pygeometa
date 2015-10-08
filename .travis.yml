@@ -8,18 +8,18 @@ addons:
   apt:
     packages:
       - pandoc
-      - python-docutils=0.12+dfsg-1
 
 install:
   - pip install -r requirements.txt
   - pip install pep8
   - pip install coverage
+  - pip install docutils
   - python setup.py install
 
 script:
   - python setup.py test
   - find . -type f -name "*.py" | xargs pep8
-  - python setup.py --long-description | rst2html --strict
+  - python setup.py --long-description | rst2html.py --strict
 
 after_success:
   - coverage run --source pygeometa setup.py test
