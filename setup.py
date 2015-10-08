@@ -67,6 +67,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets
 try:
     import pypandoc
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
+    LONG_DESCRIPTION = LONG_DESCRIPTION.replace('\%2C', '%5C%2C')
 except(IOError, ImportError):
     with open('README.md') as f:
         LONG_DESCRIPTION = f.read()
