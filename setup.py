@@ -69,6 +69,7 @@ try:
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
     LONG_DESCRIPTION = LONG_DESCRIPTION.replace('\%2C', '%5C%2C')
 except(IOError, ImportError):
+    print('README.md will *not* be converted to reStructuredText')
     with open('README.md') as f:
         LONG_DESCRIPTION = f.read()
 
