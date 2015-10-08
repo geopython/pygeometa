@@ -8,12 +8,12 @@ addons:
   apt:
     packages:
       - pandoc
-      - python-docutils=0.12
 
 install:
   - pip install -r requirements.txt
   - pip install pep8
   - pip install coverage
+  - pip install docutils
   - python setup.py install
 
 script:
