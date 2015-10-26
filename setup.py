@@ -73,7 +73,7 @@ except(IOError, ImportError):
 
 CONTACT = 'Meteorological Service of Canada, Environment Canada'
 
-EMAIL = 'tom.kralidis@ec.gc.ca'
+EMAIL = 'tom.kralidis@canada.ca'
 
 SCRIPTS = [
     os.path.join('bin', 'generate_metadata.py')
