@@ -149,5 +149,5 @@ In 2015 pygeometa was made publically available in support of the Treasury Board
 
 ## Contact
 
-* [Tom Kralidis](http://sage-geds.tpsgc-pwgsc.gc.ca/en/GEDS?pgid=015&dn=cn%3DKralidis\\%2C+Tom%2Cou%3DDAT-GES%2Cou%3DMON-STR%2Cou%3DMON-DIR%2Cou%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
-* [Alexandre Leroux](http://sage-geds.tpsgc-pwgsc.gc.ca/en/GEDS?pgid=015&dn=cn%3DLeroux\\%2C+Alexandre%2Cou%3DDPS-DPS%2Cou%3DCAN-OPE%2Cou%3DCAN-CEN%2Cou%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
+* [Tom Kralidis](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=CN%3Dtom.kralidis%40canada.ca%2COU%3DDAT-GES%2COU%3DMON-STR%2COU%3DMON-DIR%2COU%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
+* [Alexandre Leroux](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=CN%3Dalexandre.leroux%40canada.ca%2COU%3DDPS-DPS%2COU%3DCAN-OPE%2COU%3DCAN-CEN%2COU%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
