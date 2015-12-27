@@ -4,15 +4,22 @@ python:
   - "2.7"
   - "3.4"
 
+addons:
+  apt:
+    packages:
+      - pandoc
+
 install:
   - pip install -r requirements.txt
-  - pip install pep8
+  - pip install -r requirements-dev.txt
   - pip install coverage
   - python setup.py install
 
 script:
   - python setup.py test
   - find . -type f -name "*.py" | xargs pep8
+  - find . -type f -name "*.py" | xargs pyflakes
+  - python setup.py --long-description | rst2html.py --strict
 
 after_success:
   - coverage run --source pygeometa setup.py test
