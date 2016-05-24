@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2015 Government of Canada
+# Copyright (c) 2015, 2016 Government of Canada, ERT Inc.
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -134,25 +134,28 @@ class PygeometaTest(unittest.TestCase):
     def test_render_template(self):
         """test template rendering"""
 
-        xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
-        self.assertIsInstance(xml, text_type, 'Expected unicode string')
+        test_mcf_paths = ['../sample.mcf', 'unilingual.mcf']
 
-        # no schema provided
-        with self.assertRaises(RuntimeError):
-            render_template(get_abspath('../sample.mcf'))
+        for mcf_path in test_mcf_paths:
+            xml = render_template(get_abspath(mcf_path), 'iso19139')
+            self.assertIsInstance(xml, text_type, 'Expected unicode string')
 
-        # bad schema provided
-        with self.assertRaises(RuntimeError):
-            xml = render_template(get_abspath('../sample.mcf'), 'bad_schema')
+            # no schema provided
+            with self.assertRaises(RuntimeError):
+                render_template(get_abspath(mcf_path))
 
-        # bad schema_local provided
-        with self.assertRaises(RuntimeError):
-            xml = render_template(get_abspath('../sample.mcf'),
-                                  schema_local='/bad_schema/path')
+            # bad schema provided
+            with self.assertRaises(RuntimeError):
+                xml = render_template(get_abspath(mcf_path), 'bad_schema')
 
-        # good schema_local provided
-        xml = render_template(get_abspath('../sample.mcf'),
-                              schema_local=get_abspath('sample_schema'))
+            # bad schema_local provided
+            with self.assertRaises(RuntimeError):
+                xml = render_template(get_abspath(mcf_path),
+                                      schema_local='/bad_schema/path')
+
+            # good schema_local provided
+            xml = render_template(get_abspath(mcf_path),
+                                  schema_local=get_abspath('sample_schema'))
 
     def test_nested_mcf(self):
         """test nested mcf support"""
