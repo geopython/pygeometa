@@ -49,8 +49,8 @@ except:
     from distutils.core import setup, Command
 import os
 import sys
-
-import pygeometa
+import re
+import codecs
 
 # set dependencies
 with open('requirements.txt') as f:
@@ -103,6 +103,25 @@ class PyTest(Command):
         raise SystemExit(errno)
 
 
+# from https://github.com/pypa/pip/blob/f4694100e/setup.py#L28
+def read(*parts):
+    # from https://github.com/pypa/pip/blob/f4694100e/setup.py#L10
+    here = os.path.abspath(os.path.dirname(__file__))
+    # intentionally *not* adding an encoding option to open, See:
+    #   https://github.com/pypa/virtualenv/issues/201#issuecomment-3145690
+    return codecs.open(os.path.join(here, *parts), 'r').read()
+
+
+# from https://github.com/pypa/pip/blob/f4694100e/setup.py#L34
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
 # from https://wiki.python.org/moin/Distutils/Cookbook/AutoPackageDiscovery
 def is_package(path):
 
@@ -144,7 +163,7 @@ def find_packages_templates(location='.'):
 
 setup(
     name='pygeometa',
-    version=pygeometa.__version__,
+    version=find_version('pygeometa', '__init__.py'),
     description=DESCRIPTION.strip(),
     long_description=LONG_DESCRIPTION,
     license='MIT',
