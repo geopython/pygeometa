@@ -5,7 +5,6 @@ python:
   - "3.4"
 
 install:
-  - pip install -r requirements.txt
   - pip install flake8
   - pip install coverage
   - python setup.py install

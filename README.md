@@ -69,7 +69,6 @@ cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
 cd pygeometa
-pip install -r requirements.txt
 python setup.py build
 python setup.py install
 ```
