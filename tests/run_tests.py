@@ -128,8 +128,9 @@ class PygeometaTest(unittest.TestCase):
         schemas = sorted(get_supported_schemas())
         schemas.remove('common')  # remove shared snippets
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 2, 'Expected 2 supported schemas')
-        self.assertEqual(schemas, sorted(['iso19139', 'iso19139-hnap']),
+        self.assertEqual(len(schemas), 3, 'Expected 3 supported schemas')
+        self.assertEqual(schemas,
+                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp']),
                          'Expected exact list of supported schemas')
 
     def test_render_template(self):
