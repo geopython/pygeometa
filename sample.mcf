@@ -23,6 +23,7 @@ abstract_en=abstract in English
 abstract_fr=abstract in French
 keywords_en=kw1 in English,kw2 in English,kw3 in English
 keywords_fr=kw1 in French,kw2 in French,kw3 in French
+keywords_wmo=FOO,BAR
 keywords_type=theme
 keywords_gc_cst_en=kw1,kw2
 keywords_gc_cst_fr=kw1,kw2
