@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2015 Government of Canada
+# Copyright (c) 2016 Government of Canada
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -49,6 +49,7 @@ import os
 import re
 from xml.dom import minidom
 
+import click
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 
@@ -215,3 +216,28 @@ def get_abspath(mcf, filepath):
 
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
+
+
+@click.command()
+@click.option('--mcf',
+              type=click.Path(exists=True, resolve_path=True),
+              help='Path to metadata control file (.mcf)')
+@click.option('--output', type=click.File('w', encoding='utf-8'),
+              help='Name of output file')
+@click.option('--schema',
+              type=click.Choice(get_supported_schemas()),
+              help='Metadata schema')
+@click.option('--schema_local',
+              type=click.Path(exists=True, resolve_path=True,
+                              dir_okay=True, file_okay=False),
+              help='Locally defined metadata schema')
+def cli(mcf, schema, schema_local, output):
+    if mcf is None or (schema is None and schema_local is None):
+        raise click.UsageError('Missing arguments')
+    else:
+        content = render_template(mcf, schema=schema,
+                                  schema_local=schema_local)
+        if output is None:
+            click.echo_via_pager(content)
+        else:
+            output.write(content)
