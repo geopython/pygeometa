@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2015 Government of Canada
+# Copyright (c) 2016 Government of Canada
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,10 +43,7 @@
 #
 # =================================================================
 
-try:
-    from setuptools import setup, Command
-except:
-    from distutils.core import setup, Command
+from setuptools import setup, Command
 import os
 import sys
 import re
@@ -77,10 +74,6 @@ except(IOError, ImportError):
 CONTACT = 'Meteorological Service of Canada, Environment Canada'
 
 EMAIL = 'tom.kralidis@canada.ca'
-
-SCRIPTS = [
-    os.path.join('bin', 'generate_metadata.py')
-]
 
 URL = 'https://github.com/geopython/pygeometa'
 
@@ -177,7 +170,11 @@ setup(
     install_requires=INSTALL_REQUIRES,
     packages=find_packages('.').keys(),
     package_data=find_packages_templates('pygeometa'),
-    scripts=SCRIPTS,
+    entry_points={
+        'console_scripts': [
+            'generate_metadata.py=pygeometa:cli'
+        ]
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
