@@ -44,6 +44,7 @@
 # =================================================================
 
 import codecs
+from datetime import datetime
 import logging
 import os
 import re
@@ -108,23 +109,31 @@ def get_distribution_language(section):
 def normalize_datestring(datestring, fmt='default'):
     """groks date string into ISO8601"""
 
+    today_and_now = datetime.utcnow()
+
     re1 = r'\$Date: (?P<year>\d{4})'
     re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
     re3 = r'(?P<start>.*)\$Date: (?P<year>\d{4}).*\$(?P<end>.*)'
 
     try:
-        if datestring.startswith('$Date'):  # svn Date keyword
+        if datestring == '$date$':  # $date$ magic keyword
+            return today_and_now.strftime('%Y-%m-%dT%H:%M:%SZ')
+        elif datestring == '$year$':  # $year$ magic keyword
+            return today_and_now.strftime('%Y')
+        elif '$year$' in datestring:  # $year$ magic keyword embedded
+            return datestring.replace('$year$', today_and_now.strftime('%Y'))
+        elif datestring.startswith('$Date'):  # svn Date keyword
             if fmt == 'year':
                 mo = re.match(re1, datestring)
                 return mo.group('year')
             else:  # default
                 mo = re.match(re2, datestring)
                 return '%sT%s' % mo.group('date', 'time')
-        elif datestring.find('$Date') != -1:  # svn Date keyword embedded
+        elif '$Date' in datestring:  # svn Date keyword embedded
             if fmt == 'year':
                 mo = re.match(re3, datestring)
                 return '%s%s%s' % mo.group('start', 'year', 'end')
-    except AttributeError as err:
+    except AttributeError:
         raise RuntimeError('Invalid datestring: %s' % datestring)
     return datestring
 
