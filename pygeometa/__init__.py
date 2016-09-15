@@ -220,7 +220,9 @@ def get_supported_schemas():
     """returns a list of supported schemas"""
 
     LOGGER.debug('Generating list of supported schemas')
-    return os.listdir(TEMPLATES)
+    dirs = os.listdir(TEMPLATES)
+    dirs.remove('common')
+    return dirs
 
 
 def get_abspath(mcf, filepath):
