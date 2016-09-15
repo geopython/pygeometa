@@ -232,9 +232,13 @@
       <gmd:spatialRepresentationType>
         <gmd:MD_SpatialRepresentationTypeCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['spatial']['datatype'] }}">{{ record['spatial']['datatype'] }}</gmd:MD_SpatialRepresentationTypeCode>
       </gmd:spatialRepresentationType>
+      {% if record['identification']['language'] in ['inapplicable', 'missing', 'template', 'unknown', 'withheld'] %}
+      <gmd:language gco:nilReason="{{ record['identification']['language'] }}"/>
+      {% else %}
       <gmd:language>
         <gco:CharacterString>{{ record['identification']['language'] }}</gco:CharacterString>
       </gmd:language>
+      {% endif %}
       <gmd:characterSet>
         <gmd:MD_CharacterSetCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['charset'] }}">{{ record['identification']['charset'] }}</gmd:MD_CharacterSetCode>
       </gmd:characterSet>
