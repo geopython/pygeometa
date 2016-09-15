@@ -56,7 +56,7 @@ from jinja2.exceptions import TemplateNotFound
 
 from six.moves.configparser import ConfigParser
 
-__version__ = '0.1.0'
+__version__ = '0.2-dev'
 
 LOGGER = logging.getLogger(__name__)
 
