@@ -133,7 +133,7 @@ def normalize_datestring(datestring, fmt='default'):
             if fmt == 'year':
                 mo = re.match(re3, datestring)
                 return '%s%s%s' % mo.group('start', 'year', 'end')
-    except AttributeError as err:
+    except AttributeError:
         raise RuntimeError('Invalid datestring: %s' % datestring)
     return datestring
 
