@@ -135,7 +135,11 @@ class PygeometaTest(unittest.TestCase):
     def test_render_template(self):
         """test template rendering"""
 
-        test_mcf_paths = ['../sample.mcf', 'unilingual.mcf']
+        test_mcf_paths = [
+            '../sample.mcf',
+            'unilingual.mcf',
+            'nil-identification-language.mcf'
+        ]
 
         for mcf_path in test_mcf_paths:
             xml = render_template(get_abspath(mcf_path), 'iso19139')
