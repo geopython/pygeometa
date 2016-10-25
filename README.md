@@ -101,6 +101,13 @@ xml_string = render_template('/path/to/file.mcf', schema='iso19139')
 xml_string = render_template('/path/to/file.mcf', schema_local='/path/to/new-schema')
 with open('output.xml', 'w') as ff:
     ff.write(xml_string)
+# render from an MCF stored in a string
+mcf_string = '...'  # some string
+xml_string = render_template_string(mcf_string, schema='iso19139')
+# render from an MCF as a ConfigParser object
+from pygeometa import render_template
+mcf_cp = '...'  # some ConfigParser object
+xml_string = render_template_string(mcf_cp, schema='iso19139')
 ```
 
 ## Development

@@ -171,6 +171,6 @@ format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 Users storing MCF files in Subversion can leverage [keyword substitution](http://svnbook.red-bean.com/en/1.7/svn.advanced.props.special.keywords.html) in MCF files for values such as $Date$. 
 
 Subversion files need to have keyword substitution enabled. Example, run the following command once per new MCF file to enable the $Date$ keyword substitution on sample.mcf:
-```
+```bash
 svn propset svn:keywords "Date" sample.mcf
 ```
