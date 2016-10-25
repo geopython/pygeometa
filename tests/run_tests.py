@@ -47,7 +47,8 @@
 import os
 import unittest
 
-from six import text_type
+from six import StringIO, text_type
+from six.moves.configparser import ConfigParser
 
 from pygeometa import (read_mcf, pretty_print,
                        render_template, get_charstring, get_supported_schemas)
@@ -73,14 +74,28 @@ class PygeometaTest(unittest.TestCase):
         pass
 
     def test_read_mcf(self):
-        """Test reading MCF files"""
+        """Test reading MCF files, strings or ConfigParser objects"""
 
+        # test as file
         with self.assertRaises(IOError):
             mcf = read_mcf(get_abspath('../404.mcf'))
 
         mcf = read_mcf(get_abspath('../sample.mcf'))
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
+        self.assertTrue('metadata' in mcf, 'Expected metadata section')
+
+        # test as string
+        with open(get_abspath('../sample.mcf')) as fh:
+            mcf_string = fh.read()
+
+        mcf = read_mcf(mcf_string)
+        self.assertTrue('metadata' in mcf, 'Expected metadata section')
+
+        # test as ConfigParser object
+        mcf_cp = ConfigParser()
+        mcf_cp.readfp(StringIO(mcf_string))
+        mcf = read_mcf(mcf_cp)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
     def test_pretty_print(self):
