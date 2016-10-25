@@ -54,6 +54,7 @@ import click
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 
+from six import StringIO
 from six.moves.configparser import ConfigParser
 
 __version__ = '0.2-dev'
@@ -139,25 +140,49 @@ def normalize_datestring(datestring, fmt='default'):
 
 
 def read_mcf(mcf):
-    """returns dict of ConfigParser object"""
+    """returns dict of ConfigParser object from filepath"""
 
     mcf_list = []
+    mcf_dict = {}
+
+    def __to_configparser(mcf_object):
+        """normalize mcf input into ConfigParser object"""
+
+        cp_obj = None
+
+        if isinstance(mcf_object, ConfigParser):
+            LOGGER.debug('mcf object is already a ConfigParser object')
+            cp_obj = mcf_object
+        elif '[metadata]' in mcf_object:
+            LOGGER.debug('mcf object is a string')
+            s = StringIO(mcf_object)
+            c = ConfigParser()
+            c.readfp(s)
+            cp_obj = c
+        else:
+            LOGGER.debug('mcf object is likely a filepath')
+            c = ConfigParser()
+            with codecs.open(mcf_object, encoding='utf-8') as fh:
+                c.readfp(fh)
+            cp_obj = c
+
+        return cp_obj
 
     def makelist(mcf2):
         """recursive function for MCF by reference inclusion"""
-        c = ConfigParser()
+
+        c = __to_configparser(mcf2)
+
         LOGGER.debug('reading {}'.format(mcf2))
-        with codecs.open(mcf2, encoding='utf-8') as fh:
-            c.readfp(fh)
-            mcf_dict = c.__dict__['_sections']
-            for section in mcf_dict.keys():
-                if 'base_mcf' in mcf_dict[section]:
-                    base_mcf_path = get_abspath(mcf,
-                                                mcf_dict[section]['base_mcf'])
-                    makelist(base_mcf_path)
-                    mcf_list.append(mcf2)
-                else:  # leaf
-                    mcf_list.append(mcf2)
+        mcf_dict = c.__dict__['_sections']
+        for section in mcf_dict.keys():
+            if 'base_mcf' in mcf_dict[section]:
+                base_mcf_path = get_abspath(mcf,
+                                            mcf_dict[section]['base_mcf'])
+                makelist(base_mcf_path)
+                mcf_list.append(mcf2)
+            else:  # leaf
+                mcf_list.append(mcf2)
 
     makelist(mcf)
 
@@ -165,9 +190,8 @@ def read_mcf(mcf):
 
     for mcf_file in mcf_list:
         LOGGER.debug('reading {}'.format(mcf))
-        with codecs.open(mcf_file, encoding='utf-8') as fh:
-            c.readfp(fh)
-    mcf_dict = c.__dict__['_sections']
+        c = __to_configparser(mcf_file)
+        mcf_dict.update(c.__dict__['_sections'])
     return mcf_dict
 
 
@@ -181,7 +205,10 @@ def pretty_print(xml):
 
 
 def render_template(mcf, schema=None, schema_local=None):
-    """convenience function to render Jinja2 template"""
+    """
+    convenience function to render Jinja2 template given
+    an mcf file, string, or ConfigParser object
+    """
 
     LOGGER.debug('Evaluating schema path')
     if schema is None and schema_local is None:
