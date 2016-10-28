@@ -61,8 +61,8 @@ __version__ = '0.2-dev'
 
 LOGGER = logging.getLogger(__name__)
 
-TEMPLATES = '%s%stemplates' % (os.path.dirname(os.path.realpath(__file__)),
-                               os.sep)
+TEMPLATES = '{}{}templates'.format(os.path.dirname(os.path.realpath(__file__)),
+                                   os.sep)
 
 
 def get_charstring(option, section_items, language,
@@ -129,13 +129,13 @@ def normalize_datestring(datestring, fmt='default'):
                 return mo.group('year')
             else:  # default
                 mo = re.match(re2, datestring)
-                return '%sT%s' % mo.group('date', 'time')
+                return '%sT%s'.format(mo.group('date', 'time'))
         elif '$Date' in datestring:  # svn Date keyword embedded
             if fmt == 'year':
                 mo = re.match(re3, datestring)
-                return '%s%s%s' % mo.group('start', 'year', 'end')
+                return '%s%s%s'.format(mo.group('start', 'year', 'end'))
     except AttributeError:
-        raise RuntimeError('Invalid datestring: %s' % datestring)
+        raise RuntimeError('Invalid datestring: {}'.format(datestring))
     return datestring
 
 
