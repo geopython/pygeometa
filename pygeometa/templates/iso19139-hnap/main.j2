@@ -174,6 +174,15 @@
           </gmd:maintenanceAndUpdateFrequency>
         </gmd:MD_MaintenanceInformation>
       </gmd:resourceMaintenance>
+      {% if record['identification']['browsegraphic'] %}
+      <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+          <gmd:fileName>
+            <gco:CharacterString>{{ record['identification']['browsegraphic']|e }}</gco:CharacterString>
+          </gmd:fileName>
+        </gmd:MD_BrowseGraphic>
+      </gmd:graphicOverview>
+      {% endif %}
       {% if record['identification']['keywords_en'] and record['identification']['keywords_fr']%}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
