@@ -1,4 +1,4 @@
-<gmd:CI_ResponsibleParty>
+<gmd:CI_ResponsibleParty id="contact-{{ role }}">
   {{ cs.get_freetext('individualName', 'fra', get_charstring('individualname', contact, 'en', 'fr')) }}
   {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
   {{ cs.get_freetext('positionName', 'fra', get_charstring('positionname', contact, 'en', 'fr')) }}
@@ -42,6 +42,9 @@
           <gmd:protocol>
             <gco:CharacterString>WWW:LINK</gco:CharacterString>
           </gmd:protocol>
+          <gmd:function>
+            <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information" codeSpace="ISOTC211/19115">information</gmd:CI_OnLineFunctionCode>
+          </gmd:function>
         </gmd:CI_OnlineResource>
       </gmd:onlineResource>
       {{ cs.get_freetext('hoursOfService', 'fra', get_charstring('hoursofservice', contact, 'en', 'fr')) }}

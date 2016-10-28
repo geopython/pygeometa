@@ -328,7 +328,7 @@
       <gmd:language gco:nilReason="{{ record['identification']['language'] }}"/>
       {% else %}
       <gmd:language>
-        <gco:CharacterString>{{ record['identification']['language'] }}</gco:CharacterString>
+        <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeSpace="ISO 639-2" codeListValue="{{ record['identification']['language'] }}">{{ record['identification']['language'] }}</gmd:LanguageCode>
       </gmd:language>
       {% endif %}
       <gmd:characterSet>
