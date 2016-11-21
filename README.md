@@ -79,9 +79,9 @@ python setup.py install
 
 ```bash
 generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139  # to stdout
-generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139 --output some_file.xml  # to file
+generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139 --output=some_file.xml  # to file
 # to use your own defined schema:
-generate_metadata.py --mcf=path/to/file.mcf --schema_local=/path/to/my-schema --output some_file.xml  # to file
+generate_metadata.py --mcf=path/to/file.mcf --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
 
 ### Supported schemas
