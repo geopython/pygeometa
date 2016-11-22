@@ -159,6 +159,7 @@
           {% endif %}
           {% endfor %}
           <gmd:citedResponsibleParty>
+            {% set role = 'citedResponsibleParty-pointOfContact' %}
             {% include "contact.j2" %}
           </gmd:citedResponsibleParty>
         </gmd:CI_Citation>
