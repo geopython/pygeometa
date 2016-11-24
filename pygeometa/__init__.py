@@ -177,8 +177,7 @@ def read_mcf(mcf):
         mcf_dict = c.__dict__['_sections']
         for section in mcf_dict.keys():
             if 'base_mcf' in mcf_dict[section]:
-                base_mcf_path = get_abspath(mcf,
-                                            mcf_dict[section]['base_mcf'])
+                base_mcf_path = get_abspath(mcf, mcf_dict[section]['base_mcf'])
                 makelist(base_mcf_path)
                 mcf_list.append(mcf2)
             else:  # leaf
@@ -186,12 +185,22 @@ def read_mcf(mcf):
 
     makelist(mcf)
 
-    c = ConfigParser()
-
     for mcf_file in mcf_list:
-        LOGGER.debug('reading {}'.format(mcf))
+        LOGGER.debug('reading {}'.format(mcf_file))
         c = __to_configparser(mcf_file)
-        mcf_dict.update(c.__dict__['_sections'])
+        c_dict = c.__dict__['_sections']
+
+        for section in c_dict.keys():
+            if section not in mcf_dict:  # add the whole section
+                LOGGER.debug('section {} does not exist. Adding'.format(
+                             section))
+                mcf_dict[section] = c_dict[section]
+            else:
+                LOGGER.debug('section {} exists. Adding options'.format(
+                             section))
+                for key, value in c_dict[section].items():
+                    mcf_dict[section][key] = value
+
     return mcf_dict
 
 
