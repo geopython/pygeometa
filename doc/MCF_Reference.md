@@ -170,7 +170,7 @@ format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 ### Keyword Substitution
 
 pygeometa supports using the following keyword substitutions:
-* $year$, which is substituted for the current year with the YYYY format, example: 2016
-* $date$, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
+* `$year$`, which is substituted for the current year with the YYYY format, example: 2016
+* `$date$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
 
 The substitutions occur when pygeometa is ran for the MCF file with those keywords.
