@@ -13,7 +13,7 @@
   * [Contact:*](#contact&#58;*)
   * [Distribution:*](#distribution&#58;*)
 * [Tips](#tips)
-  * [Keyword Substitution with Subversion](#keyword-substitution-with-subversion)
+  * [Keyword Substitution](#keyword-substitution)
 
 ## Basic Concepts
 
@@ -70,7 +70,7 @@ language|Mandatory|primary language used for documenting metadata, the metadata 
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
-datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $Date$ variable to have this value updated at every Subversion commit |2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
+datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Mandatory|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
 ### `[spatial]`
@@ -105,8 +105,8 @@ publication_date|Optional*|'publication' reference date for the cited resource, 
 revision_date|Optional*|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
-rights_en|Mandatory|Information about rights held in and over the resource (English). The $Date$ variable instead of yearvalue to update to current year at Subversion commit time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-rights_fr|Mandatory|Information about rights held in and over the resource (French). The $Date$ variable instead of yearvalue to update to current year at Subversion commit time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
+rights_en|Mandatory|Information about rights held in and over the resource (English). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
+rights_fr|Mandatory|Information about rights held in and over the resource (French). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_en|Optional|English URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_fr|Optional|French URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
@@ -167,11 +167,10 @@ format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 
 ## Tips
 
-### Keyword Substitution with Subversion
+### Keyword Substitution
 
-Users storing MCF files in Subversion can leverage [keyword substitution](http://svnbook.red-bean.com/en/1.7/svn.advanced.props.special.keywords.html) in MCF files for values such as $Date$. 
+pygeometa supports using the following keyword substitutions:
+* $year$, which is substituted for the current year with the YYYY format, example: 2016
+* $date$, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
 
-Subversion files need to have keyword substitution enabled. Example, run the following command once per new MCF file to enable the $Date$ keyword substitution on sample.mcf:
-```bash
-svn propset svn:keywords "Date" sample.mcf
-```
+The substitutions occur when pygeometa is ran for the MCF file with those keywords.
