@@ -1,4 +1,4 @@
-<gmd:CI_ResponsibleParty id="contact-{{ role }}">
+<gmd:CI_ResponsibleParty>
   {{ cs.get_freetext('individualName', 'fra', get_charstring('individualname', contact, 'en', 'fr')) }}
   {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
   {{ cs.get_freetext('positionName', 'fra', get_charstring('positionname', contact, 'en', 'fr')) }}
@@ -52,6 +52,6 @@
     </gmd:CI_Contact>
   </gmd:contactInfo>
   <gmd:role>
-    <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeSpace="ISOTC211/19115" codeListValue="{{ role }}">{{ role }}</gmd:CI_RoleCode>
+    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="{{ role_codelist_value }}">{{ role}}</gmd:CI_RoleCode>
   </gmd:role>
 </gmd:CI_ResponsibleParty>

@@ -20,6 +20,7 @@
   </gmd:hierarchyLevel>
   {% set contact = record['contact:main'] %}
   {% set role = 'pointOfContact' %}
+  {% set role_codelist_value = 'RI_29' %}
   <gmd:contact>
   {% include "contact.j2" %}
   </gmd:contact>
@@ -35,7 +36,7 @@
     <gco:CharacterString>North American Profile of ISO19115:2003 - Geographic information - Metadata</gco:CharacterString>
     <gmd:PT_FreeText>
       <gmd:textGroup>
-        <gmd:LocalisedCharacterString locale="#fra">Profil nord-américain de la norme ISO 19115:2003 - Information géographique - Métadonnées</gmd:LocalisedCharacterString>
+        <gmd:LocalisedCharacterString locale="#locale-fra">Profil nord-américain de la norme ISO 19115:2003 - Information géographique - Métadonnées</gmd:LocalisedCharacterString>
       </gmd:textGroup>
     </gmd:PT_FreeText>
   </gmd:metadataStandardName>
@@ -46,7 +47,7 @@
     <gco:CharacterString>{{ record['metadata']['dataseturi'] }}</gco:CharacterString>
   </gmd:dataSetURI>
   <gmd:locale>
-    <gmd:PT_Locale id="fra">
+    <gmd:PT_Locale id="locale-fra">
       <gmd:languageCode>
         <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeSpace="ISO 639-2" codeListValue="fra">French</gmd:LanguageCode>
       </gmd:languageCode>
@@ -84,7 +85,7 @@
                 <gco:CharacterString>European Petroleum Survey Group (EPSG) Geodetic Parameter Registry</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#fra">Registre des paramètres géodésiques du European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">Registre des paramètres géodésiques du European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:title>
@@ -104,7 +105,7 @@
                     <gco:CharacterString>European Petroleum Survey Group</gco:CharacterString>
                     <gmd:PT_FreeText>
                       <gmd:textGroup>
-                        <gmd:LocalisedCharacterString locale="#fra">European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
+                        <gmd:LocalisedCharacterString locale="#locale-fra">European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
                       </gmd:textGroup>
                     </gmd:PT_FreeText>
                   </gmd:organisationName>
@@ -164,7 +165,8 @@
           {% endif %}
           {% endfor %}
           <gmd:citedResponsibleParty>
-            {% set role = 'citedResponsibleParty-pointOfContact' %}
+            {% set role = 'pointOfContact' %}
+            {% set role_codelist_value = 'RI_29' %}
             {% include "contact.j2" %}
           </gmd:citedResponsibleParty>
         </gmd:CI_Citation>
@@ -217,7 +219,7 @@
                 <gco:CharacterString>Government of Canada Core Subject Thesaurus</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#fra">Thésaurus des sujets de base du gouvernement du Canada</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">Thésaurus des sujets de base du gouvernement du Canada</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:title>
@@ -237,7 +239,7 @@
                     <gco:CharacterString>Government of Canada; Library and Archives Canada</gco:CharacterString>
                     <gmd:PT_FreeText>
                       <gmd:textGroup>
-                        <gmd:LocalisedCharacterString locale="#fra">Gouvernement du Canada; Bibliothèque et Archives Canada</gmd:LocalisedCharacterString>
+                        <gmd:LocalisedCharacterString locale="#locale-fra">Gouvernement du Canada; Bibliothèque et Archives Canada</gmd:LocalisedCharacterString>
                       </gmd:textGroup>
                     </gmd:PT_FreeText>
                   </gmd:organisationName>
@@ -435,6 +437,7 @@
             {% set contact = record['contact:distribution'] %}
           {% endif %}
           {% set role = 'distributor' %}
+          {% set role_codelist_value = 'RI_412' %}
           {% include "contact.j2" %}
           </gmd:distributorContact>
         </gmd:MD_Distributor>
@@ -456,7 +459,7 @@
                 <gco:CharacterString>{{ v['hnap_contenttype_en'] }};{{ v['format_en'] }};eng</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#fra">{{ v['hnap_contenttype_fr'] }};{{ v['format_fr'] }};fra</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">{{ v['hnap_contenttype_fr'] }};{{ v['format_fr'] }};fra</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:description>
