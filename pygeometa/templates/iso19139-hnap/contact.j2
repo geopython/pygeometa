@@ -31,7 +31,14 @@
             <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
           </gmd:postalCode>
           {{ cs.get_freetext('country', 'fra', get_charstring('country', contact, 'en', 'fr')) }}
-          {{ cs.get_freetext('electronicMailAddress', 'fra', get_charstring('email', contact, 'en', 'fr')) }}
+          <gmd:electronicMailAddress xsi:type="gmd:PT_FreeText_PropertyType">
+            <gco:CharacterString>{{ contact['email'] }}</gco:CharacterString>
+            <gmd:PT_FreeText>
+              <gmd:textGroup>
+                <gmd:LocalisedCharacterString locale="#locale-fra">{{ contact['email'] }}</gmd:LocalisedCharacterString>
+              </gmd:textGroup>
+            </gmd:PT_FreeText>
+          </gmd:electronicMailAddress>
         </gmd:CI_Address>
       </gmd:address>
       <gmd:onlineResource>
