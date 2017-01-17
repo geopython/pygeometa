@@ -49,7 +49,7 @@
   <gmd:locale>
     <gmd:PT_Locale id="locale-fra">
       <gmd:languageCode>
-        <gco:CharacterString>fra; CAN</gco:CharacterString>
+        <gmd:LanguageCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_116" codeListValue="fra">French; Français</gmd:LanguageCode>
       </gmd:languageCode>
       <gmd:country>
         <gmd:Country codeList="https://www.iso.org/obp/ui/#search/code/" codeSpace="ISO 3166-1 alpha 3" codeListValue="CAN">Canada</gmd:Country>
@@ -270,8 +270,13 @@
           </gmd:type>
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.theme.EC_Information_Category">
-              <gmd:title>
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
                 <gco:CharacterString>local.theme.EC_Information_Category</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">local.theme.EC_Information_Category</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
               </gmd:title>
               <gmd:date>
                 <gmd:CI_Date>
@@ -305,8 +310,13 @@
           </gmd:type>
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.place.EC_Geographic_Scope">
-              <gmd:title>
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
                 <gco:CharacterString>local.place.EC_Geographic_Scope</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">local.place.EC_Geographic_Scope</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
               </gmd:title>
               <gmd:date>
                 <gmd:CI_Date>
@@ -328,6 +338,14 @@
                   </gmd:dateType>
                 </gmd:CI_Date>
               </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
         </gmd:MD_Keywords>
@@ -340,8 +358,13 @@
           </gmd:type>
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.theme.EC_Content_Scope">
-              <gmd:title>
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
                 <gco:CharacterString>local.theme.EC_Content_Scope</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">local.theme.EC_Content_Scope</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
               </gmd:title>
               <gmd:date>
                 <gmd:CI_Date>
@@ -363,6 +386,14 @@
                   </gmd:dateType>
                 </gmd:CI_Date>
               </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
         </gmd:MD_Keywords>
