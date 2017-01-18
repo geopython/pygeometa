@@ -33,7 +33,7 @@
     {% endif %}
   </gmd:dateStamp>
   <gmd:metadataStandardName xsi:type="gmd:PT_FreeText_PropertyType">
-    <gco:CharacterString>North American Profile of ISO19115:2003 - Geographic information - Metadata</gco:CharacterString>
+    <gco:CharacterString>North American Profile of ISO 19115:2003 - Geographic information - Metadata</gco:CharacterString>
     <gmd:PT_FreeText>
       <gmd:textGroup>
         <gmd:LocalisedCharacterString locale="#locale-fra">Profil nord-américain de la norme ISO 19115:2003 - Information géographique - Métadonnées</gmd:LocalisedCharacterString>
@@ -298,6 +298,14 @@
                   </gmd:dateType>
                 </gmd:CI_Date>
               </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
         </gmd:MD_Keywords>
