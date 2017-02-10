@@ -18,7 +18,7 @@
   <gmd:hierarchyLevel>
     <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['hierarchylevel'] }}">{{ record['metadata']['hierarchylevel'] }}</gmd:MD_ScopeCode>
   </gmd:hierarchyLevel>
-  {% set contact = record['contact:main'] %}
+  {% set contact = record['contact']['main'] %}
   {% set role = 'pointOfContact; contact' %}
   {% set role_codelist_value = 'RI_414' %}
   <gmd:contact>
@@ -145,16 +145,15 @@
       <gmd:citation>
         <gmd:CI_Citation>
           {{ cs.get_freetext('title', 'fra', get_charstring('title', record['identification'], 'en', 'fr')) }}
-          {% for date_type in ['creation', 'publication', 'revision'] %}
-          {% set date_parameter = '%s_date' % date_type %}
-          {% if record['identification'][date_parameter] %}
+          {% for date_type, date in record['identification']['dates'].items() %}
+          {% set datestamp = date|normalize_datestring %}
           <gmd:date>
             <gmd:CI_Date>
               <gmd:date>
-                {% if record['identification'][date_parameter]|length > 11 %}
-                <gco:DateTime>{{ record['identification'][date_parameter] }}</gco:DateTime>
+                {% if datestamp|length > 11 %}
+                <gco:DateTime>{{ datestamp }}</gco:DateTime>
                 {% else %}
-                <gco:Date>{{ record['identification'][date_parameter] }}</gco:Date>
+                <gco:Date>{{ datestamp }}</gco:Date>
                 {% endif %}
               </gmd:date>
               <gmd:dateType>
@@ -162,7 +161,6 @@
               </gmd:dateType>
             </gmd:CI_Date>
           </gmd:date>
-          {% endif %}
           {% endfor %}
           <gmd:citedResponsibleParty>
             {% set role = 'pointOfContact; contact' %}
@@ -191,28 +189,28 @@
         </gmd:MD_BrowseGraphic>
       </gmd:graphicOverview>
       {% endif %}
-      {% if record['identification']['keywords_en'] and record['identification']['keywords_fr']%}
+      {% for key, value in record['identification']['keywords'].items() %}
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-          {% set keywords = get_charstring('keywords', record['identification'], 'en', 'fr') %}
-          {% for kw1, kw2 in zip(keywords[0].split(','), keywords[1].split(',')) %}
-          {{ cs.get_freetext('keyword', 'fra', [kw1, kw2]) }}
+        {% set keywords = get_charstring('keywords', value, record['metadata']['language'], record['metadata']['language_alternate']) %}
+        {% if keywords[1] is none %}
+          {# No language_alternate is specified #}
+          {% for kw1 in keywords[0] %}
+          {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1]) }}
           {% endfor %}
-          <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
-          </gmd:type>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
-      {% endif %}
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          {% set keywords = get_charstring('keywords_gc_cst', record['identification'], 'en', 'fr') %}
-          {% for kw1, kw2 in zip(keywords[0].split(','), keywords[1].split(',')) %}
-          {{ cs.get_freetext('keyword', 'fra', [kw1, kw2]) }}
+        {% else %}
+          {% for kw1, kw2 in zip(keywords[0], keywords[1]) %}
+          {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1, kw2]) }}
           {% endfor %}
+        {% endif %}
           <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
+            {% set keywords_codelist = 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode' %}
+            {% if value['keywords_codelist'] %}
+            {% set keywords_codelist = value['keywords_codelist'] %}
+            {% endif %}
+            <gmd:MD_KeywordTypeCode codeList="{{ keywords_codelist }}" codeSpace="ISOTC211/19115" codeListValue="{{ value['keywords_type'] }}">{{ value['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
+          {% if key == 'gc_cst' %}
           <gmd:thesaurusName>
             <gmd:CI_Citation>
               <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
@@ -260,14 +258,7 @@
               </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_information', record['identification'], 'en', 'fr')) }}
-          <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="theme"/>
-          </gmd:type>
+          {% elif key == 'hnap_category_information' %}
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.theme.EC_Information_Category">
               <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
@@ -308,14 +299,7 @@
               </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_geography', record['identification'], 'en', 'fr')) }}
-          <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="place"/>
-          </gmd:type>
+          {% elif key == 'hnap_category_geography' %}
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.place.EC_Geographic_Scope">
               <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
@@ -356,14 +340,7 @@
               </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          {{ cs.get_freetext('keyword', 'fra', get_charstring('hnap_category_content', record['identification'], 'en', 'fr')) }}
-          <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_101" codeListValue="theme"/>
-          </gmd:type>
+          {% elif key == 'hnap_category_content' %}
           <gmd:thesaurusName>
             <gmd:CI_Citation id="local.theme.EC_Content_Scope">
               <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
@@ -404,8 +381,10 @@
               </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
+          {% endif %}
         </gmd:MD_Keywords>
       </gmd:descriptiveKeywords>
+      {% endfor %}
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
           {% set uselim = get_charstring('rights', record['identification'], 'en', 'fr') %}
@@ -448,7 +427,7 @@
                     <gml:LinearRing>
                       <gml:posList srsName="{{ record['spatial']['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>
                     </gml:LinearRing>
-                  <gml:exterior>
+                  </gml:exterior>
                 </gml:Polygon>
               </gmd:polygon>
             </gmd:EX_BoundingPolygon>
@@ -510,11 +489,7 @@
       <gmd:distributor>
         <gmd:MD_Distributor>
           <gmd:distributorContact>
-          {% if record['contact:distribution']['ref'] and record['contact:distribution']['ref'] in record and record['contact:distribution']['ref'].startswith('contact:') %}
-            {% set contact = record[record['contact:distribution']['ref']] %}
-          {% else %}
-            {% set contact = record['contact:distribution'] %}
-          {% endif %}
+          {% set contact = record['contact']['distribution'] %}
           {% set role = 'distributor' %}
           {% set role_codelist_value = 'RI_412' %}
           {% include "contact.j2" %}
@@ -523,8 +498,7 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% for k, v in record.items() %}
-          {% if k.startswith('distribution:') %}
+        {% for k, v in record['distribution'].items() %}
           <gmd:onLine xlink:role="urn:xml:lang:{{ k|get_distribution_language }}">
             <gmd:CI_OnlineResource>
               <gmd:linkage>
@@ -547,7 +521,6 @@
               </gmd:function>
             </gmd:CI_OnlineResource>
           </gmd:onLine>
-          {% endif %}
         {% endfor %}
         </gmd:MD_DigitalTransferOptions>
       </gmd:transferOptions>

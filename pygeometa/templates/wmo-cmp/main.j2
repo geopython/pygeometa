@@ -18,7 +18,7 @@
   <gmd:hierarchyLevel>
     <gmd:MD_ScopeCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['hierarchylevel'] }}">{{ record['metadata']['hierarchylevel'] }}</gmd:MD_ScopeCode>
   </gmd:hierarchyLevel>
-  {% set contact = record['contact:main'] %}
+  {% set contact = record['contact']['main'] %}
   {% set role = 'pointOfContact' %}
   <gmd:contact>
   {% include "contact.j2" %}
@@ -125,16 +125,15 @@
       <gmd:citation>
         <gmd:CI_Citation>
           {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('title', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
-          {% for date_type in ['creation', 'publication', 'revision'] %}
-          {% set date_parameter = '%s_date' % date_type %}
-          {% if record['identification'][date_parameter] %}
+          {% for date_type, date in record['identification']['dates'].items() %}
+          {% set datestamp = date|normalize_datestring %}
           <gmd:date>
             <gmd:CI_Date>
               <gmd:date>
-                {% if record['identification'][date_parameter]|length > 11 %}
-                <gco:DateTime>{{ record['identification'][date_parameter] }}</gco:DateTime>
+                {% if datestamp|length > 11 %}
+                <gco:DateTime>{{ datestamp }}</gco:DateTime>
                 {% else %}
-                <gco:Date>{{ record['identification'][date_parameter] }}</gco:Date>
+                <gco:Date>{{ datestamp }}</gco:Date>
                 {% endif %}
               </gmd:date>
               <gmd:dateType>
@@ -142,7 +141,6 @@
               </gmd:dateType>
             </gmd:CI_Date>
           </gmd:date>
-          {% endif %}
           {% endfor %}
           <gmd:identifier>
             <gmd:MD_Identifier>
@@ -175,32 +173,28 @@
         </gmd:MD_BrowseGraphic>
       </gmd:graphicOverview>
       {% endif %}
+      {% for key, value in record['identification']['keywords'].items() %} 
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-        {% set keywords = get_charstring('keywords', record['identification'], record['metadata']['language'], record['metadata']['language_alternate']) %}
+        {% set keywords = get_charstring('keywords', value, record['metadata']['language'], record['metadata']['language_alternate']) %}
         {% if keywords[1] is none %}
           {# No language_alternate is specified #}
-          {% for kw1 in keywords[0].split(',') %}
+          {% for kw1 in keywords[0] %}
           {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1]) }}
           {% endfor %}
         {% else %}
-          {% for kw1, kw2 in zip(keywords[0].split(','), keywords[1].split(',')) %}
+          {% for kw1, kw2 in zip(keywords[0], keywords[1]) %}
           {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1, kw2]) }}
           {% endfor %}
         {% endif %}
           <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
+            {% set keywords_codelist = 'http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode' %}
+            {% if value['keywords_codelist'] %}
+            {% set keywords_codelist = value['keywords_codelist'] %}
+            {% endif %}
+            <gmd:MD_KeywordTypeCode codeList="{{ keywords_codelist }}" codeSpace="ISOTC211/19115" codeListValue="{{ value['keywords_type'] }}">{{ value['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          {% for kw in record['identification']['keywords_wmo'].split(',') %}
-          {{ cs.get_freetext('keyword', None, [kw]) }}
-          {% endfor %}
-          <gmd:type>
-            <gmd:MD_KeywordTypeCode codeList="http://wis.wmo.int/2012/codelists/WMOCodeLists.xml#WMO_CategoryCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['keywords_type'] }}">{{ record['identification']['keywords_type'] }}</gmd:MD_KeywordTypeCode>
-          </gmd:type>
+          {% if key == 'wmo' %}
           <gmd:thesaurusName>
             <gmd:CI_Citation>
               <gmd:title>
@@ -218,8 +212,10 @@
               </gmd:date>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
+          {% endif %}
         </gmd:MD_Keywords>
       </gmd:descriptiveKeywords>
+      {% endfor %}
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
           <gmd:accessConstraints>
@@ -269,7 +265,7 @@
                     <gml:LinearRing>
                       <gml:posList srsName="{{ record['spatial']['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>
                     </gml:LinearRing>
-                  <gml:exterior>
+                  </gml:exterior>
                 </gml:Polygon>
               </gmd:polygon>
             </gmd:EX_BoundingPolygon>
@@ -329,11 +325,7 @@
       <gmd:distributor>
         <gmd:MD_Distributor>
           <gmd:distributorContact>
-          {% if record['contact:distribution']['ref'] and record['contact:distribution']['ref'] in record and record['contact:distribution']['ref'].startswith('contact:') %}
-            {% set contact = record[record['contact:distribution']['ref']] %}
-          {% else %}
-            {% set contact = record['contact:distribution'] %}
-          {% endif %}
+          {% set contact = record['contact']['distribution'] %} 
           {% set role = 'distributor' %}
           {% include "contact.j2" %}
           </gmd:distributorContact>
@@ -341,8 +333,7 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% for k, v in record.items() %}
-          {% if k.startswith('distribution:') %}
+          {% for k, v in record['distribution'].items() %} 
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
@@ -358,7 +349,6 @@
               </gmd:function>
             </gmd:CI_OnlineResource>
           </gmd:onLine>
-          {% endif %}
         {% endfor %}
         </gmd:MD_DigitalTransferOptions>
       </gmd:transferOptions>

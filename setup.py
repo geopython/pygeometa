@@ -19,6 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
+# Copyright (c) 2017 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -67,7 +68,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets
 try:
     import pypandoc
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
-except(IOError, ImportError):
+except(IOError, ImportError, OSError):
     with open('README.md') as f:
         LONG_DESCRIPTION = f.read()
 
@@ -172,7 +173,7 @@ setup(
     package_data=find_packages_templates('pygeometa'),
     entry_points={
         'console_scripts': [
-            'generate_metadata.py=pygeometa:cli'
+            'pygeometa=pygeometa:cli'
         ]
     },
     classifiers=[
