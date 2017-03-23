@@ -3,32 +3,36 @@
 ## Table of Contents
 * [Basic Concepts](#basic-concepts)
 * [Encoding](#encoding)
-* [Nesting MCF Files](#nesting-mcf-files)
+* [Nesting MCFs](#nesting-mcfs)
 * [Sections](#sections)
-  * [Metadata](#metadata)
-  * [Spatial](#spatial)
-  * [Identification](#identification)
-  * [Contact:main](#contact&#58;main)
-  * [Contact:distribution](#contact&#58;distribution)
-  * [Contact:*](#contact&#58;*)
-  * [Distribution:*](#distribution&#58;*)
+  * [metadata](#metadata)
+  * [spatial](#spatial)
+  * [identification](#identification)
+  * [identification.keywords](#identification)
+  * [contact](#contact)
+  * [contact.distribution](#contact.distribution)
+  * [contact](#contact)
+  * [distribution](#distribution)
 * [Tips](#tips)
   * [Keyword Substitution](#keyword-substitution)
 
 ## Basic Concepts
 
-* Sections are case insensitive
-* Section parameters are case insensitive
+* Sections are case sensitive
+* Section parameters are case sensitive
 * Section parameter values are case sensitive
+* YAML [rules, conventions and features](https://en.wikipedia.org/wiki/YAML) are suppported, such as:
+ * node anchors / references
+ * data typing
 * If an optional section is specified, then its child parameters' cardinality are enforced
 * Filename conventions are up to the user. However, below are some suggestions:
- * use ``.mcf`` as file extension
- * name the MCF file basename the same as the dataset (e.g. ``foo.shp``, ``foo.mcf``)
-* To add a comment in an MCF file, a line that begins with a hash tag (``#``) will be ignored
+ * use `.yml` as file extension
+ * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
+* To add a comment in a MCF, a line that begins with a hash tag (`#`) will be ignored
 
 ## Encoding
 
-The MCF must be utf8 encoding.
+The MCF **must** be utf8 encoding.
 
 Is your MCF Encoded as UTF8?
 
@@ -41,27 +45,33 @@ Is your MCF Encoded as UTF8?
 file --mime-encoding file.txt
 file -i file.txt
 # to convert from one encoding to another
-iconv -f iso8859-1 -t utf-8 file.mcf > file.mcf.new
+iconv -f iso8859-1 -t utf-8 file.yml > file.yml.new
 ```
 
-## Nesting MCF files
+## Nesting MCFs
 
-In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF files together. pygeometa allows chaining MCF files to inherit values from other MCF files. Example: multiple datasets MCF files can refer a single MCF file that contain contact information common to all those datasets.
+In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF together. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
 
-To use MCF file nesting:
-* At the top of any section of an MCF file add ``base_mcf=foo.mcf``
+To use MCF nesting:
+* At the top of any section of a MCF add `base_mcf=foo.yml`
 * Specify the corresponding section the base_mcf file
 
-Notes about nesting MCF files: 
-* You can refer to one ``base_mcf`` per section of a MCF file
-* The base_mcf file must be in the same folder than the current MCF file
+Notes about nesting MCFs: 
+* You can refer to one `base_mcf` per section of a MCF
+* The base_mcf file must be in the same folder than the current MCF
 * Multiple sections can refer to the same base_mcf file
-* When a parameter is defined in both the base_mcf file and the current MCF file, it's always the current MCF file that overwrites the base_mcf file
-* MCF files can be nested in chains, meaning a MCF file can be use a 'child' MCF file and be used by a 'parent' MCF file
+* When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
+* MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
 ## Sections
 
-### `[metadata]`
+### 'mcf'
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+version|Mandatory|version of MCF format|1.0|pygeometa
+
+### `metadata`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -73,7 +83,7 @@ hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'se
 datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Mandatory|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
-### `[spatial]`
+### `spatial`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -82,8 +92,7 @@ geomtype|Mandatory|name of point or vector objects used to locate zero-, one-, t
 crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 B.2.7.3
 bbox|Mandatory|geographic position of the dataset, formatted as 'minx,miny,maxx,maxy'|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
 
-
-### `[identification]`
+### `identification`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -94,11 +103,6 @@ title_en|Mandatory|name by which the cited resource is known (English)|Important
 title_fr|Mandatory|name by which the cited resource is known (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.1
 abstract_en|Mandatory|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 abstract_fr|Mandatory|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-keywords_gc_cst_en|Optional|category keywords (English), HNAP requires a minimum of 1 keyword from the GoC Core Subject Thesaurus|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_gc_cst_fr|Optional|category keywords (French), HNAP requires a minimum of 1 keyword from the GoC Core Subject Thesaurus|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_en|Mandatory|category keywords (English), becomes Optional if keywords_gc_cst_en is provided|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_fr|Mandatory|category keywords (French), becomes Optional if keywords_gc_cst_fr is provided|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 creation_date|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 publication_date|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
@@ -116,10 +120,57 @@ status|Mandatory|"the status of the resource(s) (must be one of 'planned','histo
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
+### `identificaton.keywords`
 
-### `[contact:main]`
+MCF `identification` sections can be 1..n `keywords` sections as required using nesting.  Example:
 
-The `[contact:main]` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).
+```yaml
+identification:
+    ...
+    keywords:
+        default:
+            keywords_en: [foo1, bar1]
+            keywords_fr: [foo2, bar2]
+            keywords_type: theme
+        wmo:
+            keywords_en: [foo3, bar3]
+            keywords_fr: [foo4, bar4]
+            keywords_type: theme
+            keywords_codelist: http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
+```
+
+Schema specific keywords sections
+
+* `wmo`: World Meteorological Organization keywords (used for WMO Core Metadata Profile)
+* `gc_cst`: Government of Canada Core Subject Thesaurus (used for HNAP)
+* `hnap_category_information`: HNAP
+* `hnap_category_geography`: HNAP
+* `hnap_category_content`: HNAP
+
+Within each `keywords` section, the following elements are supported:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+keywords_en|Mandatory|category keywords (English)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_fr|Mandatory|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
+keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+
+### `contact`
+
+MCFs can have 1..n `contact` sections as required using nesting.  Example:
+
+```yaml
+contact:
+    main:
+        ....
+    distribution:
+        ....
+```
+
+The `contact.main` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.
+
+Within each `contact` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -140,16 +191,34 @@ email|Mandatory|address of the electronic mailbox of the responsible organizatio
 hoursofservice|Optional|time period (including time zone) when individuals can contact the organization or individual|0700h - 1500h EST|ISO 19115:2003 Section B.3.2.3
 contactinstructions|Optional|supplementalinstructions on how or when to contact the individual or organization|contact during working business hours|ISO 19115:2003 Section B.3.2.3
 
-### `[contact:distribution]`
+### `contact.distribution`
 
-The `[contact:distribution]` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `[contact:main]`.
+The `contact.distribution` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `contact.main`.
 
-If contact information is the same for both, specify only `ref=contact:main` to have it provided in both sections in the metadata.
+If contact information is the same for both, use YAML node anchors and references to have it provided in both sections in the metadata:
+
+```yaml
+contact:
+    main: &id_contact_main
+        ...
+
+    distribution: *id_contact_main
+```
 
 
-### `[distribution:*]`
+### `distribution`
 
-MCF files can have 1..n `[distribution:*]` sections as required (e.g. `[distribution:wms]`, `[distribution:waf]`, etc.).
+MCFs can have 1..n `distribution` sections as required using nesting.  Example:
+
+```yaml
+distribution:
+    wms:
+        ....
+    waf:
+        ....
+```
+
+Within each `distribution` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -173,4 +242,4 @@ pygeometa supports using the following keyword substitutions:
 * `$year$`, which is substituted for the current year with the YYYY format, example: 2016
 * `$date$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
 
-The substitutions occur when pygeometa is ran for the MCF file with those keywords.
+The substitutions occur when pygeometa is ran for the MCF with those keywords.

@@ -15,9 +15,11 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 * [Running](#running)
   * [From the command line](#from-the-command-line)
   * [Using the API from Python](#using-the-api-from-python)
+* [Migration](#migration)
+  * [Migrating old MCFs to YAML](#migrating-old-mcfs-to-yaml)
 * [Development](#development)
   * [Setting up a Development Environment](#setting-up-a-development-environment)
-  * [Adding Another Metadata Schema to the Core](#adding-another-metadata-schema-to-the-core)
+  * [Adding a Metadata Schema to the Core](#adding-a-metadata-schema-to-the-core)
   * [Running Tests](#running-tests)
   * [Code Conventions](#code-conventions)
   * [Bugs and Issues](#bugs-and-issues)
@@ -27,7 +29,7 @@ pygeometa is a Python package to generate metadata for geospatial datasets.
 
 ## Overview
 
-pygeometa is a Python package to generate metadata for geospatial datasets. Metadata content is managed by pygeometa in simple Metadata Control Files (MCF) which consist of 'parameter = value' pairs. pygeometa generates metadata records from MCF files based on the schema specified by the user, such as ISO-19139. pygeometa supports nesting MCF files, which reduces duplication of metadata content common to multiple records and ease maintenance.
+pygeometa is a Python package to generate metadata for geospatial datasets. Metadata content is managed by pygeometa in simple Metadata Control Files (MCF) which consist of 'parameter = value' pairs. pygeometa generates metadata records from MCFs based on the schema specified by the user, such as ISO-19139. pygeometa supports nesting MCFs, which reduces duplication of metadata content common to multiple records and ease maintenance.
 
 ## Features
 
@@ -40,11 +42,11 @@ pygeometa is a Python package to generate metadata for geospatial datasets. Meta
 Workflow to generate metadata XML:
 
 1. Install pygeometa
-2. Create a 'metadata control file' .mcf file that contains metadata information 
-  1. Modify the [sample.mcf](https://github.com/geopython/pygeometa/blob/master/sample.mcf) example
-  2. pygeometa supports nesting MCF files together, allowing providing a single MCF file for common metadata parameters (e.g. common contact information)
+2. Create a 'metadata control file' .yml file that contains metadata information 
+  1. Modify the [sample.yml](https://github.com/geopython/pygeometa/blob/master/sample.yml) example
+  2. pygeometa supports nesting MCFs together, allowing providing a single MCF for common metadata parameters (e.g. common contact information)
   3. Refer to the [Metadata Control File Reference documentation](https://github.com/geopython/pygeometa/blob/master/doc/MCF_Reference.md) 
-3. Run pygeometa for the .mcf file with a specified target metadata schema
+3. Run pygeometa for the .yml file with a specified target metadata schema
 
 
 
@@ -78,10 +80,10 @@ python setup.py install
 ### From the command line
 
 ```bash
-generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139  # to stdout
-generate_metadata.py --mcf=path/to/file.mcf --schema=iso19139 --output=some_file.xml  # to file
+pygeometa generate_metadata --mcf=path/to/file.yml --schema=iso19139  # to stdout
+pygeometa generate_metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml  # to file
 # to use your own defined schema:
-generate_metadata.py --mcf=path/to/file.mcf --schema_local=/path/to/my-schema --output=some_file.xml  # to file
+pygeometa generate_metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
 
 ### Supported schemas
@@ -94,20 +96,30 @@ Schemas supported by pygeometa:
 ### Using the API from Python
 
 ```python
-from pygeometa import render_template
+from pygeometa.core import render_template
 # default schema
-xml_string = render_template('/path/to/file.mcf', schema='iso19139')
+xml_string = render_template('/path/to/file.yml', schema='iso19139')
 # user-defined schema
-xml_string = render_template('/path/to/file.mcf', schema_local='/path/to/new-schema')
+xml_string = render_template('/path/to/file.yml', schema_local='/path/to/new-schema')
 with open('output.xml', 'w') as ff:
     ff.write(xml_string)
 # render from an MCF stored in a string
 mcf_string = '...'  # some string
 xml_string = render_template_string(mcf_string, schema='iso19139')
 # render from an MCF as a ConfigParser object
-from pygeometa import render_template
 mcf_cp = '...'  # some ConfigParser object
 xml_string = render_template_string(mcf_cp, schema='iso19139')
+```
+
+## Migration
+
+### Migrating old MCFs to YAML
+
+pygeometa provides a `migrate` utility to convert legacy MCFs into YAML:
+
+```bash
+pygeometa migrate --mcf=path/to/file.mcf  # to stdout
+pygeometa migrate --mcf=path/to/file.mcf --output=some_file.yml  # to file
 ```
 
 ## Development
@@ -120,7 +132,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer require
 pip install -r requirements-dev.txt
 ```
 
-### Adding Another Metadata Schema to the Core
+### Adding a Metadata Schema to the Core
 
 List of supported metadata schemas in `pygeometa/templates/`
 
@@ -150,7 +162,7 @@ All bugs, enhancements and issues are managed on [GitHub](https://github.com/geo
 
 ## History
 
-pygeometa originated within an internal project called pygdm, which provided generic geospatial data management functions.  pygdm (now at end of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment.
+Started in 2009, pygeometa originated within an internal project called pygdm, which provided generic geospatial data management functions.  pygdm (now end of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was pulled out of pygdm to focus on the core requirement of generating geospatial metadata within a real-time environment and automated workflows.
 
 In 2015 pygeometa was made publically available in support of the Treasury Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
 

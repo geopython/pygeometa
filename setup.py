@@ -19,6 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
+# Copyright (c) 2017 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -172,7 +173,7 @@ setup(
     package_data=find_packages_templates('pygeometa'),
     entry_points={
         'console_scripts': [
-            'generate_metadata.py=pygeometa:cli'
+            'pygeometa=pygeometa:cli'
         ]
     },
     classifiers=[

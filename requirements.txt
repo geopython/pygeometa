@@ -1,3 +1,4 @@
 Click
 Jinja2
 six
+pyyaml

@@ -20,6 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
+# Copyright (c) 2017 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -47,11 +48,11 @@
 import os
 import unittest
 
-from six import StringIO, text_type
-from six.moves.configparser import ConfigParser
+from six import text_type
+import yaml
 
-from pygeometa import (read_mcf, pretty_print,
-                       render_template, get_charstring, get_supported_schemas)
+from pygeometa.core import (read_mcf, pretty_print, render_template,
+                            get_charstring, get_supported_schemas)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -74,34 +75,35 @@ class PygeometaTest(unittest.TestCase):
         pass
 
     def test_read_mcf(self):
-        """Test reading MCF files, strings or ConfigParser objects"""
+        """Test reading MCFs, strings or dict"""
 
         # test as file
         with self.assertRaises(IOError):
-            mcf = read_mcf(get_abspath('../404.mcf'))
+            mcf = read_mcf(get_abspath('../404.yml'))
 
-        mcf = read_mcf(get_abspath('../sample.mcf'))
+        mcf = read_mcf(get_abspath('../sample.yml'))
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
+        # test MCF section
+        self.assertTrue('version' in mcf['mcf'], 'Expected MCF version')
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
         # test as string
-        with open(get_abspath('../sample.mcf')) as fh:
+        with open(get_abspath('../sample.yml')) as fh:
             mcf_string = fh.read()
 
         mcf = read_mcf(mcf_string)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
-        # test as ConfigParser object
-        mcf_cp = ConfigParser()
-        mcf_cp.readfp(StringIO(mcf_string))
-        mcf = read_mcf(mcf_cp)
+        # test as dict
+        mcf_dict = yaml.load(mcf_string)
+        mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
     def test_pretty_print(self):
         """Test pretty-printing"""
 
-        xml = render_template(get_abspath('../sample.mcf'), 'iso19139')
+        xml = render_template(get_abspath('../sample.yml'), 'iso19139')
         xml2 = pretty_print(xml)
 
         self.assertIsInstance(xml2, text_type, 'Expected unicode string')
@@ -151,9 +153,9 @@ class PygeometaTest(unittest.TestCase):
         """test template rendering"""
 
         test_mcf_paths = [
-            '../sample.mcf',
-            'unilingual.mcf',
-            'nil-identification-language.mcf'
+            '../sample.yml',
+            'unilingual.yml',
+            'nil-identification-language.yml'
         ]
 
         for mcf_path in test_mcf_paths:
@@ -180,9 +182,9 @@ class PygeometaTest(unittest.TestCase):
     def test_nested_mcf(self):
         """test nested mcf support"""
 
-        mcf = read_mcf(get_abspath('child.mcf'))
+        mcf = read_mcf(get_abspath('child.yml'))
 
-        self.assertEqual(mcf['metadata']['identifier'], '1234',
+        self.assertEqual(mcf['metadata']['identifier'], 1234,
                          'Expected specific identifier')
 
         self.assertEqual(mcf['identification']['title_en'],
