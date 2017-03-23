@@ -151,11 +151,11 @@
               </gmd:code>
             </gmd:MD_Identifier>
           </gmd:identifier>
-          {{ cs.get_freetext('otherCitationDetails', record['metadata']['language_alternate'], get_charstring('organization', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('otherCitationDetails', record['metadata']['language_alternate'], get_charstring('rights', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
         </gmd:CI_Citation>
       </gmd:citation>
       {{ cs.get_freetext('abstract', record['metadata']['language_alternate'], get_charstring('abstract', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
-      {{ cs.get_freetext('credit', record['metadata']['language_alternate'], get_charstring('organization', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+      {{ cs.get_freetext('credit', record['metadata']['language_alternate'], get_charstring('rights', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
       <gmd:status>
         <gmd:MD_ProgressCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['status'] }}">{{ record['identification']['status'] }}</gmd:MD_ProgressCode>
       </gmd:status>
