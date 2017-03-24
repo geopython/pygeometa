@@ -409,9 +409,11 @@
       <gmd:characterSet>
         <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['charset'] }}">{{ record['identification']['charset'] }}</gmd:MD_CharacterSetCode>
       </gmd:characterSet>
+      {% for tc in record['identification']['topiccategory'] %}
       <gmd:topicCategory>
-        <gmd:MD_TopicCategoryCode>{{ record['identification']['topiccategory'] }}</gmd:MD_TopicCategoryCode>
+        <gmd:MD_TopicCategoryCode>{{ tc }}</gmd:MD_TopicCategoryCode>
       </gmd:topicCategory>
+      {% endfor %}
       <gmd:extent>
         {% set bbox = record['spatial']['bbox'].split(',') %}
         <gmd:EX_Extent>

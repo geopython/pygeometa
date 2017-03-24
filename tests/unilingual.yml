@@ -24,7 +24,8 @@ identification:
             keywords_type: theme
         gc_cst:
             keywords_en: [kw1,kw2]
-    topiccategory: climatologyMeteorologyAtmosphere
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
     dates:
         publication: 2000-09-01T00:00:00Z
     fees: None
