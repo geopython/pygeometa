@@ -100,6 +100,19 @@ class PygeometaTest(unittest.TestCase):
         mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
+    def test_mcf_model(self):
+        """test mcf model and types"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        self.assertIsInstance(mcf['identification']['dates'], dict,
+                              'Expected list')
+        self.assertIsInstance(mcf['identification']['keywords'], dict,
+                              'Expected dict')
+        self.assertIsInstance(mcf['identification']['topiccategory'], list,
+                              'Expected list')
+        self.assertIsInstance(mcf['contact'], dict, 'Expected dict')
+        self.assertIsInstance(mcf['distribution'], dict, 'Expected dict')
+
     def test_pretty_print(self):
         """Test pretty-printing"""
 

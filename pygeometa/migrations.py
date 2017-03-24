@@ -89,6 +89,8 @@ def configparser2yaml(cpfile):
                 if 'hnap_category_content' not in section2['keywords']:
                     section2['keywords']['hnap_category_content'] = {}
 
+            if k in ['topiccategory']:
+                section2['topiccategory'] = [v]
             if k in ['keywords_en', 'keywords_fr']:
                 section2['keywords']['default'][k] = v.split(',')
             if k in ['keywords_gc_cst_en']:

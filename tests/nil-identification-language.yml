@@ -33,7 +33,8 @@ identification:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]
             keywords_type: theme
-    topiccategory: climatologyMeteorologyAtmosphere
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
     dates:
         publication: 2000-09-01T00:00:00Z
     fees: None

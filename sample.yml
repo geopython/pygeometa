@@ -36,7 +36,8 @@ identification:
         gc_cst:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]
-    topiccategory: climatologyMeteorologyAtmosphere
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
     publication_date: 2000-09-01T00:00:00Z
     fees: None
     accessconstraints: otherRestrictions
