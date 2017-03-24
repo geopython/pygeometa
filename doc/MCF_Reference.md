@@ -8,7 +8,7 @@
   * [metadata](#metadata)
   * [spatial](#spatial)
   * [identification](#identification)
-  * [identification.keywords](#identification)
+  * [identification.keywords](#identification.keywords)
   * [contact](#contact)
   * [contact.distribution](#contact.distribution)
   * [contact](#contact)
@@ -120,7 +120,7 @@ status|Mandatory|"the status of the resource(s) (must be one of 'planned','histo
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
-### `identificaton.keywords`
+### `identification.keywords`
 
 MCF `identification` sections can be 1..n `keywords` sections as required using nesting.  Example:
 
