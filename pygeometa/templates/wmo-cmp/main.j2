@@ -188,9 +188,10 @@
           {% endfor %}
         {% endif %}
           <gmd:type>
-            {% set keywords_codelist = 'http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode' %}
             {% if value['keywords_codelist'] %}
             {% set keywords_codelist = value['keywords_codelist'] %}
+            {% else %}
+            {% set keywords_codelist = 'http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode' %}
             {% endif %}
             <gmd:MD_KeywordTypeCode codeList="{{ keywords_codelist }}" codeSpace="ISOTC211/19115" codeListValue="{{ value['keywords_type'] }}">{{ value['keywords_type'] }}</gmd:MD_KeywordTypeCode>
           </gmd:type>
