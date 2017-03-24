@@ -196,7 +196,7 @@
         {% if keywords[1] is none %}
           {# No language_alternate is specified #}
           {% for kw1 in keywords[0] %}
-          {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1]) }}
+          {{ cs.get_freetext('keyword', None, [kw1]) }}
           {% endfor %}
         {% else %}
           {% for kw1, kw2 in zip(keywords[0], keywords[1]) %}
