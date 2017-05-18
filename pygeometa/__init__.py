@@ -53,6 +53,7 @@ __version__ = '0.3-dev'
 
 
 @click.group()
+@click.version_option(version=__version__)
 def cli():
     pass
 
