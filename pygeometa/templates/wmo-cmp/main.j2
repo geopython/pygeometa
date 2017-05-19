@@ -38,7 +38,7 @@
     <gco:CharacterString>1.3</gco:CharacterString>
   </gmd:metadataStandardVersion>
   <gmd:dataSetURI>
-    <gco:CharacterString>{{ record['metadata']['dataseturi'] }}</gco:CharacterString>
+    <gco:CharacterString>{{ record['metadata']['dataseturi']|e }}</gco:CharacterString>
   </gmd:dataSetURI>
   {% if record['metadata']['language_alternate'] %}
   <gmd:locale>
