@@ -92,13 +92,13 @@ def configparser2yaml(cpfile):
             if k in ['topiccategory']:
                 section2['topiccategory'] = [v]
             if k in ['keywords_en', 'keywords_fr']:
-                section2['keywords']['default'][k] = [k2.strip() for k2 in v.split(',')]
+                section2['keywords']['default'][k] = [k2.strip() for k2 in v.split(',')]  # noqa
             if k in ['keywords_gc_cst_en']:
-                section2['keywords']['gc_cst']['keywords_en'] = [k2.strip() for k2 in v.split(',')]
+                section2['keywords']['gc_cst']['keywords_en'] = [k2.strip() for k2 in v.split(',')]  # noqa
             if k in ['keywords_gc_cst_fr']:
-                section2['keywords']['gc_cst']['keywords_fr'] = [k2.strip() for k2 in v.split(',')]
+                section2['keywords']['gc_cst']['keywords_fr'] = [k2.strip() for k2 in v.split(',')]  # noqa
             if k in ['keywords_wmo']:
-                section2['keywords']['wmo']['keywords_en'] = [k2.strip() for k2 in v.split(',')]
+                section2['keywords']['wmo']['keywords_en'] = [k2.strip() for k2 in v.split(',')]  # noqa
             if k in ['hnap_category_information_en']:
                 section2['keywords']['hnap_category_information']['keywords_en'] = [v]  # noqa
                 section2['keywords']['hnap_category_information']['keywords_fr'] = [v]  # noqa
