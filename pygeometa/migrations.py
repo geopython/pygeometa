@@ -92,13 +92,13 @@ def configparser2yaml(cpfile):
             if k in ['topiccategory']:
                 section2['topiccategory'] = [v]
             if k in ['keywords_en', 'keywords_fr']:
-                section2['keywords']['default'][k] = v.split(',')
+                section2['keywords']['default'][k] = [k2.strip() for k2 in v.split(',')]
             if k in ['keywords_gc_cst_en']:
-                section2['keywords']['gc_cst']['keywords_en'] = v.split(',')
+                section2['keywords']['gc_cst']['keywords_en'] = [k2.strip() for k2 in v.split(',')]
             if k in ['keywords_gc_cst_fr']:
-                section2['keywords']['gc_cst']['keywords_fr'] = v.split(',')
+                section2['keywords']['gc_cst']['keywords_fr'] = [k2.strip() for k2 in v.split(',')]
             if k in ['keywords_wmo']:
-                section2['keywords']['wmo']['keywords_en'] = v.split(',')
+                section2['keywords']['wmo']['keywords_en'] = [k2.strip() for k2 in v.split(',')]
             if k in ['hnap_category_information_en']:
                 section2['keywords']['hnap_category_information']['keywords_en'] = [v]  # noqa
                 section2['keywords']['hnap_category_information']['keywords_fr'] = [v]  # noqa
@@ -122,7 +122,7 @@ def configparser2yaml(cpfile):
             else:
                 section2[k] = v
 
-    return yaml.safe_dump(dict_, default_flow_style=False)
+    return yaml.safe_dump(dict_, default_flow_style=False, allow_unicode=True)
 
 
 @click.command()
@@ -135,7 +135,7 @@ def migrate(mcf, output):
     if mcf is None:
         raise click.UsageError('Missing arguments')
     else:
-        content = configparser2yaml(mcf)
+        content = configparser2yaml(mcf).decode('utf-8')
 
         if output is None:
             click.echo_via_pager(content)
