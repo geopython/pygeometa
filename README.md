@@ -118,6 +118,7 @@ pygeometa provides a `migrate` utility to convert legacy MCFs into YAML:
 pygeometa migrate --mcf=path/to/file.mcf  # to stdout
 pygeometa migrate --mcf=path/to/file.mcf --output=some_file.yml  # to file
 ```
+The migrate utility doesn't support migrating comments from legacy MCFs to YAML MCFs.
 
 ## Development
 
