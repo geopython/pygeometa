@@ -53,8 +53,8 @@ iconv -f iso8859-1 -t utf-8 file.yml > file.yml.new
 In the case the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF together. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
 
 To use MCF nesting:
-* At the top of any section of a MCF add `base_mcf=foo.yml`
-* Specify the corresponding section the base_mcf file
+* At the top of any section of a MCF add `base_mcf: foo.yml`
+* Specify the corresponding section in the base_mcf file
 
 Notes about nesting MCFs: 
 * You can refer to one `base_mcf` per section of a MCF
