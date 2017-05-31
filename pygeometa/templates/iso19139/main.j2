@@ -219,7 +219,7 @@
                 <gco:Boolean>1</gco:Boolean>
               </gmd:extentTypeCode>
               <gmd:polygon>
-                <gml:Polygon srsName="{{ record['spatial']['crs'] }}" srsDimension="2">
+                <gml:Polygon gml:id="P001" srsName="{{ record['spatial']['crs'] }}" srsDimension="2">
                   <gml:exterior>
                     <gml:LinearRing>
                       <gml:posList srsName="{{ record['spatial']['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>

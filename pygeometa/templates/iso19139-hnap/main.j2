@@ -424,7 +424,7 @@
                 <gco:Boolean>1</gco:Boolean>
               </gmd:extentTypeCode>
               <gmd:polygon>
-                <gml:Polygon srsName="{{ record['spatial']['crs'] }}" srsDimension="2">
+                <gml:Polygon gml:id="P001" srsName="{{ record['spatial']['crs'] }}" srsDimension="2">
                   <gml:exterior>
                     <gml:LinearRing>
                       <gml:posList srsName="{{ record['spatial']['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>
@@ -501,6 +501,7 @@
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
         {% for k, v in record['distribution'].items() %}
+          <!--{{ k, v }} -->
           <gmd:onLine xlink:role="urn:xml:lang:{{ k|get_distribution_language }}">
             <gmd:CI_OnlineResource>
               <gmd:linkage>
