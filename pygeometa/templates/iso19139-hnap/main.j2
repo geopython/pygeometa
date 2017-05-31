@@ -476,8 +476,8 @@
   </gmd:identificationInfo>
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
-      {% for k, v in record.items() %}
-      {% if k.startswith('distribution:') and v['format_en'] and v['format_fr'] and v['format_version'] %}
+      {% for k, v in record['distribution'].items() %}
+      {% if v['format_en'] and v['format_fr'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
           {{ cs.get_freetext('name', 'fra', get_charstring('format', v, 'en', 'fr')) }}
