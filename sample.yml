@@ -26,6 +26,7 @@ identification:
     abstract_fr: abstract in French
     dates:
         creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
     keywords:
         default:
             keywords_en: [kw1 in English,kw2 in English,kw3 in English]
@@ -38,8 +39,6 @@ identification:
             keywords_fr: [kw1,kw2]
     topiccategory:
         - climatologyMeteorologyAtmosphere
-    dates:
-        publication: 2000-09-01T00:00:00Z
     fees: None
     accessconstraints: otherRestrictions
     rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
