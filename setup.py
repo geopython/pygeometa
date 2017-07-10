@@ -44,42 +44,11 @@
 #
 # =================================================================
 
-from setuptools import setup, Command
+import io
 import os
-import sys
+from setuptools import Command, find_packages, setup
 import re
-import codecs
-
-# set dependencies
-with open('requirements.txt') as f:
-    INSTALL_REQUIRES = f.read().splitlines()
-
-KEYWORDS = [
-    'geospatial',
-    'metadata',
-    'catalogue',
-    'discovery'
-]
-
-DESCRIPTION = '''
-pygeometa is a Python package to generate metadata for geospatial datasets
-'''
-
-try:
-    import pypandoc
-    LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
-except(IOError, ImportError, OSError):
-    with open('README.md') as f:
-        LONG_DESCRIPTION = f.read()
-
-CONTACT = 'Meteorological Service of Canada, Environment Canada'
-
-EMAIL = 'tom.kralidis@canada.ca'
-
-URL = 'https://github.com/geopython/pygeometa'
-
-if os.path.isfile('MANIFEST'):
-    os.unlink('MANIFEST')
+import sys
 
 
 class PyTest(Command):
@@ -97,18 +66,17 @@ class PyTest(Command):
         raise SystemExit(errno)
 
 
-# from https://github.com/pypa/pip/blob/f4694100e/setup.py#L28
-def read(*parts):
-    # from https://github.com/pypa/pip/blob/f4694100e/setup.py#L10
-    here = os.path.abspath(os.path.dirname(__file__))
-    # intentionally *not* adding an encoding option to open, See:
-    #   https://github.com/pypa/virtualenv/issues/201#issuecomment-3145690
-    return codecs.open(os.path.join(here, *parts), 'r').read()
+def read(filename, encoding='utf-8'):
+    """read file contents"""
+    full_path = os.path.join(os.path.dirname(__file__), filename)
+    with io.open(full_path, encoding=encoding) as fh:
+        contents = fh.read().strip()
+    return contents
 
 
-# from https://github.com/pypa/pip/blob/f4694100e/setup.py#L34
-def find_version(*file_paths):
-    version_file = read(*file_paths)
+def get_package_version():
+    """get version from top-level package init"""
+    version_file = read('pygeometa/__init__.py')
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
                               version_file, re.M)
     if version_match:
@@ -116,61 +84,38 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
-# from https://wiki.python.org/moin/Distutils/Cookbook/AutoPackageDiscovery
-def is_package(path):
+try:
+    import pypandoc
+    LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError, OSError):
+    LONG_DESCRIPTION = read('README.md')
 
-    """decipher whether path is a Python package"""
+DESCRIPTION = 'pygeometa is a Python package to generate metadata for geospatial datasets'  # noqa
 
-    return (
-        os.path.isdir(path) and
-        os.path.isfile(os.path.join(path, '__init__.py'))
-        )
-
-
-def find_packages(path, base=''):
-    """Find all packages in path"""
-
-    packages = {}
-    for item in os.listdir(path):
-        dirpath = os.path.join(path, item)
-        if is_package(dirpath):
-            if base:
-                module_name = "%(base)s.%(item)s" % vars()
-            else:
-                module_name = item
-            packages[module_name] = dirpath
-            packages.update(find_packages(dirpath, module_name))
-    return packages
-
-
-def find_packages_templates(location='.'):
-    """get dirs to be specified as package_data keys (templates)"""
-
-    packages = []
-    for root, dirs, files in os.walk(location):
-        if 'templates' in dirs:  # include as a package_data key
-            packages.append(root.replace(os.sep, '.').replace('..', ''))
-
-    return {'pygeometa': ['templates/*/*.j2']}
-    return packages
-
+if os.path.exists('MANIFEST'):
+    os.unlink('MANIFEST')
 
 setup(
     name='pygeometa',
-    version=find_version('pygeometa', '__init__.py'),
+    version=get_package_version(),
     description=DESCRIPTION.strip(),
     long_description=LONG_DESCRIPTION,
     license='MIT',
     platforms='all',
-    keywords=' '.join(KEYWORDS),
-    author=CONTACT,
-    author_email=EMAIL,
-    maintainer=CONTACT,
-    maintainer_email=EMAIL,
-    url=URL,
-    install_requires=INSTALL_REQUIRES,
-    packages=find_packages('.').keys(),
-    package_data=find_packages_templates('pygeometa'),
+    keywords=' '.join([
+        'geospatial',
+        'metadata',
+        'catalogue',
+        'discovery'
+    ]),
+    author='Meteorological Service of Canada',
+    author_email='tom.kralidis@canada.ca',
+    maintainer='Meteorological Service of Canada',
+    maintainer_email='tom.kralidis@canada.ca',
+    url='https://github.com/geopython/pygeometa',
+    install_requires=read('requirements.txt').splitlines(),
+    packages=find_packages(),
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'pygeometa=pygeometa:cli'
