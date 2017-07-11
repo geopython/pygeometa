@@ -1,17 +1,22 @@
 language: python
 
+addons:
+  apt:
+    packages:
+      - pandoc
+
 python:
   - "2.7"
   - "3.4"
 
 install:
-  - pip install flake8
-  - pip install coverage
+  - pip install -r requirements-dev.txt
   - python setup.py install
 
 script:
   - python setup.py test
   - find . -type f -name "*.py" | xargs flake8
+  - python setup.py --long-description | rst2html5.py
 
 after_success:
   - coverage run --source pygeometa setup.py test
