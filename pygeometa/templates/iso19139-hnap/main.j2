@@ -501,7 +501,6 @@
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
         {% for k, v in record['distribution'].items() %}
-          <!--{{ k, v }} -->
           <gmd:onLine xlink:role="urn:xml:lang:{{ k|get_distribution_language }}">
             <gmd:CI_OnlineResource>
               <gmd:linkage>
@@ -512,10 +511,10 @@
               </gmd:protocol>
               {{ cs.get_freetext('name', 'fra', get_charstring('name', v, 'en', 'fr')) }}
               <gmd:description xsi:type="gmd:PT_FreeText_PropertyType">
-                <gco:CharacterString>{{ v['hnap_contenttype_en'] }};{{ v['format_en'] }};eng</gco:CharacterString>
+                <gco:CharacterString>{{ record['identification']['keywords']['hnap_category_content']['keywords_en'][0] }};{{ v['format_en'] }};eng</gco:CharacterString>
                 <gmd:PT_FreeText>
                   <gmd:textGroup>
-                    <gmd:LocalisedCharacterString locale="#locale-fra">{{ v['hnap_contenttype_fr'] }};{{ v['format_fr'] }};fra</gmd:LocalisedCharacterString>
+                    <gmd:LocalisedCharacterString locale="#locale-fra">{{ record['identification']['keywords']['hnap_category_content']['keywords_fr'][0] }};{{ v['format_fr'] }};fra</gmd:LocalisedCharacterString>
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:description>
