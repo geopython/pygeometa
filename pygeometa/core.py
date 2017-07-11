@@ -44,8 +44,9 @@
 #
 # =================================================================
 
-import codecs
+import collections
 from datetime import date, datetime
+import io
 import logging
 import os
 import pkg_resources
@@ -147,7 +148,6 @@ def normalize_datestring(datestring, format_='default'):
 def read_mcf(mcf):
     """returns dict of YAML file from filepath"""
 
-    mcf_list = []
     mcf_dict = {}
 
     def __to_dict(mcf_object):
@@ -163,41 +163,52 @@ def read_mcf(mcf):
             dict_ = yaml.load(mcf_object)
         else:
             LOGGER.debug('mcf object is likely a filepath')
-            with codecs.open(mcf_object, encoding='utf-8') as fh:
+            with io.open(mcf_object, encoding='utf-8') as fh:
                 dict_ = yaml.load(fh)
 
         return dict_
 
-    def makelist(mcf2):
-        """recursive function for MCF by reference inclusion"""
+    # from https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
+    def __dict_merge(dct, merge_dct):
+        """
+        Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
+        updating only top-level keys, __dict_merge recurses down into dicts
+        nested to an arbitrary depth, updating keys. The ``merge_dct`` is
+        merged into ``dct``.
 
-        c = __to_dict(mcf2)
-
-        LOGGER.debug('reading {}'.format(mcf2))
-        for key, value in c.items():
-            if 'base_mcf' in value:
-                base_mcf_path = get_abspath(mcf, c[key]['base_mcf'])
-                makelist(base_mcf_path)
-                mcf_list.append(mcf2)
-            else:  # leaf
-                mcf_list.append(mcf2)
-
-    makelist(mcf)
-
-    for mcf_file in mcf_list:
-        LOGGER.debug('reading {}'.format(mcf_file))
-        c_dict = __to_dict(mcf_file)
-
-        for section in c_dict.keys():
-            if section not in mcf_dict:  # add the whole section
-                LOGGER.debug('section {} does not exist. Adding'.format(
-                             section))
-                mcf_dict[section] = c_dict[section]
+        :param dct: dict onto which the merge is executed
+        :param merge_dct: dct merged into dct
+        :return: None
+        """
+        for k, v in merge_dct.items():
+            if (k in dct and isinstance(dct[k], dict)
+                    and isinstance(merge_dct[k], collections.Mapping)):
+                __dict_merge(dct[k], merge_dct[k])
             else:
-                LOGGER.debug('section {} exists. Adding options'.format(
-                             section))
-                for key, value in c_dict[section].items():
-                    mcf_dict[section][key] = value
+                if k in dct and k in merge_dct:
+                    pass
+                else:
+                    dct[k] = merge_dct[k]
+
+    def __parse_mcf_dict_recursive(dict2):
+        for k, v in dict2.copy().items():
+            if isinstance(v, dict):
+                __parse_mcf_dict_recursive(v)
+            else:
+                if k == 'base_mcf':
+                    base_mcf_dict = __to_dict(get_abspath(mcf, v))
+                    __dict_merge(dict2, base_mcf_dict)
+                    dict2.pop(k, None)
+        return dict2
+
+    LOGGER.debug('reading {}'.format(mcf))
+    mcf_dict = __to_dict(mcf)
+
+    LOGGER.debug('recursively parsing dict')
+
+    mcf_dict = __parse_mcf_dict_recursive(mcf_dict)
+
+    LOGGER.debug('Fully parsed MCF: {}'.format(mcf_dict))
 
     try:
         LOGGER.info('MCF version: {}'.format(mcf_dict['mcf']['version']))

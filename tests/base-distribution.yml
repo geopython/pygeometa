@@ -1,0 +1,7 @@
+waf:
+    type: WWW:LINK
+    function: download
+
+wms:
+    type: OGC:WMS
+    function: download
