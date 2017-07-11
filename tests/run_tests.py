@@ -45,6 +45,7 @@
 #
 # =================================================================
 
+import datetime
 import os
 import unittest
 
@@ -197,12 +198,19 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('child.yml'))
 
-        self.assertEqual(mcf['metadata']['identifier'], 1234,
+        self.assertEqual(mcf['metadata']['identifier'], 5678,
                          'Expected specific identifier')
 
-        self.assertEqual(mcf['identification']['title_en'],
-                         'title in English',
-                         'Expected specific title')
+        self.assertEqual(mcf['distribution']['waf']['type'], 'WWW:LINK',
+                         'Expected specific distribution type')
+
+        self.assertEqual(mcf['distribution']['waf']['url'],
+                         'http://example.org/waf',
+                         'Expected specific distribution url')
+
+        self.assertEqual(mcf['metadata']['datestamp'],
+                         datetime.date(2011, 11, 11),
+                         'Expected specific metadata datestamp')
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
 

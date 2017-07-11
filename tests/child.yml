@@ -1,3 +1,11 @@
 metadata:
-    base_mcf: ../sample.yml
-    identifier: 1234
+    base_mcf: base-metadata.yml
+    identifier: 5678
+
+distribution:
+    base_mcf: base-distribution.yml
+    waf:
+        url: http://example.org/waf
+
+    wms:
+        url: http://example.org/wms
