@@ -53,7 +53,7 @@ pygeometa is best installed and used within a Python virtualenv.
 
 ### Requirements
 
-* Python 2.7 and above.  Works with Python 3
+* Python 3 and above.  Works with Python 2.7
 * Python [virtualenv](https://virtualenv.pypa.io/) package
 
 ### Dependencies
@@ -63,7 +63,7 @@ Dependencies are listed in [requirements.txt](requirements.txt). Dependencies ar
 ### Installing the Package
 
 ```bash
-virtualenv my-env
+virtualenv -p python3 my-env
 cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
@@ -166,5 +166,5 @@ In 2015 pygeometa was made publically available in support of the Treasury Board
 
 ## Contact
 
-* [Tom Kralidis](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=CN%3Dtom.kralidis%40canada.ca%2COU%3DDAT-GES%2COU%3DMON-STR%2COU%3DMON-DIR%2COU%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
-* [Alexandre Leroux](http://geds20-sage20.ssc-spc.gc.ca/en/GEDS20/?pgid=015&dn=CN%3Dalexandre.leroux%40canada.ca%2COU%3DDPS-DPS%2COU%3DCAN-OPE%2COU%3DCAN-CEN%2COU%3DMSCB-DGSMC%2COU%3DDMO-CSM%2COU%3DEC-EC%2CO%3Dgc%2CC%3Dca)
+* [Tom Kralidis](https://github.com/tomkralidis)
+* [Alexandre Leroux](https://github.com/alexandreleroux)
