@@ -58,8 +58,6 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 import yaml
 
-import sys
-
 LOGGER = logging.getLogger(__name__)
 
 TEMPLATES = '{}{}templates'.format(os.path.dirname(os.path.realpath(__file__)),
@@ -234,7 +232,7 @@ def render_template(mcf, schema=None, schema_local=None):
     convenience function to render Jinja2 template given
     an mcf file, string, or dict
     """
-    
+
     LOGGER.debug('Evaluating schema path')
     if schema is None and schema_local is None:
         msg = 'schema or schema_local required'
@@ -263,22 +261,6 @@ def render_template(mcf, schema=None, schema_local=None):
         raise RuntimeError(msg)
 
     LOGGER.debug('Processing template')
-    
-    #print read_mcf(mcf)
-    mydict = read_mcf(mcf)
-    
-    #print mydict['identification']['keywords']
-    #for key, value in mydict['identification']['keywords'].items():
-        #keywords = get_charstring('keywords', value, mydict['metadata']['language'], None)
-        #print value
-        #print mydict['metadata']['language']
-        #print type(keywords)
-    #for key in mydict['metadata']:
-      #print key
-    #print mydict['identification']
-        
-    #sys.exit()
-    
     xml = template.render(record=read_mcf(mcf),
                           software_version=VERSION).encode('utf-8')
     return pretty_print(xml)
@@ -315,11 +297,6 @@ def get_abspath(mcf, filepath):
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
 def generate_metadata(ctx, mcf, schema, schema_local, output):
-    
-    #mcf = "../../discovery-metadata/yml/msc_nwp_gdps.yml"
-    #mcf = "../../discovery-metadata/mcf/msc_nwp_gdps.mcf"
-    #schema = "iso19139-hnap"
-    #output = "../../discovery-metadata/hnap-xml/from_yml/msc_nwp_gdps.xml"
     if mcf is None or (schema is None and schema_local is None):
         raise click.UsageError('Missing arguments')
     else:
@@ -329,7 +306,3 @@ def generate_metadata(ctx, mcf, schema, schema_local, output):
             click.echo_via_pager(content)
         else:
             output.write(content)
-
-#if __name__ == "__main__":
-#    generate_metadata()
-# pygeometa generate_metadata --mcf=yml/msc_nwp_gdps.yml --schema=iso19139-hnap --output=hnap-xml/from_yml/msc_nwp_gdps.xml
