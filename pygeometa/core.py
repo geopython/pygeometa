@@ -296,10 +296,18 @@ def get_abspath(mcf, filepath):
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
-def generate_metadata(ctx, mcf, schema, schema_local, output):
+@click.option('--verbosity', type=click.Choice(['ERROR', 'WARNING',
+              'INFO', 'DEBUG']), help='Verbosity')
+def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
+    """generate metadata"""
+
+    if verbosity is not None:
+        logging.basicConfig(level=getattr(logging, verbosity))
+
     if mcf is None or (schema is None and schema_local is None):
         raise click.UsageError('Missing arguments')
     else:
+        LOGGER.info('Processing {} into {}'.format(mcf, schema))
         content = render_template(mcf, schema=schema,
                                   schema_local=schema_local)
         if output is None:
