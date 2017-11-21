@@ -80,7 +80,7 @@ language|Mandatory|primary language used for documenting metadata, the metadata 
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
-datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
+datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Mandatory|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
 ### `spatial`
@@ -240,6 +240,7 @@ format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 
 pygeometa supports using the following keyword substitutions:
 * `$year$`, which is substituted for the current year with the YYYY format, example: 2016
-* `$date$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
+* `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
+* `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
 
 The substitutions occur when pygeometa is ran for the MCF with those keywords.

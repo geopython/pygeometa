@@ -124,6 +124,8 @@ def normalize_datestring(datestring, format_='default'):
                 datestring2 = datestring2.replace('T00:00:00Z', '')
             return datestring2
         if datestring == '$date$':  # $date$ magic keyword
+            return today_and_now.strftime('%Y-%m-%d')
+        elif datestring == '$datetime$':  # $datetime$ magic keyword
             return today_and_now.strftime('%Y-%m-%dT%H:%M:%SZ')
         elif datestring == '$year$':  # $year$ magic keyword
             return today_and_now.strftime('%Y')
