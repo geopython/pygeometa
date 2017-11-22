@@ -127,8 +127,6 @@ def normalize_datestring(datestring, format_='default'):
             return today_and_now.strftime('%Y-%m-%d')
         elif datestring == '$datetime$':  # $datetime$ magic keyword
             return today_and_now.strftime('%Y-%m-%dT%H:%M:%SZ')
-        elif datestring == '$datetime$':  # $datetime$ magic keyword
-            return today_and_now.strftime('%Y-%m-%d')
         elif datestring == '$year$':  # $year$ magic keyword
             return today_and_now.strftime('%Y')
         elif '$year$' in datestring:  # $year$ magic keyword embedded
