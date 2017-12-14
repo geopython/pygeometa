@@ -23,13 +23,14 @@
 * Section parameters are case sensitive
 * Section parameter values are case sensitive
 * YAML [rules, conventions and features](https://en.wikipedia.org/wiki/YAML) are suppported, such as:
- * node anchors / references
- * data typing
+  * node anchors / references
+  * data typing
 * If an optional section is specified, then its child parameters' cardinality are enforced
 * Filename conventions are up to the user. However, below are some suggestions:
- * use `.yml` as file extension
- * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
+  * use `.yml` as file extension
+  * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
 * To add a comment in a MCF, a line that begins with a hash tag (`#`) will be ignored
+* If you have a colon (:) in your text / value, use quotation marks (" or ') on either side of your text to avoid mapping errors when parsing the YAML file
 
 ## Encoding
 
