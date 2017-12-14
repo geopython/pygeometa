@@ -5,6 +5,7 @@
 * [Encoding](#encoding)
 * [Nesting MCFs](#nesting-mcfs)
 * [Sections](#sections)
+  * [mcf](#mcf)
   * [metadata](#metadata)
   * [spatial](#spatial)
   * [identification](#identification)
@@ -65,7 +66,7 @@ Notes about nesting MCFs:
 
 ## Sections
 
-### 'mcf'
+### `mcf`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
