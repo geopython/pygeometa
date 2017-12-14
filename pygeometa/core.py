@@ -295,6 +295,7 @@ def get_abspath(mcf, filepath):
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
 
+
 class MCFReadError(Exception):
     """Exception stub for format reading errors"""
     pass

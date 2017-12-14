@@ -106,10 +106,10 @@ class PygeometaTest(unittest.TestCase):
         """Test MCF version validation"""
 
         with self.assertRaises(MCFReadError):
-            mcf = read_mcf(get_abspath('missing-version.yml'))
+            read_mcf(get_abspath('missing-version.yml'))
 
         with self.assertRaises(MCFReadError):
-            mcf = read_mcf(get_abspath('bad-version.yml'))
+            read_mcf(get_abspath('bad-version.yml'))
 
     def test_mcf_model(self):
         """test mcf model and types"""
