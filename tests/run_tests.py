@@ -53,7 +53,8 @@ from six import text_type
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_template,
-                            get_charstring, get_supported_schemas)
+                            get_charstring, get_supported_schemas,
+                            MCFReadError)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -100,6 +101,15 @@ class PygeometaTest(unittest.TestCase):
         mcf_dict = yaml.load(mcf_string)
         mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
+
+    def test_mcf_version(self):
+        """Test MCF version validation"""
+
+        with self.assertRaises(MCFReadError):
+            mcf = read_mcf(get_abspath('missing-version.yml'))
+
+        with self.assertRaises(MCFReadError):
+            mcf = read_mcf(get_abspath('bad-version.yml'))
 
     def test_mcf_model(self):
         """test mcf model and types"""
