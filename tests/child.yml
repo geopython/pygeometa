@@ -1,3 +1,6 @@
+mcf:
+    version: 1.0
+
 metadata:
     base_mcf: base-metadata.yml
     identifier: 5678
