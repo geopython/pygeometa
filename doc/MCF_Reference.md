@@ -15,7 +15,7 @@
   * [contact](#contact)
   * [distribution](#distribution)
 * [Version](#version)
-  * [Current MCF version](#current-MCF-version)
+  * [Current MCF version](#current-mcf-version)
   * [Version format](#version-format)
 * [Tips](#tips)
   * [Keyword Substitution](#keyword-substitution)
