@@ -151,6 +151,7 @@ def read_mcf(mcf):
     """returns dict of YAML file from filepath"""
 
     mcf_dict = {}
+    mcf_versions = ['1.0']
 
     def __to_dict(mcf_object):
         """normalize mcf input into dict"""
@@ -213,9 +214,20 @@ def read_mcf(mcf):
     LOGGER.debug('Fully parsed MCF: {}'.format(mcf_dict))
 
     try:
-        LOGGER.info('MCF version: {}'.format(mcf_dict['mcf']['version']))
+        mcf_version = str(mcf_dict['mcf']['version'])
+        LOGGER.info('MCF version: {}'.format(mcf_version))
     except KeyError:
-        LOGGER.info('no MCF version specified')
+        msg = 'no MCF version specified'
+        LOGGER.error(msg)
+        raise MCFReadError(msg)
+
+    mcf_versions = ['1.0']
+
+    for mcf_version_ in mcf_versions:
+        if not mcf_version_.startswith(mcf_version):
+            msg = 'invalid / unsupported version {}'.format(mcf_version)
+            LOGGER.error(msg)
+            raise MCFReadError(msg)
 
     return mcf_dict
 
@@ -282,6 +294,11 @@ def get_abspath(mcf, filepath):
 
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
+
+
+class MCFReadError(Exception):
+    """Exception stub for format reading errors"""
+    pass
 
 
 @click.command()
