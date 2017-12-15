@@ -221,8 +221,6 @@ def read_mcf(mcf):
         LOGGER.error(msg)
         raise MCFReadError(msg)
 
-    mcf_versions = ['1.0']
-
     for mcf_version_ in mcf_versions:
         if not mcf_version_.startswith(mcf_version):
             msg = 'invalid / unsupported version {}'.format(mcf_version)
