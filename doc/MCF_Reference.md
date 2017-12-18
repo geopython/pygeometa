@@ -14,6 +14,9 @@
   * [contact.distribution](#contactdistribution)
   * [contact](#contact)
   * [distribution](#distribution)
+* [Version](#version)
+  * [Current MCF version](#current-mcf-version)
+  * [Version format](#version-format)
 * [Tips](#tips)
   * [Keyword Substitution](#keyword-substitution)
 
@@ -235,6 +238,16 @@ format|Optional|Format of the distribution method|WMS|HNAP 2.3
 format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
 format_fr|Optional|French format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
+
+## Version
+
+### Current MCF version 
+
+* 1.0
+
+### Version format
+
+MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
 
 ## Tips
 
