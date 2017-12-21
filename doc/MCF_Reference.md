@@ -256,7 +256,7 @@ pygeometa supports default and alternate languages in ISO metadata.
 
 Multilingual support is driven by the following sections in `[metadata]`:
 - `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
-- `language_alternate` (**new**): 2 letter language code (i.e. `en`, `fr`) of secondary language
+- `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
 
 Example:
 
@@ -282,7 +282,7 @@ title_fr=bar
 title_en=foo
 title_fr=bar
 ```
-The ```metadata/language``` value <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
+The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
 
 ## Version
 
