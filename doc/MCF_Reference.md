@@ -14,11 +14,12 @@
   * [contact.distribution](#contactdistribution)
   * [contact](#contact)
   * [distribution](#distribution)
+* [Tips](#tips)
+  * [Keyword Substitution](#keyword-substitution)
+  * [Multiple languages support](#multiple-languages-support)
 * [Version](#version)
   * [Current MCF version](#current-mcf-version)
   * [Version format](#version-format)
-* [Tips](#tips)
-  * [Keyword Substitution](#keyword-substitution)
 
 ## Basic Concepts
 
@@ -80,7 +81,7 @@ version|Mandatory|version of MCF format|1.0|pygeometa
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 identifier|Mandatory|unique identifier for this metadata file|11800c2c-e6b9-11df-b9ae-0014c2c00eab|ISO 19115:2003 Section B.2.1
-language|Mandatory|primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless|eng; CAN|ISO 19115:2003 Section B.2.1
+language|Mandatory|primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless|en|ISO 19115:2003 Section B.2.1
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
@@ -238,16 +239,6 @@ format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
 format_fr|Optional|French format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 
-## Version
-
-### Current MCF version 
-
-* 1.0
-
-### Version format
-
-MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
-
 ## Tips
 
 ### Keyword Substitution
@@ -258,3 +249,48 @@ pygeometa supports using the following keyword substitutions:
 * `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
 
 The substitutions occur when pygeometa is ran for the MCF with those keywords.
+
+### Multiple languages support
+
+pygeometa supports default and alternate languages in ISO metadata. 
+
+Multilingual support is driven by the following sections in `[metadata]`:
+- `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
+- `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
+
+Example:
+
+```
+[metadata]
+language=en
+language_alternate=fr
+...
+```
+If `language_alternate` is not defined or missing, pygeometa assumes a single language.
+
+Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
+
+```
+# single language
+title=foo
+
+# two languages, no default suffix
+title=foo
+title_fr=bar
+
+# two languages, explicit default suffix
+title_en=foo
+title_fr=bar
+```
+The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
+
+## Version
+
+### Current MCF version 
+
+* 1.0
+
+### Version format
+
+MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
+
