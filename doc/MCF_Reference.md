@@ -104,18 +104,21 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 doi|Optional|Digital Object Identifier (DOI)|12345|ISO 19115:2003 Section B.3.2.1
 language|Mandatory|language(s) used within the dataset|eng; CAN|ISO 19115:2003 Section B.2.2.1
 charset|Mandatory|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
-title_en|Mandatory|name by which the cited resource is known (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
-title_fr|Mandatory|name by which the cited resource is known (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.1
-abstract_en|Mandatory|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-abstract_fr|Mandatory|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
+title|Mandatory|name by which the cited resource is known|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
+title_en|Optional|name by which the cited resource is known (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
+title_fr|Optional|name by which the cited resource is known (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.1
+abstract|Mandatory|brief narrative summary of the content of the resource(s)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
+abstract_en|Optinal|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
+abstract_fr|Optional|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 creation_date|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 publication_date|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 revision_date|Optional*|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
-rights_en|Mandatory|Information about rights held in and over the resource (English). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-rights_fr|Mandatory|Information about rights held in and over the resource (French). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
+rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
+rights_en|Optional|Information about rights held in and over the resource (English). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
+rights_fr|Optional|Information about rights held in and over the resource (French). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_en|Optional|English URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_fr|Optional|French URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
@@ -156,8 +159,9 @@ Within each `keywords` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-keywords_en|Mandatory|category keywords (English)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_fr|Mandatory|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords|Mandatory|category keywords|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_en|Optional|category keywords (English)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
+keywords_fr|Optional|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
 
@@ -179,9 +183,9 @@ Within each `contact` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-organization|Mandatory|name of the responsible organization (English)|Environment Canada|ISO 19115:2003 Section B.3.2.1
-organization_en|Mandatory|name of the responsible organization (English)|Environment Canada|Harmonized NAP
-organization_fr|Mandatory|name of the responsible organization (French)|Environment Canada|Harmonized NAP
+organization|Mandatory|name of the responsible organization|Environment Canada|ISO 19115:2003 Section B.3.2.1
+organization_en|Optional|name of the responsible organization (English)|Environment Canada|Harmonized NAP
+organization_fr|Optional|name of the responsible organization (French)|Environment Canada|Harmonized NAP
 url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
 individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Lastname, Firstname|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1
@@ -229,10 +233,12 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|http://host/path|ISO 19115:2003 Section B.3.2.5
 type|Mandatory|connection protocol to be used.  Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv|WWW:LINK|ISO 19115:2003 Section B.3.2.5
-name_en|Mandatory|English name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
-name_fr|Mandatory|French name of the online resource|Portail de téléchargement|ISO 19115:2003 Section B.3.2.5
-description_en|Mandatory|detailed text description of what the online resources is/does (English)|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
-description_fr|Mandatory|detailed text description of what the online resources is/does (French)|brief description of the online resource (French)|ISO 19115:2003 Section B.3.2.5
+name|Mandatory|name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
+name_en|Optional|English name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
+name_fr|Optional|French name of the online resource|Portail de téléchargement|ISO 19115:2003 Section B.3.2.5
+description|Mandatory|detailed text description of what the online resources is/does|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
+description_en|Optional|detailed text description of what the online resources is/does (English)|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
+description_fr|Optional|detailed text description of what the online resources is/does (French)|brief description of the online resource (French)|ISO 19115:2003 Section B.3.2.5
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
 format|Optional|Format of the distribution method|WMS|HNAP 2.3
 format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
