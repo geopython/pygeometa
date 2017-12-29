@@ -213,7 +213,7 @@
         {% set bbox = record['spatial']['bbox'].split(',') %}
         <gmd:EX_Extent>
           <gmd:geographicElement>
-            {% if record['spatial']['crs'] != 4326 %}
+            {% if record['spatial']['crs'] != '4326' %}
             <gmd:EX_BoundingPolygon>
               <gmd:extentTypeCode>
                 <gco:Boolean>1</gco:Boolean>

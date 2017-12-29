@@ -260,9 +260,11 @@ def render_template(mcf, schema=None, schema_local=None):
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
+    env.filters['get_unique_distribution_format'] = get_unique_distribution_format
     env.globals.update(zip=zip)
     env.globals.update(get_charstring=get_charstring)
     env.globals.update(normalize_datestring=normalize_datestring)
+    env.globals.update(get_unique_distribution_format=get_unique_distribution_format)
 
     try:
         LOGGER.debug('Loading template')
@@ -292,6 +294,17 @@ def get_abspath(mcf, filepath):
 
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
+
+
+def get_unique_distribution_format(items):
+    """returns a list of dictionnaries of the unique distribution formats"""
+
+    unique_distribution_list = []
+    for k, v in items:
+        if v['format_en'] and v['format_fr'] and v['format_version']:
+            if {'format_en': v['format_en'], 'format_fr': v['format_fr'], 'format_version': v['format_version']} not in unique_distribution_list:
+                unique_distribution_list.append({'format_en': v['format_en'], 'format_fr': v['format_fr'], 'format_version': v['format_version']})
+    return unique_distribution_list
 
 
 class MCFReadError(Exception):
