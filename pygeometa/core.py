@@ -147,8 +147,33 @@ def normalize_datestring(datestring, format_='default'):
     return datestring
 
 
+def prune_distribution_formats(formats):
+    """derive a unique list of distribution formats"""
+
+    counter = 0
+    formats_ = []
+    unique_formats = []
+
+    for k1, v1 in formats.items():
+        row = {}
+        for k2, v2 in v1.items():
+            if k2.startswith('format'):
+                row[k2] = v2
+        formats_.append(row)
+
+    num_elements = len(formats)
+
+    for f in range(0, len(formats_)):
+        counter += 1
+        if formats_[f] not in unique_formats:
+            unique_formats.append(formats_[f])
+        if num_elements == counter:
+            break
+    return unique_formats
+
+
 def read_mcf(mcf):
-    """returns dict of YAML file from filepath"""
+    """returns dict of YAML file from filepath, string or dict"""
 
     mcf_dict = {}
     mcf_versions = ['1.0']
@@ -260,11 +285,11 @@ def render_template(mcf, schema=None, schema_local=None):
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
-    env.filters['get_unique_distribution_format'] = get_unique_distribution_format
+    env.filters['prune_distribution_formats'] = prune_distribution_formats
     env.globals.update(zip=zip)
     env.globals.update(get_charstring=get_charstring)
     env.globals.update(normalize_datestring=normalize_datestring)
-    env.globals.update(get_unique_distribution_format=get_unique_distribution_format)
+    env.globals.update(prune_distribution_formats=prune_distribution_formats)
 
     try:
         LOGGER.debug('Loading template')
@@ -294,17 +319,6 @@ def get_abspath(mcf, filepath):
 
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
-
-
-def get_unique_distribution_format(items):
-    """returns a list of dictionnaries of the unique distribution formats"""
-
-    unique_distribution_list = []
-    for k, v in items:
-        if v['format_en'] and v['format_fr'] and v['format_version']:
-            if {'format_en': v['format_en'], 'format_fr': v['format_fr'], 'format_version': v['format_version']} not in unique_distribution_list:
-                unique_distribution_list.append({'format_en': v['format_en'], 'format_fr': v['format_fr'], 'format_version': v['format_version']})
-    return unique_distribution_list
 
 
 class MCFReadError(Exception):

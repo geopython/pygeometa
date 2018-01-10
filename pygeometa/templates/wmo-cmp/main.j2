@@ -336,7 +336,8 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-          {% for k, v in record['distribution'].items() %} 
+        {% set formats = prune_distribution_formats(record['distribution']) %}
+        {% for v in formats %}
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>

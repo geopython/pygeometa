@@ -54,7 +54,7 @@ import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_template,
                             get_charstring, get_supported_schemas,
-                            MCFReadError)
+                            prune_distribution_formats, MCFReadError)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -162,6 +162,26 @@ class PygeometaTest(unittest.TestCase):
         values = get_charstring('notfound',
                                 {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
+
+    def test_prune_distribution_formats(self):
+        """Test deriving unique distribution formats"""
+
+        formats = {
+            'wms': {
+                'format_en': 'image', 'format_fr': 'image', 'format_version': 2
+            },
+            'wfs': {
+                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+            },
+            'wcs': {
+                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+            }
+        }
+
+        new_formats = prune_distribution_formats(formats)
+
+        self.assertEqual(len(new_formats), 2,
+                         'Expected 2 unique distribution formats')
 
     def test_get_supported_schemas(self):
         """Test supported schemas"""
