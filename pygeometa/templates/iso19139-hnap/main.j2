@@ -476,7 +476,8 @@
   </gmd:identificationInfo>
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
-      {% for k, v in record['distribution'].items() %}
+      {% set formats = prune_distribution_formats(record['distribution']) %}
+      {% for v in formats %}
       {% if v['format_en'] and v['format_fr'] and v['format_version'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>

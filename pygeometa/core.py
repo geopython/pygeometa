@@ -147,8 +147,33 @@ def normalize_datestring(datestring, format_='default'):
     return datestring
 
 
+def prune_distribution_formats(formats):
+    """derive a unique list of distribution formats"""
+
+    counter = 0
+    formats_ = []
+    unique_formats = []
+
+    for k1, v1 in formats.items():
+        row = {}
+        for k2, v2 in v1.items():
+            if k2.startswith('format'):
+                row[k2] = v2
+        formats_.append(row)
+
+    num_elements = len(formats)
+
+    for f in range(0, len(formats_)):
+        counter += 1
+        if formats_[f] not in unique_formats:
+            unique_formats.append(formats_[f])
+        if num_elements == counter:
+            break
+    return unique_formats
+
+
 def read_mcf(mcf):
-    """returns dict of YAML file from filepath"""
+    """returns dict of YAML file from filepath, string or dict"""
 
     mcf_dict = {}
     mcf_versions = ['1.0']
@@ -260,9 +285,11 @@ def render_template(mcf, schema=None, schema_local=None):
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
+    env.filters['prune_distribution_formats'] = prune_distribution_formats
     env.globals.update(zip=zip)
     env.globals.update(get_charstring=get_charstring)
     env.globals.update(normalize_datestring=normalize_datestring)
+    env.globals.update(prune_distribution_formats=prune_distribution_formats)
 
     try:
         LOGGER.debug('Loading template')
