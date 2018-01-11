@@ -102,7 +102,7 @@ bbox|Mandatory|geographic position of the dataset, formatted as 'minx,miny,maxx,
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 doi|Optional|Digital Object Identifier (DOI)|12345|ISO 19115:2003 Section B.3.2.1
-language|Mandatory|language(s) used within the dataset|eng; CAN|ISO 19115:2003 Section B.2.2.1
+language|Mandatory|language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'|eng; CAN|ISO 19115:2003 Section B.2.2.1
 charset|Mandatory|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
 title|Mandatory|name by which the cited resource is known|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
 title_en|Optional|name by which the cited resource is known (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
