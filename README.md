@@ -98,8 +98,8 @@ pygeometa generate_metadata --mcf=path/to/file.yml --schema_local=/path/to/my-sc
 Schemas supported by pygeometa:
 * iso19139, [reference](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557)
 * iso19139-hnap, [reference](http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP)
-* [wmo-cmp](docs/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf) 
-* [wmo-wigos](docs/wmo-wigos.md), [reference](https://library.wmo.int/opac/doc_num.php?explnum_id=3653)
+* [wmo-cmp](doc/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf) 
+* [wmo-wigos](doc/wmo-wigos.md), [reference](https://library.wmo.int/opac/doc_num.php?explnum_id=3653)
 * Local schema, specified with ```--schema_local=/path/to/my-schema```
 
 ### Using the API from Python
