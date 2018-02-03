@@ -1,0 +1,51 @@
+mcf:
+    version: 1.0
+
+metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    language: en
+    language_alternate: fr
+    charset: utf8
+    datestamp: 2014-11-11T11:11:11Z
+
+contact:
+    main: &contact_main
+        organization: Environment Canada
+        url: http://www.ec.gc.ca/
+        individualname: Tom Kralidis
+        positionname: Senior Systems Scientist
+        phone: +01-123-456-7890
+        fax: +01-123-456-7890
+        address: 4905 Dufferin Street
+        city: Toronto
+        administrativearea: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        email: foo@bar.tld
+        hoursofservice: 0700h - 1500h EST
+        contactinstructions: email
+
+    facility: *contact_main
+
+facility:
+    first_station:
+        identifier: 0-20000-0-123
+        name: My station
+        type: landFixed
+        geopositioning_method: GPS
+        url: http://example.org/facility/123
+        spatiotemporal:
+            - timeperiod:
+                 begin: 2011-11-11
+                 end: now # optional
+              location:
+                 geomtype: point
+                 crs: 4326
+                 point: -75,45,400
+        date_established: 1999-11-11
+        territory:
+            name: CAN
+            valid_period:
+                begin: 1999-11-11
+                end: now # optional
+        wmo_region: northCentralAmericaCaribbean

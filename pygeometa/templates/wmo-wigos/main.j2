@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+{% import 'common/iso19139-charstring.j2' as cs %}
+<wmdr:WIGOSMetadataRecord gml:id="id_{{ record['metadata']['identifier'] }}" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:wmdr="http://def.wmo.int/wmdr/2017" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://def.wmo.int/wmdr/2017 http://schemas.wmo.int/wmdr/1.0RC7/wmdr.xsd">
+    <wmdr:headerInformation>
+        <wmdr:Header>
+            <wmdr:fileDateTime>{{ record['metadata']['datestamp'].strftime('%Y-%m-%dT%H-%M-%S') }}</wmdr:fileDateTime>
+            <wmdr:recordOwner>
+                {% set contact = record['contact']['main'] %}
+                {% set contact_id = 'recordOwner' %}
+                {% set role = 'pointOfContact' %}
+                {% include "contact.j2" %}
+            </wmdr:recordOwner>
+        </wmdr:Header>
+    </wmdr:headerInformation>
+    {% for k, v in record['facility'].items() %}
+    <wmdr:facility>
+        <wmdr:ObservingFacility gml:id="ObservingFacility.{{ v['identifier'] }}">
+            <gml:identifier codeSpace="http://wigos.wmo.int">http://wigos.wmo.int/{{ v['identifier'] }}</gml:identifier>
+            <gml:name>{{ v['name'] }}</gml:name>
+            <wmdr:responsibleParty>
+                {% set contact = record['contact']['facility'] %}
+                {% set contact_id = 'responsibleParty' %}
+                {% set role = 'pointOfContact' %}
+                {% include "contact.j2" %}
+            </wmdr:responsibleParty>
+            {% for gl in v['spatiotemporal'] %}
+            <wmdr:geospatialLocation>
+                <wmdr:TimestampedLocation>
+                    <wmdr:validTimePeriod>
+                        <gml:TimePeriod gml:id="tp1">
+                            <gml:beginPosition>{{ gl['timeperiod']['begin'] }}</gml:beginPosition>
+                            {% if gl['timeperiod']['end'] %}
+                            <gml:endPosition>{{ gl['timeperiod']['end'] }}</gml:endPosition>
+                            {% else %}
+                            <gml:endPosition indeterminatePosition="now"/>
+                            {% endif %}
+                        </gml:TimePeriod>
+                    </wmdr:validTimePeriod>
+                    {% set pos = gl['location']['point'].split(',') %}
+                    <wmdr:location>
+                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p1">
+                            <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
+                        </gml:Point>
+                    </wmdr:location>
+                </wmdr:TimestampedLocation>
+            </wmdr:geospatialLocation>
+            {% endfor %}
+            <wmdr:geopositioningMethod xlink:href="http://codes.wmo.int/wmdr/GeopositioningMethod/{{ v['geopositioning_method']|lower }}"/>
+            <wmdr:onlineResource>
+                <gmd:CI_OnlineResource>
+                    <gmd:linkage>
+                        <gmd:URL>{{ v['url'] }}</gmd:URL>
+                    </gmd:linkage>
+                    <gmd:protocol>
+                        <gco:CharacterString>WWW:LINK</gco:CharacterString>
+                    </gmd:protocol>
+                    <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information" codeSpace="ISOTC211/19115">information</gmd:CI_OnLineFunctionCode>
+                    </gmd:function>
+                </gmd:CI_OnlineResource>
+            </wmdr:onlineResource>
+            <wmdr:dateEstablished>{{ v['date_established'] }}</wmdr:dateEstablished>
+            <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ v['territory']['name']|upper }}"/>
+            <wmdr:territoryNameValidPeriod>
+                <gml:TimePeriod gml:id="tp2">
+                    <gml:beginPosition>{{ v['territory']['valid_period']['begin'] }}</gml:beginPosition>
+                    {% if v['territory']['valid_period']['end'] %}
+                    <gml:endPosition>{{ v['territory']['valid_period']['end'] }}</gml:endPosition>
+                    {% else %}
+                    <gml:endPosition indeterminatePosition="now"/>
+                    {% endif %}
+                </gml:TimePeriod>
+            </wmdr:territoryNameValidPeriod>
+            <wmdr:wmoRegion xlink:href="http://codes.wmo.int/wmdr/WMORegion/{{ v['wmo_region'] }}"/>
+        </wmdr:ObservingFacility>
+    </wmdr:facility>
+    {% endfor %}
+</wmdr:WIGOSMetadataRecord>

@@ -188,9 +188,10 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 3, 'Expected 3 supported schemas')
+        self.assertEqual(len(schemas), 4, 'Expected 4 supported schemas')
         self.assertEqual(schemas,
-                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp']),
+                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp',
+                                 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
     def test_render_template(self):
@@ -243,6 +244,14 @@ class PygeometaTest(unittest.TestCase):
                          'Expected specific metadata datestamp')
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
+
+    def test_wmo_wigos(self):
+        """test WMO WIGOS Metadata support"""
+
+        mcf = read_mcf(get_abspath('../sample-wmo-wigos.yml'))
+        self.assertEqual(len(mcf['facility'].keys()), 1)
+        self.assertEqual(
+            len(mcf['facility']['first_station']['spatiotemporal']), 1)
 
 
 def get_abspath(filepath):
