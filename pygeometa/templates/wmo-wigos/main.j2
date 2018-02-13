@@ -72,6 +72,10 @@
                 </gml:TimePeriod>
             </wmdr:territoryNameValidPeriod>
             <wmdr:wmoRegion xlink:href="http://codes.wmo.int/wmdr/WMORegion/{{ v['wmo_region'] }}"/>
+            <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ v['status'] }}"/>
+            {% for item in v['program_affiliation'] %}
+            <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+            {% endfor %}
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}
