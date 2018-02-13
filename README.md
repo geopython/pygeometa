@@ -110,6 +110,8 @@ from pygeometa.core import render_template
 xml_string = render_template('/path/to/file.yml', schema='iso19139')
 # user-defined schema
 xml_string = render_template('/path/to/file.yml', schema_local='/path/to/new-schema')
+# dictionary representation of YAML
+xml_string = render_template(yaml_dict, schema='iso19139')
 with open('output.xml', 'w') as ff:
     ff.write(xml_string)
 # render from an MCF stored in a string
