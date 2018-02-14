@@ -3,7 +3,7 @@
 <wmdr:WIGOSMetadataRecord gml:id="id_{{ record['metadata']['identifier'] }}" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:wmdr="http://def.wmo.int/wmdr/2017" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://def.wmo.int/wmdr/2017 http://schemas.wmo.int/wmdr/1.0RC7/wmdr.xsd">
     <wmdr:headerInformation>
         <wmdr:Header>
-            <wmdr:fileDateTime>{{ record['metadata']['datestamp'].strftime('%Y-%m-%dT%H-%M-%S') }}</wmdr:fileDateTime>
+            <wmdr:fileDateTime>{{ record['metadata']['datestamp'].strftime('%Y-%m-%dT%H:%M:%SZ') }}</wmdr:fileDateTime>
             <wmdr:recordOwner>
                 {% set contact = record['contact']['main'] %}
                 {% set contact_id = 'recordOwner' %}
