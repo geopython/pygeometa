@@ -5,7 +5,7 @@
         <wmdr:Header>
             <wmdr:fileDateTime>{{ record['metadata']['datestamp'].strftime('%Y-%m-%dT%H:%M:%SZ') }}</wmdr:fileDateTime>
             <wmdr:recordOwner>
-                {% set contact = record['contact']['main'] %}
+                {% set contact = record['contact']['record_owner'] %}
                 {% set contact_id = 'recordOwner' %}
                 {% set role = 'pointOfContact' %}
                 {% include "contact.j2" %}
@@ -27,7 +27,7 @@
             <wmdr:geospatialLocation>
                 <wmdr:TimestampedLocation>
                     <wmdr:validTimePeriod>
-                        <gml:TimePeriod gml:id="tp1">
+                        <gml:TimePeriod gml:id="tp{{ loop.index }}">
                             <gml:beginPosition>{{ gl['timeperiod']['begin'] }}</gml:beginPosition>
                             {% if gl['timeperiod']['end'] %}
                             <gml:endPosition>{{ gl['timeperiod']['end'] }}</gml:endPosition>
@@ -38,7 +38,7 @@
                     </wmdr:validTimePeriod>
                     {% set pos = gl['location']['point'].split(',') %}
                     <wmdr:location>
-                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p1">
+                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p{{ loop.index }}">
                             <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
                         </gml:Point>
                     </wmdr:location>
@@ -62,7 +62,7 @@
             <wmdr:dateEstablished>{{ v['date_established'] }}</wmdr:dateEstablished>
             <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ v['territory']['name']|upper }}"/>
             <wmdr:territoryNameValidPeriod>
-                <gml:TimePeriod gml:id="tp2">
+                <gml:TimePeriod gml:id="tpterritoryNameValidPeriod">
                     <gml:beginPosition>{{ v['territory']['valid_period']['begin'] }}</gml:beginPosition>
                     {% if v['territory']['valid_period']['end'] %}
                     <gml:endPosition>{{ v['territory']['valid_period']['end'] }}</gml:endPosition>
@@ -72,10 +72,12 @@
                 </gml:TimePeriod>
             </wmdr:territoryNameValidPeriod>
             <wmdr:wmoRegion xlink:href="http://codes.wmo.int/wmdr/WMORegion/{{ v['wmo_region'] }}"/>
+<!--
             <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ v['status'] }}"/>
             {% for item in v['program_affiliation'] %}
             <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
             {% endfor %}
+-->
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}

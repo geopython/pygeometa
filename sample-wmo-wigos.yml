@@ -26,6 +26,7 @@ contact:
         contactinstructions: email
 
     facility: *contact_main
+    record_owner: *contact_main
 
 facility:
     first_station:
