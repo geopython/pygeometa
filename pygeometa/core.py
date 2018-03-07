@@ -172,6 +172,25 @@ def prune_distribution_formats(formats):
     return unique_formats
 
 
+def prune_transfer_option(formats, language):
+    """derive a unique list of transfer options.
+    The unique character is based on identification language"""
+
+    unique_transfer = []
+    nil_reasons = ['missing',
+                   'withheld',
+                   'inapplicable',
+                   'unknown',
+                   'template']
+
+    for k, v in formats.items():
+            if language.split(";")[0] in k and language not in nil_reasons:
+                unique_transfer.append(v)
+            elif language in nil_reasons:
+                unique_transfer.append(v)
+    return unique_transfer
+
+
 def read_mcf(mcf):
     """returns dict of YAML file from filepath, string or dict"""
 
@@ -286,10 +305,12 @@ def render_template(mcf, schema=None, schema_local=None):
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
     env.filters['prune_distribution_formats'] = prune_distribution_formats
+    env.filters['prune_transfer_option'] = prune_transfer_option
     env.globals.update(zip=zip)
     env.globals.update(get_charstring=get_charstring)
     env.globals.update(normalize_datestring=normalize_datestring)
     env.globals.update(prune_distribution_formats=prune_distribution_formats)
+    env.globals.update(prune_transfer_option=prune_transfer_option)
 
     try:
         LOGGER.debug('Loading template')

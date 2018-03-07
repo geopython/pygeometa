@@ -292,7 +292,7 @@
       </gmd:distributor>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% set formats = prune_distribution_formats(record['distribution']) %}
+        {% set formats = prune_transfer_option(record['distribution'], record['identification']['language']) %}
         {% for v in formats %}
           <gmd:onLine>
             <gmd:CI_OnlineResource>
