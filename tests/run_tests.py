@@ -54,7 +54,8 @@ import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_template,
                             get_charstring, get_supported_schemas,
-                            prune_distribution_formats, MCFReadError)
+                            prune_distribution_formats,
+                            prune_transfer_option, MCFReadError)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -182,6 +183,27 @@ class PygeometaTest(unittest.TestCase):
 
         self.assertEqual(len(new_formats), 2,
                          'Expected 2 unique distribution formats')
+
+    def test_prune_transfer_option(self):
+        """Test deriving unique trasnfer options"""
+
+        language = "eng; CAN"
+        unique_transfer = {
+            'waf_eng-CAN': {
+                'name': 'Datamart'
+            },
+            'wms_eng-CAN': {
+                'name': 'GeoMet'
+            },
+            'wms_fra-CAN': {
+                'name': 'GeoMet french'
+            }
+        }
+
+        new_transfer = prune_transfer_option(unique_transfer, language)
+
+        self.assertEqual(len(new_transfer), 2,
+                         'Expected 2 unique transfer option')
 
     def test_get_supported_schemas(self):
         """Test supported schemas"""
