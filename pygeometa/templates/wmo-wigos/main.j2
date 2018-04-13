@@ -14,20 +14,31 @@
     </wmdr:headerInformation>
     {% for k, v in record['facility'].items() %}
     <wmdr:facility>
-        <wmdr:ObservingFacility gml:id="ObservingFacility.{{ v['identifier'] }}">
+        <wmdr:ObservingFacility gml:id="_{{ v['identifier'] }}">
             <gml:identifier codeSpace="http://wigos.wmo.int">http://wigos.wmo.int/{{ v['identifier'] }}</gml:identifier>
             <gml:name>{{ v['name'] }}</gml:name>
             <wmdr:responsibleParty>
-                {% set contact = record['contact']['facility'] %}
-                {% set contact_id = 'responsibleParty' %}
-                {% set role = 'pointOfContact' %}
-                {% include "contact.j2" %}
+                <wmdr:ResponsibleParty>
+                    <wmdr:responsibleParty>
+                        {% set contact = record['contact']['facility'] %}
+                        {% set contact_id = 'responsibleParty' %}
+                        {% set role = 'pointOfContact' %}
+                        {% include "contact.j2" %}
+                    </wmdr:responsibleParty>
+                </wmdr:ResponsibleParty>
             </wmdr:responsibleParty>
             {% for gl in v['spatiotemporal'] %}
             <wmdr:geospatialLocation>
-                <wmdr:TimestampedLocation>
+                <wmdr:GeospatialLocation>
+                    {% set pos = gl['location']['point'].split(',') %}
+                    <wmdr:geoLocation>
+                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p1">
+                            <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
+                        </gml:Point>
+                    </wmdr:geoLocation>
+                    <wmdr:geopositioningMethod xlink:href="http://codes.wmo.int/wmdr/GeopositioningMethod/{{ v['geopositioning_method']|lower }}"/>
                     <wmdr:validTimePeriod>
-                        <gml:TimePeriod gml:id="tp{{ loop.index }}">
+                        <gml:TimePeriod gml:id="tp1">
                             <gml:beginPosition>{{ gl['timeperiod']['begin'] }}</gml:beginPosition>
                             {% if gl['timeperiod']['end'] %}
                             <gml:endPosition>{{ gl['timeperiod']['end'] }}</gml:endPosition>
@@ -36,16 +47,9 @@
                             {% endif %}
                         </gml:TimePeriod>
                     </wmdr:validTimePeriod>
-                    {% set pos = gl['location']['point'].split(',') %}
-                    <wmdr:location>
-                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p{{ loop.index }}">
-                            <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
-                        </gml:Point>
-                    </wmdr:location>
-                </wmdr:TimestampedLocation>
+                </wmdr:GeospatialLocation>
             </wmdr:geospatialLocation>
             {% endfor %}
-            <wmdr:geopositioningMethod xlink:href="http://codes.wmo.int/wmdr/GeopositioningMethod/{{ v['geopositioning_method']|lower }}"/>
             <wmdr:onlineResource>
                 <gmd:CI_OnlineResource>
                     <gmd:linkage>
@@ -60,24 +64,31 @@
                 </gmd:CI_OnlineResource>
             </wmdr:onlineResource>
             <wmdr:dateEstablished>{{ v['date_established'] }}</wmdr:dateEstablished>
-            <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ v['territory']['name']|upper }}"/>
-            <wmdr:territoryNameValidPeriod>
-                <gml:TimePeriod gml:id="tpterritoryNameValidPeriod">
-                    <gml:beginPosition>{{ v['territory']['valid_period']['begin'] }}</gml:beginPosition>
-                    {% if v['territory']['valid_period']['end'] %}
-                    <gml:endPosition>{{ v['territory']['valid_period']['end'] }}</gml:endPosition>
-                    {% else %}
-                    <gml:endPosition indeterminatePosition="now"/>
-                    {% endif %}
-                </gml:TimePeriod>
-            </wmdr:territoryNameValidPeriod>
             <wmdr:wmoRegion xlink:href="http://codes.wmo.int/wmdr/WMORegion/{{ v['wmo_region'] }}"/>
-<!--
-            <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ v['status'] }}"/>
-            {% for item in v['program_affiliation'] %}
-            <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+            <wmdr:territory>
+                <wmdr:Territory>
+                    <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ v['territory_name']|upper }}"/>
+                </wmdr:Territory>
+            </wmdr:territory>
+            {% for item in v['program_affiliation'][:1] %}
+            <wmdr:programAffiliation>
+                <wmdr:ProgramAffiliation>
+                    <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+                    <wmdr:reportingStatus>
+                        <wmdr:ReportingStatus>
+                            <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ v['status'] }}"/>
+                        </wmdr:ReportingStatus>
+                    </wmdr:reportingStatus>
+                </wmdr:ProgramAffiliation>
+            </wmdr:programAffiliation>
             {% endfor %}
--->
+            {% for item in v['program_affiliation'][1:] %}
+            <wmdr:programAffiliation>
+                <wmdr:ProgramAffiliation>
+                    <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+                </wmdr:ProgramAffiliation>
+            </wmdr:programAffiliation>
+            {% endfor %}
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}
