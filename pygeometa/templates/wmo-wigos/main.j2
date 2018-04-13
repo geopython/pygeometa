@@ -38,7 +38,7 @@
                     </wmdr:geoLocation>
                     <wmdr:geopositioningMethod xlink:href="http://codes.wmo.int/wmdr/GeopositioningMethod/{{ v['geopositioning_method']|lower }}"/>
                     <wmdr:validTimePeriod>
-                        <gml:TimePeriod gml:id="tp1">
+                        <gml:TimePeriod gml:id="tp{{ loop.index }}">
                             <gml:beginPosition>{{ gl['timeperiod']['begin'] }}</gml:beginPosition>
                             {% if gl['timeperiod']['end'] %}
                             <gml:endPosition>{{ gl['timeperiod']['end'] }}</gml:endPosition>
