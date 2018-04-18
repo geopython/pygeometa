@@ -32,7 +32,7 @@
                 <wmdr:GeospatialLocation>
                     {% set pos = gl['location']['point'].split(',') %}
                     <wmdr:geoLocation>
-                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p1">
+                        <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p{{ loop.index }}">
                             <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
                         </gml:Point>
                     </wmdr:geoLocation>
