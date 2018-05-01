@@ -119,7 +119,11 @@ def normalize_datestring(datestring, format_='default'):
 
     try:
         if isinstance(datestring, date):
-            datestring2 = datestring.strftime('%Y-%m-%dT%H:%M:%SZ')
+            if datestring.year < 1900:
+                datestring2 = '{0.day:02d}.{0.month:02d}.{0.year:4d}'.format(
+                    datestring)
+            else:
+                datestring2 = datestring.strftime('%Y-%m-%dT%H:%M:%SZ')
             if datestring2.endswith('T00:00:00Z'):
                 datestring2 = datestring2.replace('T00:00:00Z', '')
             return datestring2
