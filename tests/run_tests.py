@@ -267,6 +267,12 @@ class PygeometaTest(unittest.TestCase):
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
+    def test_pre1900_dates(self):
+        """test datestrings that are pre-1900"""
+
+        xml = render_template(get_abspath('dates-pre-1900.yml'), 'iso19139')
+        self.assertIsInstance(xml, text_type, 'Expected unicode string')
+
     def test_wmo_wigos(self):
         """test WMO WIGOS Metadata support"""
 
