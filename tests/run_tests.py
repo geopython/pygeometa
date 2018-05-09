@@ -267,6 +267,22 @@ class PygeometaTest(unittest.TestCase):
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
+    def test_deep_nested_mcf(self):
+        """test deep nested mcf support"""
+
+        mcf = read_mcf(get_abspath('deep-nest-child.yml'))
+
+        self.assertEqual(mcf['metadata']['identifier'], 'MYID',
+                         'Expected specific identifier')
+
+        self.assertEqual(mcf['identification']['title_en'], 'child title',
+                         'Expected specific title')
+        self.assertEqual(mcf['distribution']['waf']['url'],
+                         'http://dd.meteo.gc.ca', 'Expected specific URL')
+
+        self.assertEqual(mcf['contact']['main']['positionname'],
+                         'Senior Systems Scientist', 'Expected specific name')
+
     def test_pre1900_dates(self):
         """test datestrings that are pre-1900"""
 

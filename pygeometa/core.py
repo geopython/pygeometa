@@ -229,7 +229,8 @@ def read_mcf(mcf):
 
         :param dct: dict onto which the merge is executed
         :param merge_dct: dct merged into dct
-        :return: None
+
+        :returns: None
         """
         for k, v in merge_dct.items():
             if (k in dct and isinstance(dct[k], dict)
@@ -248,6 +249,11 @@ def read_mcf(mcf):
             else:
                 if k == 'base_mcf':
                     base_mcf_dict = __to_dict(get_abspath(mcf, v))
+                    for k2, v2 in base_mcf_dict.copy().items():
+                        if k2 == 'base_mcf':
+                            base_mcf_dict2 = __to_dict(get_abspath(mcf, v2))
+                            __dict_merge(base_mcf_dict, base_mcf_dict2)
+                            base_mcf_dict.pop(k2, None)
                     __dict_merge(dict2, base_mcf_dict)
                     dict2.pop(k, None)
         return dict2
