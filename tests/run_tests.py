@@ -54,6 +54,7 @@ import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_template,
                             get_charstring, get_supported_schemas,
+                            normalize_datestring,
                             prune_distribution_formats,
                             prune_transfer_option, MCFReadError)
 
@@ -163,6 +164,12 @@ class PygeometaTest(unittest.TestCase):
         values = get_charstring('notfound',
                                 {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
+
+    def test_normalize_datestring(self):
+        """Test datestring utility"""
+
+        date_value = normalize_datestring(2013)
+        self.assertIsInstance(date_value, str)
 
     def test_prune_distribution_formats(self):
         """Test deriving unique distribution formats"""
