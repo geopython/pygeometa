@@ -334,7 +334,7 @@ def render_template(mcf, schema=None, schema_local=None):
 
     LOGGER.debug('Processing template')
     xml = template.render(record=read_mcf(mcf),
-                          software_version=VERSION).encode('utf-8')
+                          pygeometa_version=VERSION).encode('utf-8')
     return pretty_print(xml)
 
 
@@ -359,7 +359,7 @@ class MCFReadError(Exception):
     pass
 
 
-@click.command()
+@click.command('generate-metadata')
 @click.pass_context
 @click.option('--mcf',
               type=click.Path(exists=True, resolve_path=True),
