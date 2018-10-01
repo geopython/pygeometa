@@ -208,16 +208,21 @@ def read_mcf(mcf):
 
         dict_ = None
 
-        if isinstance(mcf_object, dict):
-            LOGGER.debug('mcf object is already a dict')
-            dict_ = mcf_object
-        elif 'metadata:' in mcf_object:
-            LOGGER.debug('mcf object is a string')
-            dict_ = yaml.load(mcf_object)
-        else:
-            LOGGER.debug('mcf object is likely a filepath')
-            with io.open(mcf_object, encoding='utf-8') as fh:
-                dict_ = yaml.load(fh)
+        try:
+            if isinstance(mcf_object, dict):
+                LOGGER.debug('mcf object is already a dict')
+                dict_ = mcf_object
+            elif 'metadata:' in mcf_object:
+                LOGGER.debug('mcf object is a string')
+                dict_ = yaml.load(mcf_object)
+            else:
+                LOGGER.debug('mcf object is likely a filepath')
+                with io.open(mcf_object, encoding='utf-8') as fh:
+                    dict_ = yaml.load(fh)
+        except yaml.scanner.ScannerError as err:
+            msg = 'YAML parsing error: {}'.format(err)
+            LOGGER.exception(msg)
+            raise MCFReadError(msg)
 
         return dict_
 

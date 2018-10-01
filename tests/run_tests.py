@@ -296,6 +296,12 @@ class PygeometaTest(unittest.TestCase):
         xml = render_template(get_abspath('dates-pre-1900.yml'), 'iso19139')
         self.assertIsInstance(xml, text_type, 'Expected unicode string')
 
+    def test_broken_yaml(self):
+        """test against broken YAML"""
+
+        with self.assertRaises(MCFReadError):
+            render_template(get_abspath('broken-yaml.yml'), 'iso19139')
+
     def test_wmo_wigos(self):
         """test WMO WIGOS Metadata support"""
 
