@@ -68,7 +68,9 @@
                     </gmd:function>
                 </gmd:CI_OnlineResource>
             </wmdr:onlineResource>
+            {% if v['date_established'] %}
             <wmdr:dateEstablished>{{ v['date_established'] }}</wmdr:dateEstablished>
+            {% endif %}
             <wmdr:wmoRegion xlink:href="http://codes.wmo.int/wmdr/WMORegion/{{ v['wmo_region'] }}"/>
             <wmdr:territory>
                 <wmdr:Territory>
