@@ -37,11 +37,13 @@
                     {% else %}
                     <wmdr:geoLocation>
                         <gml:Point srsDimension="{{ pos|length }}" srsName="http://www.opengis.net/def/crs/EPSG/0/{{ gl['location']['crs'] }}" gml:id="p{{ loop.index }}">
-                            <gml:pos>{{ pos[0] }} {{ pos[1] }} {{ pos[2] }}</gml:pos>
+                            <gml:pos>{{ pos[1] }} {{ pos[0] }} {{ pos[2] }}</gml:pos>
                         </gml:Point>
                     </wmdr:geoLocation>
                     {% endif %}
+                    {% if v['geoposition_method'] %}
                     <wmdr:geopositioningMethod xlink:href="http://codes.wmo.int/wmdr/GeopositioningMethod/{{ v['geopositioning_method']|lower }}"/>
+                    {% endif %}
                     <wmdr:validPeriod>
                         <gml:TimePeriod gml:id="tp{{ loop.index }}">
                             <gml:beginPosition>{{ gl['timeperiod']['begin'] }}</gml:beginPosition>
