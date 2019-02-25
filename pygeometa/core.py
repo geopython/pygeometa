@@ -74,7 +74,7 @@ def get_charstring(option, section_items, language,
     option_value1 = None
     option_value2 = None
 
-    if 'language_alternate' is None:  # unilingual
+    if 'language_alternate' is None:  # noqa unilingual
         option_tmp = '{}_{}'.format(option, language)
         if option_tmp in section_items:
             option_value1 = section_items[option_tmp]
@@ -190,10 +190,10 @@ def prune_transfer_option(formats, language):
                    'template']
 
     for k, v in formats.items():
-            if language.split(";")[0] in k and language not in nil_reasons:
-                unique_transfer.append(v)
-            elif language in nil_reasons:
-                unique_transfer.append(v)
+        if language.split(";")[0] in k and language not in nil_reasons:
+            unique_transfer.append(v)
+        elif language in nil_reasons:
+            unique_transfer.append(v)
     return unique_transfer
 
 
