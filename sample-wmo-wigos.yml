@@ -44,8 +44,23 @@ facility:
                  crs: 4326
                  point: -75,45,400
         date_established: 1999-11-11
-        program_affiliation: ['WIGOSnonAffiliated']
-        status: operational
+        program_affiliation:
+            - program: 'WIGOSnonAffiliated'
+              reporting_status:
+                - valid_period:
+                    begin: 1999-11-11
+                    end: now # optional
+                  status: operational
+            - program: 'GOS'
+              reporting_status:
+                - valid_period:
+                    begin: 1999-11-11
+                    end:  2018-08-02
+                  status: operational
+                - valid_period:
+                    begin: 2018-08-02
+                    end: now # optional
+                  status: closed
         territory:
             name: CAN
             valid_period:

@@ -60,3 +60,21 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 timeperiod|Mandatory|Specifies at least the begin date accompanying the location|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 7.9
 location|Mandatory.  The location property includes a `crs` property (EPSG code), and `point` property (x,y,z)|Representative or conventional geospatial location of observing facility, the reference location. This will always be a point location, but this location can change with time. |`crs: 4326, point: -75,45,400`, `end: now`|WIGOS Metadata Representation, Section 7.9
+
+#### `program_affiliation`
+The `program_affiliation` object is a child of the `facility` object and
+allows for specifying 1..n child objects to model program affiliations.
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+program|Mandatory|Program Affiliation, see http://test.wmocodes.info/wmdr/ProgramAffiliation|`GOS`|WIGOS Metadata Representation, Section 4.3.2
+
+#### `reporting_status`
+The `reporting_status` object is a child of the `program_affiliation` object and
+allows for specifying 1..n child objects to model program affiliations reporting status
+over time.
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+status|Mandatory|Declared reporting status of the observing facility from the ReportingStatusType codelist (http://test.wmocodes.info/wmdr/_ReportingStatus)|operational|
+valid_period|Optional|Specifies at least the begin date of the indicated reportingStatus.|`begin:2011-11-11`, `end: now`|
+
