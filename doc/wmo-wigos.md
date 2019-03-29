@@ -73,8 +73,9 @@ program|Mandatory|Program Affiliation, see http://test.wmocodes.info/wmdr/Progra
 The `reporting_status` object is a child of the `program_affiliation` object and
 allows for specifying 1..n child objects to model program affiliations reporting status
 over time.
+
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-status|Mandatory|Declared reporting status of the observing facility from the ReportingStatusType codelist (http://test.wmocodes.info/wmdr/_ReportingStatus)|operational|
+status|Mandatory|Declared reporting status of the observing facility from the ReportingStatusType codelist (http://test.wmocodes.info/wmdr/_ReportingStatus)|oerational|
 valid_period|Optional|Specifies at least the begin date of the indicated reportingStatus.|`begin:2011-11-11`, `end: now`|
 
