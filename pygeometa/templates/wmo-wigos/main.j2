@@ -79,22 +79,28 @@
                     <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ v['territory_name']|upper }}"/>
                 </wmdr:Territory>
             </wmdr:territory>
-            {% for item in v['program_affiliation'][:1] %}
+            {% for pa in v['program_affiliation'] %}
+            {% set outer_loop = loop %}
             <wmdr:programAffiliation>
                 <wmdr:ProgramAffiliation>
-                    <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+                    <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ pa['program'] }}"/>
+                    {% for rs in pa['reporting_status'] %}
                     <wmdr:reportingStatus>
                         <wmdr:ReportingStatus>
-                            <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ v['status'] }}"/>
+                            <wmdr:reportingStatus xlink:href="http://codes.wmo.int/wmdr/ReportingStatus/{{ rs['status'] }}"/>
+                            <wmdr:validPeriod>
+                                 <gml:TimePeriod gml:id="stp_{{ outer_loop.index }}_{{ loop.index }}">
+                                    <gml:beginPosition>{{ rs['valid_period']['begin'] }}</gml:beginPosition>
+                                    {% if rs['valid_period']['end'] %}
+                                    <gml:endPosition>{{ rs['valid_period']['end'] }}</gml:endPosition>
+                                    {% else %}
+                                    <gml:endPosition indeterminatePosition="now"/>
+                                    {% endif %}
+                                </gml:TimePeriod>
+                            </wmdr:validPeriod>
                         </wmdr:ReportingStatus>
                     </wmdr:reportingStatus>
-                </wmdr:ProgramAffiliation>
-            </wmdr:programAffiliation>
-            {% endfor %}
-            {% for item in v['program_affiliation'][1:] %}
-            <wmdr:programAffiliation>
-                <wmdr:ProgramAffiliation>
-                    <wmdr:programAffiliation xlink:href="http://codes.wmo.int/wmdr/ProgramAffiliation/{{ item }}"/>
+                    {% endfor %}
                 </wmdr:ProgramAffiliation>
             </wmdr:programAffiliation>
             {% endfor %}
