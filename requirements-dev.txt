@@ -2,4 +2,3 @@ coverage
 docutils
 flake8
 pylint
-pypandoc
