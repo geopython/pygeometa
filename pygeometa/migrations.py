@@ -47,7 +47,7 @@ import codecs
 import logging
 
 import click
-from six.moves.configparser import SafeConfigParser as ConfigParser
+from configparser import SafeConfigParser
 import yaml
 
 LOGGER = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ LOGGER = logging.getLogger(__name__)
 
 def configparser2yaml(cpfile):
     dict_ = {}
-    cp = ConfigParser()
+    cp = SafeConfigParser()
 
     with codecs.open(cpfile, encoding='utf-8') as fh:
         cp.readfp(fh)
