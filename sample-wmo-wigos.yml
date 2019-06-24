@@ -62,8 +62,8 @@ facility:
                     end: now # optional
                   status: closed
         territory:
-            name: CAN
-            valid_period:
-                begin: 1999-11-11
-                end: now # optional
+            - name: CAN
+              valid_period:
+                  begin: 1999-11-11
+                  end: now # optional
         wmo_region: northCentralAmericaCaribbean

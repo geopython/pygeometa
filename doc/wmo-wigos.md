@@ -43,7 +43,9 @@ wmo_region|Mandatory|The WMO region the observing facility is located in, from t
 
 #### `territory`
 
-The `territory` object is a child of the `facility` object
+The `territory` object is a child of the `facility` object and
+allows for specifying 1..n child objects to model changing territory names
+over time.  At least one child object is required.
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
