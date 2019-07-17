@@ -99,7 +99,7 @@ class PygeometaTest(unittest.TestCase):
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
         # test as dict
-        mcf_dict = yaml.load(mcf_string)
+        mcf_dict = yaml.load(mcf_string, Loader=yaml.FullLoader)
         mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
