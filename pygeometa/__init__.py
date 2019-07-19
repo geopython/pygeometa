@@ -49,7 +49,7 @@ import click
 from pygeometa.core import generate_metadata
 from pygeometa.migrations import migrate
 
-__version__ = '0.5.dev0'
+__version__ = '0.6.dev0'
 
 
 @click.group()
