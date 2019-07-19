@@ -49,7 +49,6 @@ import datetime
 import os
 import unittest
 
-from six import text_type
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_template,
@@ -100,7 +99,7 @@ class PygeometaTest(unittest.TestCase):
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
         # test as dict
-        mcf_dict = yaml.load(mcf_string)
+        mcf_dict = yaml.load(mcf_string, Loader=yaml.FullLoader)
         mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
@@ -132,7 +131,7 @@ class PygeometaTest(unittest.TestCase):
         xml = render_template(get_abspath('../sample.yml'), 'iso19139')
         xml2 = pretty_print(xml)
 
-        self.assertIsInstance(xml2, text_type, 'Expected unicode string')
+        self.assertIsInstance(xml2, str, 'Expected unicode string')
         self.assertEqual(xml2[-1], '>', 'Expected closing bracket')
         self.assertTrue(xml2.startswith('<?xml'), 'Expected XML declaration')
 
@@ -234,7 +233,7 @@ class PygeometaTest(unittest.TestCase):
 
         for mcf_path in test_mcf_paths:
             xml = render_template(get_abspath(mcf_path), 'iso19139')
-            self.assertIsInstance(xml, text_type, 'Expected unicode string')
+            self.assertIsInstance(xml, str, 'Expected unicode string')
 
             # no schema provided
             with self.assertRaises(RuntimeError):
@@ -294,7 +293,7 @@ class PygeometaTest(unittest.TestCase):
         """test datestrings that are pre-1900"""
 
         xml = render_template(get_abspath('dates-pre-1900.yml'), 'iso19139')
-        self.assertIsInstance(xml, text_type, 'Expected unicode string')
+        self.assertIsInstance(xml, str, 'Expected unicode string')
 
     def test_broken_yaml(self):
         """test against broken YAML"""

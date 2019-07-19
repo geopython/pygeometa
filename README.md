@@ -167,6 +167,13 @@ cd tests
 python run_tests.py
 ```
 
+## Releasing
+
+```bash
+python setup.py sdist bdist_wheel --universal
+twine upload dist/*
+```
+
 ### Code Conventions
 
 * [PEP8](https://www.python.org/dev/peps/pep-0008)

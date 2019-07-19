@@ -214,11 +214,11 @@ def read_mcf(mcf):
                 dict_ = mcf_object
             elif 'metadata:' in mcf_object:
                 LOGGER.debug('mcf object is a string')
-                dict_ = yaml.load(mcf_object)
+                dict_ = yaml.load(mcf_object, Loader=yaml.FullLoader)
             else:
                 LOGGER.debug('mcf object is likely a filepath')
                 with io.open(mcf_object, encoding='utf-8') as fh:
-                    dict_ = yaml.load(fh)
+                    dict_ = yaml.load(fh, Loader=yaml.FullLoader)
         except yaml.scanner.ScannerError as err:
             msg = 'YAML parsing error: {}'.format(err)
             LOGGER.exception(msg)
