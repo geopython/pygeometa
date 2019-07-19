@@ -116,6 +116,23 @@
                 </wmdr:ProgramAffiliation>
             </wmdr:programAffiliation>
             {% endfor %}
+            <wmdr:climateZone>
+                <wmdr:ClimateZone>
+                    {% for c in v['climate_zone'] %}
+                    <wmdr:climateZone xlink:type="simple" xlink:href="http://codes.wmo.int/wmdr/ClimateZone/{{ c['name'] }}"/>
+                    <wmdr:validPeriod>
+                        <gml:TimePeriod gml:id="cz_{{ loop.index }}">
+                            <gml:beginPosition>{{ c['valid_period']['begin'] }}</gml:beginPosition>
+                            {% if c['valid_period']['end'] %}
+                                <gml:endPosition>{{ c['valid_period']['end'] }}</gml:endPosition>
+                            {% else %}
+                                <gml:endPosition indeterminatePosition="now"/>
+                            {% endif %}
+                        </gml:TimePeriod>
+                    </wmdr:validPeriod>
+                    {% endfor %}
+                </wmdr:ClimateZone>
+            </wmdr:climateZone>
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}

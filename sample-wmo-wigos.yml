@@ -67,3 +67,9 @@ facility:
                   begin: 1999-11-11
                   end: now # optional
         wmo_region: northCentralAmericaCaribbean
+        climate_zone:
+            - name: snowFullyHumidCoolSummer
+              valid_period:
+                  begin: 1999-11-11
+                  end: now # optional
+        
