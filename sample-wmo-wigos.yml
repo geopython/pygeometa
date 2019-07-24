@@ -76,4 +76,14 @@ facility:
               valid_period:
                   begin: 2000-11-11
                   end: now # optional
-        
+        surface_cover:
+            - name: rainfedCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: mosaicCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional

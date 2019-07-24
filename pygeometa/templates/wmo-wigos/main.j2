@@ -133,6 +133,30 @@
                 </wmdr:ClimateZone>
             </wmdr:climateZone>
             {% endfor %}
+            
+            {% for c in v['surface_cover'] %}
+            <wmdr:surfaceCover>
+                <wmdr:SurfaceCover>
+                    <wmdr:surfaceCover xlink:href="http://codes.wmo.int/wmdr/SurfaceCover/{{ c['name'] }}"/>
+                    <wmdr:surfaceCoverClassification xlink:type="simple" xlink:href="http://codes.wmo.int/wmdr/SurfaceCoverClassification/{{ c['surface_cover_classification'] }}"/>
+                    <wmdr:validPeriod>
+                        <gml:TimePeriod gml:id="sc_{{ loop.index }}">
+                            <gml:beginPosition>{{ c['valid_period']['begin'] }}</gml:beginPosition>
+                            {% if c['valid_period']['end'] %}
+                                <gml:endPosition>{{ c['valid_period']['end'] }}</gml:endPosition>
+                            {% else %}
+                                <gml:endPosition indeterminatePosition="now"/>
+                            {% endif %}
+                        </gml:TimePeriod>
+                    </wmdr:validPeriod>
+                </wmdr:SurfaceCover>
+            </wmdr:surfaceCover>
+            {% endfor %}
+
+            
+            
+            
+            
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}
