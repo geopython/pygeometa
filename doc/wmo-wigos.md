@@ -98,6 +98,6 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 name|Mandatory|Predominant surface cover, from the given surface cover classification scheme and the SurfaceCover codelist (http://test.wmocodes.info/wmdr/_SurfaceCover)|rainfedCroplands|WIGOS Metadata Representation, Section 4.3.2
 surface_cover_classification|Mandatory|Surface cover classification scheme, from the SurfaceCoverClassification codelist (http://test.wmocodes.info/wmdr/_SurfaceCoverClassification)|globCover2009|WIGOS Metadata Representation, Section 4.3.2
-valid_period|Optional|Specifies at least the begin date of the indicated climateZone. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
+valid_period|Optional|Specifies at least the begin date. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
 
 
