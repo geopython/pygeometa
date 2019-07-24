@@ -71,5 +71,9 @@ facility:
             - name: snowFullyHumidCoolSummer
               valid_period:
                   begin: 1999-11-11
+                  end: 2000-11-11
+            - name: snowFullyHumidWarmSummer
+              valid_period:
+                  begin: 2000-11-11
                   end: now # optional
         
