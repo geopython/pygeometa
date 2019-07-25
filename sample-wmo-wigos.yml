@@ -96,3 +96,18 @@ facility:
               valid_period:
                   begin: 2000-11-11
                   end: now # optional
+        topography_bathymetry:
+            - local_topography: unknown
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - local_topography: flat
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional

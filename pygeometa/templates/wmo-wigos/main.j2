@@ -151,7 +151,6 @@
                 </wmdr:SurfaceCover>
             </wmdr:surfaceCover>
             {% endfor %}
-            
             {% for c in v['surface_roughness'] %}
             <wmdr:surfaceRoughness>
                 <wmdr:SurfaceRoughness>
@@ -169,7 +168,26 @@
                 </wmdr:SurfaceRoughness>
             </wmdr:surfaceRoughness>
             {% endfor %}
-            
+            {% for c in v['topography_bathymetry'] %}
+            <wmdr:topographyBathymetry>
+                <wmdr:TopographyBathymetry>
+                    <wmdr:localTopography xlink:href="http://codes.wmo.int/wmdr/LocalTopography/{{ c['local_topography'] }}"/>
+                    <wmdr:relativeElevation xlink:href="http://codes.wmo.int/wmdr/RelativeElevation/{{ c['relative_elevation'] }}"/>
+                    <wmdr:topographicContext xlink:href="http://codes.wmo.int/wmdr/TopographicContext/{{ c['topographic_context'] }}"/>
+                    <wmdr:altitudeOrDepth xlink:href="http://codes.wmo.int/wmdr/AltitudeOrDepth/{{ c['altitude_or_depth'] }}"/>
+                    <wmdr:validPeriod>
+                        <gml:TimePeriod gml:id="tb_{{ loop.index }}">
+                            <gml:beginPosition>{{ c['valid_period']['begin'] }}</gml:beginPosition>
+                            {% if c['valid_period']['end'] %}
+                                <gml:endPosition>{{ c['valid_period']['end'] }}</gml:endPosition>
+                            {% else %}
+                                <gml:endPosition indeterminatePosition="now"/>
+                            {% endif %}
+                        </gml:TimePeriod>
+                    </wmdr:validPeriod>
+                </wmdr:TopographyBathymetry>
+            </wmdr:topographyBathymetry>
+            {% endfor %}
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}
