@@ -151,6 +151,25 @@
                 </wmdr:SurfaceCover>
             </wmdr:surfaceCover>
             {% endfor %}
+            
+            {% for c in v['surface_roughness'] %}
+            <wmdr:surfaceRoughness>
+                <wmdr:SurfaceRoughness>
+                    <wmdr:surfaceRoughness xlink:href="http://codes.wmo.int/wmdr/SurfaceRoughness/{{ c['name'] }}"/>
+                    <wmdr:validPeriod>
+                        <gml:TimePeriod gml:id="sr_{{ loop.index }}">
+                            <gml:beginPosition>{{ c['valid_period']['begin'] }}</gml:beginPosition>
+                            {% if c['valid_period']['end'] %}
+                                <gml:endPosition>{{ c['valid_period']['end'] }}</gml:endPosition>
+                            {% else %}
+                                <gml:endPosition indeterminatePosition="now"/>
+                            {% endif %}
+                        </gml:TimePeriod>
+                    </wmdr:validPeriod>
+                </wmdr:SurfaceRoughness>
+            </wmdr:surfaceRoughness>
+            {% endfor %}
+            
         </wmdr:ObservingFacility>
     </wmdr:facility>
     {% endfor %}

@@ -87,3 +87,12 @@ facility:
               valid_period:
                   begin: 2000-11-11
                   end: now # optional
+        surface_roughness:
+            - name: rough
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: roughlyOpen
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional

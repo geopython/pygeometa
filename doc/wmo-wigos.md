@@ -49,7 +49,7 @@ over time.  At least one child object is required.
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-name|Mandatory|The territory the observing facility is located in, from the TerritoryType codelist (http://test.wmocodes.info/wmdr/_TerritoryName)|CAN|WIGOS Metadata Representation, Section 4.3.2
+name|Mandatory|The territory the observing facility is located in, from the TerritoryType codelist (http://test.wmocodes.info/wmdr/_TerritoryName)|`CAN`|WIGOS Metadata Representation, Section 4.3.2
 valid_period|Optional|Specifies at least the begin date of the indicated territoryName. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
 
 #### `spatiotemporal`
@@ -78,7 +78,7 @@ over time.
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-status|Mandatory|Declared reporting status of the observing facility from the ReportingStatusType codelist (http://test.wmocodes.info/wmdr/_ReportingStatus)|oerational|
+status|Mandatory|Declared reporting status of the observing facility from the ReportingStatusType codelist (http://test.wmocodes.info/wmdr/_ReportingStatus)|`oerational`|
 valid_period|Optional|Specifies at least the begin date of the indicated reportingStatus.|`begin:2011-11-11`, `end: now`|
 
 #### `climate_zone`
@@ -87,8 +87,8 @@ allows for specifying 1..n child objects to model changing climate zones over ti
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-name|Mandatory|Climate zone of the observing facility, from the ClimateZone codelist (http://test.wmocodes.info/wmdr/_ClimateZone)|snowFullyHumidCoolSummer|WIGOS Metadata Representation, Section 4.3.2
-valid_period|Optional|Specifies at least the begin date of the indicated climateZone. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
+name|Mandatory|Climate zone of the observing facility, from the ClimateZone codelist (http://test.wmocodes.info/wmdr/_ClimateZone)|`snowFullyHumidCoolSummer`|WIGOS Metadata Representation, Section 4.3.2
+valid_period|Optional|Specifies at least the begin date of the indicated climate zone. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
 
 #### `surface_cover`
 The `surface_cover` object is a child of the `facility` object and
@@ -96,8 +96,16 @@ allows for specifying 1..n child objects to model changing surface covers over t
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-name|Mandatory|Predominant surface cover, from the given surface cover classification scheme and the SurfaceCover codelist (http://test.wmocodes.info/wmdr/_SurfaceCover)|rainfedCroplands|WIGOS Metadata Representation, Section 4.3.2
-surface_cover_classification|Mandatory|Surface cover classification scheme, from the SurfaceCoverClassification codelist (http://test.wmocodes.info/wmdr/_SurfaceCoverClassification)|globCover2009|WIGOS Metadata Representation, Section 4.3.2
+name|Mandatory|Predominant surface cover, from the given surface cover classification scheme and the SurfaceCover codelist (http://test.wmocodes.info/wmdr/_SurfaceCover)|`rainfedCroplands`|WIGOS Metadata Representation, Section 4.3.2
+surface_cover_classification|Mandatory|Surface cover classification scheme, from the SurfaceCoverClassification codelist (http://test.wmocodes.info/wmdr/_SurfaceCoverClassification)|`globCover2009`|WIGOS Metadata Representation, Section 4.3.2
 valid_period|Optional|Specifies at least the begin date. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
 
 
+#### `surface_roughness`
+The `surface_roughness` object is a child of the `facility` object and
+allows for specifying 1..n child objects.  At least one child object is required.
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|Surface roughness of surrounding of the observing facility, from the SurfaceRoughness codelist (http://test.wmocodes.info/wmdr/_SurfaceRoughness)|`rough`|WIGOS Metadata Representation, Section 4.3.2
+valid_period|Optional|Specifies at least the begin date of the indicated surface roughness. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
