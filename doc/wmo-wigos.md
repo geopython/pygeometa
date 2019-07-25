@@ -115,8 +115,8 @@ allows for specifying 0..n child objects to model topography or bathymetry descr
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-local_topography|Mandatory|Local topography of the observing facility from the LocalTopography codelist (http://test.wmocodes.info/wmdr/_LocalTopography)|`flat`|WIGOS Metadata Representation, Section 4.3.2
-relative_elevation|Mandatory|Relative elevation of the observing facility compared to its surrounding, from the RelativeElevation codelist (http://test.wmocodes.info/wmdr/_RelativeElevation)|`inapplicable`|WIGOS Metadata Representation, Section 4.3.2
-topographic_context|Mandatory|Topographic context of the observing facility, from the TopographicContext codelist (http://test.wmocodes.info/wmdr/_TopographicContext)|`plains`|WIGOS Metadata Representation, Section 4.3.2
-altitude_or_depth|Mandatory|Altitude or depth of observing facility, from the AltitudeOrDepth codelist (http://test.wmocodes.info/wmdr/_AltitudeOrDepth)|`middleAltitude`|WIGOS Metadata Representation, Section 4.3.2
+local_topography|Optional|Local topography of the observing facility from the LocalTopography codelist (http://test.wmocodes.info/wmdr/_LocalTopography)|`flat`|WIGOS Metadata Representation, Section 4.3.2
+relative_elevation|Optional|Relative elevation of the observing facility compared to its surrounding, from the RelativeElevation codelist (http://test.wmocodes.info/wmdr/_RelativeElevation)|`inapplicable`|WIGOS Metadata Representation, Section 4.3.2
+topographic_context|Optional|Topographic context of the observing facility, from the TopographicContext codelist (http://test.wmocodes.info/wmdr/_TopographicContext)|`plains`|WIGOS Metadata Representation, Section 4.3.2
+altitude_or_depth|Optional|Altitude or depth of observing facility, from the AltitudeOrDepth codelist (http://test.wmocodes.info/wmdr/_AltitudeOrDepth)|`middleAltitude`|WIGOS Metadata Representation, Section 4.3.2
 valid_period|Optional|Specifies at least the begin date. If omitted, the dateEstablished of the facility will be assumed|`begin:2011-11-11`, `end: now`|WIGOS Metadata Representation, Section 4.3.2
