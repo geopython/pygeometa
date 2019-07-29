@@ -70,6 +70,7 @@
                     </gmd:function>
                 </gmd:CI_OnlineResource>
             </wmdr:onlineResource>
+            <wmdr:facilityType xlink:href="http://codes.wmo.int/wmdr/FacilityType/{{ v['type'] }}"/>
             {% if v['date_established'] %}
             <wmdr:dateEstablished>{{ v['date_established'] }}</wmdr:dateEstablished>
             {% endif %}
