@@ -62,8 +62,52 @@ facility:
                     end: now # optional
                   status: closed
         territory:
-            name: CAN
-            valid_period:
-                begin: 1999-11-11
-                end: now # optional
+            - name: CAN
+              valid_period:
+                  begin: 1999-11-11
+                  end: now # optional
         wmo_region: northCentralAmericaCaribbean
+        climate_zone:
+            - name: snowFullyHumidCoolSummer
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: snowFullyHumidWarmSummer
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        surface_cover:
+            - name: rainfedCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: mosaicCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        surface_roughness:
+            - name: rough
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: roughlyOpen
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        topography_bathymetry:
+            - local_topography: unknown
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - local_topography: flat
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
