@@ -20,4 +20,4 @@ WMO support includes a `wmo` keywords section (WMO Core Metadata Profile 1.3, Pa
 
 ## Validation
 
-WMO Core Metadata Profile output can be validated using the [WMO Core Metadata Profile Test Suite](https://github.com/OGCMetOceanDWG/wmo-cmp-ts).
+WMO Core Metadata Profile output can be validated using the [WMO Core Metadata Profile Test Suite](https://github.com/wmo-im/wmo-cmp-ts).
