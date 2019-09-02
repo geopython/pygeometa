@@ -52,7 +52,7 @@ identification:
 contact:
     main: &contact_main
         organization: Environment Canada
-        url: http://www.ec.gc.ca/
+        url: https://www.ec.gc.ca/
         individualname: Tom Kralidis
         positionname: Senior Systems Scientist
         phone: +01-123-456-7890
@@ -70,7 +70,7 @@ contact:
 
 distribution:
     waf:
-        url: http://dd.meteo.gc.ca
+        url: https://dd.meteo.gc.ca
         type: WWW:LINK
         name: my waf
         description_en: description in English
@@ -78,7 +78,7 @@ distribution:
         function: download
 
     wms:
-        url: http://dd.meteo.gc.ca
+        url: https://dd.meteo.gc.ca
         type: OGC:WMS
         name_en: roads
         name_fr: routes
