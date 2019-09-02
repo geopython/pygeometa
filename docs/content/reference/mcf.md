@@ -1,25 +1,6 @@
 # Metadata Control File Reference
 
-## Table of Contents
-* [Basic Concepts](#basic-concepts)
-* [Encoding](#encoding)
-* [Nesting MCFs](#nesting-mcfs)
-* [Sections](#sections)
-  * [mcf](#mcf)
-  * [metadata](#metadata)
-  * [spatial](#spatial)
-  * [identification](#identification)
-  * [identification.keywords](#identificationkeywords)
-  * [contact](#contact)
-  * [contact.distribution](#contactdistribution)
-  * [contact](#contact)
-  * [distribution](#distribution)
-* [Tips](#tips)
-  * [Keyword Substitution](#keyword-substitution)
-  * [Multiple languages support](#multiple-languages-support)
-* [Version](#version)
-  * [Current MCF version](#current-mcf-version)
-  * [Version format](#version-format)
+Version: 1.0
 
 ## Basic Concepts
 
@@ -31,14 +12,18 @@
   * data typing
 * If an optional section is specified, then its child parameters' cardinality are enforced
 * Filename conventions are up to the user. However, below are some suggestions:
-  * use `.yml` as file extension
-  * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
+    * use `.yml` as file extension
+    * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
 * To add a comment in a MCF, a line that begins with a hash tag (`#`) will be ignored
-* If you have a colon (:) in your text / value, use quotation marks (" or ') on either side of your text to avoid mapping errors when parsing the YAML file
+* If you have a colon (`:`) in your text / value, use quotation marks (`"` or `'`) on either side of your text to avoid mapping errors when parsing the YAML file
+
+## Version format
+
+MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
 
 ## Encoding
 
-The MCF **must** be utf8 encoding.
+The MCF **MUST** be utf8 encoded.  That is all.
 
 Is your MCF Encoded as UTF8?
 
@@ -59,10 +44,12 @@ iconv -f iso8859-1 -t utf-8 file.yml > file.yml.new
 In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF together. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
 
 To use MCF nesting:
+
 * At the top of any section of a MCF add `base_mcf: foo.yml`
 * Specify the corresponding section in the base_mcf file
 
 Notes about nesting MCFs: 
+
 * You can refer to one `base_mcf` per section of a MCF
 * Multiple sections can refer to the same base_mcf file
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
@@ -250,6 +237,7 @@ format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 ### Keyword Substitution
 
 pygeometa supports using the following keyword substitutions:
+
 * `$year$`, which is substituted for the current year with the YYYY format, example: 2016
 * `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
 * `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
@@ -261,15 +249,16 @@ The substitutions occur when pygeometa is ran for the MCF with those keywords.
 pygeometa supports default and alternate languages in ISO metadata. 
 
 Multilingual support is driven by the following sections in `[metadata]`:
-- `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
-- `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
+
+* `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
+* `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
 
 Example:
 
 ```
 [metadata]
-language=en
-language_alternate=fr
+language:en
+language_alternate:fr
 ...
 ```
 If `language_alternate` is not defined or missing, pygeometa assumes a single language.
@@ -278,25 +267,14 @@ Values which support multilingual values can be specified with `_xx` suffixes to
 
 ```
 # single language
-title=foo
+title:foo
 
 # two languages, no default suffix
-title=foo
-title_fr=bar
+title:foo
+title_fr:bar
 
 # two languages, explicit default suffix
-title_en=foo
-title_fr=bar
+title_en:foo
+title_fr:bar
 ```
 The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
-
-## Version
-
-### Current MCF version 
-
-* 1.0
-
-### Version format
-
-MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
-
