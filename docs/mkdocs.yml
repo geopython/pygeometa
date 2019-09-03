@@ -7,7 +7,7 @@ repo_url: https://github.com/geopython/pygeometa
 docs_dir: content
 
 nav:
-    - Home: index.md
+#    - Home: index.md
     - Tutorial: tutorial.md
     - Reference:
         - Metadata Control File: reference/mcf.md
@@ -15,7 +15,7 @@ nav:
             - ISO Harmonized North American Profile (HNAP): reference/formats/hnap.md
             - WMO Core Metadata Profile: reference/formats/wmo-cmp.md
             - WMO WIGOS Metadata Standard: reference/formats/wmo-wigos.md
-        - Index: reference/index.md
+#        - Index: reference/index.md
 
 #theme: slate
 

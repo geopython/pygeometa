@@ -1,4 +1,6 @@
-## pygeometa: Metadata Creation for the Rest of Us
+## pygeometa
+
+<h2>Metadata Creation for the Rest of Us</h2>
 
 pygeometa provides a lightweight and Pythonic approach for users to easily
 create geospatial metadata in standards-based formats using simple
