@@ -10,6 +10,7 @@ install:
 script:
   - python setup.py test
   - find . -type f -name "*.py" | xargs flake8
+  - mkdocs build -f docs/mkdocs.yml
 
 after_success:
   - coverage run --source pygeometa setup.py test

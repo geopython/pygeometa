@@ -16,16 +16,18 @@ Keyword requirements are the same as pygeometa's default keyword rules.
 ## `distribution`
 
 Distribution identifier:
+
 * To comply with HNAP, distribution methods require its sections to be duplicated and appended with `_eng-CAN` and `_fra-CAN` to distribution names
 
 Distribution parameters:
-* Name of the distribution method needs to be specified with name_en= and name=Fr
+
+* Name of the distribution method needs to be specified with name_en: and name:Fr
 * Do not provide values for the 'description' parameter in the MCF file since HNAP requires a special description that is built by pygeometa
-* Content type needs to be specified with `hnap_contenttype_en=` and `hnap_contenttype_fr=` and be a valid HNAP value
+* Content type needs to be specified with `hnap_contenttype_en:` and `hnap_contenttype_fr:` and be a valid HNAP value
  * Valid values are: Web Service,Service Web,Dataset,Données,API,Application,Supporting Document,Document de soutien 
-* Format needs to be specified with `format_en=` and `format_fr=`, based on the valid HNAP values
+* Format needs to be specified with `format_en:` and `format_fr:`, based on the valid HNAP values
  * Valid values are: AI. AMF,Application,ASCII Grid,BMP,CDED ASCII,CDR,CSV,DOC,dxf,E00,ECW,EDI,EMF,EPS,ESRI REST,EXE,FGDB / GDB,Flat raster binary,GeoPDF,GeoRSS,GeoTIF,GIF,GML,HDF,HTML,IATI,JPEG 2000,JPG,JSON,JSON Lines,KML / KMZ,NetCDF,ODP,ODS,ODT,PDF,PNG,PPT,RDF,RDFa,RSS,SAR / CCT,SAV,SEGY,SHP,SQL,SVG,TIFF,TXT,XLS,XLSM,XML,WFS,WMS,WMTS,Zip,Other
-* Format version needs to be specified with `format_version=`
+* Format version needs to be specified with `format_version:`
 
 ## Example of distribution section
 

@@ -1,0 +1,25 @@
+site_name: "pygeometa: Metadata Creation for the Rest of Us"
+site_description: pygeometa is a Python package to generate metadata for geospatial datasets
+site_author: the pygeometa team
+copyright: Copyright (c) 2015 - 2019 the pygeometa team
+site_url: https://geopython.github.io/pygeometa
+repo_url: https://github.com/geopython/pygeometa
+docs_dir: content
+
+nav:
+#    - Home: index.md
+    - Tutorial: tutorial.md
+    - Reference:
+        - Metadata Control File: reference/mcf.md
+        - Formats:
+            - ISO Harmonized North American Profile (HNAP): reference/formats/hnap.md
+            - WMO Core Metadata Profile: reference/formats/wmo-cmp.md
+            - WMO WIGOS Metadata Standard: reference/formats/wmo-wigos.md
+#        - Index: reference/index.md
+
+#theme: slate
+
+edit_uri: edit/master/docs/content
+
+plugins:
+    - search
