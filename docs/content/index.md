@@ -1,5 +1,7 @@
 ## pygeometa
 
+[![Join the chat at https://gitter.im/geopython/pygeometa](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geopython/pygeometa) 
+
 <h2>Metadata Creation for the Rest of Us</h2>
 
 pygeometa provides a lightweight and Pythonic approach for users to easily
@@ -40,4 +42,3 @@ metadata within a real-time environment and automated workflows.
 
 In 2015 pygeometa was made publically available in support of the Treasury
 Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
-
