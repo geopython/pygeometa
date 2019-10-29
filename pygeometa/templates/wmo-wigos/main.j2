@@ -79,6 +79,7 @@
                 <wmdr:Territory>
                     {% for t in v['territory'] %}
                     <wmdr:territoryName xlink:href="http://codes.wmo.int/wmdr/TerritoryName/{{ t['name']|upper }}"/>
+                    {% if t['valid_period'] %}
                     <wmdr:validPeriod>
                         <gml:TimePeriod gml:id="trp_{{ loop.index }}">
                             <gml:beginPosition>{{ t['valid_period']['begin'] }}</gml:beginPosition>
@@ -89,6 +90,7 @@
                             {% endif %}
                         </gml:TimePeriod>
                     </wmdr:validPeriod>
+                    {% endif %}
                     {% endfor %}
                 </wmdr:Territory>
             </wmdr:territory>
