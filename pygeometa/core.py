@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -74,7 +74,7 @@ def get_charstring(option, section_items, language,
     option_value1 = None
     option_value2 = None
 
-    if 'language_alternate' is None:  # noqa unilingual
+    if language_alternate is None:  # noqa unilingual
         option_tmp = '{}_{}'.format(option, language)
         if option_tmp in section_items:
             option_value1 = section_items[option_tmp]
