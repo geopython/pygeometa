@@ -143,11 +143,12 @@ def normalize_datestring(datestring, format_='default'):
                 return mo.group('year')
             else:  # default
                 mo = re.match(re2, datestring)
-                return '%sT%s'.format(mo.group('date', 'time'))
+                return '{}T{}'.format(mo.group('date'), mo.group('time'))
         elif '$Date' in datestring:  # svn Date keyword embedded
             if format_ == 'year':
                 mo = re.match(re3, datestring)
-                return '%s%s%s'.format(mo.group('start', 'year', 'end'))
+                return '{}{}{}'.format(mo.group('start'),
+                                       mo.group('year'), mo.group('end'))
     except AttributeError:
         raise RuntimeError('Invalid datestring: {}'.format(datestring))
     return datestring
@@ -296,8 +297,7 @@ def pretty_print(xml):
 
     LOGGER.debug('pretty-printing XML')
     val = minidom.parseString(xml)
-    return '\n'.join([l for l in
-                      val.toprettyxml(indent=' '*2).split('\n') if l.strip()])
+    return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
 
 
 def render_template(mcf, schema=None, schema_local=None):
