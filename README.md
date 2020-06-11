@@ -37,10 +37,19 @@ python setup.py install
 ### From the command line
 
 ```bash
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139  # to stdout
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml  # to file
+# provide a basic sanity check/report on an MCF
+pygeometa info --mcf=path/to/file.yml
+
+# generate an ISO 19139 document to stdout
+pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139
+
+# generate an ISO 19139 document to disk
+pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml
+
+# generate an ISO 19139 document to disk with debugging (ERROR, WARNING, INFO, DEBUG)
 pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
-# to use your own defined schema:
+
+# use your own defined schema
 pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
 
