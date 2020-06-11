@@ -8,6 +8,7 @@ docs_dir: content
 
 nav:
 #    - Home: index.md
+    - Code: https://github.com/geopython/pygeometa
     - Tutorial: tutorial.md
     - Reference:
         - Metadata Control File: reference/mcf.md
