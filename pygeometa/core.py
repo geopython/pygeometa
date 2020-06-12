@@ -222,7 +222,7 @@ def read_mcf(mcf):
                     dict_ = yaml.load(fh, Loader=yaml.FullLoader)
         except yaml.scanner.ScannerError as err:
             msg = 'YAML parsing error: {}'.format(err)
-            LOGGER.exception(msg)
+            LOGGER.debug(msg)
             raise MCFReadError(msg)
 
         return dict_
@@ -309,7 +309,7 @@ def render_template(mcf, schema=None, schema_local=None):
     LOGGER.debug('Evaluating schema path')
     if schema is None and schema_local is None:
         msg = 'schema or schema_local required'
-        LOGGER.exception(msg)
+        LOGGER.error(msg)
         raise RuntimeError(msg)
     if schema_local is None:  # default templates dir
         abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
@@ -334,7 +334,7 @@ def render_template(mcf, schema=None, schema_local=None):
         template = env.get_template('main.j2')
     except TemplateNotFound:
         msg = 'Missing metadata template'
-        LOGGER.exception(msg)
+        LOGGER.error(msg)
         raise RuntimeError(msg)
 
     LOGGER.debug('Processing template')
@@ -364,7 +364,7 @@ class MCFReadError(Exception):
     pass
 
 
-@click.command('generate-metadata')
+@click.command()
 @click.pass_context
 @click.option('--mcf',
               type=click.Path(exists=True, resolve_path=True),
@@ -396,3 +396,33 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
             click.echo_via_pager(content)
         else:
             output.write(content)
+
+
+@click.command()
+@click.pass_context
+@click.option('--mcf',
+              type=click.Path(exists=True, resolve_path=True),
+              help='Path to metadata control file (.yml)')
+@click.option('--verbosity', type=click.Choice(['ERROR', 'WARNING',
+              'INFO', 'DEBUG']), help='Verbosity')
+def info(ctx, mcf, verbosity):
+    """provide information about an MCF"""
+
+    if verbosity is not None:
+        logging.basicConfig(level=getattr(logging, verbosity))
+
+    if mcf is None:
+        raise click.UsageError('Missing arguments')
+    else:
+        LOGGER.info('Processing {}'.format(mcf))
+        try:
+            content = read_mcf(mcf)
+
+            click.echo('MCF overview')
+            click.echo('  version: {}'.format(content['mcf']['version']))
+            click.echo('  identifier: {}'.format(
+                content['metadata']['identifier']))
+            click.echo('  language: {}'.format(
+                       content['metadata']['language']))
+        except Exception as err:
+            raise click.ClickException(err)
