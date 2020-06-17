@@ -29,13 +29,13 @@ The basic pygeometa workflow is:
   1. Modify the [sample.yml](https://github.com/geopython/pygeometa/blob/master/sample.yml) example
   2. pygeometa supports nesting MCFs together, allowing providing a single MCF
      for common metadata parameters (e.g. common contact information)
-  3. Refer to the [Metadata Control File Reference documentation](https://geopython.github.io/pygeometa/reference/formats/mcf) 
+  3. Refer to the [Metadata Control File Reference documentation](https://geopython.github.io/pygeometa/reference/mcf) 
 3. Run pygeometa for the .yml file with a specified target metadata schema
 
 ### Running
 
 ```bash
-# provide a basic sanity check/report on an MCF
+# provide a basic sanity check/report on an MCF (Metadata Control File)
 pygeometa info --mcf=path/to/file.yml
 
 # generate an ISO 19139 document to stdout
