@@ -308,9 +308,7 @@
           </gmd:temporalElement>
         </gmd:EX_Extent>
       </gmd:extent>
-      {% if record['identification']['url'] %}
       {{ cs.get_freetext('supplementalInformation', record['metadata']['language_alternate'], get_charstring('url', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
-      {% endif %}
     </gmd:MD_DataIdentification>
   </gmd:identificationInfo>
   <gmd:distributionInfo>
