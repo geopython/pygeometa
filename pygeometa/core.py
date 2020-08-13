@@ -58,6 +58,8 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 import yaml
 
+from pygeometa import cli_options
+
 LOGGER = logging.getLogger(__name__)
 
 TEMPLATES = '{}{}templates'.format(os.path.dirname(os.path.realpath(__file__)),
@@ -366,11 +368,9 @@ class MCFReadError(Exception):
 
 @click.command()
 @click.pass_context
-@click.option('--mcf',
-              type=click.Path(exists=True, resolve_path=True),
-              help='Path to metadata control file (.yml)')
-@click.option('--output', type=click.File('w', encoding='utf-8'),
-              help='Name of output file')
+@cli_options.OPTION_MCF
+@cli_options.OPTION_OUTPUT
+@cli_options.OPTION_VERBOSITY
 @click.option('--schema',
               type=click.Choice(get_supported_schemas()),
               help='Metadata schema')
@@ -400,11 +400,8 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
 
 @click.command()
 @click.pass_context
-@click.option('--mcf',
-              type=click.Path(exists=True, resolve_path=True),
-              help='Path to metadata control file (.yml)')
-@click.option('--verbosity', type=click.Choice(['ERROR', 'WARNING',
-              'INFO', 'DEBUG']), help='Verbosity')
+@cli_options.OPTION_MCF
+@cli_options.OPTION_VERBOSITY
 def info(ctx, mcf, verbosity):
     """provide information about an MCF"""
 

@@ -50,6 +50,8 @@ import click
 from configparser import SafeConfigParser
 import yaml
 
+from pygeometa import cli_options
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -126,12 +128,10 @@ def configparser2yaml(cpfile):
 
 
 @click.command()
-@click.option('--mcf',
-              type=click.Path(exists=True, resolve_path=True),
-              help='Path to old MCF (.ini) file format')
-@click.option('--output', type=click.File('w', encoding='utf-8'),
-              help='Name of output file')
+@cli_options.OPTION_MCF
+@cli_options.OPTION_OUTPUT
 def migrate(mcf, output):
+    """migrate a legacy .ini MCF into MCF 1.0 (YAML)"""
     if mcf is None:
         raise click.UsageError('Missing arguments')
     else:
