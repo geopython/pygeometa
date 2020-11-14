@@ -170,7 +170,7 @@
         {% set keywords = get_charstring('keywords', value, record['metadata']['language'], record['metadata']['language_alternate']) %}
         {% if keywords[1] is none %}
           {# No language_alternate is specified #}
-          {% for kw1 in keywords %}
+          {% for kw1 in keywords[0] %}
           {{ cs.get_freetext('keyword', None, [kw1]) }}
           {% endfor %}
         {% else %}
