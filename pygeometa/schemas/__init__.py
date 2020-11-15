@@ -55,7 +55,7 @@ THISDIR = os.path.dirname(os.path.realpath(__file__))
 SCHEMAS = {
     'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
     'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
-    'wmo-cmp': 'pygeometa.schemas.wmo_wcmp.WMOCMPOutputSchema',
+    'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
 }
 

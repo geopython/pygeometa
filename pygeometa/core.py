@@ -70,9 +70,18 @@ SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
 VERSION = pkg_resources.require('pygeometa')[0].version
 
 
-def get_charstring(option, section_items, language,
-                   language_alternate=None):
-    """convenience function to return unilingual or multilingual value(s)"""
+def get_charstring(option: str, section_items: list, language: str,
+                   language_alternate: str = None) -> list:
+    """
+    convenience function to return unilingual or multilingual value(s)
+
+    :param option: charstring option
+    :param section_items: option items in section
+    :param language: language
+    :param language_alternate: alternate language
+
+    :returns: list of unilingual or multilingual values
+    """
 
     section_items = dict(section_items)
     option_value1 = None
@@ -103,8 +112,14 @@ def get_charstring(option, section_items, language,
     return [option_value1, option_value2]
 
 
-def get_distribution_language(section):
-    """derive language of a given distribution construct"""
+def get_distribution_language(section: str) -> str:
+    """
+    derive language of a given distribution construct
+
+    :param section: section name
+
+    :returns: distribution language
+    """
 
     try:
         return section.split('_')[1]
@@ -112,8 +127,15 @@ def get_distribution_language(section):
         return 'en'
 
 
-def normalize_datestring(datestring, format_='default'):
-    """groks date string into ISO8601"""
+def normalize_datestring(datestring: str, format_: str = 'default') -> str:
+    """
+    groks date string into ISO8601
+
+    :param datestring: date in string representation
+    :format_: datetring format ('year' or default [full])
+
+    :returns: string of properly formatted datestring
+    """
 
     today_and_now = datetime.utcnow()
 
@@ -158,8 +180,14 @@ def normalize_datestring(datestring, format_='default'):
     return datestring
 
 
-def prune_distribution_formats(formats):
-    """derive a unique list of distribution formats"""
+def prune_distribution_formats(formats: dict) -> list:
+    """
+    derive a unique list of distribution formats
+
+    :param formats: distribution formats
+
+    :returns: unique distribution formats list
+    """
 
     counter = 0
     formats_ = []
@@ -183,9 +211,15 @@ def prune_distribution_formats(formats):
     return unique_formats
 
 
-def prune_transfer_option(formats, language):
-    """derive a unique list of transfer options.
-    The unique character is based on identification language"""
+def prune_transfer_option(formats: dict, language: str) -> list:
+    """
+    derive a unique list of transfer options.
+    The unique character is based on identification language
+
+    :param formats: list of transfer options
+
+    :returns: unique transfer options list
+    """
 
     unique_transfer = []
     nil_reasons = ['missing',
