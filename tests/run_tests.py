@@ -256,14 +256,14 @@ class PygeometaTest(unittest.TestCase):
                 xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
                                          'bad_dir')
 
-            # bad j2 schema_local provided
+            # bad j2 template_dir provided
             with self.assertRaises(RuntimeError):
                 xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
-                                         schema_local='/bad_schema/path')
+                                         template_dir='/bad_schema/path')
 
-            # good j2 schema_local provided
+            # good j2 template_dir provided
             xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
-                                     schema_local=get_abspath('sample_schema_j2'))  # noqa
+                                     template_dir=get_abspath('sample_schema_j2'))  # noqa
 
             # good sample output schema
             s_os = SampleOutputSchema()

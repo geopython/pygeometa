@@ -316,31 +316,25 @@ def pretty_print(xml: str) -> str:
     return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
 
 
-def render_j2_template(mcf: dict, template_dir: str = None,
-                       schema_local: str = None) -> str:
+def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     """
     convenience function to render Jinja2 template given
     an mcf file, string, or dict
 
     :param mcf: dict of MCF data
     :param template_dir: directory of schema templates
-    :param schema_local: directory of local schema templates
 
     :returns: str of metadata output
     """
 
-    LOGGER.debug('Evaluating template directory / schema paths')
-    if all([template_dir is None, schema_local is None]):
+    LOGGER.debug('Evaluating template directory')
+    if template_dir is None:
         msg = 'template_dir or schema_local required'
         LOGGER.error(msg)
         raise RuntimeError(msg)
-    if template_dir is not None:
-        abspath = template_dir
-    elif schema_local is not None:  # user-defined
-        abspath = schema_local
 
-    LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader([abspath, SCHEMAS]))
+    LOGGER.debug('Setting up template environment {}'.format(template_dir))
+    env = Environment(loader=FileSystemLoader([template_dir, SCHEMAS]))
 
     LOGGER.debug('Adding template filters')
     env.filters['normalize_datestring'] = normalize_datestring
@@ -411,7 +405,7 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
         schema_object = load_schema(schema)
         content = schema_object.write(mcf_dict)
     else:
-        content = render_j2_template(mcf_dict, schema_local=schema_local)
+        content = render_j2_template(mcf_dict, template_dir=schema_local)
 
     if output is None:
         click.echo_via_pager(content)

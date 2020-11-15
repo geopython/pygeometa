@@ -85,7 +85,7 @@ iso_os = ISO19139OutputSchema()
 xml_string = render_j2_template(mcf_dict, template_dir=iso_os.template_dir)
 
 # user-defined schema
-xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
+xml_string = render_j2_template(mcf_dict, template_dir='/path/to/new-schema')
 
 # write to disk
 with open('output.xml', 'wb') as ff:
