@@ -50,7 +50,7 @@ from pygeometa.schemas.base import BaseOutputSchema
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 
-class WMOWIGOS9OutputSchema(BaseOutputSchema):
+class WMOWIGOSOutputSchema(BaseOutputSchema):
     """WMO WIGOS output schema"""
 
     def __init__(self):
