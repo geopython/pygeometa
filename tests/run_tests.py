@@ -267,8 +267,7 @@ class PygeometaTest(unittest.TestCase):
 
             # good sample output schema
             s_os = SampleOutputSchema()
-            json_ = s_os.write(read_mcf(get_abspath(mcf_path)))
-
+            _ = s_os.write(read_mcf(get_abspath(mcf_path)))
 
     def test_nested_mcf(self):
         """test nested mcf support"""
