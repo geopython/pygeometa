@@ -51,6 +51,7 @@ import logging
 import os
 import pkg_resources
 import re
+from typing import Union
 from xml.dom import minidom
 
 import click
@@ -59,18 +60,28 @@ from jinja2.exceptions import TemplateNotFound
 import yaml
 
 from pygeometa import cli_options
+from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
 
-TEMPLATES = '{}{}templates'.format(os.path.dirname(os.path.realpath(__file__)),
-                                   os.sep)
+SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
+                               os.sep)
 
 VERSION = pkg_resources.require('pygeometa')[0].version
 
 
-def get_charstring(option, section_items, language,
-                   language_alternate=None):
-    """convenience function to return unilingual or multilingual value(s)"""
+def get_charstring(option: str, section_items: list, language: str,
+                   language_alternate: str = None) -> list:
+    """
+    convenience function to return unilingual or multilingual value(s)
+
+    :param option: charstring option
+    :param section_items: option items in section
+    :param language: language
+    :param language_alternate: alternate language
+
+    :returns: list of unilingual or multilingual values
+    """
 
     section_items = dict(section_items)
     option_value1 = None
@@ -101,8 +112,14 @@ def get_charstring(option, section_items, language,
     return [option_value1, option_value2]
 
 
-def get_distribution_language(section):
-    """derive language of a given distribution construct"""
+def get_distribution_language(section: str) -> str:
+    """
+    derive language of a given distribution construct
+
+    :param section: section name
+
+    :returns: distribution language
+    """
 
     try:
         return section.split('_')[1]
@@ -110,8 +127,15 @@ def get_distribution_language(section):
         return 'en'
 
 
-def normalize_datestring(datestring, format_='default'):
-    """groks date string into ISO8601"""
+def normalize_datestring(datestring: str, format_: str = 'default') -> str:
+    """
+    groks date string into ISO8601
+
+    :param datestring: date in string representation
+    :format_: datetring format ('year' or default [full])
+
+    :returns: string of properly formatted datestring
+    """
 
     today_and_now = datetime.utcnow()
 
@@ -156,8 +180,14 @@ def normalize_datestring(datestring, format_='default'):
     return datestring
 
 
-def prune_distribution_formats(formats):
-    """derive a unique list of distribution formats"""
+def prune_distribution_formats(formats: dict) -> list:
+    """
+    derive a unique list of distribution formats
+
+    :param formats: distribution formats
+
+    :returns: unique distribution formats list
+    """
 
     counter = 0
     formats_ = []
@@ -181,9 +211,15 @@ def prune_distribution_formats(formats):
     return unique_formats
 
 
-def prune_transfer_option(formats, language):
-    """derive a unique list of transfer options.
-    The unique character is based on identification language"""
+def prune_transfer_option(formats: dict, language: str) -> list:
+    """
+    derive a unique list of transfer options.
+    The unique character is based on identification language
+
+    :param formats: list of transfer options
+
+    :returns: unique transfer options list
+    """
 
     unique_transfer = []
     nil_reasons = ['missing',
@@ -200,8 +236,14 @@ def prune_transfer_option(formats, language):
     return unique_transfer
 
 
-def read_mcf(mcf):
-    """returns dict of YAML file from filepath, string or dict"""
+def read_mcf(mcf: Union[dict, str]) -> dict:
+    """
+    returns dict of YAML file from filepath, string or dict
+
+    :param mcf: str, dict or filepath of MCF data
+
+    :returns: dict of MCF data
+    """
 
     mcf_dict = {}
     mcf_versions = ['1.0']
@@ -294,32 +336,41 @@ def read_mcf(mcf):
     return mcf_dict
 
 
-def pretty_print(xml):
-    """clean up indentation and spacing"""
+def pretty_print(xml: str) -> str:
+    """
+    clean up indentation and spacing
+
+    :param xml: str of XML data
+
+    :returns: str of pretty-printed XML data
+    """
 
     LOGGER.debug('pretty-printing XML')
     val = minidom.parseString(xml)
     return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
 
 
-def render_template(mcf, schema=None, schema_local=None):
+def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     """
     convenience function to render Jinja2 template given
     an mcf file, string, or dict
+
+    :param mcf: dict of MCF data
+    :param template_dir: directory of schema templates
+
+    :returns: str of metadata output
     """
 
-    LOGGER.debug('Evaluating schema path')
-    if schema is None and schema_local is None:
-        msg = 'schema or schema_local required'
+    LOGGER.debug('Evaluating template directory')
+    if template_dir is None:
+        msg = 'template_dir or schema_local required'
         LOGGER.error(msg)
         raise RuntimeError(msg)
-    if schema_local is None:  # default templates dir
-        abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
-    elif schema is None:  # user-defined
-        abspath = schema_local
 
-    LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]))
+    LOGGER.debug('Setting up template environment {}'.format(template_dir))
+    env = Environment(loader=FileSystemLoader([template_dir, SCHEMAS]))
+
+    LOGGER.debug('Adding template filters')
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
@@ -340,18 +391,9 @@ def render_template(mcf, schema=None, schema_local=None):
         raise RuntimeError(msg)
 
     LOGGER.debug('Processing template')
-    xml = template.render(record=read_mcf(mcf),
+    xml = template.render(record=mcf,
                           pygeometa_version=VERSION).encode('utf-8')
     return pretty_print(xml)
-
-
-def get_supported_schemas():
-    """returns a list of supported schemas"""
-
-    LOGGER.debug('Generating list of supported schemas')
-    dirs = os.listdir(TEMPLATES)
-    dirs.remove('common')
-    return dirs
 
 
 def get_abspath(mcf, filepath):
@@ -378,24 +420,31 @@ class MCFReadError(Exception):
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
-@click.option('--verbosity', type=click.Choice(['ERROR', 'WARNING',
-              'INFO', 'DEBUG']), help='Verbosity')
+@cli_options.OPTION_VERBOSITY
 def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
     """generate metadata"""
 
     if verbosity is not None:
         logging.basicConfig(level=getattr(logging, verbosity))
 
-    if mcf is None or (schema is None and schema_local is None):
+    if mcf is None or all([schema is None, schema_local is None]):
         raise click.UsageError('Missing arguments')
-    else:
+    elif None not in [schema, schema_local]:
+        raise click.UsageError('schema / schema_local are mutually exclusive')
+
+    mcf_dict = read_mcf(mcf)
+
+    if schema is not None:
         LOGGER.info('Processing {} into {}'.format(mcf, schema))
-        content = render_template(mcf, schema=schema,
-                                  schema_local=schema_local)
-        if output is None:
-            click.echo_via_pager(content)
-        else:
-            output.write(content)
+        schema_object = load_schema(schema)
+        content = schema_object.write(mcf_dict)
+    else:
+        content = render_j2_template(mcf_dict, template_dir=schema_local)
+
+    if output is None:
+        click.echo_via_pager(content)
+    else:
+        output.write(content)
 
 
 @click.command()
@@ -423,3 +472,10 @@ def info(ctx, mcf, verbosity):
                        content['metadata']['language']))
         except Exception as err:
             raise click.ClickException(err)
+
+
+@click.command()
+@click.pass_context
+def schemas(ctx):
+    """list supported schemas"""
+    click.echo('\n'.join(get_supported_schemas()))

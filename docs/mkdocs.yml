@@ -13,7 +13,7 @@ nav:
     - Reference:
         - Metadata Control File: reference/mcf.md
         - Formats:
-            - ISO Harmonized North American Profile (HNAP): reference/formats/hnap.md
+            - ISO Harmonized North American Profile (HNAP): reference/formats/iso19139-hnap.md
             - WMO Core Metadata Profile: reference/formats/wmo-cmp.md
             - WMO WIGOS Metadata Standard: reference/formats/wmo-wigos.md
 #        - Index: reference/index.md
