@@ -57,19 +57,6 @@ pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=so
 pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
 
-### Migration
-
-#### Migrating old MCFs to YAML
-
-pygeometa provides a `migrate` utility to convert legacy MCFs into YAML:
-
-```bash
-pygeometa migrate --mcf=path/to/file.mcf  # to stdout
-pygeometa migrate --mcf=path/to/file.mcf --output=some_file.yml  # to file
-```
-The migrate utility doesn't support migrating comments from legacy MCFs to
-YAML MCFs.
-
 ## For Developers
 
 ### Installation
