@@ -43,85 +43,34 @@
 #
 # =================================================================
 
-import importlib
+import base64
+from datetime import date, datetime, time
+from decimal import Decimal
 import logging
-import os
-
-from pygeometa.schemas.base import BaseOutputSchema
 
 LOGGER = logging.getLogger(__name__)
-THISDIR = os.path.dirname(os.path.realpath(__file__))
-
-SCHEMAS = {
-    'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
-    'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
-    'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
-    'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
-    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
-}
 
 
-def get_supported_schemas() -> list:
+def json_serial(obj):
     """
-    Get supported schemas
-
-    :returns: list of supported schemas
+    helper function to convert to JSON non-default
+    types (source: https://stackoverflow.com/a/22238613)
+    :param obj: `object` to be evaluated
+    :returns: JSON non-default type to `str`
     """
 
-    LOGGER.debug('Generating list of supported schemas')
+    if isinstance(obj, (datetime, date, time)):
+        return obj.isoformat()
+    elif isinstance(obj, bytes):
+        try:
+            LOGGER.debug('Returning as UTF-8 decoded bytes')
+            return obj.decode('utf-8')
+        except UnicodeDecodeError:
+            LOGGER.debug('Returning as base64 encoded JSON object')
+            return base64.b64encode(obj)
+    elif isinstance(obj, Decimal):
+        return float(obj)
 
-    return SCHEMAS.keys()
-
-    dirs = os.listdir(THISDIR)
-
-    LOGGER.debug('directory listing: {}'.format(dirs))
-
-    dirs.remove('common')
-    dirs.remove('__init__.py')
-    dirs.remove('base.py')
-
-    try:
-        dirs.remove('__pycache__')
-    except ValueError:
-        pass
-
-    LOGGER.debug('schemas: {}'.format(dirs))
-
-    return dirs
-
-
-def load_schema(schema_name: str) -> BaseOutputSchema:
-    """
-    loads schema plugin by name
-
-    :param schema_name: shortname of schema
-
-    :returns: plugin object
-    """
-
-    LOGGER.debug('Schemas: {}'.format(SCHEMAS.keys()))
-
-    if schema_name not in SCHEMAS.keys():
-        msg = 'Schema {} not found'.format(schema_name)
-        LOGGER.exception(msg)
-        raise InvalidSchemaError(msg)
-
-    name = SCHEMAS[schema_name]
-
-    if '.' in name:  # dotted path
-        packagename, classname = name.rsplit('.', 1)
-    else:
-        raise InvalidSchemaError('Schema path {} not found'.format(name))
-
-    LOGGER.debug('package name: {}'.format(packagename))
-    LOGGER.debug('class name: {}'.format(classname))
-
-    module = importlib.import_module(packagename)
-    class_ = getattr(module, classname)
-
-    return class_()
-
-
-class InvalidSchemaError(Exception):
-    """Invalid plugin"""
-    pass
+    msg = '{} type {} not serializable'.format(obj, type(obj))
+    LOGGER.error(msg)
+    raise TypeError(msg)
