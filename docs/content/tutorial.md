@@ -100,7 +100,7 @@ from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 iso_os = ISO19139OutputSchema()
 
 # default schema
-xml_string = render_j2_template(mcf_dict, template_dir=iso_os.template_dir)
+xml_string = iso_os.write(mcf_dict)
 
 # user-defined schema
 xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
