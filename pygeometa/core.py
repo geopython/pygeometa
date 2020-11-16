@@ -442,7 +442,7 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
         content = render_j2_template(mcf_dict, template_dir=schema_local)
 
     if output is None:
-        click.echo_via_pager(content)
+        click.echo(content)
     else:
         output.write(content)
 

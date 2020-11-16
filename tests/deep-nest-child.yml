@@ -16,8 +16,6 @@ metadata:
 spatial:
     datatype: vector
     geomtype: point
-    crs: 4326
-    bbox: -141,42,-52,84
 
 identification:
     language: eng; CAN
@@ -41,12 +39,17 @@ identification:
             keywords_fr: [kw1,kw2]
     topiccategory:
         - climatologyMeteorologyAtmosphere
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
     fees: None
     accessconstraints: otherRestrictions
     rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     rights_fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
-    temporal_begin: 1950-07-31
-    temporal_end: now
     status: onGoing
     maintenancefrequency: continual
