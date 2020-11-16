@@ -92,19 +92,6 @@ with open('output.xml', 'wb') as ff:
     ff.write(xml_string)
 ```
 
-## Migration
-
-### Migrating old MCFs to YAML
-
-pygeometa provides a `migrate` utility to convert legacy MCFs into YAML:
-
-```bash
-pygeometa migrate --mcf=path/to/file.mcf  # to stdout
-pygeometa migrate --mcf=path/to/file.mcf --output=some_file.yml  # to file
-```
-The migrate utility doesn't support migrating comments from legacy MCFs tox
- YAML MCFs.
-
 ## Development
 
 ### Setting up a Development Environment
