@@ -16,3 +16,5 @@ script:
 after_success:
   - coverage run --source pygeometa setup.py test
   - coverage report -m
+  - python3 setup.py sdist bdist_wheel --universal
+  - sudo debuild -b -uc -us
