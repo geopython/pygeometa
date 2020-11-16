@@ -1,0 +1,22 @@
+Source: pygeometa
+Section: python
+Priority: optional
+Maintainer: Tom Kralidis <tomkralidis@gmail.com>
+Uploaders: Angelos Tzotsos <gcpp.kalxas@gmail.com>
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               python3-all,
+               python3-setuptools
+Standards-Version: 4.3.0
+Vcs-Git: https://github.com/geopython/pygeometa.git
+Homepage: https://geopython.github.io/pygeometa
+
+Package: python3-pygeometa
+Architecture: all
+Depends: ${python3:Depends},
+         python3-click,
+         python3-jinja2,
+         python3-yaml,
+         ${misc:Depends}
+Description: Python package to generate metadata for geospatial datasets.
+ pygeometa is a Python package to generate metadata for geospatial datasets.

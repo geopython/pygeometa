@@ -4,6 +4,9 @@ python:
   - "3.6"
   - "3.7"
 
+before_install:
+  - sudo apt-get install -y devscripts fakeroot debhelper python3-all python3-setuptools
+
 install:
   - pip install -r requirements-dev.txt
   - python setup.py install
@@ -16,3 +19,5 @@ script:
 after_success:
   - coverage run --source pygeometa setup.py test
   - coverage report -m
+  - python3 setup.py sdist bdist_wheel --universal
+  - sudo debuild -b -uc -us

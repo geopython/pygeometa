@@ -1,0 +1,5 @@
+pygeometa (0.5.0) bionic; urgency=medium
+
+  * initial Debian packaging
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Thu, 12 Nov 2020 11:21:07 +0000
