@@ -223,10 +223,10 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 4, 'Expected 4 supported schemas')
-        self.assertEqual(schemas,
-                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp',
-                                 'wmo-wigos']),
+        self.assertEqual(len(schemas), 5, 'Expected 4 supported schemas')
+        self.assertEqual(sorted(schemas),
+                         sorted(['iso19139', 'iso19139-hnap', 'stac-item',
+                                 'wmo-cmp', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
     def test_render_j2_template(self):
