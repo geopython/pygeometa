@@ -52,6 +52,25 @@ identification:
     status: onGoing
     maintenancefrequency: continual
 
+content_info:
+    type: image
+    cloud_cover: 72
+    processing_level: 1.0
+    dimensions:
+        - name: B1
+          units: nm
+          min: 932
+          max: 958
+
+# platform metadata, applicable to iso19139-2 output
+acquisition:
+    platforms:
+        - identifier: LANDSAT_8
+          description: Landsat 8
+          instruments:
+              - identifier: OLI_TIRS
+                type: INS-NOBS
+
 contact:
     main: &contact_main
         organization: Environment Canada

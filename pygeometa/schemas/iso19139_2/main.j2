@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 {% import 'common/iso19139-charstring.j2' as cs %}
-<gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd">
+<gmi:MI_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gml="http://www.opengis.net/gml" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd http://www.isotc211.org/2005/gmi http://www.isotc211.org/2005/gmx/gmi.xsd">
   <gmd:fileIdentifier>
     <gco:CharacterString>{{ record['metadata']['identifier'] }}</gco:CharacterString>
   </gmd:fileIdentifier>
@@ -373,4 +373,24 @@
       </gmd:maintenanceNote>
     </gmd:MD_MaintenanceInformation>
   </gmd:metadataMaintenance>
-</gmd:MD_Metadata>
+  <gmi:acquisitionInformation>
+    <gmi:MI_AcquisitionInformation>
+      {% for platform in record['acquisition']['platforms'] %}
+      <gmi:platform>
+        <gmi:MI_Platform>
+          <gmi:identifier>{{ platform['identifier'] }}</gmi:identifier>
+          <gmi:description>{{ platform['description'] }}</gmi:description>
+          {% for instrument in platform['instruments'] %}
+          <gmi:instrument>
+            <gmi:MI_Instrument>
+              <gmi:identifier>{{ instrument['identifier'] }}</gmi:identifier>
+              <gmi:type>{{ instrument['type'] }}</gmi:type>
+            </gmi:MI_Instrument>
+          </gmi:instrument>
+          {% endfor %}
+        </gmi:MI_Platform>
+      </gmi:platform>
+      {% endfor %}
+    </gmi:MI_AcquisitionInformation>
+  </gmi:acquisitionInformation>
+</gmi:MI_Metadata>

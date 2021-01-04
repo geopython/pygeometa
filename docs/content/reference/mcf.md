@@ -108,7 +108,7 @@ status|Mandatory|"the status of the resource(s) (must be one of 'planned','histo
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
-### `identification.dates`
+#### `identification.dates`
 
 MCF `identification.extents` sections can have 1..n `dates` sections as required with the following object names/types:
 
@@ -124,7 +124,7 @@ identification:
         publication: 2000-09-01T00:00:00Z
 ```
 
-### `identification.extents`
+#### `identification.extents`
 
 MCF `identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
 
@@ -147,7 +147,7 @@ identification:
               end: now
 ```
 
-### `identification.keywords`
+#### `identification.keywords`
 
 MCF `identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
 
@@ -183,6 +183,26 @@ keywords_en|Optional|category keywords (English)|keyword1,keyword2,keyword3|ISO 
 keywords_fr|Optional|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+
+### `content_info`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+type|Mandatory|Content type (must be one of 'coverage', 'image', 'feature_catalogue'|image|ISO 19115:2003 Section B.2.8.1
+cloud_cover|Optional|area of the dataset obscured by clouds, expressed as a percentage of the spatial extent|72|ISO 19115:2003 Section B.2.8.1
+processing_level|Optional|image distributor’s code that identifies the level of radiometric and geometric processing that has been applied|L1|ISO 19115:2003 Section B.2.8.1
+
+#### `content_info.dimensions`
+
+`content_info` objects support 1..n `dimension` objects.
+
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|name of dimension|B1|ISO 19115:2003 Section B.2.8.2
+units|Mandatory|units in which sensor wavelengths are expressed|nm|ISO 19115:2003 Section B.2.8.2
+min|Mandatory|shortest wavelength that the sensor is capable of collecting within a designated band|101|ISO 19115:2003 Section B.2.8.2
+max|Mandatory|longest wavelength that the sensor is capable of collecting within a designated band|199|ISO 19115:2003 Section B.2.8.2
 
 ### `contact`
 
