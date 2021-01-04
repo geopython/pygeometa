@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -223,10 +223,11 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 5, 'Expected 4 supported schemas')
+        self.assertEqual(len(schemas), 6,
+                         'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
-                         sorted(['iso19139', 'iso19139-hnap', 'stac-item',
-                                 'wmo-cmp', 'wmo-wigos']),
+                         sorted(['iso19139', 'iso19139-2', 'iso19139-hnap',
+                                 'stac-item', 'wmo-cmp', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
     def test_render_j2_template(self):
@@ -330,6 +331,14 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(len(mcf['facility'].keys()), 1)
         self.assertEqual(
             len(mcf['facility']['first_station']['spatiotemporal']), 1)
+
+    def test_19139_2(self):
+        """test ISO 19139-2 Metadata support"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        self.assertIn('acquisition', mcf)
+        self.assertIn('platforms', mcf['acquisition'])
+        self.assertIn('instruments', mcf['acquisition']['platforms'][0])
 
     def test_output_schema(self):
         """test output schema"""

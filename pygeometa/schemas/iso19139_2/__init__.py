@@ -43,86 +43,21 @@
 #
 # =================================================================
 
-import importlib
-import logging
 import os
 
 from pygeometa.schemas.base import BaseOutputSchema
 
-LOGGER = logging.getLogger(__name__)
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
-SCHEMAS = {
-    'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
-    'iso19139-2': 'pygeometa.schemas.iso19139_2.ISO19139_2OutputSchema',
-    'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
-    'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
-    'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
-    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
-}
 
+class ISO19139_2OutputSchema(BaseOutputSchema):
+    """ISO 19139-2 output schema"""
 
-def get_supported_schemas() -> list:
-    """
-    Get supported schemas
+    def __init__(self):
+        """
+        Initialize object
 
-    :returns: list of supported schemas
-    """
+        :returns: pygeometa.schemas.base.BaseOutputSchema
+        """
 
-    LOGGER.debug('Generating list of supported schemas')
-
-    return SCHEMAS.keys()
-
-    dirs = os.listdir(THISDIR)
-
-    LOGGER.debug('directory listing: {}'.format(dirs))
-
-    dirs.remove('common')
-    dirs.remove('__init__.py')
-    dirs.remove('base.py')
-
-    try:
-        dirs.remove('__pycache__')
-    except ValueError:
-        pass
-
-    LOGGER.debug('schemas: {}'.format(dirs))
-
-    return dirs
-
-
-def load_schema(schema_name: str) -> BaseOutputSchema:
-    """
-    loads schema plugin by name
-
-    :param schema_name: shortname of schema
-
-    :returns: plugin object
-    """
-
-    LOGGER.debug('Schemas: {}'.format(SCHEMAS.keys()))
-
-    if schema_name not in SCHEMAS.keys():
-        msg = 'Schema {} not found'.format(schema_name)
-        LOGGER.exception(msg)
-        raise InvalidSchemaError(msg)
-
-    name = SCHEMAS[schema_name]
-
-    if '.' in name:  # dotted path
-        packagename, classname = name.rsplit('.', 1)
-    else:
-        raise InvalidSchemaError('Schema path {} not found'.format(name))
-
-    LOGGER.debug('package name: {}'.format(packagename))
-    LOGGER.debug('class name: {}'.format(classname))
-
-    module = importlib.import_module(packagename)
-    class_ = getattr(module, classname)
-
-    return class_()
-
-
-class InvalidSchemaError(Exception):
-    """Invalid plugin"""
-    pass
+        super().__init__('iso19139-2', 'xml', THISDIR)
