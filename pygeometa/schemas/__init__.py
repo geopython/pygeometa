@@ -57,6 +57,7 @@ SCHEMAS = {
     'iso19139-2': 'pygeometa.schemas.iso19139_2.ISO19139_2OutputSchema',
     'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
     'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
+    'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
 }
