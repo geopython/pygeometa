@@ -65,6 +65,10 @@
     <ul class="dropdown-menu">
             
 <li >
+    <a href="../formats/iso19139-2/">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
+</li>
+            
+<li >
     <a href="../formats/iso19139-hnap/">ISO Harmonized North American Profile (HNAP)</a>
 </li>
             
@@ -93,7 +97,7 @@
                                 </a>
                             </li>
                             <li >
-                                <a rel="prev" href="../formats/iso19139-hnap/">
+                                <a rel="prev" href="../formats/iso19139-2/">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -364,27 +368,6 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
 <td align="right">ISO 19115:2003 Section B.5.27</td>
 </tr>
 <tr>
-<td>creation_date</td>
-<td>Mandatory*</td>
-<td>'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation_date or publication_date or revision_date is mandatory</td>
-<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
-<td align="right">ISO 19115:2003 Section B.3.2.4</td>
-</tr>
-<tr>
-<td>publication_date</td>
-<td>Optional*</td>
-<td>'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation_date or publication_date or revision_date is mandatory</td>
-<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
-<td align="right">ISO 19115:2003 Section B.3.2.4</td>
-</tr>
-<tr>
-<td>revision_date</td>
-<td>Optional*</td>
-<td>'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation_date or publication_date or revision_date is mandatory</td>
-<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
-<td align="right">ISO 19115:2003 Section B.3.2.4</td>
-</tr>
-<tr>
 <td>fees</td>
 <td>Mandatory</td>
 <td>fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'</td>
@@ -463,7 +446,19 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
 </tr>
 </tbody>
 </table>
-<h3 id="identificationextents"><code>identification.extents</code></h3>
+<h4 id="identificationdates"><code>identification.dates</code></h4>
+<p>MCF <code>identification.extents</code> sections can have 1..n <code>dates</code> sections as required with the following object names/types:</p>
+<p>creation|Mandatory<em>|'creation' reference date for the cited resource, referring to when the resource was brought into existence, </em>: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+publication|Optional<em>|'publication' reference date for the cited resource, referring to when the resource was issued, </em>: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+revision|Optional<em>|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, </em>: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4</p>
+<pre><code class="yaml">identification:
+    ...
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
+</code></pre>
+
+<h4 id="identificationextents"><code>identification.extents</code></h4>
 <p>MCF <code>identification.extents</code> sections can have 1..n <code>spatial</code> and <code>temporal</code> sections as required with the following properties.</p>
 <table>
 <thead>
@@ -517,7 +512,7 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
               end: now
 </code></pre>
 
-<h3 id="identificationkeywords"><code>identification.keywords</code></h3>
+<h4 id="identificationkeywords"><code>identification.keywords</code></h4>
 <p>MCF <code>identification</code> sections can have 1..n <code>keywords</code> sections as required using nesting.  Example:</p>
 <pre><code class="yaml">identification:
     ...
@@ -587,6 +582,84 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
 <td>specific code list URL (for advanced use cases, else the default is as per the given specified schema)</td>
 <td>http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml</td>
 <td align="right">ISO 19115:2003 Section B.2.2.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="content_info"><code>content_info</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th align="right">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Mandatory</td>
+<td>Content type (must be one of 'coverage', 'image', 'feature_catalogue'</td>
+<td>image</td>
+<td align="right">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+<tr>
+<td>cloud_cover</td>
+<td>Optional</td>
+<td>area of the dataset obscured by clouds, expressed as a percentage of the spatial extent</td>
+<td>72</td>
+<td align="right">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+<tr>
+<td>processing_level</td>
+<td>Optional</td>
+<td>image distributor’s code that identifies the level of radiometric and geometric processing that has been applied</td>
+<td>L1</td>
+<td align="right">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="content_infodimensions"><code>content_info.dimensions</code></h4>
+<p><code>content_info</code> objects support 1..n <code>dimension</code> objects.</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th align="right">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>name of dimension</td>
+<td>B1</td>
+<td align="right">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>units</td>
+<td>Mandatory</td>
+<td>units in which sensor wavelengths are expressed</td>
+<td>nm</td>
+<td align="right">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>min</td>
+<td>Mandatory</td>
+<td>shortest wavelength that the sensor is capable of collecting within a designated band</td>
+<td>101</td>
+<td align="right">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>max</td>
+<td>Mandatory</td>
+<td>longest wavelength that the sensor is capable of collecting within a designated band</td>
+<td>199</td>
+<td align="right">ISO 19115:2003 Section B.2.8.2</td>
 </tr>
 </tbody>
 </table>

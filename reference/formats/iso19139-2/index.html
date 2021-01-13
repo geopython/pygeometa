@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="pygeometa is a Python package to generate metadata for geospatial datasets">
+        
         <meta name="author" content="the pygeometa team">
-        <link rel="canonical" href="https://geopython.github.io/pygeometa/reference/">
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>pygeometa: Metadata Creation for the Rest of Us</title>
-        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
+        <link rel="canonical" href="https://geopython.github.io/pygeometa/reference/formats/iso19139-2/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>ISO 19115-2, Part 2: Extensions for acquisition and processing - pygeometa: Metadata Creation for the Rest of Us</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -19,13 +19,13 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -39,7 +39,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="..">pygeometa: Metadata Creation for the Rest of Us</a>
+                    <a class="navbar-brand" href="../../..">pygeometa: Metadata Creation for the Rest of Us</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -50,34 +50,34 @@
                                 <a href="https://github.com/geopython/pygeometa">Code</a>
                             </li>
                             <li >
-                                <a href="../tutorial/">Tutorial</a>
+                                <a href="../../../tutorial/">Tutorial</a>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li >
-    <a href="mcf/">Metadata Control File</a>
+    <a href="../../mcf/">Metadata Control File</a>
 </li>
                                     
   <li class="dropdown-submenu">
     <a href="#">Formats</a>
     <ul class="dropdown-menu">
             
-<li >
-    <a href="formats/iso19139-2/">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
+<li class="active">
+    <a href="./">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
 </li>
             
 <li >
-    <a href="formats/iso19139-hnap/">ISO Harmonized North American Profile (HNAP)</a>
+    <a href="../iso19139-hnap/">ISO Harmonized North American Profile (HNAP)</a>
 </li>
             
 <li >
-    <a href="formats/wmo-cmp/">WMO Core Metadata Profile</a>
+    <a href="../wmo-cmp/">WMO Core Metadata Profile</a>
 </li>
             
 <li >
-    <a href="formats/wmo-wigos/">WMO WIGOS Metadata Standard</a>
+    <a href="../wmo-wigos/">WMO WIGOS Metadata Standard</a>
 </li>
     </ul>
   </li>
@@ -91,8 +91,18 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li >
+                                <a rel="next" href="../../mcf/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../iso19139-hnap/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                             <li>
-                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/reference/index.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/reference/formats/iso19139-2.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -102,22 +112,74 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#reference">Reference</a></li>
+        <li class="main active"><a href="#iso-19139-2-schema-reference">ISO 19139-2 Schema Reference</a></li>
+            <li><a href="#sections">Sections</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="reference">Reference</h1>
-<ul>
-<li><a href="mcf">Metadata Control File</a></li>
-<li>Formats<ul>
-<li>iso19139, <a href="http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557">specification</a></li>
-<li><a href="formats/iso19139-hnap">iso19139-hnap</a>, <a href="http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP">specification</a></li>
-<li><a href="formats/wmo-cmp">wmo-cmp</a>, <a href="http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf">specification</a> </li>
-<li><a href="formats/wmo-wigos/">wmo-wigos</a>, <a href="https://library.wmo.int/opac/doc_num.php?explnum_id=3653">specification</a></li>
-</ul>
-</li>
-</ul></div>
+<h1 id="iso-19139-2-schema-reference">ISO 19139-2 Schema Reference</h1>
+<p>This documentation focuses on the <a href="https://www.iso.org/standard/67039.html">ISO 19115-2/19139-2 Extensions for acquisition and processing</a> based schema enhancements in pygeometa.</p>
+<h2 id="sections">Sections</h2>
+<h3 id="acquisition"><code>acquisition</code></h3>
+<p>The <code>acquisition</code> object supports 1..n platform defintions.</p>
+<h3 id="acquisitionplatforms"><code>acquisition.platforms</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th align="right">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>Mandatory</td>
+<td>unique identification of the platform</td>
+<td>LANDSAT_8</td>
+<td align="right">ISO 19115 Part 2 Section B.2.5.8</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Mandatory</td>
+<td>platform description</td>
+<td>My platform</td>
+<td align="right">ISO 19115 Part 2 Section B.2.5.8</td>
+</tr>
+</tbody>
+</table>
+<p><code>acquisition.platforms</code> objects support 1..n instrument definitions.</p>
+<h4 id="acquisitionplatformsinstruments"><code>acquisition.platforms[].instruments</code></h4>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th align="right">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>Mandatory</td>
+<td>instrument identifier</td>
+<td>OLI_TIRS</td>
+<td align="right">ISO 19115 Part 2 B.2.5.4</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Mandatory</td>
+<td>instrument type</td>
+<td>INS-NOBS</td>
+<td align="right">ISO 19115 Part 2 B.2.5.4</td>
+</tr>
+</tbody>
+</table></div>
         </div>
 
         <footer class="col-md-12">
@@ -126,11 +188,11 @@
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "..",
+            var base_url = "../../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js" defer></script>
-        <script src="../search/main.js" defer></script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
     <div class="modal-dialog">
@@ -198,8 +260,3 @@
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.0.4
-Build Date UTC : 2021-01-13 02:50:17
--->

@@ -7,27 +7,32 @@
     </url>
     <url>
      <loc>https://geopython.github.io/pygeometa/tutorial/</loc>
-     <lastmod>2020-11-16</lastmod>
+     <lastmod>2021-01-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://geopython.github.io/pygeometa/reference/mcf/</loc>
-     <lastmod>2020-11-16</lastmod>
+     <lastmod>2021-01-12</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://geopython.github.io/pygeometa/reference/formats/iso19139-2/</loc>
+     <lastmod>2021-01-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://geopython.github.io/pygeometa/reference/formats/iso19139-hnap/</loc>
-     <lastmod>2020-11-16</lastmod>
+     <lastmod>2021-01-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://geopython.github.io/pygeometa/reference/formats/wmo-cmp/</loc>
-     <lastmod>2020-11-16</lastmod>
+     <lastmod>2021-01-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://geopython.github.io/pygeometa/reference/formats/wmo-wigos/</loc>
-     <lastmod>2020-11-16</lastmod>
+     <lastmod>2021-01-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -65,6 +65,10 @@
     <ul class="dropdown-menu">
             
 <li >
+    <a href="../reference/formats/iso19139-2/">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
+</li>
+            
+<li >
     <a href="../reference/formats/iso19139-hnap/">ISO Harmonized North American Profile (HNAP)</a>
 </li>
             
@@ -200,7 +204,7 @@ from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 iso_os = ISO19139OutputSchema()
 
 # default schema
-xml_string = render_j2_template(mcf_dict, template_dir=iso_os.template_dir)
+xml_string = iso_os.write(mcf_dict)
 
 # user-defined schema
 xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
