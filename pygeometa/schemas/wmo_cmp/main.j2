@@ -213,6 +213,24 @@
               </gmd:date>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
+          {% else %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              {% if value['vocabulary']['name'] and value['vocabulary']['url'] %}
+              <gmd:title>
+                <gmx:Anchor xlink:title="{{ value['vocabulary']['name'] }}" xlink:href="{{ value['vocabulary']['url'] }}">{{ value['vocabulary']['name'] }}</gmx:Anchor>
+              </gmd:title>
+              {% elif not value['vocabulary']['url'] %}
+              {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('name', value['vocabulary'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {% endif %}
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date gco:nilReason="missing"/>
+                  <gmd:dateType gco:nilReason="missing"/>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
           {% endif %}
         </gmd:MD_Keywords>
       </gmd:descriptiveKeywords>

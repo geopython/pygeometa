@@ -32,6 +32,10 @@ identification:
         wmo:
             keywords_en: [FOO,BAR]
             keywords_type: theme
+            vocabulary:
+                name_en: My vocabulary
+                name_fr: Mon vocabulaire
+                url: http://example.org/vocab
         gc_cst:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]

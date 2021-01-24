@@ -55,6 +55,42 @@ Notes about nesting MCFs:
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
+## Multilingual support
+
+pygeometa supports default and alternate languages in ISO metadata.
+
+Multilingual support is driven by the following sections in `[metadata]`:
+
+* `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
+* `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
+
+Example:
+
+```yaml
+metadata:
+    language:en
+    language_alternate:fr
+```
+
+If `language_alternate` is not defined or missing, pygeometa assumes a single language.
+
+Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
+
+```yaml
+# single language
+title: foo
+
+# two languages, no default suffix
+title: foo
+title_fr: bar
+
+# two languages, explicit default suffix
+title_en: foo
+title_fr: bar
+```
+
+The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
+
 ## Sections
 
 ### `mcf`
@@ -69,6 +105,7 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 identifier|Mandatory|unique identifier for this metadata file|11800c2c-e6b9-11df-b9ae-0014c2c00eab|ISO 19115:2003 Section B.2.1
 language|Mandatory|primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless|en|ISO 19115:2003 Section B.2.1
+language_alternate|Optional|alternate language used for documenting metadata|en|ISO 19115:2003 Annex J
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
@@ -159,6 +196,9 @@ identification:
             keywords_en: [foo1, bar1]
             keywords_fr: [foo2, bar2]
             keywords_type: theme
+            vocabulary:
+                name: my vocabulary
+                url: https://example.org/vocab
         wmo:
             keywords_en: [foo3, bar3]
             keywords_fr: [foo4, bar4]
@@ -183,6 +223,17 @@ keywords_en|Optional|category keywords (English)|keyword1,keyword2,keyword3|ISO 
 keywords_fr|Optional|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+
+
+##### `identification.keywords.vocabulary`
+
+MCF `keyword` sections can specify an optional `vocabulary` section with the following elements:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name_en|Mandatory|name of the source of keywords (English)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
+name_fr|Mandatory|name of the source of keywords (French)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
+url|Optional|URL of source of keywords|https://example.org/my-vocab|-
 
 ### `content_info`
 
@@ -293,40 +344,3 @@ pygeometa supports using the following keyword substitutions:
 * `$year$`, which is substituted for the current year with the YYYY format, example: 2016
 * `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
 * `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
-
-The substitutions occur when pygeometa is ran for the MCF with those keywords.
-
-### Multiple languages support
-
-pygeometa supports default and alternate languages in ISO metadata. 
-
-Multilingual support is driven by the following sections in `[metadata]`:
-
-* `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
-* `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
-
-Example:
-
-```
-[metadata]
-language:en
-language_alternate:fr
-...
-```
-If `language_alternate` is not defined or missing, pygeometa assumes a single language.
-
-Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
-
-```
-# single language
-title:foo
-
-# two languages, no default suffix
-title:foo
-title_fr:bar
-
-# two languages, explicit default suffix
-title_en:foo
-title_fr:bar
-```
-The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
