@@ -111,3 +111,20 @@ facility:
               valid_period:
                   begin: 2000-11-11
                   end: now # optional
+        observations:
+            - name: my observation name
+              timeperiod:
+                  begin: 2010-09-15
+                  end: 2014-03-31
+              observedproperty:
+                  type: ObservedVariableAtmosphere
+                  name: 262
+              url: https://example.org/data/atmos
+            - name: Ozone/TotalOzone/dobson
+              timeperiod:
+                  begin: 2013-01-01
+                  end: 2015-12-01
+              observedproperty:
+                  type: ObservedVariableAtmosphere
+                  name: 263 
+              url: https://example.org/data/atmos/spectral/total-column-ozone/111
