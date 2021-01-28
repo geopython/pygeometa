@@ -55,6 +55,42 @@ Notes about nesting MCFs:
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
+## Multilingual support
+
+pygeometa supports default and alternate languages in ISO metadata.
+
+Multilingual support is driven by the following sections in `[metadata]`:
+
+* `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
+* `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
+
+Example:
+
+```yaml
+metadata:
+    language:en
+    language_alternate:fr
+```
+
+If `language_alternate` is not defined or missing, pygeometa assumes a single language.
+
+Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
+
+```yaml
+# single language
+title: foo
+
+# two languages, no default suffix
+title: foo
+title_fr: bar
+
+# two languages, explicit default suffix
+title_en: foo
+title_fr: bar
+```
+
+The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
+
 ## Sections
 
 ### `mcf`
@@ -69,6 +105,7 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 identifier|Mandatory|unique identifier for this metadata file|11800c2c-e6b9-11df-b9ae-0014c2c00eab|ISO 19115:2003 Section B.2.1
 language|Mandatory|primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless|en|ISO 19115:2003 Section B.2.1
+language_alternate|Optional|alternate language used for documenting metadata|en|ISO 19115:2003 Annex J
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
@@ -81,8 +118,6 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 datatype|Mandatory|method used to represent geographic information in the dataset (must be one of 'vector', 'grid', 'textTable', 'tin', 'stereoModel', 'video')|vector|Section B.5.26
 geomtype|Mandatory|name of point or vector objects used to locate zero-, one-, two-, or threedimensional spatial locations in the dataset (must be one of 'complex', 'composite', 'curve', 'point', 'solid', 'surface')|point|ISO 19115:2003 B.5.15
-crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 B.2.7.3
-bbox|Mandatory|geographic position of the dataset, formatted as 'minx,miny,maxx,maxy'|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
 
 ### `identification`
 
@@ -98,9 +133,6 @@ abstract|Mandatory|brief narrative summary of the content of the resource(s)|Bir
 abstract_en|Optional|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 abstract_fr|Optional|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
-creation_date|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
-publication_date|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
-revision_date|Optional*|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation_date or publication_date or revision_date is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
@@ -109,15 +141,52 @@ rights_fr|Optional|Information about rights held in and over the resource (Frenc
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_en|Optional|English URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
 url_fr|Optional|French URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
-temporal_begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
-temporal_end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
 status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')",completed,ISO 19115:2003 Section B.2.2.1
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
-### `identification.keywords`
+#### `identification.dates`
 
-MCF `identification` sections can be 1..n `keywords` sections as required using nesting.  Example:
+MCF `identification.extents` sections can have 1..n `dates` sections as required with the following object names/types:
+
+creation|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+publication|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+revision|Optional*|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+
+```yaml
+identification:
+    ...
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
+```
+
+#### `identification.extents`
+
+MCF `identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+bbox|Mandatory|geographic position of the dataset, formatted as as list of 'minx,miny,maxx,maxy'|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
+crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 B.2.7.3
+temporal.begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
+temporal.end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
+
+```yaml
+identification:
+    ...
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
+```
+
+#### `identification.keywords`
+
+MCF `identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
 
 ```yaml
 identification:
@@ -127,6 +196,9 @@ identification:
             keywords_en: [foo1, bar1]
             keywords_fr: [foo2, bar2]
             keywords_type: theme
+            vocabulary:
+                name: my vocabulary
+                url: https://example.org/vocab
         wmo:
             keywords_en: [foo3, bar3]
             keywords_fr: [foo4, bar4]
@@ -151,6 +223,37 @@ keywords_en|Optional|category keywords (English)|keyword1,keyword2,keyword3|ISO 
 keywords_fr|Optional|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+
+
+##### `identification.keywords.vocabulary`
+
+MCF `keyword` sections can specify an optional `vocabulary` section with the following elements:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name_en|Mandatory|name of the source of keywords (English)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
+name_fr|Mandatory|name of the source of keywords (French)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
+url|Optional|URL of source of keywords|https://example.org/my-vocab|-
+
+### `content_info`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+type|Mandatory|Content type (must be one of 'coverage', 'image', 'feature_catalogue'|image|ISO 19115:2003 Section B.2.8.1
+cloud_cover|Optional|area of the dataset obscured by clouds, expressed as a percentage of the spatial extent|72|ISO 19115:2003 Section B.2.8.1
+processing_level|Optional|image distributor’s code that identifies the level of radiometric and geometric processing that has been applied|L1|ISO 19115:2003 Section B.2.8.1
+
+#### `content_info.dimensions`
+
+`content_info` objects support 1..n `dimension` objects.
+
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|name of dimension|B1|ISO 19115:2003 Section B.2.8.2
+units|Mandatory|units in which sensor wavelengths are expressed|nm|ISO 19115:2003 Section B.2.8.2
+min|Mandatory|shortest wavelength that the sensor is capable of collecting within a designated band|101|ISO 19115:2003 Section B.2.8.2
+max|Mandatory|longest wavelength that the sensor is capable of collecting within a designated band|199|ISO 19115:2003 Section B.2.8.2
 
 ### `contact`
 
@@ -241,40 +344,3 @@ pygeometa supports using the following keyword substitutions:
 * `$year$`, which is substituted for the current year with the YYYY format, example: 2016
 * `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
 * `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
-
-The substitutions occur when pygeometa is ran for the MCF with those keywords.
-
-### Multiple languages support
-
-pygeometa supports default and alternate languages in ISO metadata. 
-
-Multilingual support is driven by the following sections in `[metadata]`:
-
-* `language`: 2 letter language code (i.e. `en`, `fr`) of primary language
-* `language_alternate`: 2 letter language code (i.e. `en`, `fr`) of secondary language
-
-Example:
-
-```
-[metadata]
-language:en
-language_alternate:fr
-...
-```
-If `language_alternate` is not defined or missing, pygeometa assumes a single language.
-
-Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
-
-```
-# single language
-title:foo
-
-# two languages, no default suffix
-title:foo
-title_fr:bar
-
-# two languages, explicit default suffix
-title_en:foo
-title_fr:bar
-```
-The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.

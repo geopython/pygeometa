@@ -35,6 +35,12 @@ The basic pygeometa workflow is:
 ### Running
 
 ```bash
+# show all subcommands
+pygeometa
+
+# show all supported schemas
+pygeometa schemas
+
 # provide a basic sanity check/report on an MCF (Metadata Control File)
 pygeometa info --mcf=path/to/file.yml
 
@@ -50,19 +56,6 @@ pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=so
 # use your own defined schema
 pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
-
-### Migration
-
-#### Migrating old MCFs to YAML
-
-pygeometa provides a `migrate` utility to convert legacy MCFs into YAML:
-
-```bash
-pygeometa migrate --mcf=path/to/file.mcf  # to stdout
-pygeometa migrate --mcf=path/to/file.mcf --output=some_file.yml  # to file
-```
-The migrate utility doesn't support migrating comments from legacy MCFs to
-YAML MCFs.
 
 ## For Developers
 
@@ -95,21 +88,26 @@ python setup.py install
 ### Using the API from Python
 
 ```python
-from pygeometa.core import render_template
+from pygeometa.core import read_mcf, render_j2_template
+
+# read from disk
+mcf_dict = read_mcf('/path/to/file.yml')
+# read from string
+mcf_dict = read_mcf(mcf_string)
+
+# choose ISO 19139 output schema
+from pygeometa.schemas.iso19139 import ISO19139OutputSchema
+iso_os = ISO19139OutputSchema()
+
 # default schema
-xml_string = render_template('/path/to/file.yml', schema='iso19139')
+xml_string = iso_os.write(mcf_dict)
+
 # user-defined schema
-xml_string = render_template('/path/to/file.yml', schema_local='/path/to/new-schema')
-# dictionary representation of YAML
-xml_string = render_template(yaml_dict, schema='iso19139')
-with open('output.xml', 'w') as ff:
+xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
+
+# write to disk
+with open('output.xml', 'wb') as ff:
     ff.write(xml_string)
-# render from an MCF stored in a string
-mcf_string = '...'  # some string
-xml_string = render_template_string(mcf_string, schema='iso19139')
-# render from an MCF as a ConfigParser object
-mcf_cp = '...'  # some ConfigParser object
-xml_string = render_template_string(mcf_cp, schema='iso19139')
 ```
 
 ## Development
@@ -125,14 +123,40 @@ pip install -r requirements-dev.txt
 
 ### Adding a Metadata Schema to the Core
 
-List of supported metadata schemas in `pygeometa/templates/`
+Adding an output metadata schemas to pygeometa involves extending
+`pygeometa.schemas.base.BaseOutputSchema` and supporting the `write`
+function to return a string of exported metadata content.  If you are using
+Jinja2 templates, see the next section.  If you are using another means of
+generating metadata (lxml, xml.etree, json, etc.), override the ABS `write`
+class to emit a string using your tooling/workflow accordingly.  See the
+below sections for examples.
 
-To add support to new metadata schemas:
+Once you have added your metadata schema, you need to register it with
+pygeometa's schema registry:
+
 ```bash
-cp -r pygeometa/templates/iso19139 pygeometa/templates/new-schema
+vi pygeometa/schemas/__init__.py
+# edit the SCHEMAS dict with the metadata schema name and dotted path of class
 ```
-Then modify `*.j2` files in the new `pygeometa/templates/new-schema` directory
+
+#### Jinja2 templates
+
+To add support for a new metadata schema using Jinja2 templates:
+```bash
+cp -r pygeometa/schemas/iso19139 pygeometa/schemas/new-schema
+```
+Then modify `*.j2` files in the new `pygeometa/schemas/new-schema` directory
 to comply to new metadata schema.
+
+#### Custom tooling
+
+To add support for a new metadata schemas using other tooling/workflow:
+```bash
+mkdir pygeometa/schemas/foo
+cp pygeometa/schemas/iso19139/__init__.py pygeometa/schemas/foo
+vi pygeometa/schemas/foo/__init__.py
+# update class name and super().__init__() function accordingly 
+```
 
 ### Running Tests
 
@@ -169,4 +193,3 @@ metadata within a real-time environment and automated workflows.
 
 In 2015 pygeometa was made publically available in support of the Treasury
 Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
-

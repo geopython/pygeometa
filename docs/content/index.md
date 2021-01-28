@@ -23,13 +23,13 @@ Feel free to open an [issue](https://github.com/geopython/pygeometa/issues)!
 pygeometa has minimal dependencies (install is less than 50K), and provides
 a flexible extension mechanism leveraging the Jinja2 templating system.
 
-pygeoapi is [open source](https://opensource.org) and released under an
-[MIT license](https://github.com/geopython/pygeoapi/blob/master/LICENSE.md).
+pygeometa is [open source](https://opensource.org) and released under an
+[MIT license](https://github.com/geopython/pygeometa/blob/master/LICENSE.md).
 
 ## Features
 * simple YAML-based configuration
-* extensible: template architecture allows for easy addition of new metadata
-  formats
+* extensible: plugin architecture allows for easy addition of new metadata
+  formats using Jinja2 templates or custom workflow (JSON, YAML, CSV, etc.)
 * flexible: use as a command-line tool or integrate as a library
 
 ## History

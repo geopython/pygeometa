@@ -18,8 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,19 +43,34 @@
 #
 # =================================================================
 
-import click
+import base64
+from datetime import date, datetime, time
+from decimal import Decimal
+import logging
 
-from pygeometa.core import generate_metadata, info, schemas
-
-__version__ = '0.7.dev0'
-
-
-@click.group()
-@click.version_option(version=__version__)
-def cli():
-    pass
+LOGGER = logging.getLogger(__name__)
 
 
-cli.add_command(generate_metadata)
-cli.add_command(info)
-cli.add_command(schemas)
+def json_serial(obj):
+    """
+    helper function to convert to JSON non-default
+    types (source: https://stackoverflow.com/a/22238613)
+    :param obj: `object` to be evaluated
+    :returns: JSON non-default type to `str`
+    """
+
+    if isinstance(obj, (datetime, date, time)):
+        return obj.isoformat()
+    elif isinstance(obj, bytes):
+        try:
+            LOGGER.debug('Returning as UTF-8 decoded bytes')
+            return obj.decode('utf-8')
+        except UnicodeDecodeError:
+            LOGGER.debug('Returning as base64 encoded JSON object')
+            return base64.b64encode(obj)
+    elif isinstance(obj, Decimal):
+        return float(obj)
+
+    msg = '{} type {} not serializable'.format(obj, type(obj))
+    LOGGER.error(msg)
+    raise TypeError(msg)

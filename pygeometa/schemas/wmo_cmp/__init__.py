@@ -18,8 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,19 +43,21 @@
 #
 # =================================================================
 
-import click
+import os
 
-from pygeometa.core import generate_metadata, info, schemas
+from pygeometa.schemas.base import BaseOutputSchema
 
-__version__ = '0.7.dev0'
-
-
-@click.group()
-@click.version_option(version=__version__)
-def cli():
-    pass
+THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 
-cli.add_command(generate_metadata)
-cli.add_command(info)
-cli.add_command(schemas)
+class WMOCMPOutputSchema(BaseOutputSchema):
+    """WMO Core Metadata Profile output schema"""
+
+    def __init__(self):
+        """
+        Initialize object
+
+        :returns: pygeometa.schemas.base.BaseOutputSchema
+        """
+
+        super().__init__('wmo-cmp', 'xml', THISDIR)

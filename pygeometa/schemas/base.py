@@ -18,8 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,19 +43,41 @@
 #
 # =================================================================
 
-import click
+import os
 
-from pygeometa.core import generate_metadata, info, schemas
+from pygeometa import core
 
-__version__ = '0.7.dev0'
-
-
-@click.group()
-@click.version_option(version=__version__)
-def cli():
-    pass
+TEMPLATES = os.path.dirname(os.path.realpath(__file__))
 
 
-cli.add_command(generate_metadata)
-cli.add_command(info)
-cli.add_command(schemas)
+class BaseOutputSchema:
+    """generic OutputSchema ABC"""
+
+    def __init__(self, name: str = None, outputformat: str = None,
+                 template_dir: str = None):
+        """
+        Initialize object
+
+        :param name: name of output schema
+        :param outputformat: output format (XML, JSON)
+
+        :returns: pygeometa.schemas.base.BaseOutputSchema
+        """
+
+        self.name = name
+        self.outputformat = outputformat
+        self.template_dir = template_dir
+
+    def write(self, mcf: dict) -> str:
+        """
+        Write outputschema to string buffer
+
+        :param mcf: dict of MCF content model
+
+        :returns: str of metadata in outputschema representation
+        """
+
+        return core.render_j2_template(mcf, template_dir=self.template_dir)
+
+    def __repr__(self):
+        return '<{}OutputSchema> {}'.format(self.name.upper(), self.name)

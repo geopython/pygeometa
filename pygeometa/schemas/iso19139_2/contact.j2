@@ -1,4 +1,4 @@
-<gmd:CI_ResponsibleParty id="contact-{{ contact_id }}">
+<gmd:CI_ResponsibleParty id="contact-{{ role }}">
   {{ cs.get_freetext('individualName', record['metadata']['language_alternate'], get_charstring('individualname', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
   {{ cs.get_freetext('organisationName', record['metadata']['language_alternate'], get_charstring('organization', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
   {{ cs.get_freetext('positionName', record['metadata']['language_alternate'], get_charstring('positionname', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}

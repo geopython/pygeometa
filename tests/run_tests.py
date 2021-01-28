@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -51,11 +51,15 @@ import unittest
 
 import yaml
 
-from pygeometa.core import (read_mcf, pretty_print, render_template,
-                            get_charstring, get_supported_schemas,
-                            normalize_datestring,
+from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
+                            get_charstring, normalize_datestring,
                             prune_distribution_formats,
                             prune_transfer_option, MCFReadError)
+from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
+                               load_schema)
+from pygeometa.schemas.iso19139 import ISO19139OutputSchema
+
+from sample_schema import SampleOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -128,7 +132,10 @@ class PygeometaTest(unittest.TestCase):
     def test_pretty_print(self):
         """Test pretty-printing"""
 
-        xml = render_template(get_abspath('../sample.yml'), 'iso19139')
+        iso_os = ISO19139OutputSchema()
+
+        xml = render_j2_template(read_mcf(get_abspath('../sample.yml')),
+                                 iso_os.template_dir)
         xml2 = pretty_print(xml)
 
         self.assertIsInstance(xml2, str, 'Expected unicode string')
@@ -216,13 +223,15 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 4, 'Expected 4 supported schemas')
-        self.assertEqual(schemas,
-                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp',
+        self.assertEqual(len(schemas), 7,
+                         'Expected specific number of supported schemas')
+        self.assertEqual(sorted(schemas),
+                         sorted(['dcat', 'iso19139', 'iso19139-2',
+                                 'iso19139-hnap', 'stac-item', 'wmo-cmp',
                                  'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
-    def test_render_template(self):
+    def test_render_j2_template(self):
         """test template rendering"""
 
         test_mcf_paths = [
@@ -232,25 +241,35 @@ class PygeometaTest(unittest.TestCase):
         ]
 
         for mcf_path in test_mcf_paths:
-            xml = render_template(get_abspath(mcf_path), 'iso19139')
+
+            iso_os = ISO19139OutputSchema()
+
+            # working template directory
+            xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                     iso_os.template_dir)
             self.assertIsInstance(xml, str, 'Expected unicode string')
 
-            # no schema provided
+            # no template directory or local schema provided
             with self.assertRaises(RuntimeError):
-                render_template(get_abspath(mcf_path))
+                render_j2_template(read_mcf(get_abspath(mcf_path)))
 
-            # bad schema provided
+            # bad template directory provided
             with self.assertRaises(RuntimeError):
-                xml = render_template(get_abspath(mcf_path), 'bad_schema')
+                xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                         'bad_dir')
 
-            # bad schema_local provided
+            # bad j2 template_dir provided
             with self.assertRaises(RuntimeError):
-                xml = render_template(get_abspath(mcf_path),
-                                      schema_local='/bad_schema/path')
+                xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                         template_dir='/bad_schema/path')
 
-            # good schema_local provided
-            xml = render_template(get_abspath(mcf_path),
-                                  schema_local=get_abspath('sample_schema'))
+            # good j2 template_dir provided
+            xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                     template_dir=get_abspath('sample_schema_j2'))  # noqa
+
+            # good sample output schema
+            s_os = SampleOutputSchema()
+            _ = s_os.write(read_mcf(get_abspath(mcf_path)))
 
     def test_nested_mcf(self):
         """test nested mcf support"""
@@ -292,14 +311,19 @@ class PygeometaTest(unittest.TestCase):
     def test_pre1900_dates(self):
         """test datestrings that are pre-1900"""
 
-        xml = render_template(get_abspath('dates-pre-1900.yml'), 'iso19139')
+        iso_os = ISO19139OutputSchema()
+
+        xml = render_j2_template(read_mcf(get_abspath('dates-pre-1900.yml')),
+                                 iso_os.template_dir)
         self.assertIsInstance(xml, str, 'Expected unicode string')
 
     def test_broken_yaml(self):
         """test against broken YAML"""
 
+        iso_os = ISO19139OutputSchema()
         with self.assertRaises(MCFReadError):
-            render_template(get_abspath('broken-yaml.yml'), 'iso19139')
+            render_j2_template(read_mcf(get_abspath('broken-yaml.yml')),
+                               iso_os.template_dir)
 
     def test_wmo_wigos(self):
         """test WMO WIGOS Metadata support"""
@@ -308,6 +332,26 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(len(mcf['facility'].keys()), 1)
         self.assertEqual(
             len(mcf['facility']['first_station']['spatiotemporal']), 1)
+
+    def test_19139_2(self):
+        """test ISO 19139-2 Metadata support"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        self.assertIn('acquisition', mcf)
+        self.assertIn('platforms', mcf['acquisition'])
+        self.assertIn('instruments', mcf['acquisition']['platforms'][0])
+
+    def test_output_schema(self):
+        """test output schema"""
+
+        with self.assertRaises(InvalidSchemaError):
+            load_schema('404')
+
+        iso_os = load_schema('iso19139')
+        self.assertIsInstance(iso_os, ISO19139OutputSchema)
+        self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
+        self.assertEqual(iso_os.outputformat, 'xml',
+                         'Expected specific output format')
 
 
 def get_abspath(filepath):

@@ -14,8 +14,6 @@ metadata:
 spatial:
     datatype: vector
     geomtype: point
-    crs: 4326
-    bbox: -141,42,-52,84
 
 identification:
     language: eng; CAN
@@ -34,20 +32,48 @@ identification:
         wmo:
             keywords_en: [FOO,BAR]
             keywords_type: theme
+            vocabulary:
+                name_en: My vocabulary
+                name_fr: Mon vocabulaire
+                url: http://example.org/vocab
         gc_cst:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]
     topiccategory:
         - climatologyMeteorologyAtmosphere
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
     fees: None
     accessconstraints: otherRestrictions
     rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     rights_fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
-    temporal_begin: 1950-07-31
-    temporal_end: now
     status: onGoing
     maintenancefrequency: continual
+
+content_info:
+    type: image
+    cloud_cover: 72
+    processing_level: 1.0
+    dimensions:
+        - name: B1
+          units: nm
+          min: 932
+          max: 958
+
+# platform metadata, applicable to iso19139-2 output
+acquisition:
+    platforms:
+        - identifier: LANDSAT_8
+          description: Landsat 8
+          instruments:
+              - identifier: OLI_TIRS
+                type: INS-NOBS
 
 contact:
     main: &contact_main
