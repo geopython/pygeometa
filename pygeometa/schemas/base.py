@@ -68,11 +68,13 @@ class BaseOutputSchema:
         self.outputformat = outputformat
         self.template_dir = template_dir
 
-    def write(self, mcf: dict) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> str:
         """
         Write outputschema to string buffer
 
         :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
 
         :returns: str of metadata in outputschema representation
         """
