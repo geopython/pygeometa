@@ -138,22 +138,24 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                                       mcf['metadata']['language'],
                                       mcf['metadata']['language_alternate'])
 
-        record['properties']['publisher'] = organization
+        record['properties']['publisher'] = organization[0]
 
         rights = get_charstring('rights', mcf['identification'],
                                 mcf['metadata']['language'],
                                 mcf['metadata']['language_alternate'])
 
-        record['properties']['rights'] = rights
+        record['properties']['rights'] = rights[0]
 
         formats = []
         for v in mcf['distribution'].values():
             format_ = get_charstring('format', v,
                                      mcf['metadata']['language'],
                                      mcf['metadata']['language_alternate'])
-            formats.append(format_)
+            if format_[0] is not None:
+                formats.append(format_)
 
-        record['properties']['formats'] = list(set([f[0] for f in formats]))
+        if formats:
+            record['properties']['formats'] = list(set([f[0] for f in formats]))
 
         record['properties']['contactPoint'] = mcf['contact']['main']['url']
 
@@ -189,9 +191,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'href': value['url'],
                 'type': value['type']
             }
-            if name != [None, None]:
-                link['name'] = name[0]
             if title != [None, None]:
+                link['title'] = name[0]
+            elif name != [None, None]:
                 link['title'] = name[0]
 
             if all(x in value['url'] for x in ['{', '}']):
