@@ -65,11 +65,14 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         super().__init__('oarec-record', 'json', THISDIR)
 
-    def write(self, mcf: dict) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> str:
         """
         Write outputschema to JSON string buffer
 
         :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
+
 
         :returns: MCF as a STAC item representation
         """
@@ -110,7 +113,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                     'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
                 },
                 'temporal': {
-                    'interval': [[begin, end]],
+                    'interval': [begin, end],
                     'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
                 }
             },
@@ -121,7 +124,6 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'themes': [],
                 'language': mcf['metadata']['language'],
                 'type': mcf['metadata']['hierarchylevel'],
-                'formats': []
             },
             'associations': [],
             'links': []
@@ -132,7 +134,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         if 'revision' in mcf['identification']['dates']:
             record['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
 
-        record['properties']['publisher'] = {'name': mcf['contact']['main']['organization']}  # noqa
+        organization = get_charstring('organization', mcf['contact']['main'],
+                                      mcf['metadata']['language'],
+                                      mcf['metadata']['language_alternate'])
+
+        record['properties']['publisher'] = organization
 
         rights = get_charstring('rights', mcf['identification'],
                                 mcf['metadata']['language'],
@@ -140,9 +146,14 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         record['properties']['rights'] = rights
 
-        for k, v in mcf['distribution'].items():
-            if 'format' in v:
-                mcf['identification']['formats'].append(v['format'])
+        formats = []
+        for v in mcf['distribution'].values():
+            format_ = get_charstring('format', v,
+                                     mcf['metadata']['language'],
+                                     mcf['metadata']['language_alternate'])
+            formats.append(format_)
+
+        record['properties']['formats'] = list(set([f[0] for f in formats]))
 
         record['properties']['contactPoint'] = mcf['contact']['main']['url']
 
@@ -156,8 +167,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             for kw in keywords[0]:
                 theme['concepts'].append(kw)
 
-            if 'vocabulary' in value and 'url' in value['vocabulary']:
-                theme['vocabulary'] = value['vocabulary']['url']
+            if 'vocabulary' in value:
+                if 'url' in value['vocabulary']:
+                    theme['scheme'] = value['vocabulary']['url']
+                elif 'name' in value['vocabulary']:
+                    theme['scheme'] = value['vocabulary']['name']
 
             record['properties']['themes'].append(theme)
 
