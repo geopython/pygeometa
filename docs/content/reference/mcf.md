@@ -147,8 +147,10 @@ browsegraphic|Optional|graphic that provides an illustration of the dataset|http
 
 #### `identification.dates`
 
-MCF `identification.extents` sections can have 1..n `dates` sections as required with the following object names/types:
+MCF `identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
 
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
 creation|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 publication|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 revision|Optional*|'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
