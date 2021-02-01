@@ -1,0 +1,55 @@
+mcf:
+    version: 1.0
+
+base_mcf: deep-nest-parent.yml
+
+metadata:
+    identifier: MYID
+    language: en
+    language_alternate: fr
+    charset: utf8
+    parentidentifier: someparentid
+    hierarchylevel: dataset
+    datestamp: 2014-11-11
+    dataseturi: http://some/minted/uri
+
+spatial:
+    datatype: vector
+    geomtype: point
+
+identification:
+    language: eng; CAN
+    charset: utf8
+    title_en: child title
+    title_fr: title in French
+    abstract_en: abstract in English
+    abstract_fr: abstract in French
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
+    keywords:
+        default:
+            keywords_en: [kw1 in English,kw2 in English,kw3 in English]
+            keywords_fr: [kw1 in French,kw2 in French,kw3 in French]
+        wmo:
+            keywords_en: [FOO,BAR]
+            keywords_type: theme
+        gc_cst:
+            keywords_en: [kw1,kw2]
+            keywords_fr: [kw1,kw2]
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
+    fees: None
+    accessconstraints: otherRestrictions
+    rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    rights_fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
+    status: onGoing
+    maintenancefrequency: continual

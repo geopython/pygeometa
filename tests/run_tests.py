@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -45,14 +45,21 @@
 #
 # =================================================================
 
+import datetime
 import os
 import unittest
 
-from six import text_type
 import yaml
 
-from pygeometa.core import (read_mcf, pretty_print, render_template,
-                            get_charstring, get_supported_schemas)
+from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
+                            get_charstring, normalize_datestring,
+                            prune_distribution_formats,
+                            prune_transfer_option, MCFReadError)
+from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
+                               load_schema)
+from pygeometa.schemas.iso19139 import ISO19139OutputSchema
+
+from sample_schema import SampleOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -96,9 +103,18 @@ class PygeometaTest(unittest.TestCase):
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
         # test as dict
-        mcf_dict = yaml.load(mcf_string)
+        mcf_dict = yaml.load(mcf_string, Loader=yaml.FullLoader)
         mcf = read_mcf(mcf_dict)
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
+
+    def test_mcf_version(self):
+        """Test MCF version validation"""
+
+        with self.assertRaises(MCFReadError):
+            read_mcf(get_abspath('missing-version.yml'))
+
+        with self.assertRaises(MCFReadError):
+            read_mcf(get_abspath('bad-version.yml'))
 
     def test_mcf_model(self):
         """test mcf model and types"""
@@ -116,10 +132,13 @@ class PygeometaTest(unittest.TestCase):
     def test_pretty_print(self):
         """Test pretty-printing"""
 
-        xml = render_template(get_abspath('../sample.yml'), 'iso19139')
+        iso_os = ISO19139OutputSchema()
+
+        xml = render_j2_template(read_mcf(get_abspath('../sample.yml')),
+                                 iso_os.template_dir)
         xml2 = pretty_print(xml)
 
-        self.assertIsInstance(xml2, text_type, 'Expected unicode string')
+        self.assertIsInstance(xml2, str, 'Expected unicode string')
         self.assertEqual(xml2[-1], '>', 'Expected closing bracket')
         self.assertTrue(xml2.startswith('<?xml'), 'Expected XML declaration')
 
@@ -152,17 +171,67 @@ class PygeometaTest(unittest.TestCase):
                                 {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
 
+    def test_normalize_datestring(self):
+        """Test datestring utility"""
+
+        date_value = normalize_datestring(2013)
+        self.assertIsInstance(date_value, str)
+
+    def test_prune_distribution_formats(self):
+        """Test deriving unique distribution formats"""
+
+        formats = {
+            'wms': {
+                'format_en': 'image', 'format_fr': 'image', 'format_version': 2
+            },
+            'wfs': {
+                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+            },
+            'wcs': {
+                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+            }
+        }
+
+        new_formats = prune_distribution_formats(formats)
+
+        self.assertEqual(len(new_formats), 2,
+                         'Expected 2 unique distribution formats')
+
+    def test_prune_transfer_option(self):
+        """Test deriving unique trasnfer options"""
+
+        language = "eng; CAN"
+        unique_transfer = {
+            'waf_eng-CAN': {
+                'name': 'Datamart'
+            },
+            'wms_eng-CAN': {
+                'name': 'GeoMet'
+            },
+            'wms_fra-CAN': {
+                'name': 'GeoMet french'
+            }
+        }
+
+        new_transfer = prune_transfer_option(unique_transfer, language)
+
+        self.assertEqual(len(new_transfer), 2,
+                         'Expected 2 unique transfer option')
+
     def test_get_supported_schemas(self):
         """Test supported schemas"""
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 3, 'Expected 3 supported schemas')
-        self.assertEqual(schemas,
-                         sorted(['iso19139', 'iso19139-hnap', 'wmo-cmp']),
+        self.assertEqual(len(schemas), 8,
+                         'Expected specific number of supported schemas')
+        self.assertEqual(sorted(schemas),
+                         sorted(['dcat', 'iso19139', 'iso19139-2',
+                                 'iso19139-hnap', 'oarec-record', 'stac-item',
+                                 'wmo-cmp', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
-    def test_render_template(self):
+    def test_render_j2_template(self):
         """test template rendering"""
 
         test_mcf_paths = [
@@ -172,39 +241,117 @@ class PygeometaTest(unittest.TestCase):
         ]
 
         for mcf_path in test_mcf_paths:
-            xml = render_template(get_abspath(mcf_path), 'iso19139')
-            self.assertIsInstance(xml, text_type, 'Expected unicode string')
 
-            # no schema provided
+            iso_os = ISO19139OutputSchema()
+
+            # working template directory
+            xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                     iso_os.template_dir)
+            self.assertIsInstance(xml, str, 'Expected unicode string')
+
+            # no template directory or local schema provided
             with self.assertRaises(RuntimeError):
-                render_template(get_abspath(mcf_path))
+                render_j2_template(read_mcf(get_abspath(mcf_path)))
 
-            # bad schema provided
+            # bad template directory provided
             with self.assertRaises(RuntimeError):
-                xml = render_template(get_abspath(mcf_path), 'bad_schema')
+                xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                         'bad_dir')
 
-            # bad schema_local provided
+            # bad j2 template_dir provided
             with self.assertRaises(RuntimeError):
-                xml = render_template(get_abspath(mcf_path),
-                                      schema_local='/bad_schema/path')
+                xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                         template_dir='/bad_schema/path')
 
-            # good schema_local provided
-            xml = render_template(get_abspath(mcf_path),
-                                  schema_local=get_abspath('sample_schema'))
+            # good j2 template_dir provided
+            xml = render_j2_template(read_mcf(get_abspath(mcf_path)),
+                                     template_dir=get_abspath('sample_schema_j2'))  # noqa
+
+            # good sample output schema
+            s_os = SampleOutputSchema()
+            _ = s_os.write(read_mcf(get_abspath(mcf_path)))
 
     def test_nested_mcf(self):
         """test nested mcf support"""
 
         mcf = read_mcf(get_abspath('child.yml'))
 
-        self.assertEqual(mcf['metadata']['identifier'], 1234,
+        self.assertEqual(mcf['metadata']['identifier'], 5678,
                          'Expected specific identifier')
 
-        self.assertEqual(mcf['identification']['title_en'],
-                         'title in English',
-                         'Expected specific title')
+        self.assertEqual(mcf['distribution']['waf']['type'], 'WWW:LINK',
+                         'Expected specific distribution type')
+
+        self.assertEqual(mcf['distribution']['waf']['url'],
+                         'http://example.org/waf',
+                         'Expected specific distribution url')
+
+        self.assertEqual(mcf['metadata']['datestamp'],
+                         datetime.date(2011, 11, 11),
+                         'Expected specific metadata datestamp')
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
+
+    def test_deep_nested_mcf(self):
+        """test deep nested mcf support"""
+
+        mcf = read_mcf(get_abspath('deep-nest-child.yml'))
+
+        self.assertEqual(mcf['metadata']['identifier'], 'MYID',
+                         'Expected specific identifier')
+
+        self.assertEqual(mcf['identification']['title_en'], 'child title',
+                         'Expected specific title')
+        self.assertEqual(mcf['distribution']['waf']['url'],
+                         'http://dd.meteo.gc.ca', 'Expected specific URL')
+
+        self.assertEqual(mcf['contact']['main']['positionname'],
+                         'Senior Systems Scientist', 'Expected specific name')
+
+    def test_pre1900_dates(self):
+        """test datestrings that are pre-1900"""
+
+        iso_os = ISO19139OutputSchema()
+
+        xml = render_j2_template(read_mcf(get_abspath('dates-pre-1900.yml')),
+                                 iso_os.template_dir)
+        self.assertIsInstance(xml, str, 'Expected unicode string')
+
+    def test_broken_yaml(self):
+        """test against broken YAML"""
+
+        iso_os = ISO19139OutputSchema()
+        with self.assertRaises(MCFReadError):
+            render_j2_template(read_mcf(get_abspath('broken-yaml.yml')),
+                               iso_os.template_dir)
+
+    def test_wmo_wigos(self):
+        """test WMO WIGOS Metadata support"""
+
+        mcf = read_mcf(get_abspath('../sample-wmo-wigos.yml'))
+        self.assertEqual(len(mcf['facility'].keys()), 1)
+        self.assertEqual(
+            len(mcf['facility']['first_station']['spatiotemporal']), 1)
+
+    def test_19139_2(self):
+        """test ISO 19139-2 Metadata support"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        self.assertIn('acquisition', mcf)
+        self.assertIn('platforms', mcf['acquisition'])
+        self.assertIn('instruments', mcf['acquisition']['platforms'][0])
+
+    def test_output_schema(self):
+        """test output schema"""
+
+        with self.assertRaises(InvalidSchemaError):
+            load_schema('404')
+
+        iso_os = load_schema('iso19139')
+        self.assertIsInstance(iso_os, ISO19139OutputSchema)
+        self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
+        self.assertEqual(iso_os.outputformat, 'xml',
+                         'Expected specific output format')
 
 
 def get_abspath(filepath):

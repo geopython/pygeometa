@@ -1,5 +1,5 @@
 mcf:
-    version: 1.0
+    version: 0.1.0
 
 metadata:
     identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
@@ -8,7 +8,7 @@ metadata:
     charset: utf8
     parentidentifier: someparentid
     hierarchylevel: dataset
-    datestamp: $date$
+    datestamp: 2014-11-11
     dataseturi: http://some/minted/uri
 
 spatial:
@@ -16,24 +16,25 @@ spatial:
     geomtype: point
 
 identification:
-    language: missing
+    language: eng; CAN
     charset: utf8
     title_en: title in English
     title_fr: title in French
     abstract_en: abstract in English
     abstract_fr: abstract in French
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
     keywords:
         default:
             keywords_en: [kw1 in English,kw2 in English,kw3 in English]
             keywords_fr: [kw1 in French,kw2 in French,kw3 in French]
-            keywords_type: theme
         wmo:
-            keywords_en: FOO,BAR
+            keywords_en: [FOO,BAR]
             keywords_type: theme
         gc_cst:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]
-            keywords_type: theme
     topiccategory:
         - climatologyMeteorologyAtmosphere
     extents:
@@ -43,8 +44,6 @@ identification:
         temporal:
             - begin: 1950-07-31
               end: now
-    dates:
-        publication: 2000-09-01T00:00:00Z
     fees: None
     accessconstraints: otherRestrictions
     rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
@@ -54,7 +53,7 @@ identification:
     maintenancefrequency: continual
 
 contact:
-    main:
+    main: &contact_main
         organization: Environment Canada
         url: http://www.ec.gc.ca/
         individualname: Tom Kralidis
@@ -70,22 +69,7 @@ contact:
         hoursofservice: 0700h - 1500h EST
         contactinstructions: email
 
-    distribution:
-        #ref: contact:main
-        organization: Environment Canada
-        url: http://www.ec.gc.ca/
-        individualname: Tom Kralidis
-        positionname: Senior Systems Scientist
-        phone: +01-123-456-7890
-        fax: +01-123-456-7890
-        address: 4905 Dufferin Street
-        city: Toronto
-        administrativearea: Ontario
-        postalcode: M3H 5T4
-        country: Canada
-        email: foo@bar.tld
-        hoursofservice: 0700h - 1500h EST
-        contactinstructions: email
+    distribution: *contact_main
 
 distribution:
     waf:

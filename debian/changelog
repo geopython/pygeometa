@@ -1,0 +1,19 @@
+pygeometa (0.6.0) bionic; urgency=medium
+
+  * numerous new WIGOS elements and fixes
+  * add info subcommand
+  * refactor common CLI options
+  * refactor output schema for additional non-XML formats
+  * remove migration tool for old mcf format
+  * documentation updates
+  * move from Travis CI to GitHub Actions
+  * add support for 19115-2
+  * add support for dcat as json-ld
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sat, 16 Jan 2021 14:37:13 +0000
+
+pygeometa (0.5.0) bionic; urgency=medium
+
+  * initial Debian packaging
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Thu, 12 Nov 2020 11:21:07 +0000

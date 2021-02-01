@@ -1,5 +1,5 @@
 mcf:
-    version: 1.0.0
+    version: 1.0
 
 metadata:
     identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
@@ -14,8 +14,6 @@ metadata:
 spatial:
     datatype: vector
     geomtype: point
-    crs: 4326
-    bbox: -141,42,-52,84
 
 identification:
     language: eng; CAN
@@ -26,6 +24,7 @@ identification:
     abstract_fr: abstract in French
     dates:
         creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
     keywords:
         default:
             keywords_en: [kw1 in English,kw2 in English,kw3 in English]
@@ -33,27 +32,53 @@ identification:
         wmo:
             keywords_en: [FOO,BAR]
             keywords_type: theme
+            vocabulary:
+                name_en: My vocabulary
+                name_fr: Mon vocabulaire
+                url: http://example.org/vocab
         gc_cst:
             keywords_en: [kw1,kw2]
             keywords_fr: [kw1,kw2]
     topiccategory:
         - climatologyMeteorologyAtmosphere
-    dates:
-        publication: 2000-09-01T00:00:00Z
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
     fees: None
     accessconstraints: otherRestrictions
     rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     rights_fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
-    temporal_begin: 1950-07-31
-    temporal_end: now
     status: onGoing
     maintenancefrequency: continual
+
+content_info:
+    type: image
+    cloud_cover: 72
+    processing_level: 1.0
+    dimensions:
+        - name: B1
+          units: nm
+          min: 932
+          max: 958
+
+# platform metadata, applicable to iso19139-2 output
+acquisition:
+    platforms:
+        - identifier: LANDSAT_8
+          description: Landsat 8
+          instruments:
+              - identifier: OLI_TIRS
+                type: INS-NOBS
 
 contact:
     main: &contact_main
         organization: Environment Canada
-        url: http://www.ec.gc.ca/
+        url: https://www.ec.gc.ca/
         individualname: Tom Kralidis
         positionname: Senior Systems Scientist
         phone: +01-123-456-7890
@@ -71,7 +96,7 @@ contact:
 
 distribution:
     waf:
-        url: http://dd.meteo.gc.ca
+        url: https://dd.meteo.gc.ca
         type: WWW:LINK
         name: my waf
         description_en: description in English
@@ -79,7 +104,7 @@ distribution:
         function: download
 
     wms:
-        url: http://dd.meteo.gc.ca
+        url: https://dd.meteo.gc.ca
         type: OGC:WMS
         name_en: roads
         name_fr: routes

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+{% import 'charstring.j2' as cs %}
+<gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/2005/gmx/gmx.xsd">
+  <gmd:fileIdentifier>
+    <gco:CharacterString>{{ record['metadata']['identifier'] }}</gco:CharacterString>
+  </gmd:fileIdentifier>
+  <gmd:language>
+    <gco:CharacterString>eng; CAN</gco:CharacterString>
+  </gmd:language>
+  <gmd:characterSet>
+    <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['charset'] }}">{{ record['metadata']['charset'] }}</gmd:MD_CharacterSetCode>
+  </gmd:characterSet>
+  {% if record['metadata']['parentidentifier'] %}
+  <gmd:parentIdentifier>
+    <gco:CharacterString>{{ record['metadata']['parentidentifier'] }}</gco:CharacterString>
+  </gmd:parentIdentifier>
+  {% endif %}
+  <gmd:hierarchyLevel>
+    <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['hierarchylevel'] }}">{{ record['metadata']['hierarchylevel'] }}</gmd:MD_ScopeCode>
+  </gmd:hierarchyLevel>
+  {% set contact = record['contact']['main'] %}
+  {% set role = 'pointOfContact; contact' %}
+  {% set role_codelist_value = 'RI_414' %}
+  <gmd:contact>
+  {% include "contact.j2" %}
+  </gmd:contact>
+  <gmd:dateStamp>
+    {% set datestamp = record['metadata']['datestamp']|normalize_datestring %}
+    {% if datestamp|length > 11 %}
+    <gco:DateTime>{{ datestamp }}</gco:DateTime>
+    {% else %}
+    <gco:Date>{{ datestamp }}</gco:Date>
+    {% endif %}
+  </gmd:dateStamp>
+  <gmd:metadataStandardName xsi:type="gmd:PT_FreeText_PropertyType">
+    <gco:CharacterString>North American Profile of ISO 19115:2003 - Geographic information - Metadata</gco:CharacterString>
+    <gmd:PT_FreeText>
+      <gmd:textGroup>
+        <gmd:LocalisedCharacterString locale="#fra">Profil nord-américain de la norme ISO 19115:2003 - Information géographique - Métadonnées</gmd:LocalisedCharacterString>
+      </gmd:textGroup>
+    </gmd:PT_FreeText>
+  </gmd:metadataStandardName>
+  <gmd:metadataStandardVersion>
+    <gco:CharacterString>CAN/CGSB-171.100-2009</gco:CharacterString>
+  </gmd:metadataStandardVersion>
+  <gmd:dataSetURI>
+    <gco:CharacterString>{{ record['metadata']['dataseturi']|e }}</gco:CharacterString>
+  </gmd:dataSetURI>
+  <gmd:locale>
+    <gmd:PT_Locale id="fra">
+      <gmd:languageCode>
+        <gmd:LanguageCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_116" codeListValue="fra">French; Français</gmd:LanguageCode>
+      </gmd:languageCode>
+      <gmd:country>
+        <gmd:Country codeList="https://www.iso.org/obp/ui/#search/code/" codeSpace="ISO 3166-1 alpha 3" codeListValue="CAN">Canada</gmd:Country>
+      </gmd:country>
+      <gmd:characterEncoding>
+        <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeSpace="ISOTC211/19115" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+      </gmd:characterEncoding>
+    </gmd:PT_Locale>
+  </gmd:locale>
+  <gmd:spatialRepresentationInfo>
+    {% if record['spatial']['datatype'] == 'vector' %}
+    <gmd:MD_VectorSpatialRepresentation>
+      <gmd:topologyLevel>
+        <gmd:MD_TopologyLevelCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopologyLevelCode" codeSpace="ISOTC211/19115" codeListValue="geometryOnly">geometryOnly</gmd:MD_TopologyLevelCode>
+      </gmd:topologyLevel>
+      <gmd:geometricObjects>
+        <gmd:MD_GeometricObjects>
+          <gmd:geometricObjectType>
+            <gmd:MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['spatial']['geomtype'] }}">{{ record['spatial']['geomtype'] }}</gmd:MD_GeometricObjectTypeCode>
+          </gmd:geometricObjectType>
+        </gmd:MD_GeometricObjects>
+      </gmd:geometricObjects>
+    </gmd:MD_VectorSpatialRepresentation>
+    {% endif %}
+  </gmd:spatialRepresentationInfo>
+  <gmd:referenceSystemInfo>
+    <gmd:MD_ReferenceSystem>
+      <gmd:referenceSystemIdentifier>
+        <gmd:RS_Identifier>
+          <gmd:authority>
+            <gmd:CI_Citation>
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>European Petroleum Survey Group (EPSG) Geodetic Parameter Registry</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">Registre des paramètres géodésiques du European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2008-11-12</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeSpace="ISOTC211/19115" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  <gmd:organisationName xsi:type="gmd:PT_FreeText_PropertyType">
+                    <gco:CharacterString>European Petroleum Survey Group</gco:CharacterString>
+                    <gmd:PT_FreeText>
+                      <gmd:textGroup>
+                        <gmd:LocalisedCharacterString locale="#fra">European Petroleum Survey Group (EPSG)</gmd:LocalisedCharacterString>
+                      </gmd:textGroup>
+                    </gmd:PT_FreeText>
+                  </gmd:organisationName>
+                  <gmd:contactInfo>
+                    <gmd:CI_Contact>
+                      <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://www.epsg-registry.org</gmd:URL>
+                          </gmd:linkage>
+                          <gmd:protocol>
+                            <gco:CharacterString>WWW:LINK</gco:CharacterString>
+                          </gmd:protocol>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onlineResource>
+                    </gmd:CI_Contact>
+                  </gmd:contactInfo>
+                  <gmd:role>
+                    <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeSpace="ISOTC211/19115" codeListValue="originator">originator</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
+            </gmd:CI_Citation>
+          </gmd:authority>
+          <gmd:code>
+            <gco:CharacterString>urn:ogc:def:crs:EPSG:{{ record['identification']['extents']['spatial'][0]['crs'] }}</gco:CharacterString>
+          </gmd:code>
+          <gmd:version>
+            <gco:CharacterString>6.18.3</gco:CharacterString>
+          </gmd:version>
+        </gmd:RS_Identifier>
+      </gmd:referenceSystemIdentifier>
+    </gmd:MD_ReferenceSystem>
+  </gmd:referenceSystemInfo>
+  <gmd:identificationInfo>
+    <gmd:MD_DataIdentification>
+      <gmd:citation>
+        <gmd:CI_Citation>
+          {{ cs.get_freetext('title', 'fra', get_charstring('title', record['identification'], 'en', 'fr')) }}
+          {% for date_type, date in record['identification']['dates'].items() %}
+          {% set datestamp = date|normalize_datestring %}
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                {% if datestamp|length > 11 %}
+                <gco:DateTime>{{ datestamp }}</gco:DateTime>
+                {% else %}
+                <gco:Date>{{ datestamp }}</gco:Date>
+                {% endif %}
+              </gmd:date>
+              <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ date_type }}">{{ date_type }}</gmd:CI_DateTypeCode>
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          {% endfor %}
+          <gmd:citedResponsibleParty>
+            {% set role = 'pointOfContact; contact' %}
+            {% set role_codelist_value = 'RI_414' %}
+            {% include "contact.j2" %}
+          </gmd:citedResponsibleParty>
+        </gmd:CI_Citation>
+      </gmd:citation>
+      {{ cs.get_freetext('abstract', 'fra', get_charstring('abstract', record['identification'], 'en', 'fr')) }}
+      <gmd:status>
+        <gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['status'] }}">{{ record['identification']['status'] }}</gmd:MD_ProgressCode>
+      </gmd:status>
+      <gmd:resourceMaintenance>
+        <gmd:MD_MaintenanceInformation>
+          <gmd:maintenanceAndUpdateFrequency>
+            <gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['maintenancefrequency'] }}">{{ record['identification']['maintenancefrequency'] }}</gmd:MD_MaintenanceFrequencyCode>
+          </gmd:maintenanceAndUpdateFrequency>
+        </gmd:MD_MaintenanceInformation>
+      </gmd:resourceMaintenance>
+      {% if record['identification']['browsegraphic'] %}
+      <gmd:graphicOverview>
+        <gmd:MD_BrowseGraphic>
+          <gmd:fileName>
+            <gco:CharacterString>{{ record['identification']['browsegraphic']|e }}</gco:CharacterString>
+          </gmd:fileName>
+        </gmd:MD_BrowseGraphic>
+      </gmd:graphicOverview>
+      {% endif %}
+      {% for key, value in record['identification']['keywords'].items() %}
+      <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+        {% set keywords = get_charstring('keywords', value, record['metadata']['language'], record['metadata']['language_alternate']) %}
+        {% if keywords[1] is none %}
+          {# No language_alternate is specified #}
+          {% for kw1 in keywords[0] %}
+          {{ cs.get_freetext('keyword', None, [kw1]) }}
+          {% endfor %}
+        {% else %}
+          {% for kw1, kw2 in zip(keywords[0], keywords[1]) %}
+          {{ cs.get_freetext('keyword', record['metadata']['language_alternate'], [kw1, kw2]) }}
+          {% endfor %}
+        {% endif %}
+          <gmd:type>
+            {% set keywords_codelist = 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode' %}
+            {% if value['keywords_codelist'] %}
+            {% set keywords_codelist = value['keywords_codelist'] %}
+            {% endif %}
+            <gmd:MD_KeywordTypeCode codeList="{{ keywords_codelist }}" codeSpace="ISOTC211/19115" codeListValue="{{ value['keywords_type'] }}">{{ value['keywords_type'] }}</gmd:MD_KeywordTypeCode>
+          </gmd:type>
+          {% if key == 'gc_cst' %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>Government of Canada Core Subject Thesaurus</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">Thésaurus des sujets de base du gouvernement du Canada</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2004</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_366">creation; création</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2015-04-21</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_367">publication; publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  <gmd:organisationName xsi:type="gmd:PT_FreeText_PropertyType">
+                    <gco:CharacterString>Government of Canada; Library and Archives Canada</gco:CharacterString>
+                    <gmd:PT_FreeText>
+                      <gmd:textGroup>
+                        <gmd:LocalisedCharacterString locale="#fra">Gouvernement du Canada; Bibliothèque et Archives Canada</gmd:LocalisedCharacterString>
+                      </gmd:textGroup>
+                    </gmd:PT_FreeText>
+                  </gmd:organisationName>
+                  <gmd:role>
+                    <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeSpace="ISOTC211/19115" codeListValue="custodian">custodian</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+          {% elif key == 'hnap_category_information' %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation id="local.theme.EC_Information_Category">
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>local.theme.EC_Information_Category</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">local.theme.EC_Information_Category</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_366">creation; création</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_367">publication; publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+          {% elif key == 'hnap_category_geography' %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation id="local.place.EC_Geographic_Scope">
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>local.place.EC_Geographic_Scope</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">local.place.EC_Geographic_Scope</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_366">creation; création</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_367">publication; publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+          {% elif key == 'hnap_category_content' %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation id="local.theme.EC_Content_Scope">
+              <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>local.theme.EC_Content_Scope</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">local.theme.EC_Content_Scope</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_366">creation; création</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2012-05-25</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_87" codeListValue="RI_367">publication; publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+              <gmd:citedResponsibleParty>
+                <gmd:CI_ResponsibleParty>
+                  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+                  <gmd:role xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx">
+                    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="RI_409">custodian; conservateur</gmd:CI_RoleCode>
+                  </gmd:role>
+                </gmd:CI_ResponsibleParty>
+              </gmd:citedResponsibleParty>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+          {% else %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              {% if value['vocabulary']['name'] and value['vocabulary']['url'] %}
+              <gmd:title>
+                <gmx:Anchor xlink:title="{{ value['vocabulary']['name'] }}" xlink:href="{{ value['vocabulary']['url'] }}">{{ value['vocabulary']['name'] }}</gmx:Anchor>
+              </gmd:title>
+              {% elif not value['vocabulary']['url'] %}
+              {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('name', value['vocabulary'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {% endif %}
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date gco:nilReason="missing"/>
+                  <gmd:dateType gco:nilReason="missing"/>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+          {% endif %}
+        </gmd:MD_Keywords>
+      </gmd:descriptiveKeywords>
+      {% endfor %}
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          {% set uselim = get_charstring('rights', record['identification'], 'en', 'fr') %}
+          {% set uselim_en = normalize_datestring(uselim[0], 'year') %}
+          {% set uselim_fr = normalize_datestring(uselim[1], 'year') %}
+          {{ cs.get_freetext('useLimitation', 'fra', [uselim_en, uselim_fr]) }}
+          <gmd:accessConstraints>
+            <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['accessconstraints'] }}">{{ record['identification']['accessconstraints'] }}</gmd:MD_RestrictionCode>
+          </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:spatialRepresentationType>
+        <gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['spatial']['datatype'] }}">{{ record['spatial']['datatype'] }}</gmd:MD_SpatialRepresentationTypeCode>
+      </gmd:spatialRepresentationType>
+      {% if record['identification']['language'] in ['inapplicable', 'missing', 'template', 'unknown', 'withheld'] %}
+      <gmd:language gco:nilReason="{{ record['identification']['language'] }}"/>
+      {% else %}
+      <gmd:language>
+        <gco:CharacterString>{{ record['identification']['language'] }}</gco:CharacterString>
+      </gmd:language>
+      {% endif %}
+      <gmd:characterSet>
+        <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['charset'] }}">{{ record['identification']['charset'] }}</gmd:MD_CharacterSetCode>
+      </gmd:characterSet>
+      {% for tc in record['identification']['topiccategory'] %}
+      <gmd:topicCategory>
+        <gmd:MD_TopicCategoryCode>{{ tc }}</gmd:MD_TopicCategoryCode>
+      </gmd:topicCategory>
+      {% endfor %}
+      <gmd:extent>
+        <gmd:EX_Extent>
+          {% for spatial in record['identification']['extents']['spatial'] %}
+          {% set bbox = spatial['bbox'] %}
+          <gmd:geographicElement>
+            {% if spatial['crs'] != 4326 %}
+            <gmd:EX_BoundingPolygon>
+              <gmd:extentTypeCode>
+                <gco:Boolean>1</gco:Boolean>
+              </gmd:extentTypeCode>
+              <gmd:polygon>
+                <gml:Polygon gml:id="P001" srsName="{{ spatial['crs'] }}" srsDimension="2">
+                  <gml:exterior>
+                    <gml:LinearRing>
+                      <gml:posList srsName="{{ spatial['crs'] }}" srsDimension="2">{{ bbox[0] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[3] }} {{ bbox[2] }} {{ bbox[1] }} {{ bbox[0] }} {{ bbox[1] }}</gml:posList>
+                    </gml:LinearRing>
+                  </gml:exterior>
+                </gml:Polygon>
+              </gmd:polygon>
+            </gmd:EX_BoundingPolygon>
+            {% else %}
+            <gmd:EX_GeographicBoundingBox>
+              <gmd:extentTypeCode>
+                <gco:Boolean>1</gco:Boolean>
+              </gmd:extentTypeCode>
+              <gmd:westBoundLongitude>
+                <gco:Decimal>{{ bbox[0] }}</gco:Decimal>
+              </gmd:westBoundLongitude>
+              <gmd:eastBoundLongitude>
+                <gco:Decimal>{{ bbox[2] }}</gco:Decimal>
+              </gmd:eastBoundLongitude>
+              <gmd:southBoundLatitude>
+                <gco:Decimal>{{ bbox[1] }}</gco:Decimal>
+              </gmd:southBoundLatitude>
+              <gmd:northBoundLatitude>
+                <gco:Decimal>{{ bbox[3] }}</gco:Decimal>
+              </gmd:northBoundLatitude>
+            </gmd:EX_GeographicBoundingBox>
+            {% endif %}
+          </gmd:geographicElement>
+          {% endfor %}
+          {% for temporal in record['identification']['extents']['temporal'] %}
+          <gmd:temporalElement>
+            <gmd:EX_TemporalExtent>
+              <gmd:extent>
+                <gml:TimePeriod gml:id="T001">
+                  <gml:beginPosition>{{ temporal['begin'] }}</gml:beginPosition>
+                  {% if temporal['end'] == 'now' %}
+                  <gml:endPosition indeterminatePosition="now"/>
+                  {% else %}
+                  <gml:endPosition>{{ temporal['end'] }}</gml:endPosition>
+                  {% endif %}
+                </gml:TimePeriod>
+              </gmd:extent>
+            </gmd:EX_TemporalExtent>
+          </gmd:temporalElement>
+          {% endfor %}
+        </gmd:EX_Extent>
+      </gmd:extent>
+      {{ cs.get_freetext('supplementalInformation', 'fra', get_charstring('url', record['identification'], 'en', 'fr')) }}
+    </gmd:MD_DataIdentification>
+  </gmd:identificationInfo>
+  <gmd:distributionInfo>
+    <gmd:MD_Distribution>
+      {% set formats = prune_distribution_formats(record['distribution']) %}
+      {% for v in formats %}
+      {% if v['format_en'] and v['format_fr'] and v['format_version'] %}
+      <gmd:distributionFormat>
+        <gmd:MD_Format>
+          {{ cs.get_freetext('name', 'fra', get_charstring('format', v, 'en', 'fr')) }}
+          <gmd:version>
+            <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
+          </gmd:version>
+        </gmd:MD_Format>
+      </gmd:distributionFormat>
+      {% endif %}
+      {% endfor %}
+      <gmd:distributor>
+        <gmd:MD_Distributor>
+          <gmd:distributorContact>
+          {% set contact = record['contact']['distribution'] %}
+          {% set role = 'distributor' %}
+          {% set role_codelist_value = 'RI_412' %}
+          {% include "contact.j2" %}
+          </gmd:distributorContact>
+        </gmd:MD_Distributor>
+      </gmd:distributor>
+      <gmd:transferOptions>
+        <gmd:MD_DigitalTransferOptions>
+        {% for k, v in record['distribution'].items() %}
+          <gmd:onLine xlink:role="urn:xml:lang:{{ k|get_distribution_language }}">
+            <gmd:CI_OnlineResource>
+              <gmd:linkage>
+                <gmd:URL>{{ v['url']|e }}</gmd:URL>
+              </gmd:linkage>
+              <gmd:protocol>
+                <gco:CharacterString>{{ v['type'] }}</gco:CharacterString>
+              </gmd:protocol>
+              {{ cs.get_freetext('name', 'fra', get_charstring('name', v, 'en', 'fr')) }}
+              <gmd:description xsi:type="gmd:PT_FreeText_PropertyType">
+                <gco:CharacterString>{{ v['hnap_contenttype_en'] }};{{ v['format_en'] }};eng</gco:CharacterString>
+                <gmd:PT_FreeText>
+                  <gmd:textGroup>
+                    <gmd:LocalisedCharacterString locale="#fra">{{ v['hnap_contenttype_fr'] }};{{ v['format_fr'] }};fra</gmd:LocalisedCharacterString>
+                  </gmd:textGroup>
+                </gmd:PT_FreeText>
+              </gmd:description>
+              <gmd:function>
+                <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeSpace="ISOTC211/19115" codeListValue="{{ v['function'] }}">{{ v['function'] }}</gmd:CI_OnLineFunctionCode>
+              </gmd:function>
+            </gmd:CI_OnlineResource>
+          </gmd:onLine>
+        {% endfor %}
+        </gmd:MD_DigitalTransferOptions>
+      </gmd:transferOptions>
+    </gmd:MD_Distribution>
+  </gmd:distributionInfo>
+  <gmd:metadataMaintenance>
+    <gmd:MD_MaintenanceInformation>
+      <gmd:maintenanceAndUpdateFrequency>
+        <gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['maintenancefrequency'] }}">{{ record['identification']['maintenancefrequency'] }}</gmd:MD_MaintenanceFrequencyCode>
+      </gmd:maintenanceAndUpdateFrequency>
+      <gmd:maintenanceNote>
+        <gco:CharacterString>This metadata record was generated by pygeometa-{{ pygeometa_version }} (https://github.com/geopython/pygeometa)</gco:CharacterString>
+      </gmd:maintenanceNote>
+    </gmd:MD_MaintenanceInformation>
+  </gmd:metadataMaintenance>
+</gmd:MD_Metadata>

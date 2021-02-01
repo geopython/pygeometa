@@ -1,0 +1,42 @@
+name: build ⚙️
+
+on: [ push, pull_request ]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      name: Setup Python ${{ matrix.python-version }}
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install system dependencies 📦
+      run: sudo apt-get install -y devscripts fakeroot debhelper python3-all python3-setuptools
+    - name: Install requirements 📦
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install -r requirements-dev.txt
+    - name: Install package 📦
+      run: python3 setup.py install
+    - name: run tests ⚙️
+      run: python3 setup.py test
+    - name: run test coverage ⚙️
+      run: |
+        coverage run --source pygeometa setup.py test
+        coverage report -m
+#      with:
+#        fail_ci_if_error: false
+    - name: build docs 🏗️
+      run: mkdocs build -f docs/mkdocs.yml
+    - name: run flake8 ⚙️
+      run: flake8
+    - name: build Python package 🏗️
+      run: python3 setup.py sdist bdist_wheel --universal
+    - name: build Debian package 🏗️
+#      with:
+#        fail_ci_if_error: false
+      run: sudo debuild -b -uc -us

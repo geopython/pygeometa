@@ -1,0 +1,64 @@
+<gmd:CI_ResponsibleParty>
+  {{ cs.get_freetext('individualName', 'fra', get_charstring('individualname', contact, 'en', 'fr')) }}
+  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
+  {{ cs.get_freetext('positionName', 'fra', get_charstring('positionname', contact, 'en', 'fr')) }}
+  <gmd:contactInfo>
+    <gmd:CI_Contact>
+      <gmd:phone>
+        <gmd:CI_Telephone>
+          {% if contact['phone'] %}
+          <gmd:voice>
+            <gco:CharacterString>{{ contact['phone'] }}</gco:CharacterString>
+          </gmd:voice>
+          {% else %}
+          <gmd:voice gco:nilReason="missing"/>
+          {% endif %}
+          {% if contact['fax'] %}
+          <gmd:facsimile>
+            <gco:CharacterString>{{ contact['fax'] }}</gco:CharacterString>
+          </gmd:facsimile>
+          {% else %}
+          <gmd:facsimile gco:nilReason="missing"/>
+          {% endif %}
+        </gmd:CI_Telephone>
+      </gmd:phone>
+      <gmd:address>
+        <gmd:CI_Address>
+          {{ cs.get_freetext('deliveryPoint', 'fra', get_charstring('address', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('city', 'fra', get_charstring('city', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('administrativeArea', 'fra', get_charstring('administrativearea', contact, 'en', 'fr')) }}
+          <gmd:postalCode>
+            <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
+          </gmd:postalCode>
+          {{ cs.get_freetext('country', 'fra', get_charstring('country', contact, 'en', 'fr')) }}
+          <gmd:electronicMailAddress xsi:type="gmd:PT_FreeText_PropertyType">
+            <gco:CharacterString>{{ contact['email'] }}</gco:CharacterString>
+            <gmd:PT_FreeText>
+              <gmd:textGroup>
+                <gmd:LocalisedCharacterString locale="#fra">{{ contact['email'] }}</gmd:LocalisedCharacterString>
+              </gmd:textGroup>
+            </gmd:PT_FreeText>
+          </gmd:electronicMailAddress>
+        </gmd:CI_Address>
+      </gmd:address>
+      <gmd:onlineResource>
+        <gmd:CI_OnlineResource>
+          <gmd:linkage>
+            <gmd:URL>{{ contact['url']|e }}</gmd:URL>
+          </gmd:linkage>
+          <gmd:protocol>
+            <gco:CharacterString>WWW:LINK</gco:CharacterString>
+          </gmd:protocol>
+          <gmd:function>
+            <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information" codeSpace="ISOTC211/19115">information</gmd:CI_OnLineFunctionCode>
+          </gmd:function>
+        </gmd:CI_OnlineResource>
+      </gmd:onlineResource>
+      {{ cs.get_freetext('hoursOfService', 'fra', get_charstring('hoursofservice', contact, 'en', 'fr')) }}
+      {{ cs.get_freetext('contactInstructions', 'fra', get_charstring('contactinstructions', contact, 'en', 'fr')) }}
+    </gmd:CI_Contact>
+  </gmd:contactInfo>
+  <gmd:role>
+    <gmd:CI_RoleCode codeList="http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90" codeListValue="{{ role_codelist_value }}">{{ role}}</gmd:CI_RoleCode>
+  </gmd:role>
+</gmd:CI_ResponsibleParty>

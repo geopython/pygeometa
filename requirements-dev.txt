@@ -1,3 +1,6 @@
+coverage
 flake8
-pylint
-pypandoc
+mkdocs
+mkdocs-bootswatch
+twine
+wheel

@@ -46,17 +46,17 @@
 
 import click
 
-from pygeometa.core import generate_metadata, info, schemas
+OPTION_MCF = click.option(
+    '--mcf',
+    type=click.Path(exists=True, resolve_path=True),
+    help='Path to metadata control file (.yml)')
 
-__version__ = '0.7.dev0'
+OPTION_OUTPUT = click.option(
+    '--output',
+    type=click.File('w', encoding='utf-8'),
+    help='Name of output file')
 
-
-@click.group()
-@click.version_option(version=__version__)
-def cli():
-    pass
-
-
-cli.add_command(generate_metadata)
-cli.add_command(info)
-cli.add_command(schemas)
+OPTION_VERBOSITY = click.option(
+    '--verbosity',
+    type=click.Choice(['ERROR', 'WARNING', 'INFO', 'DEBUG']),
+    help='Verbosity')

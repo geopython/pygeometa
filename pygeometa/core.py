@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2020 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,12 +44,14 @@
 #
 # =================================================================
 
-import codecs
+import collections
 from datetime import date, datetime
+import io
 import logging
 import os
 import pkg_resources
 import re
+from typing import Union
 from xml.dom import minidom
 
 import click
@@ -57,23 +59,35 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 import yaml
 
+from pygeometa import cli_options
+from pygeometa.schemas import get_supported_schemas, load_schema
+
 LOGGER = logging.getLogger(__name__)
 
-TEMPLATES = '{}{}templates'.format(os.path.dirname(os.path.realpath(__file__)),
-                                   os.sep)
+SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
+                               os.sep)
 
 VERSION = pkg_resources.require('pygeometa')[0].version
 
 
-def get_charstring(option, section_items, language,
-                   language_alternate=None):
-    """convenience function to return unilingual or multilingual value(s)"""
+def get_charstring(option: str, section_items: list, language: str,
+                   language_alternate: str = None) -> list:
+    """
+    convenience function to return unilingual or multilingual value(s)
+
+    :param option: charstring option
+    :param section_items: option items in section
+    :param language: language
+    :param language_alternate: alternate language
+
+    :returns: list of unilingual or multilingual values
+    """
 
     section_items = dict(section_items)
     option_value1 = None
     option_value2 = None
 
-    if 'language_alternate' is None:  # unilingual
+    if language_alternate is None:  # noqa unilingual
         option_tmp = '{}_{}'.format(option, language)
         if option_tmp in section_items:
             option_value1 = section_items[option_tmp]
@@ -98,8 +112,14 @@ def get_charstring(option, section_items, language,
     return [option_value1, option_value2]
 
 
-def get_distribution_language(section):
-    """derive language of a given distribution construct"""
+def get_distribution_language(section: str) -> str:
+    """
+    derive language of a given distribution construct
+
+    :param section: section name
+
+    :returns: distribution language
+    """
 
     try:
         return section.split('_')[1]
@@ -107,8 +127,15 @@ def get_distribution_language(section):
         return 'en'
 
 
-def normalize_datestring(datestring, format_='default'):
-    """groks date string into ISO8601"""
+def normalize_datestring(datestring: str, format_: str = 'default') -> str:
+    """
+    groks date string into ISO8601
+
+    :param datestring: date in string representation
+    :format_: datetring format ('year' or default [full])
+
+    :returns: string of properly formatted datestring
+    """
 
     today_and_now = datetime.utcnow()
 
@@ -118,11 +145,19 @@ def normalize_datestring(datestring, format_='default'):
 
     try:
         if isinstance(datestring, date):
-            datestring2 = datestring.strftime('%Y-%m-%dT%H:%M:%SZ')
+            if datestring.year < 1900:
+                datestring2 = '{0.day:02d}.{0.month:02d}.{0.year:4d}'.format(
+                    datestring)
+            else:
+                datestring2 = datestring.strftime('%Y-%m-%dT%H:%M:%SZ')
             if datestring2.endswith('T00:00:00Z'):
                 datestring2 = datestring2.replace('T00:00:00Z', '')
             return datestring2
+        elif isinstance(datestring, int) and len(str(datestring)) == 4:  # year
+            return str(datestring)
         if datestring == '$date$':  # $date$ magic keyword
+            return today_and_now.strftime('%Y-%m-%d')
+        elif datestring == '$datetime$':  # $datetime$ magic keyword
             return today_and_now.strftime('%Y-%m-%dT%H:%M:%SZ')
         elif datestring == '$year$':  # $year$ magic keyword
             return today_and_now.strftime('%Y')
@@ -134,134 +169,231 @@ def normalize_datestring(datestring, format_='default'):
                 return mo.group('year')
             else:  # default
                 mo = re.match(re2, datestring)
-                return '%sT%s'.format(mo.group('date', 'time'))
+                return '{}T{}'.format(mo.group('date'), mo.group('time'))
         elif '$Date' in datestring:  # svn Date keyword embedded
             if format_ == 'year':
                 mo = re.match(re3, datestring)
-                return '%s%s%s'.format(mo.group('start', 'year', 'end'))
+                return '{}{}{}'.format(mo.group('start'),
+                                       mo.group('year'), mo.group('end'))
     except AttributeError:
         raise RuntimeError('Invalid datestring: {}'.format(datestring))
     return datestring
 
 
-def read_mcf(mcf):
-    """returns dict of YAML file from filepath"""
+def prune_distribution_formats(formats: dict) -> list:
+    """
+    derive a unique list of distribution formats
 
-    mcf_list = []
+    :param formats: distribution formats
+
+    :returns: unique distribution formats list
+    """
+
+    counter = 0
+    formats_ = []
+    unique_formats = []
+
+    for k1, v1 in formats.items():
+        row = {}
+        for k2, v2 in v1.items():
+            if k2.startswith('format'):
+                row[k2] = v2
+        formats_.append(row)
+
+    num_elements = len(formats)
+
+    for f in range(0, len(formats_)):
+        counter += 1
+        if formats_[f] not in unique_formats:
+            unique_formats.append(formats_[f])
+        if num_elements == counter:
+            break
+    return unique_formats
+
+
+def prune_transfer_option(formats: dict, language: str) -> list:
+    """
+    derive a unique list of transfer options.
+    The unique character is based on identification language
+
+    :param formats: list of transfer options
+
+    :returns: unique transfer options list
+    """
+
+    unique_transfer = []
+    nil_reasons = ['missing',
+                   'withheld',
+                   'inapplicable',
+                   'unknown',
+                   'template']
+
+    for k, v in formats.items():
+        if language.split(";")[0] in k and language not in nil_reasons:
+            unique_transfer.append(v)
+        elif language in nil_reasons:
+            unique_transfer.append(v)
+    return unique_transfer
+
+
+def read_mcf(mcf: Union[dict, str]) -> dict:
+    """
+    returns dict of YAML file from filepath, string or dict
+
+    :param mcf: str, dict or filepath of MCF data
+
+    :returns: dict of MCF data
+    """
+
     mcf_dict = {}
+    mcf_versions = ['1.0']
 
     def __to_dict(mcf_object):
         """normalize mcf input into dict"""
 
         dict_ = None
 
-        if isinstance(mcf_object, dict):
-            LOGGER.debug('mcf object is already a dict')
-            dict_ = mcf_object
-        elif 'metadata:' in mcf_object:
-            LOGGER.debug('mcf object is a string')
-            dict_ = yaml.load(mcf_object)
-        else:
-            LOGGER.debug('mcf object is likely a filepath')
-            with codecs.open(mcf_object, encoding='utf-8') as fh:
-                dict_ = yaml.load(fh)
+        try:
+            if isinstance(mcf_object, dict):
+                LOGGER.debug('mcf object is already a dict')
+                dict_ = mcf_object
+            elif 'metadata:' in mcf_object:
+                LOGGER.debug('mcf object is a string')
+                dict_ = yaml.load(mcf_object, Loader=yaml.FullLoader)
+            else:
+                LOGGER.debug('mcf object is likely a filepath')
+                with io.open(mcf_object, encoding='utf-8') as fh:
+                    dict_ = yaml.load(fh, Loader=yaml.FullLoader)
+        except yaml.scanner.ScannerError as err:
+            msg = 'YAML parsing error: {}'.format(err)
+            LOGGER.debug(msg)
+            raise MCFReadError(msg)
 
         return dict_
 
-    def makelist(mcf2):
-        """recursive function for MCF by reference inclusion"""
+    # from https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
+    def __dict_merge(dct, merge_dct):
+        """
+        Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
+        updating only top-level keys, __dict_merge recurses down into dicts
+        nested to an arbitrary depth, updating keys. The ``merge_dct`` is
+        merged into ``dct``.
 
-        c = __to_dict(mcf2)
+        :param dct: dict onto which the merge is executed
+        :param merge_dct: dct merged into dct
 
-        LOGGER.debug('reading {}'.format(mcf2))
-        for key, value in c.items():
-            if 'base_mcf' in value:
-                base_mcf_path = get_abspath(mcf, c[key]['base_mcf'])
-                makelist(base_mcf_path)
-                mcf_list.append(mcf2)
-            else:  # leaf
-                mcf_list.append(mcf2)
-
-    makelist(mcf)
-
-    for mcf_file in mcf_list:
-        LOGGER.debug('reading {}'.format(mcf_file))
-        c_dict = __to_dict(mcf_file)
-
-        for section in c_dict.keys():
-            if section not in mcf_dict:  # add the whole section
-                LOGGER.debug('section {} does not exist. Adding'.format(
-                             section))
-                mcf_dict[section] = c_dict[section]
+        :returns: None
+        """
+        for k, v in merge_dct.items():
+            if (k in dct and isinstance(dct[k], dict)
+                    and isinstance(merge_dct[k], collections.Mapping)):
+                __dict_merge(dct[k], merge_dct[k])
             else:
-                LOGGER.debug('section {} exists. Adding options'.format(
-                             section))
-                for key, value in c_dict[section].items():
-                    mcf_dict[section][key] = value
+                if k in dct and k in merge_dct:
+                    pass
+                else:
+                    dct[k] = merge_dct[k]
+
+    def __parse_mcf_dict_recursive(dict2):
+        for k, v in dict2.copy().items():
+            if isinstance(v, dict):
+                __parse_mcf_dict_recursive(v)
+            else:
+                if k == 'base_mcf':
+                    base_mcf_dict = __to_dict(get_abspath(mcf, v))
+                    for k2, v2 in base_mcf_dict.copy().items():
+                        if k2 == 'base_mcf':
+                            base_mcf_dict2 = __to_dict(get_abspath(mcf, v2))
+                            __dict_merge(base_mcf_dict, base_mcf_dict2)
+                            base_mcf_dict.pop(k2, None)
+                    __dict_merge(dict2, base_mcf_dict)
+                    dict2.pop(k, None)
+        return dict2
+
+    LOGGER.debug('reading {}'.format(mcf))
+    mcf_dict = __to_dict(mcf)
+
+    LOGGER.debug('recursively parsing dict')
+
+    mcf_dict = __parse_mcf_dict_recursive(mcf_dict)
+
+    LOGGER.debug('Fully parsed MCF: {}'.format(mcf_dict))
 
     try:
-        LOGGER.info('MCF version: {}'.format(mcf_dict['mcf']['version']))
+        mcf_version = str(mcf_dict['mcf']['version'])
+        LOGGER.info('MCF version: {}'.format(mcf_version))
     except KeyError:
-        LOGGER.info('no MCF version specified')
+        msg = 'no MCF version specified'
+        LOGGER.error(msg)
+        raise MCFReadError(msg)
+
+    for mcf_version_ in mcf_versions:
+        if not mcf_version_.startswith(mcf_version):
+            msg = 'invalid / unsupported version {}'.format(mcf_version)
+            LOGGER.error(msg)
+            raise MCFReadError(msg)
 
     return mcf_dict
 
 
-def pretty_print(xml):
-    """clean up indentation and spacing"""
+def pretty_print(xml: str) -> str:
+    """
+    clean up indentation and spacing
+
+    :param xml: str of XML data
+
+    :returns: str of pretty-printed XML data
+    """
 
     LOGGER.debug('pretty-printing XML')
     val = minidom.parseString(xml)
-    return '\n'.join([l for l in
-                      val.toprettyxml(indent=' '*2).split('\n') if l.strip()])
+    return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
 
 
-def render_template(mcf, schema=None, schema_local=None):
+def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     """
     convenience function to render Jinja2 template given
     an mcf file, string, or dict
+
+    :param mcf: dict of MCF data
+    :param template_dir: directory of schema templates
+
+    :returns: str of metadata output
     """
 
-    LOGGER.debug('Evaluating schema path')
-    if schema is None and schema_local is None:
-        msg = 'schema or schema_local required'
-        LOGGER.exception(msg)
+    LOGGER.debug('Evaluating template directory')
+    if template_dir is None:
+        msg = 'template_dir or schema_local required'
+        LOGGER.error(msg)
         raise RuntimeError(msg)
-    if schema_local is None:  # default templates dir
-        abspath = '{}{}{}'.format(TEMPLATES, os.sep, schema)
-    elif schema is None:  # user-defined
-        abspath = schema_local
 
-    LOGGER.debug('Setting up template environment {}'.format(abspath))
-    env = Environment(loader=FileSystemLoader([abspath, TEMPLATES]))
+    LOGGER.debug('Setting up template environment {}'.format(template_dir))
+    env = Environment(loader=FileSystemLoader([template_dir, SCHEMAS]))
+
+    LOGGER.debug('Adding template filters')
     env.filters['normalize_datestring'] = normalize_datestring
     env.filters['get_distribution_language'] = get_distribution_language
     env.filters['get_charstring'] = get_charstring
+    env.filters['prune_distribution_formats'] = prune_distribution_formats
+    env.filters['prune_transfer_option'] = prune_transfer_option
     env.globals.update(zip=zip)
     env.globals.update(get_charstring=get_charstring)
     env.globals.update(normalize_datestring=normalize_datestring)
+    env.globals.update(prune_distribution_formats=prune_distribution_formats)
+    env.globals.update(prune_transfer_option=prune_transfer_option)
 
     try:
         LOGGER.debug('Loading template')
         template = env.get_template('main.j2')
     except TemplateNotFound:
         msg = 'Missing metadata template'
-        LOGGER.exception(msg)
+        LOGGER.error(msg)
         raise RuntimeError(msg)
 
     LOGGER.debug('Processing template')
-    xml = template.render(record=read_mcf(mcf),
-                          software_version=VERSION).encode('utf-8')
+    xml = template.render(record=mcf,
+                          pygeometa_version=VERSION).encode('utf-8')
     return pretty_print(xml)
-
-
-def get_supported_schemas():
-    """returns a list of supported schemas"""
-
-    LOGGER.debug('Generating list of supported schemas')
-    dirs = os.listdir(TEMPLATES)
-    dirs.remove('common')
-    return dirs
 
 
 def get_abspath(mcf, filepath):
@@ -271,13 +403,16 @@ def get_abspath(mcf, filepath):
     return os.path.join(abspath, filepath)
 
 
+class MCFReadError(Exception):
+    """Exception stub for format reading errors"""
+    pass
+
+
 @click.command()
 @click.pass_context
-@click.option('--mcf',
-              type=click.Path(exists=True, resolve_path=True),
-              help='Path to metadata control file (.yml)')
-@click.option('--output', type=click.File('w', encoding='utf-8'),
-              help='Name of output file')
+@cli_options.OPTION_MCF
+@cli_options.OPTION_OUTPUT
+@cli_options.OPTION_VERBOSITY
 @click.option('--schema',
               type=click.Choice(get_supported_schemas()),
               help='Metadata schema')
@@ -285,13 +420,62 @@ def get_abspath(mcf, filepath):
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
-def generate_metadata(ctx, mcf, schema, schema_local, output):
-    if mcf is None or (schema is None and schema_local is None):
+@cli_options.OPTION_VERBOSITY
+def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
+    """generate metadata"""
+
+    if verbosity is not None:
+        logging.basicConfig(level=getattr(logging, verbosity))
+
+    if mcf is None or all([schema is None, schema_local is None]):
+        raise click.UsageError('Missing arguments')
+    elif None not in [schema, schema_local]:
+        raise click.UsageError('schema / schema_local are mutually exclusive')
+
+    mcf_dict = read_mcf(mcf)
+
+    if schema is not None:
+        LOGGER.info('Processing {} into {}'.format(mcf, schema))
+        schema_object = load_schema(schema)
+        content = schema_object.write(mcf_dict)
+    else:
+        content = render_j2_template(mcf_dict, template_dir=schema_local)
+
+    if output is None:
+        click.echo(content)
+    else:
+        output.write(content)
+
+
+@click.command()
+@click.pass_context
+@cli_options.OPTION_MCF
+@cli_options.OPTION_VERBOSITY
+def info(ctx, mcf, verbosity):
+    """provide information about an MCF"""
+
+    if verbosity is not None:
+        logging.basicConfig(level=getattr(logging, verbosity))
+
+    if mcf is None:
         raise click.UsageError('Missing arguments')
     else:
-        content = render_template(mcf, schema=schema,
-                                  schema_local=schema_local)
-        if output is None:
-            click.echo_via_pager(content)
-        else:
-            output.write(content)
+        LOGGER.info('Processing {}'.format(mcf))
+        try:
+            content = read_mcf(mcf)
+
+            click.echo('MCF overview')
+            click.echo('  version: {}'.format(content['mcf']['version']))
+            click.echo('  identifier: {}'.format(
+                content['metadata']['identifier']))
+            click.echo('  language: {}'.format(
+                       content['metadata']['language']))
+        except Exception as err:
+            raise click.ClickException(err)
+
+
+@click.command()
+@click.pass_context
+def schemas(ctx):
+    """list supported schemas"""
+    click.echo('\n'.join(get_supported_schemas()))

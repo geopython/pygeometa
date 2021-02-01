@@ -1,0 +1,57 @@
+<gmd:CI_ResponsibleParty id="contact-{{ role }}">
+  {{ cs.get_freetext('individualName', record['metadata']['language_alternate'], get_charstring('individualname', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+  {{ cs.get_freetext('organisationName', record['metadata']['language_alternate'], get_charstring('organization', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+  {{ cs.get_freetext('positionName', record['metadata']['language_alternate'], get_charstring('positionname', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+  <gmd:contactInfo>
+    <gmd:CI_Contact>
+      <gmd:phone>
+        <gmd:CI_Telephone>
+          {% if contact['phone'] %}
+          <gmd:voice>
+            <gco:CharacterString>{{ contact['phone'] }}</gco:CharacterString>
+          </gmd:voice>
+          {% else %}
+          <gmd:voice gco:nilReason="missing"/>
+          {% endif %}
+          {% if contact['fax'] %}
+          <gmd:facsimile>
+            <gco:CharacterString>{{ contact['fax'] }}</gco:CharacterString>
+          </gmd:facsimile>
+          {% else %}
+          <gmd:facsimile gco:nilReason="missing"/>
+          {% endif %}
+        </gmd:CI_Telephone>
+      </gmd:phone>
+      <gmd:address>
+        <gmd:CI_Address>
+          {{ cs.get_freetext('deliveryPoint', record['metadata']['language_alternate'], get_charstring('address', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('city', record['metadata']['language_alternate'], get_charstring('city', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('administrativeArea', record['metadata']['language_alternate'], get_charstring('administrativearea', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          <gmd:postalCode>
+            <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
+          </gmd:postalCode>
+          {{ cs.get_freetext('country', record['metadata']['language_alternate'], get_charstring('country', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('electronicMailAddress', record['metadata']['language_alternate'], get_charstring('email', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+        </gmd:CI_Address>
+      </gmd:address>
+      <gmd:onlineResource>
+        <gmd:CI_OnlineResource>
+          <gmd:linkage>
+            <gmd:URL>{{ contact['url']|e }}</gmd:URL>
+          </gmd:linkage>
+          <gmd:protocol>
+            <gco:CharacterString>WWW:LINK</gco:CharacterString>
+          </gmd:protocol>
+          <gmd:function>
+            <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information" codeSpace="ISOTC211/19115">information</gmd:CI_OnLineFunctionCode>
+          </gmd:function>
+        </gmd:CI_OnlineResource>
+      </gmd:onlineResource>
+      {{ cs.get_freetext('hoursOfService', record['metadata']['language_alternate'], get_charstring('hoursofservice', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+      {{ cs.get_freetext('contactInstructions', record['metadata']['language_alternate'], get_charstring('contactinstructions', contact, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+    </gmd:CI_Contact>
+  </gmd:contactInfo>
+  <gmd:role>
+    <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeSpace="ISOTC211/19115" codeListValue="{{ role }}">{{ role }}</gmd:CI_RoleCode>
+  </gmd:role>
+</gmd:CI_ResponsibleParty>

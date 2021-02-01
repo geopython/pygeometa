@@ -1,0 +1,130 @@
+mcf:
+    version: 1.0
+
+metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    language: en
+    language_alternate: fr
+    charset: utf8
+    datestamp: 2014-11-11T11:11:11Z
+
+contact:
+    main: &contact_main
+        organization: Environment Canada
+        url: http://www.ec.gc.ca/
+        individualname: Tom Kralidis
+        positionname: Senior Systems Scientist
+        phone: +01-123-456-7890
+        fax: +01-123-456-7890
+        address: 4905 Dufferin Street
+        city: Toronto
+        administrativearea: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        email: foo@bar.tld
+        hoursofservice: 0700h - 1500h EST
+        contactinstructions: email
+
+    facility: *contact_main
+    record_owner: *contact_main
+
+facility:
+    first_station:
+        identifier: 0-20000-0-123
+        name: My station
+        type: landFixed
+        geopositioning_method: GPS
+        url: http://example.org/facility/123
+        spatiotemporal:
+            - timeperiod:
+                 begin: 2011-11-11
+                 end: now # optional
+              location:
+                 geomtype: point
+                 crs: 4326
+                 point: -75,45,400
+        date_established: 1999-11-11
+        program_affiliation:
+            - program: 'WIGOSnonAffiliated'
+              reporting_status:
+                - valid_period:
+                    begin: 1999-11-11
+                    end: now # optional
+                  status: operational
+            - program: 'GOS'
+              reporting_status:
+                - valid_period:
+                    begin: 1999-11-11
+                    end:  2018-08-02
+                  status: operational
+                - valid_period:
+                    begin: 2018-08-02
+                    end: now # optional
+                  status: closed
+        territory:
+            - name: CAN
+              valid_period:
+                  begin: 1999-11-11
+                  end: now # optional
+        wmo_region: northCentralAmericaCaribbean
+        climate_zone:
+            - name: snowFullyHumidCoolSummer
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: snowFullyHumidWarmSummer
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        surface_cover:
+            - name: rainfedCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: mosaicCroplands
+              surface_cover_classification: globCover2009
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        surface_roughness:
+            - name: rough
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - name: roughlyOpen
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        topography_bathymetry:
+            - local_topography: unknown
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 1999-11-11
+                  end: 2000-11-11
+            - local_topography: flat
+              relative_elevation: inapplicable
+              topographic_context: plains
+              altitude_or_depth: middleAltitude
+              valid_period:
+                  begin: 2000-11-11
+                  end: now # optional
+        observations:
+            - name: my observation name
+              timeperiod:
+                  begin: 2010-09-15
+                  end: 2014-03-31
+              observedproperty:
+                  type: ObservedVariableAtmosphere
+                  name: 262
+              url: https://example.org/data/atmos
+            - name: Ozone/TotalOzone/dobson
+              timeperiod:
+                  begin: 2013-01-01
+                  end: 2015-12-01
+              observedproperty:
+                  type: ObservedVariableAtmosphere
+                  name: 263 
+              url: https://example.org/data/atmos/spectral/total-column-ozone/111

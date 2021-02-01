@@ -1,40 +1,38 @@
-[![Build Status](https://github.com/geopython/pygeometa/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/geopython/pygeometa/actions)
-[![Join the chat at https://gitter.im/geopython/pygeometa](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geopython/pygeometa)
+# pygeometa Tutorial
 
-# pygeometa
+## Overview
 
-[pygeometa](https://geopython.github.io/pygeometa) is a Python package to
-generate metadata for geospatial datasets.
+This tutorial provides a tour of pygeometa for both users and developers,
+and is aimed at getting you up and running quickly.  Let's go!
 
-## Installation
+## For Users
 
-pygeometa is best installed and used within a Python virtualenv.
+### Installation
 
-### Requirements
+You require Python 3 or greater to use pygeometa.
 
-* Python 3 and above
-* Python [virtualenv](https://virtualenv.pypa.io/) package
-
-### Dependencies
-
-Dependencies are listed in [requirements.txt](requirements.txt). Dependencies
-are automatically installed during pygeometa's installation.
-
-### Installing the Package
+The easiest way to install pygeometa is using pip:
 
 ```bash
-python3 -m venv my-env
-cd my-env
-. bin/activate
-git clone https://github.com/geopython/pygeometa.git
-cd pygeometa
-python setup.py build
-python setup.py install
+pip install pygeometa
 ```
 
-## Running
+This will install the latest stable release.  If you are looking to work with
+pygeometa from source, see the [For Developers](#for-developers) section for
+more information.
 
-### From the command line
+### Workflow
+
+The basic pygeometa workflow is:
+
+1. Create a 'metadata control file' YAML file that contains metadata information 
+  1. Modify the [sample.yml](https://github.com/geopython/pygeometa/blob/master/sample.yml) example
+  2. pygeometa supports nesting MCFs together, allowing providing a single MCF
+     for common metadata parameters (e.g. common contact information)
+  3. Refer to the [Metadata Control File Reference documentation](https://geopython.github.io/pygeometa/reference/mcf) 
+3. Run pygeometa for the .yml file with a specified target metadata schema
+
+### Running
 
 ```bash
 # show all subcommands
@@ -43,7 +41,7 @@ pygeometa
 # show all supported schemas
 pygeometa schemas
 
-# provide a basic sanity check/report on an MCF
+# provide a basic sanity check/report on an MCF (Metadata Control File)
 pygeometa info --mcf=path/to/file.yml
 
 # generate an ISO 19139 document to stdout
@@ -59,16 +57,33 @@ pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=so
 pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
 ```
 
-### Supported schemas
-Schemas supported by pygeometa:
-* dcat, [reference](https://www.w3.org/TR/vocab-dcat-2/)
-* iso19139, [reference](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557)
-* iso19139-hnap, [reference](http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP)
-* OGC API - Records - Part 1: Core, record model, [reference](https://github.com/opengeospatial/ogcapi-records/blob/master/core/openapi/schemas/record.yaml)
-* iso19139-2, [reference](https://www.iso.org/standard/67039.html)
-* [wmo-cmp](doc/content/reference/formats/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf)
-* [wmo-wigos](doc/content/reference/formats/wmo-wigos.md), [reference](https://library.wmo.int/opac/doc_num.php?explnum_id=3653)
-* Local schema, specified with ```--schema_local=/path/to/my-schema```
+## For Developers
+
+### Installation
+
+pygeometa is best installed and used within a Python virtualenv.
+
+#### Requirements
+
+* Python 3 and above
+* Python [virtualenv](https://virtualenv.pypa.io/) package
+
+#### Dependencies
+
+Dependencies are listed in `requirements.txt`. Dependencies
+are automatically installed during pygeometa's installation.
+
+#### Installing the Package from Source
+
+```bash
+python3 -m venv my-env
+cd my-env
+. bin/activate
+git clone https://github.com/geopython/pygeometa.git
+cd pygeometa
+python setup.py build
+python setup.py install
+```
 
 ### Using the API from Python
 
@@ -88,7 +103,7 @@ iso_os = ISO19139OutputSchema()
 xml_string = iso_os.write(mcf_dict)
 
 # user-defined schema
-xml_string = render_j2_template(mcf_dict, template_dir='/path/to/new-schema')
+xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
 
 # write to disk
 with open('output.xml', 'wb') as ff:
@@ -141,11 +156,12 @@ mkdir pygeometa/schemas/foo
 cp pygeometa/schemas/iso19139/__init__.py pygeometa/schemas/foo
 vi pygeometa/schemas/foo/__init__.py
 # update class name and super().__init__() function accordingly 
+```
 
 ### Running Tests
 
 ```bash
-# via setuptools
+# via distutils
 python setup.py test
 # manually
 cd tests
@@ -167,7 +183,13 @@ twine upload dist/*
 
 All bugs, enhancements and issues are managed on [GitHub](https://github.com/geopython/pygeometa/issues).
 
-## Contact
+## History
 
-* [Tom Kralidis](https://github.com/tomkralidis)
-* [Alexandre Leroux](https://github.com/alexandreleroux)
+Started in 2009, pygeometa originated within an internal project called pygdm,
+which provided generic geospatial data management functions.  pygdm (now end
+of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was
+pulled out of pygdm to focus on the core requirement of generating geospatial
+metadata within a real-time environment and automated workflows.
+
+In 2015 pygeometa was made publically available in support of the Treasury
+Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
