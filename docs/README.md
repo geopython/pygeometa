@@ -1,6 +1,6 @@
 # pygeometa Website
 
-The pygeometa [website](https://geopython.github.io) is powered
+The pygeometa [website](https://geopython.github.io/pygeometa/) is powered
 by [MkDocs](https://www.mkdocs.org) which facilitates easy management
 of website content and publishing.
 
