@@ -337,6 +337,13 @@ format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
 format_fr|Optional|French format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
 
+### `dataquality`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+scope.level|Optional|hierarchical level of the data specificed by the scope|dataset|ISO 19115:2003 Section B.2.4.5
+lineage.statement|Optional|general explanationn of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1
+
 ## Tips
 
 ### Keyword Substitution

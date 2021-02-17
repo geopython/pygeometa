@@ -111,3 +111,9 @@ distribution:
         description_en: description in English
         description_fr: description in French
         function: download
+
+dataquality:
+    scope:
+        level: dataset
+    lineage:
+        statement: this dataset was derived from a custom process against dataset xyz
