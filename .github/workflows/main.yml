@@ -42,4 +42,4 @@ jobs:
 #        fail_ci_if_error: false
       run: sudo debuild -b -uc -us
     - name: Deploy website 📦
-      run: mkdocs gh-deploy --force -m 'update website'
+      run: cd docs && mkdocs gh-deploy --force -m 'update website'
