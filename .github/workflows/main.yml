@@ -20,7 +20,6 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install -r requirements-dev.txt
-        pip3 install mkdocs
     - name: Install package 📦
       run: python3 setup.py install
     - name: run tests ⚙️
@@ -41,5 +40,3 @@ jobs:
 #      with:
 #        fail_ci_if_error: false
       run: sudo debuild -b -uc -us
-    - name: Deploy website 📦
-      run: cd docs && mkdocs gh-deploy --force -m 'update website'
