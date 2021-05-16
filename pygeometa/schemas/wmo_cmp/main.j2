@@ -222,6 +222,8 @@
               </gmd:title>
               {% elif value['vocabulary'] and not value['vocabulary']['url'] %}
               {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('name', value['vocabulary'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {% else %}
+              <gmd:title gco:nilReason="missing"/>
               {% endif %}
               <gmd:date>
                 <gmd:CI_Date>
@@ -248,7 +250,7 @@
           </gmd:otherConstraints>
           {% if record['identification']['doi'] %}
           <gmd:otherConstraints>
-            <gco:CharacterString>DOI: {{ record['identification']['doi'] }}</gco:CharacterString>
+            <gco:CharacterString>Cite as: {{ record['identification']['doi'] }}</gco:CharacterString>
           </gmd:otherConstraints>
           {% endif %}
         </gmd:MD_LegalConstraints>
