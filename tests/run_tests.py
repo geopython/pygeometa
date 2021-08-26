@@ -174,8 +174,10 @@ class PygeometaTest(unittest.TestCase):
     def test_normalize_datestring(self):
         """Test datestring utility"""
 
-        date_value = normalize_datestring(2013)
-        self.assertIsInstance(date_value, str)
+        self.assertIsInstance(normalize_datestring(2013), str)
+
+        with self.assertRaises(RuntimeError):
+            self.assertIsInstance(normalize_datestring(None), str)
 
     def test_prune_distribution_formats(self):
         """Test deriving unique distribution formats"""
