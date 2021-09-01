@@ -20,7 +20,7 @@ The project supports various metadata formats out of the box including ISO
 find the format you're looking for?  Element(s) missing from a given format?
 Feel free to open an [issue](https://github.com/geopython/pygeometa/issues)!
 
-pygeometa has minimal dependencies (install is less than 50K), and provides
+pygeometa has minimal dependencies (install is less than 50 kB), and provides
 a flexible extension mechanism leveraging the Jinja2 templating system.
 
 pygeometa is [open source](https://opensource.org) and released under an
