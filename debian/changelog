@@ -1,3 +1,14 @@
+pygeometa (0.7.0) bionic; urgency=medium
+
+  * support keyword vocabulary
+  * fix ISO unique IDs
+  * add support for OGC API - Records metadata model
+  * add support for ISO gmd:dataQualityInfo
+  * WCMP: update templates to align with WMO KPIs
+  * fall gracefully on null dates
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Fri, 3 Sep 2021 13:01:35 +0000
+
 pygeometa (0.6.0) bionic; urgency=medium
 
   * numerous new WIGOS elements and fixes
