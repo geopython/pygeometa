@@ -46,6 +46,7 @@
 # =================================================================
 
 import datetime
+import json
 import os
 import unittest
 
@@ -54,7 +55,9 @@ import yaml
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             get_charstring, normalize_datestring,
                             prune_distribution_formats,
-                            prune_transfer_option, MCFReadError)
+                            prune_transfer_option, MCFReadError,
+                            MCFValidationError, validate_mcf)
+from pygeometa.helpers import json_serial
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
@@ -343,6 +346,19 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
         self.assertEqual(iso_os.outputformat, 'xml',
                          'Expected specific output format')
+
+    def test_validate_mcf(self):
+        """test MCF validation"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+
+        instance = json.loads(json.dumps(mcf, default=json_serial))
+
+        is_valid = validate_mcf(instance)
+        assert is_valid
+
+        with self.assertRaises(MCFValidationError):
+            is_valid = validate_mcf({'foo': 'bar'})
 
 
 def get_abspath(filepath):

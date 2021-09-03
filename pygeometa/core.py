@@ -47,6 +47,7 @@
 import collections
 from datetime import date, datetime
 import io
+import json
 import logging
 import os
 import pkg_resources
@@ -57,9 +58,12 @@ from xml.dom import minidom
 import click
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
+from jsonschema import validate as jsonschema_validate
+from jsonschema.exceptions import ValidationError
 import yaml
 
 from pygeometa import cli_options
+from pygeometa.helpers import json_serial
 from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
@@ -374,6 +378,30 @@ def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     return pretty_print(xml)
 
 
+def validate_mcf(instance_dict):
+    """
+    Validate an MCF document against the MCF schema
+
+    :param instance_dict: dict of MCF instance
+
+    :returns: `bool` of validation
+    """
+
+    schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yml')
+
+    print(schema_file)
+
+    with open(schema_file) as fh2:
+        schema_dict = yaml.load(fh2, Loader=yaml.FullLoader)
+
+        try:
+            jsonschema_validate(instance_dict, schema_dict)
+        except ValidationError as err:
+            raise MCFValidationError(err)
+
+        return True
+
+
 def get_abspath(mcf, filepath):
     """helper function absolute file access"""
 
@@ -383,6 +411,11 @@ def get_abspath(mcf, filepath):
 
 class MCFReadError(Exception):
     """Exception stub for format reading errors"""
+    pass
+
+
+class MCFValidationError(Exception):
+    """Exception stub for validation errors"""
     pass
 
 
@@ -457,3 +490,18 @@ def info(ctx, mcf, verbosity):
 def schemas(ctx):
     """list supported schemas"""
     click.echo('\n'.join(get_supported_schemas()))
+
+
+@click.command()
+@click.pass_context
+@click.argument('mcf', type=click.File())
+def validate(ctx, mcf):
+    """Validate MCF Document"""
+
+    click.echo('Validating {}'.format(mcf))
+
+    instance = json.loads(json.dumps(yaml.load(mcf, Loader=yaml.FullLoader),
+                          default=json_serial))
+    validate_mcf(instance)
+
+    click.echo('Valid MCF document')

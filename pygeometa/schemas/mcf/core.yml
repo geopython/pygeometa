@@ -466,18 +466,20 @@ properties:
         type: object
         properties:
             platforms:
-                type: object
-                properties:
-                    identifier:
-                        type: string
-                        description: unique identification of the platform
-                    description:
-                        type: string
-                       description: platform description
-                    instruments:
-                        type: array
-                        items:
-                            type: object
+                type: array
+                items:
+                    type: object
+                    properties:
+                        identifier:
+                            type: string
+                            description: unique identification of the platform
+                        description:
+                            type: string
+                            description: platform description
+                        instruments:
+                            type: array
+                            items:
+                                type: object
                                 properties:
                                     identifier:
                                         type: string
@@ -485,10 +487,10 @@ properties:
                                     type:
                                         type: string
                                         description: instrument type
-                required:
-                    - identifier
-                    - description
-                    - instruments
+                    required:
+                        - identifier
+                        - description
+                        - instruments
         required:
             - platforms
 required:
@@ -512,7 +514,7 @@ definitions:
                       allOf:
                           - type: string
     date_or_datetime_string:
-        oneOf:
+        anyOf:
             - type: string
               format: date
             - type: string
