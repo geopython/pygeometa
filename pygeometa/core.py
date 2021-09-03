@@ -421,7 +421,7 @@ class MCFValidationError(Exception):
 
 @click.command()
 @click.pass_context
-@cli_options.OPTION_MCF
+@cli_options.ARGUMENT_MCF
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
 @click.option('--schema',
@@ -432,13 +432,13 @@ class MCFValidationError(Exception):
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
 @cli_options.OPTION_VERBOSITY
-def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
+def generate(ctx, mcf, schema, schema_local, output, verbosity):
     """generate metadata"""
 
     if verbosity is not None:
         logging.basicConfig(level=getattr(logging, verbosity))
 
-    if mcf is None or all([schema is None, schema_local is None]):
+    if schema is None and schema_local is None:
         raise click.UsageError('Missing arguments')
     elif None not in [schema, schema_local]:
         raise click.UsageError('schema / schema_local are mutually exclusive')
@@ -460,7 +460,7 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
 
 @click.command()
 @click.pass_context
-@cli_options.OPTION_MCF
+@cli_options.ARGUMENT_MCF
 @cli_options.OPTION_VERBOSITY
 def info(ctx, mcf, verbosity):
     """provide information about an MCF"""
@@ -468,21 +468,18 @@ def info(ctx, mcf, verbosity):
     if verbosity is not None:
         logging.basicConfig(level=getattr(logging, verbosity))
 
-    if mcf is None:
-        raise click.UsageError('Missing arguments')
-    else:
-        LOGGER.info('Processing {}'.format(mcf))
-        try:
-            content = read_mcf(mcf)
+    LOGGER.info('Processing {}'.format(mcf))
+    try:
+        content = read_mcf(mcf)
 
-            click.echo('MCF overview')
-            click.echo('  version: {}'.format(content['mcf']['version']))
-            click.echo('  identifier: {}'.format(
-                content['metadata']['identifier']))
-            click.echo('  language: {}'.format(
-                       content['metadata']['language']))
-        except Exception as err:
-            raise click.ClickException(err)
+        click.echo('MCF overview')
+        click.echo('  version: {}'.format(content['mcf']['version']))
+        click.echo('  identifier: {}'.format(
+            content['metadata']['identifier']))
+        click.echo('  language: {}'.format(
+                   content['metadata']['language']))
+    except Exception as err:
+        raise click.ClickException(err)
 
 
 @click.command()
@@ -494,14 +491,15 @@ def schemas(ctx):
 
 @click.command()
 @click.pass_context
-@click.argument('mcf', type=click.File())
+@cli_options.ARGUMENT_MCF
 def validate(ctx, mcf):
     """Validate MCF Document"""
 
     click.echo('Validating {}'.format(mcf))
 
-    instance = json.loads(json.dumps(yaml.load(mcf, Loader=yaml.FullLoader),
-                          default=json_serial))
+    with open(mcf, encoding='utf8') as fh:
+        instance = json.loads(json.dumps(yaml.load(fh, Loader=yaml.FullLoader),
+                              default=json_serial))
     validate_mcf(instance)
 
     click.echo('Valid MCF document')

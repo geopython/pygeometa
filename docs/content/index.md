@@ -28,6 +28,7 @@ pygeometa is [open source](https://opensource.org) and released under an
 
 ## Features
 * simple YAML-based configuration
+* real-time MCF validation
 * extensible: plugin architecture allows for easy addition of new metadata
   formats using Jinja2 templates or custom workflow (JSON, YAML, CSV, etc.)
 * flexible: use as a command-line tool or integrate as a library

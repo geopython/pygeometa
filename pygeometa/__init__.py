@@ -46,7 +46,7 @@
 
 import click
 
-from pygeometa.core import generate_metadata, info, schemas, validate
+from pygeometa.core import generate, info, schemas, validate
 
 __version__ = '0.8.dev0'
 
@@ -57,7 +57,14 @@ def cli():
     pass
 
 
-cli.add_command(generate_metadata)
-cli.add_command(info)
-cli.add_command(schemas)
-cli.add_command(validate)
+@click.group()
+def metadata():
+    """Metadata management"""
+    pass
+
+
+metadata.add_command(generate)
+metadata.add_command(info)
+metadata.add_command(schemas)
+metadata.add_command(validate)
+cli.add_command(metadata)
