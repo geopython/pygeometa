@@ -48,7 +48,7 @@ import click
 
 from pygeometa.core import generate_metadata, info, schemas
 
-__version__ = '0.7.0'
+__version__ = '0.8.dev0'
 
 
 @click.group()
