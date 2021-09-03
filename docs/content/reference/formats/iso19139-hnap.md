@@ -21,11 +21,11 @@ Distribution identifier:
 
 Distribution parameters:
 
-* Name of the distribution method needs to be specified with name_en: and name:Fr
+* Name of the distribution method needs to be specified with name: en and name: fr
 * Do not provide values for the 'description' parameter in the MCF file since HNAP requires a special description that is built by pygeometa
-* Content type needs to be specified with `hnap_contenttype_en:` and `hnap_contenttype_fr:` and be a valid HNAP value
+* Content type needs to be bilingual and be a valid HNAP value
  * Valid values are: Web Service,Service Web,Dataset,Données,API,Application,Supporting Document,Document de soutien 
-* Format needs to be specified with `format_en:` and `format_fr:`, based on the valid HNAP values
+* Format needs to be bilingual and based on the valid HNAP values
  * Valid values are: AI. AMF,Application,ASCII Grid,BMP,CDED ASCII,CDR,CSV,DOC,dxf,E00,ECW,EDI,EMF,EPS,ESRI REST,EXE,FGDB / GDB,Flat raster binary,GeoPDF,GeoRSS,GeoTIF,GIF,GML,HDF,HTML,IATI,JPEG 2000,JPG,JSON,JSON Lines,KML / KMZ,NetCDF,ODP,ODS,ODT,PDF,PNG,PPT,RDF,RDFa,RSS,SAR / CCT,SAV,SEGY,SHP,SQL,SVG,TIFF,TXT,XLS,XLSM,XML,WFS,WMS,WMTS,Zip,Other
 * Format version needs to be specified with `format_version:`
 
@@ -38,46 +38,56 @@ distribution:
     waf_fra-CAN:
         url: http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
         type: WWW:LINK
-        name_en: MSC Datamart
-        name_fr: Datamart du SMC
-        hnap_contenttype_en: Dataset
-        hnap_contenttype_fr: Données
-        format_en: Other
-        format_fr: Autre
+        name:
+            en: MSC Datamart
+            fr: Datamart du SMC
+        hnap_contenttype:
+            en: Dataset
+            fr: Données
+        format:
+            en: Other
+            fr: Autre
         format_version: 0
         function: download
         
     waf_eng-CAN:
         url: http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
         type: WWW:LINK
-        name_en: MSC Datamart
-        name_fr: Datamart du SMC
-        hnap_contenttype_en: Dataset
-        hnap_contenttype_fr: Données
-        format_en: Other
-        format_fr: Autre
+        name:
+            en: MSC Datamart
+            fr: Datamart du SMC
+        hnap_contenttype:
+            en: Dataset
+            fr: Données
+        format:
+            en: Other
+            fr: Autre
         format_version: 0
         function: download
         
     wms_eng-CAN:
         url: http://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
-        hnap_contenttype_en: Web Service
-        hnap_contenttype_fr: Service Web
+        hnap_contenttype:
+            en: Web Service
+            fr: Service Web
         type: OGC:WMS
         format: WMS
         format_version: 1.1.1
-        name_en: GDPS.ETA_TT
-        name_fr: GDPS.ETA_TT
+        name:
+            en: GDPS.ETA_TT
+            fr: GDPS.ETA_TT
         function: download
         
     wms_fra-CAN:
         url: http://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
-        hnap_contenttype_en: Web Service
-        hnap_contenttype_fr: Service Web
+        hnap_contenttype:
+            en: Web Service
+            fr: Service Web
         type: OGC:WMS
         format: WMS
         format_version: 1.1.1
-        name_en: GDPS.ETA_TT
-        name_fr: GDPS.ETA_TT
+        name:
+            en: GDPS.ETA_TT
+            fr: GDPS.ETA_TT
         function: download
 ```

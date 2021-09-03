@@ -124,7 +124,7 @@
     <gmd:MD_DataIdentification>
       <gmd:citation>
         <gmd:CI_Citation>
-          {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('title', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring(record['identification'].get('title'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
           {% for date_type, date in record['identification']['dates'].items() %}
           {% set datestamp = date|normalize_datestring %}
           <gmd:date>
@@ -149,11 +149,11 @@
               </gmd:code>
             </gmd:MD_Identifier>
           </gmd:identifier>
-          {{ cs.get_freetext('otherCitationDetails', record['metadata']['language_alternate'], get_charstring('rights', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('otherCitationDetails', record['metadata']['language_alternate'], get_charstring(record['identification'].get('rights'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
         </gmd:CI_Citation>
       </gmd:citation>
-      {{ cs.get_freetext('abstract', record['metadata']['language_alternate'], get_charstring('abstract', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
-      {{ cs.get_freetext('credit', record['metadata']['language_alternate'], get_charstring('rights', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+      {{ cs.get_freetext('abstract', record['metadata']['language_alternate'], get_charstring(record['identification'].get('abstract'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
+      {{ cs.get_freetext('credit', record['metadata']['language_alternate'], get_charstring(record['identification'].get('rights'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
       <gmd:status>
         <gmd:MD_ProgressCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['status'] }}">{{ record['identification']['status'] }}</gmd:MD_ProgressCode>
       </gmd:status>
@@ -176,7 +176,7 @@
       {% for key, value in record['identification']['keywords'].items() %} 
       <gmd:descriptiveKeywords>
         <gmd:MD_Keywords>
-        {% set keywords = get_charstring('keywords', value, record['metadata']['language'], record['metadata']['language_alternate']) %}
+        {% set keywords = get_charstring(value.get('keywords'), record['metadata']['language'], record['metadata']['language_alternate']) %}
         {% if keywords[1] is none %}
           {# No language_alternate is specified #}
           {% for kw1 in keywords[0] %}
@@ -221,7 +221,7 @@
                 <gmx:Anchor xlink:title="{{ value['vocabulary']['name'] }}" xlink:href="{{ value['vocabulary']['url'] }}">{{ value['vocabulary']['name'] }}</gmx:Anchor>
               </gmd:title>
               {% elif value['vocabulary'] and not value['vocabulary']['url'] %}
-              {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring('name', value['vocabulary'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring(value['vocabulary'].get('name'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
               {% else %}
               <gmd:title gco:nilReason="missing"/>
               {% endif %}
@@ -332,7 +332,7 @@
           {% endfor %}
         </gmd:EX_Extent>
       </gmd:extent>
-      {{ cs.get_freetext('supplementalInformation', record['metadata']['language_alternate'], get_charstring('url', record['identification'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+      {{ cs.get_freetext('supplementalInformation', record['metadata']['language_alternate'], get_charstring(record['identification'].get('url'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
     </gmd:MD_DataIdentification>
   </gmd:identificationInfo>
   <gmd:distributionInfo>
@@ -368,8 +368,8 @@
               <gmd:protocol>
                 <gco:CharacterString>{{ v['type'] }}</gco:CharacterString>
               </gmd:protocol>
-              {{ cs.get_freetext('name', record['metadata']['language_alternate'], get_charstring('name', v, record['metadata']['language'], record['metadata']['language_alternate'])) }}
-              {{ cs.get_freetext('description', record['metadata']['language_alternate'], get_charstring('description', v, record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {{ cs.get_freetext('name', record['metadata']['language_alternate'], get_charstring(v.get('name'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
+              {{ cs.get_freetext('description', record['metadata']['language_alternate'], get_charstring(v.get('description'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
               <gmd:function>
                 <gmd:CI_OnLineFunctionCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeSpace="ISOTC211/19115" codeListValue="{{ v['function'] }}">{{ v['function'] }}</gmd:CI_OnLineFunctionCode>
               </gmd:function>
@@ -392,7 +392,7 @@
       </gmd:scope>
       <gmd:lineage>
         <gmd:LI_Lineage>
-          {{ cs.get_freetext('statement', record['metadata']['language_alternate'], get_charstring('statement', record['dataquality']['lineage'], record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {{ cs.get_freetext('statement', record['metadata']['language_alternate'], get_charstring(record['dataquality']['lineage'].get('statement'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
         </gmd:LI_Lineage>
       </gmd:lineage>
     </gmd:DQ_DataQuality>

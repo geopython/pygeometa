@@ -70,46 +70,24 @@ SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
 VERSION = pkg_resources.require('pygeometa')[0].version
 
 
-def get_charstring(option: str, section_items: list, language: str,
+def get_charstring(option: Union[str, dict], language: str,
                    language_alternate: str = None) -> list:
     """
     convenience function to return unilingual or multilingual value(s)
 
-    :param option: charstring option
-    :param section_items: option items in section
+    :param option: option value (str or dict if multilingual)
     :param language: language
     :param language_alternate: alternate language
 
     :returns: list of unilingual or multilingual values
     """
 
-    section_items = dict(section_items)
-    option_value1 = None
-    option_value2 = None
-
-    if language_alternate is None:  # noqa unilingual
-        option_tmp = '{}_{}'.format(option, language)
-        if option_tmp in section_items:
-            option_value1 = section_items[option_tmp]
-        else:
-            try:
-                option_value1 = section_items[option]
-            except KeyError:
-                pass  # default=None
+    if option is None:
+        return [None, None]
+    elif isinstance(option, str):  # unilingual
+        return [option, None]
     else:  # multilingual
-        option_tmp = '{}_{}'.format(option, language)
-        if option_tmp in section_items:
-            option_value1 = section_items[option_tmp]
-        else:
-            try:
-                option_value1 = section_items[option]
-            except KeyError:
-                pass  # default=None
-        option_tmp2 = '{}_{}'.format(option, language_alternate)
-        if option_tmp2 in section_items:
-            option_value2 = section_items[option_tmp2]
-
-    return [option_value1, option_value2]
+        return [option.get(language), option.get(language_alternate)]
 
 
 def get_distribution_language(section: str) -> str:

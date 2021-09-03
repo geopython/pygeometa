@@ -145,30 +145,19 @@ class PygeometaTest(unittest.TestCase):
     def test_get_charstring(self):
         """Test support of unilingual or multilingual value(s)"""
 
-        values = get_charstring('title', {'title': 'foo'}, 'en')
+        values = get_charstring('foo', 'en')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_en': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'en': 'foo', 'fr': 'bar'}, 'en', 'fr')
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr', 'en')  # noqa
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'},
-                                'fr', 'en')
-        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
-
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('notfound',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring(None, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
 
     def test_normalize_datestring(self):

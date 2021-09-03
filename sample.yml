@@ -18,27 +18,33 @@ spatial:
 identification:
     language: eng; CAN
     charset: utf8
-    title_en: title in English
-    title_fr: title in French
-    abstract_en: abstract in English
-    abstract_fr: abstract in French
+    title:
+        en: title in English
+        fr: title in French
+    abstract:
+        en: abstract in English
+        fr: abstract in French
     dates:
         creation: 2011-11-11
         publication: 2000-09-01T00:00:00Z
     keywords:
         default:
-            keywords_en: [kw1 in English,kw2 in English,kw3 in English]
-            keywords_fr: [kw1 in French,kw2 in French,kw3 in French]
+            keywords:
+                en: [kw1 in English,kw2 in English,kw3 in English]
+                fr: [kw1 in French,kw2 in French,kw3 in French]
         wmo:
-            keywords_en: [FOO,BAR]
+            keywords:
+                en: [FOO,BAR]
             keywords_type: theme
             vocabulary:
-                name_en: My vocabulary
-                name_fr: Mon vocabulaire
+                name:
+                    en: My vocabulary
+                    fr: Mon vocabulaire
                 url: http://example.org/vocab
         gc_cst:
-            keywords_en: [kw1,kw2]
-            keywords_fr: [kw1,kw2]
+            keywords:
+                en: [kw1,kw2]
+                fr: [kw1,kw2]
     topiccategory:
         - climatologyMeteorologyAtmosphere
     extents:
@@ -50,8 +56,9 @@ identification:
               end: now
     fees: None
     accessconstraints: otherRestrictions
-    rights_en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
-    rights_fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    rights:
+        en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+        fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
     url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
     status: onGoing
     maintenancefrequency: continual
@@ -59,7 +66,7 @@ identification:
 content_info:
     type: image
     cloud_cover: 72
-    processing_level: 1.0
+    processing_level: "1.0"
     dimensions:
         - name: B1
           units: nm
@@ -99,17 +106,20 @@ distribution:
         url: https://dd.meteo.gc.ca
         type: WWW:LINK
         name: my waf
-        description_en: description in English
-        description_fr: description in French
+        description:
+            en: description in English
+            fr: description in French
         function: download
 
     wms:
         url: https://dd.meteo.gc.ca
         type: OGC:WMS
-        name_en: roads
-        name_fr: routes
-        description_en: description in English
-        description_fr: description in French
+        name:
+            en: roads
+            fr: routes
+        description:
+            en: description in English
+            fr: description in French
         function: download
 
 dataquality:
