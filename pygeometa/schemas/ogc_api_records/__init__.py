@@ -80,10 +80,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
-        title = get_charstring('title', mcf['identification'],
+        title = get_charstring(mcf['identification'].get('title'),
                                mcf['metadata']['language'],
                                mcf['metadata']['language_alternate'])
-        description = get_charstring('abstract', mcf['identification'],
+        description = get_charstring(mcf['identification'].get('abstract'),
                                      mcf['metadata']['language'],
                                      mcf['metadata']['language_alternate'])
 
@@ -134,13 +134,13 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         if 'revision' in mcf['identification']['dates']:
             record['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
 
-        organization = get_charstring('organization', mcf['contact']['main'],
+        organization = get_charstring(mcf['contact']['main'].get('organization'),  # noqa
                                       mcf['metadata']['language'],
                                       mcf['metadata']['language_alternate'])
 
         record['properties']['publisher'] = organization[0]
 
-        rights = get_charstring('rights', mcf['identification'],
+        rights = get_charstring(mcf['identification'].get('rights'),
                                 mcf['metadata']['language'],
                                 mcf['metadata']['language_alternate'])
 
@@ -148,7 +148,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         formats = []
         for v in mcf['distribution'].values():
-            format_ = get_charstring('format', v,
+            format_ = get_charstring(v.get('format'),
                                      mcf['metadata']['language'],
                                      mcf['metadata']['language_alternate'])
             if format_[0] is not None:
@@ -163,7 +163,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         for value in mcf['identification']['keywords'].values():
             theme = {'concepts': []}
 
-            keywords = get_charstring('keywords', value,
+            keywords = get_charstring(value.get('keywords'),
                                       mcf['metadata']['language'],
                                       mcf['metadata']['language_alternate'])
 
@@ -179,11 +179,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['themes'].append(theme)
 
         for value in mcf['distribution'].values():
-            title = get_charstring('title', value,
+            title = get_charstring(value.get('title'),
                                    mcf['metadata']['language'],
                                    mcf['metadata']['language_alternate'])
 
-            name = get_charstring('name', value,
+            name = get_charstring(value.get('name'),
                                   mcf['metadata']['language'],
                                   mcf['metadata']['language_alternate'])
 

@@ -46,6 +46,7 @@
 # =================================================================
 
 import datetime
+import json
 import os
 import unittest
 
@@ -54,7 +55,9 @@ import yaml
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             get_charstring, normalize_datestring,
                             prune_distribution_formats,
-                            prune_transfer_option, MCFReadError)
+                            prune_transfer_option, MCFReadError,
+                            MCFValidationError, validate_mcf)
+from pygeometa.helpers import json_serial
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
@@ -145,30 +148,19 @@ class PygeometaTest(unittest.TestCase):
     def test_get_charstring(self):
         """Test support of unilingual or multilingual value(s)"""
 
-        values = get_charstring('title', {'title': 'foo'}, 'en')
+        values = get_charstring('foo', 'en')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_en': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'en': 'foo', 'fr': 'bar'}, 'en', 'fr')
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr', 'en')  # noqa
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'},
-                                'fr', 'en')
-        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
-
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('notfound',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring(None, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
 
     def test_normalize_datestring(self):
@@ -354,6 +346,19 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
         self.assertEqual(iso_os.outputformat, 'xml',
                          'Expected specific output format')
+
+    def test_validate_mcf(self):
+        """test MCF validation"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+
+        instance = json.loads(json.dumps(mcf, default=json_serial))
+
+        is_valid = validate_mcf(instance)
+        assert is_valid
+
+        with self.assertRaises(MCFValidationError):
+            is_valid = validate_mcf({'foo': 'bar'})
 
 
 def get_abspath(filepath):

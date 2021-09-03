@@ -47,6 +47,7 @@
 import collections
 from datetime import date, datetime
 import io
+import json
 import logging
 import os
 import pkg_resources
@@ -57,9 +58,12 @@ from xml.dom import minidom
 import click
 from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
+from jsonschema import validate as jsonschema_validate
+from jsonschema.exceptions import ValidationError
 import yaml
 
 from pygeometa import cli_options
+from pygeometa.helpers import json_serial
 from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
@@ -70,46 +74,24 @@ SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
 VERSION = pkg_resources.require('pygeometa')[0].version
 
 
-def get_charstring(option: str, section_items: list, language: str,
+def get_charstring(option: Union[str, dict], language: str,
                    language_alternate: str = None) -> list:
     """
     convenience function to return unilingual or multilingual value(s)
 
-    :param option: charstring option
-    :param section_items: option items in section
+    :param option: option value (str or dict if multilingual)
     :param language: language
     :param language_alternate: alternate language
 
     :returns: list of unilingual or multilingual values
     """
 
-    section_items = dict(section_items)
-    option_value1 = None
-    option_value2 = None
-
-    if language_alternate is None:  # noqa unilingual
-        option_tmp = '{}_{}'.format(option, language)
-        if option_tmp in section_items:
-            option_value1 = section_items[option_tmp]
-        else:
-            try:
-                option_value1 = section_items[option]
-            except KeyError:
-                pass  # default=None
+    if option is None:
+        return [None, None]
+    elif isinstance(option, str):  # unilingual
+        return [option, None]
     else:  # multilingual
-        option_tmp = '{}_{}'.format(option, language)
-        if option_tmp in section_items:
-            option_value1 = section_items[option_tmp]
-        else:
-            try:
-                option_value1 = section_items[option]
-            except KeyError:
-                pass  # default=None
-        option_tmp2 = '{}_{}'.format(option, language_alternate)
-        if option_tmp2 in section_items:
-            option_value2 = section_items[option_tmp2]
-
-    return [option_value1, option_value2]
+        return [option.get(language), option.get(language_alternate)]
 
 
 def get_distribution_language(section: str) -> str:
@@ -396,6 +378,30 @@ def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     return pretty_print(xml)
 
 
+def validate_mcf(instance_dict):
+    """
+    Validate an MCF document against the MCF schema
+
+    :param instance_dict: dict of MCF instance
+
+    :returns: `bool` of validation
+    """
+
+    schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yml')
+
+    print(schema_file)
+
+    with open(schema_file) as fh2:
+        schema_dict = yaml.load(fh2, Loader=yaml.FullLoader)
+
+        try:
+            jsonschema_validate(instance_dict, schema_dict)
+        except ValidationError as err:
+            raise MCFValidationError(err)
+
+        return True
+
+
 def get_abspath(mcf, filepath):
     """helper function absolute file access"""
 
@@ -408,9 +414,14 @@ class MCFReadError(Exception):
     pass
 
 
+class MCFValidationError(Exception):
+    """Exception stub for validation errors"""
+    pass
+
+
 @click.command()
 @click.pass_context
-@cli_options.OPTION_MCF
+@cli_options.ARGUMENT_MCF
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
 @click.option('--schema',
@@ -421,13 +432,13 @@ class MCFReadError(Exception):
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
 @cli_options.OPTION_VERBOSITY
-def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
+def generate(ctx, mcf, schema, schema_local, output, verbosity):
     """generate metadata"""
 
     if verbosity is not None:
         logging.basicConfig(level=getattr(logging, verbosity))
 
-    if mcf is None or all([schema is None, schema_local is None]):
+    if schema is None and schema_local is None:
         raise click.UsageError('Missing arguments')
     elif None not in [schema, schema_local]:
         raise click.UsageError('schema / schema_local are mutually exclusive')
@@ -449,7 +460,7 @@ def generate_metadata(ctx, mcf, schema, schema_local, output, verbosity):
 
 @click.command()
 @click.pass_context
-@cli_options.OPTION_MCF
+@cli_options.ARGUMENT_MCF
 @cli_options.OPTION_VERBOSITY
 def info(ctx, mcf, verbosity):
     """provide information about an MCF"""
@@ -457,21 +468,18 @@ def info(ctx, mcf, verbosity):
     if verbosity is not None:
         logging.basicConfig(level=getattr(logging, verbosity))
 
-    if mcf is None:
-        raise click.UsageError('Missing arguments')
-    else:
-        LOGGER.info('Processing {}'.format(mcf))
-        try:
-            content = read_mcf(mcf)
+    LOGGER.info('Processing {}'.format(mcf))
+    try:
+        content = read_mcf(mcf)
 
-            click.echo('MCF overview')
-            click.echo('  version: {}'.format(content['mcf']['version']))
-            click.echo('  identifier: {}'.format(
-                content['metadata']['identifier']))
-            click.echo('  language: {}'.format(
-                       content['metadata']['language']))
-        except Exception as err:
-            raise click.ClickException(err)
+        click.echo('MCF overview')
+        click.echo('  version: {}'.format(content['mcf']['version']))
+        click.echo('  identifier: {}'.format(
+            content['metadata']['identifier']))
+        click.echo('  language: {}'.format(
+                   content['metadata']['language']))
+    except Exception as err:
+        raise click.ClickException(err)
 
 
 @click.command()
@@ -479,3 +487,19 @@ def info(ctx, mcf, verbosity):
 def schemas(ctx):
     """list supported schemas"""
     click.echo('\n'.join(get_supported_schemas()))
+
+
+@click.command()
+@click.pass_context
+@cli_options.ARGUMENT_MCF
+def validate(ctx, mcf):
+    """Validate MCF Document"""
+
+    click.echo('Validating {}'.format(mcf))
+
+    with open(mcf, encoding='utf8') as fh:
+        instance = json.loads(json.dumps(yaml.load(fh, Loader=yaml.FullLoader),
+                              default=json_serial))
+    validate_mcf(instance)
+
+    click.echo('Valid MCF document')

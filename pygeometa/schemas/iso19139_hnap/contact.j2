@@ -1,7 +1,7 @@
 <gmd:CI_ResponsibleParty>
-  {{ cs.get_freetext('individualName', 'fra', get_charstring('individualname', contact, 'en', 'fr')) }}
-  {{ cs.get_freetext('organisationName', 'fra', get_charstring('organization', contact, 'en', 'fr')) }}
-  {{ cs.get_freetext('positionName', 'fra', get_charstring('positionname', contact, 'en', 'fr')) }}
+  {{ cs.get_freetext('individualName', 'fra', get_charstring(contact.get('individualname'), 'en', 'fr')) }}
+  {{ cs.get_freetext('organisationName', 'fra', get_charstring(contact.get('organization'), 'en', 'fr')) }}
+  {{ cs.get_freetext('positionName', 'fra', get_charstring(contact.get('positionname'), 'en', 'fr')) }}
   <gmd:contactInfo>
     <gmd:CI_Contact>
       <gmd:phone>
@@ -24,13 +24,13 @@
       </gmd:phone>
       <gmd:address>
         <gmd:CI_Address>
-          {{ cs.get_freetext('deliveryPoint', 'fra', get_charstring('address', contact, 'en', 'fr')) }}
-          {{ cs.get_freetext('city', 'fra', get_charstring('city', contact, 'en', 'fr')) }}
-          {{ cs.get_freetext('administrativeArea', 'fra', get_charstring('administrativearea', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('deliveryPoint', 'fra', get_charstring(contact.get('address'), 'en', 'fr')) }}
+          {{ cs.get_freetext('city', 'fra', get_charstring(contact.get('city'), 'en', 'fr')) }}
+          {{ cs.get_freetext('administrativeArea', 'fra', get_charstring(contact.get('administrativearea'), 'en', 'fr')) }}
           <gmd:postalCode>
             <gco:CharacterString>{{ contact['postalcode'] }}</gco:CharacterString>
           </gmd:postalCode>
-          {{ cs.get_freetext('country', 'fra', get_charstring('country', contact, 'en', 'fr')) }}
+          {{ cs.get_freetext('country', 'fra', get_charstring(contact.get('country'), 'en', 'fr')) }}
           <gmd:electronicMailAddress xsi:type="gmd:PT_FreeText_PropertyType">
             <gco:CharacterString>{{ contact['email'] }}</gco:CharacterString>
             <gmd:PT_FreeText>
@@ -54,8 +54,8 @@
           </gmd:function>
         </gmd:CI_OnlineResource>
       </gmd:onlineResource>
-      {{ cs.get_freetext('hoursOfService', 'fra', get_charstring('hoursofservice', contact, 'en', 'fr')) }}
-      {{ cs.get_freetext('contactInstructions', 'fra', get_charstring('contactinstructions', contact, 'en', 'fr')) }}
+      {{ cs.get_freetext('hoursOfService', 'fra', get_charstring(contact.get('hoursofservice'), 'en', 'fr')) }}
+      {{ cs.get_freetext('contactInstructions', 'fra', get_charstring(contact.get('contactinstructions'), 'en', 'fr')) }}
     </gmd:CI_Contact>
   </gmd:contactInfo>
   <gmd:role>

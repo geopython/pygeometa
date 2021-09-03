@@ -47,15 +47,20 @@ import base64
 from datetime import date, datetime, time
 from decimal import Decimal
 import logging
+import os
 
 LOGGER = logging.getLogger(__name__)
+
+THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def json_serial(obj):
     """
     helper function to convert to JSON non-default
     types (source: https://stackoverflow.com/a/22238613)
+
     :param obj: `object` to be evaluated
+
     :returns: JSON non-default type to `str`
     """
 

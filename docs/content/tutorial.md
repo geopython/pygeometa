@@ -42,19 +42,22 @@ pygeometa
 pygeometa schemas
 
 # provide a basic sanity check/report on an MCF (Metadata Control File)
-pygeometa info --mcf=path/to/file.yml
+pygeometa metadata info path/to/file.yml
 
 # generate an ISO 19139 document to stdout
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139
+pygeometa metadata generate path/to/file.yml --schema=iso19139
 
 # generate an ISO 19139 document to disk
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml
+pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml
 
 # generate an ISO 19139 document to disk with debugging (ERROR, WARNING, INFO, DEBUG)
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
+pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
 
 # use your own defined schema
-pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
+pygeometa metadata generate path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
+
+# validate an MCF document
+pygeometa validate path/to/file.yml
 ```
 
 ## For Developers

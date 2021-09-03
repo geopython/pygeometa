@@ -77,10 +77,10 @@ class STACItemOutputSchema(BaseOutputSchema):
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
-        title = get_charstring('title', mcf['identification'],
+        title = get_charstring(mcf['identification'].get('title'),
                                mcf['metadata']['language'],
                                mcf['metadata']['language_alternate'])
-        description = get_charstring('abstract', mcf['identification'],
+        description = get_charstring(mcf['identification'].get('abstract'),
                                      mcf['metadata']['language'],
                                      mcf['metadata']['language_alternate'])
 
@@ -119,7 +119,7 @@ class STACItemOutputSchema(BaseOutputSchema):
         stac_item['properties']['provider'] = {'name': mcf['contact']['main']['organization']}  # noqa
 
         for value in mcf['distribution'].values():
-            title = get_charstring('title', value,
+            title = get_charstring(value.get('title'),
                                    mcf['metadata']['language'],
                                    mcf['metadata']['language_alternate'])
             link = {

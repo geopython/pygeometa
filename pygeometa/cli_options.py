@@ -46,10 +46,7 @@
 
 import click
 
-OPTION_MCF = click.option(
-    '--mcf',
-    type=click.Path(exists=True, resolve_path=True),
-    help='Path to metadata control file (.yml)')
+ARGUMENT_MCF = click.argument('mcf')
 
 OPTION_OUTPUT = click.option(
     '--output',
