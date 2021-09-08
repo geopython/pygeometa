@@ -118,12 +118,22 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 }
             },
             'properties': {
-                'externalId': mcf['metadata']['identifier'],
+                'externalId': [mcf['metadata']['identifier']],
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
                 'language': mcf['metadata']['language'],
                 'type': mcf['metadata']['hierarchylevel'],
+                'extents': {
+                    'spatial': {
+                        'bbox': [minx, miny, maxx, maxy],
+                        'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
+                    },
+                    'temporal': {
+                        'interval': [begin, end],
+                        'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
+                    }
+                }
             },
             'associations': [],
             'links': []
@@ -158,7 +168,18 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['formats'] = list(
                 set([f[0] for f in formats]))
 
-        record['properties']['contactPoint'] = mcf['contact']['main']['url']
+        record['properties']['contactPoint'] = self.generate_responsible_party(
+            mcf['contact']['main'],
+            mcf['metadata']['language'],
+            mcf['metadata']['language_alternate'],
+            'pointOfContact')
+
+        if 'distribution' in mcf['contact']:
+            record['properties']['publisher'] = self.generate_responsible_party(  # noqa
+                mcf['contact']['distribution'],
+                mcf['metadata']['language'],
+                mcf['metadata']['language_alternate'],
+                'distributor')
 
         for value in mcf['identification']['keywords'].values():
             theme = {'concepts': []}
@@ -203,3 +224,66 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['associations'].append(link)
 
         return json.dumps(record, default=json_serial, indent=4)
+
+    def generate_responsible_party(self, contact: dict,
+                                   lang1: str, lang2: str, role: str) -> dict:
+        """
+        generate responsibly party construct from MCF contact
+
+        :param contact: dict of MCF contact
+        :param lang1: primary language
+        :param lang2: alternate language
+        :param role: role of contact
+
+        :returns: MCF contact as a responsible party representation
+        """
+
+        organization_name = get_charstring('organization', contact,
+                                           lang1, lang2)
+
+        position_name = get_charstring('positionname', contact,
+                                       lang1, lang2)
+
+        hours_of_service = get_charstring('hoursofservice',
+                                          contact, lang1, lang2)
+
+        contact_instructions = get_charstring('contactinstructions',
+                                              contact, lang1, lang2)
+
+        address = get_charstring('address', contact, lang1, lang2)
+        city = get_charstring('city', contact, lang1, lang2)
+        administrative_area = get_charstring('administrativearea',
+                                             contact, lang1, lang2)
+        postalcode = get_charstring('postalcode', contact, lang1, lang2)
+        country = get_charstring('country', contact, lang1, lang2)
+
+        return {
+            'individualName': contact['individualname'],
+            'organizationName': organization_name[0],
+            'positionName': position_name[0],
+            'contactInfo': {
+                'phone': {
+                    'office': contact['phone']
+                },
+                'email': {
+                    'office': contact['fax']
+                },
+                'address': {
+                    'office': {
+                        'deliveryPoint': address[0],
+                        'city': city,
+                        'administrativeArea': administrative_area[0],
+                        'postalCode': postalcode[0],
+                        'country': country[0]
+                    },
+                    'onlineResource': {
+                        'href': contact['url']
+                    },
+                },
+                'hoursOfService': hours_of_service[0],
+                'contactInstructions': contact_instructions[0]
+            },
+            'role': {
+                'name': role
+            }
+        }
