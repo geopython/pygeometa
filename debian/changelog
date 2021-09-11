@@ -1,3 +1,9 @@
+pygeometa (0.8.0) bionic; urgency=medium
+  * update multilingual support
+  * add MCF schema support
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sat, 11 Sep 2021 11:52:18 +0000
+
 pygeometa (0.7.0) bionic; urgency=medium
 
   * support keyword vocabulary
