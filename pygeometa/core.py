@@ -44,7 +44,7 @@
 #
 # =================================================================
 
-import collections
+from collections.abc import Mapping
 from datetime import date, datetime
 import io
 import json
@@ -89,6 +89,8 @@ def get_charstring(option: Union[str, dict], language: str,
     if option is None:
         return [None, None]
     elif isinstance(option, str):  # unilingual
+        return [option, None]
+    elif isinstance(option, list):  # multilingual list
         return [option, None]
     else:  # multilingual
         return [option.get(language), option.get(language_alternate)]
@@ -268,7 +270,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
         """
         for k, v in merge_dct.items():
             if (k in dct and isinstance(dct[k], dict)
-                    and isinstance(merge_dct[k], collections.Mapping)):
+                    and isinstance(merge_dct[k], Mapping)):
                 __dict_merge(dct[k], merge_dct[k])
             else:
                 if k in dct and k in merge_dct:
