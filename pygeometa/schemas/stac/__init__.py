@@ -74,18 +74,16 @@ class STACItemOutputSchema(BaseOutputSchema):
         :returns: MCF as a STAC item representation
         """
 
+        lang1 = mcf['metadata'].get('language')
+        lang2 = mcf['metadata'].get('language_alternate')
+
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
         title = get_charstring(mcf['identification'].get('title'),
-                               mcf['metadata']['language'],
-                               mcf['metadata']['language_alternate'])
+                               lang1, lang2)
         description = get_charstring(mcf['identification'].get('abstract'),
-                                     mcf['metadata']['language'],
-                                     mcf['metadata']['language_alternate'])
-
-        begin = mcf['identification']['extents']['temporal'][0]['begin']
-        end = mcf['identification']['extents']['temporal'][0]['end']
+                                     lang1, lang2)
 
         stac_item = {
             'stac-version': '1.0.0-beta.2',
@@ -104,12 +102,17 @@ class STACItemOutputSchema(BaseOutputSchema):
             },
             'properties': {
                 'title': title[0],
-                'description': description[0],
-                'start_datetime': begin,
-                'end_datetime': end
+                'description': description[0]
             },
             'links': []
         }
+
+        if 'temporal' in mcf['identification']['extents']:
+            begin = mcf['identification']['extents']['temporal'][0]['begin']
+            end = mcf['identification']['extents']['temporal'][0]['end']
+
+            stac_item['properties']['start_datetime'] = begin
+            stac_item['properties']['end_datetime'] = end
 
         if 'creation' in mcf['identification']['dates']:
             stac_item['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
@@ -119,9 +122,7 @@ class STACItemOutputSchema(BaseOutputSchema):
         stac_item['properties']['provider'] = {'name': mcf['contact']['main']['organization']}  # noqa
 
         for value in mcf['distribution'].values():
-            title = get_charstring(value.get('title'),
-                                   mcf['metadata']['language'],
-                                   mcf['metadata']['language_alternate'])
+            title = get_charstring(value.get('title'), lang1, lang2)
             link = {
                 'rel': value['function'],
                 'title': title,

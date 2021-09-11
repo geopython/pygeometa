@@ -77,21 +77,17 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         :returns: MCF as a STAC item representation
         """
 
+        lang1 = mcf['metadata'].get('language')
+        lang2 = mcf['metadata'].get('language_alternate')
+
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
         title = get_charstring(mcf['identification'].get('title'),
-                               mcf['metadata']['language'],
-                               mcf['metadata']['language_alternate'])
+                               lang1, lang2)
+
         description = get_charstring(mcf['identification'].get('abstract'),
-                                     mcf['metadata']['language'],
-                                     mcf['metadata']['language_alternate'])
-
-        begin = mcf['identification']['extents']['temporal'][0]['begin']
-        end = mcf['identification']['extents']['temporal'][0]['end']
-
-        if end == 'now':
-            end = None
+                                     lang1, lang2)
 
         record = {
             'id': mcf['metadata']['identifier'],
@@ -111,10 +107,6 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'spatial': {
                     'bbox': [minx, miny, maxx, maxy],
                     'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
-                },
-                'temporal': {
-                    'interval': [begin, end],
-                    'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
                 }
             },
             'properties': {
@@ -122,16 +114,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
-                'language': mcf['metadata']['language'],
+                'language': lang1,
                 'type': mcf['metadata']['hierarchylevel'],
                 'extents': {
                     'spatial': {
                         'bbox': [minx, miny, maxx, maxy],
                         'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
-                    },
-                    'temporal': {
-                        'interval': [begin, end],
-                        'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
                     }
                 }
             },
@@ -139,28 +127,38 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'links': []
         }
 
+        if 'temporal' in mcf['identification']['extents']:
+            begin = mcf['identification']['extents']['temporal'][0]['begin']
+            end = mcf['identification']['extents']['temporal'][0]['end']
+
+            if end == 'now':
+                end = None
+
+            temporal = {
+                'interval': [begin, end],
+                'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
+            }
+
+            mcf['identification']['extents']['temporal'] = temporal
+
         if 'creation' in mcf['identification']['dates']:
             record['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
         if 'revision' in mcf['identification']['dates']:
             record['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
 
         organization = get_charstring(mcf['contact']['main'].get('organization'),  # noqa
-                                      mcf['metadata']['language'],
-                                      mcf['metadata']['language_alternate'])
+                                      lang1, lang2)
 
         record['properties']['publisher'] = organization[0]
 
         rights = get_charstring(mcf['identification'].get('rights'),
-                                mcf['metadata']['language'],
-                                mcf['metadata']['language_alternate'])
+                                lang1, lang2)
 
         record['properties']['rights'] = rights[0]
 
         formats = []
         for v in mcf['distribution'].values():
-            format_ = get_charstring(v.get('format'),
-                                     mcf['metadata']['language'],
-                                     mcf['metadata']['language_alternate'])
+            format_ = get_charstring(v.get('format'), lang1, lang2)
             if format_[0] is not None:
                 formats.append(format_)
 
@@ -169,24 +167,16 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 set([f[0] for f in formats]))
 
         record['properties']['contactPoint'] = self.generate_responsible_party(
-            mcf['contact']['main'],
-            mcf['metadata']['language'],
-            mcf['metadata']['language_alternate'],
-            'pointOfContact')
+            mcf['contact']['main'], lang1, lang2, 'pointOfContact')
 
         if 'distribution' in mcf['contact']:
             record['properties']['publisher'] = self.generate_responsible_party(  # noqa
-                mcf['contact']['distribution'],
-                mcf['metadata']['language'],
-                mcf['metadata']['language_alternate'],
-                'distributor')
+                mcf['contact']['distribution'], lang1, lang2, 'distributor')
 
         for value in mcf['identification']['keywords'].values():
             theme = {'concepts': []}
 
-            keywords = get_charstring(value.get('keywords'),
-                                      mcf['metadata']['language'],
-                                      mcf['metadata']['language_alternate'])
+            keywords = get_charstring(value.get('keywords'), lang1, lang2)
 
             for kw in keywords[0]:
                 theme['concepts'].append(kw)
@@ -200,13 +190,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['themes'].append(theme)
 
         for value in mcf['distribution'].values():
-            title = get_charstring(value.get('title'),
-                                   mcf['metadata']['language'],
-                                   mcf['metadata']['language_alternate'])
+            title = get_charstring(value.get('title'), lang1, lang2)
 
-            name = get_charstring(value.get('name'),
-                                  mcf['metadata']['language'],
-                                  mcf['metadata']['language_alternate'])
+            name = get_charstring(value.get('name'), lang1, lang2)
 
             link = {
                 'rel': value['function'],
@@ -238,24 +224,24 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         :returns: MCF contact as a responsible party representation
         """
 
-        organization_name = get_charstring('organization', contact,
+        organization_name = get_charstring(contact.get('organization'),
                                            lang1, lang2)
 
-        position_name = get_charstring('positionname', contact,
+        position_name = get_charstring(contact.get('positionname'),
                                        lang1, lang2)
 
-        hours_of_service = get_charstring('hoursofservice',
-                                          contact, lang1, lang2)
+        hours_of_service = get_charstring(contact.get('hoursofservice'),
+                                          lang1, lang2)
 
-        contact_instructions = get_charstring('contactinstructions',
-                                              contact, lang1, lang2)
+        contact_instructions = get_charstring(
+            contact.get('contactinstructions'), lang1, lang2)
 
-        address = get_charstring('address', contact, lang1, lang2)
-        city = get_charstring('city', contact, lang1, lang2)
-        administrative_area = get_charstring('administrativearea',
-                                             contact, lang1, lang2)
-        postalcode = get_charstring('postalcode', contact, lang1, lang2)
-        country = get_charstring('country', contact, lang1, lang2)
+        address = get_charstring(contact.get('address'), lang1, lang2)
+        city = get_charstring(contact.get('city'), lang1, lang2)
+        administrative_area = get_charstring(contact.get('administrativearea'),
+                                             lang1, lang2)
+        postalcode = get_charstring(contact.get('postalcode'), lang1, lang2)
+        country = get_charstring(contact.get('country'), lang1, lang2)
 
         return {
             'individualName': contact['individualname'],
