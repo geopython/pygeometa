@@ -256,7 +256,7 @@ properties:
                             of user defined).  The values are the keywords, type, and codelists.
                         properties:
                             keywords:
-                                $ref: '#/definitions/i18n_string'
+                                $ref: '#/definitions/i18n_array'
                                 description: category keywords
                             keywords_type:
                                 type: string
@@ -498,13 +498,21 @@ required:
     - metadata
     - spatial
     - identification
-    - content_info
     - contact
     - distribution
-    - dataquality
-    
+
 
 definitions:
+    i18n_array:
+        oneOf:
+            - type: string
+            - type: object
+              patternProperties:  # e.g. keywords_en, keywords_fr
+                  '.*_\w{2}$':
+                      allOf:
+                          - type: array
+                            items:
+                                type: string
     i18n_string:
         oneOf:
             - type: string
