@@ -107,7 +107,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'identifier': mcf['metadata']['identifier'],
                 'externalId': [{
                     'scheme': 'default',
-                    'value': [mcf['metadata']['identifier']]
+                    'value': mcf['metadata']['identifier']
                 }],
                 'title': title[0],
                 'description': description[0],
