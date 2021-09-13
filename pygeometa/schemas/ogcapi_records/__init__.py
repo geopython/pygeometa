@@ -103,13 +103,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                     [minx, miny]
                 ]]
             },
-            'extents': {
-                'spatial': {
-                    'bbox': [minx, miny, maxx, maxy],
-                    'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
-                }
-            },
             'properties': {
+                'identifier': mcf['metadata']['identifier'],
                 'externalId': [mcf['metadata']['identifier']],
                 'title': title[0],
                 'description': description[0],
@@ -118,7 +113,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'type': mcf['metadata']['hierarchylevel'],
                 'extents': {
                     'spatial': {
-                        'bbox': [minx, miny, maxx, maxy],
+                        'bbox': [[minx, miny, maxx, maxy]],
                         'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
                     }
                 }
