@@ -111,7 +111,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'themes': [],
                 'language': lang1,
                 'type': mcf['metadata']['hierarchylevel'],
-                'extents': {
+                'extent': {
                     'spatial': {
                         'bbox': [[minx, miny, maxx, maxy]],
                         'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
