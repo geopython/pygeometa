@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2021 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -380,7 +380,7 @@ def render_j2_template(mcf: dict, template_dir: str = None) -> str:
     return pretty_print(xml)
 
 
-def validate_mcf(instance_dict):
+def validate_mcf(instance_dict: dict) -> bool:
     """
     Validate an MCF document against the MCF schema
 
