@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2021 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -61,6 +61,7 @@ from pygeometa.helpers import json_serial
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
+from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 
 from sample_schema import SampleOutputSchema
 
@@ -334,6 +335,18 @@ class PygeometaTest(unittest.TestCase):
         self.assertIn('acquisition', mcf)
         self.assertIn('platforms', mcf['acquisition'])
         self.assertIn('instruments', mcf['acquisition']['platforms'][0])
+
+    def test_json_output_schema(self):
+        """test JSON as dict-based output schemas"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+
+        record = OGCAPIRecordOutputSchema().write(mcf)
+        self.assertIsInstance(record, str)
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        record = OGCAPIRecordOutputSchema().write(mcf, stringify=False)
+        self.assertIsInstance(record, dict)
 
     def test_output_schema(self):
         """test output schema"""

@@ -391,8 +391,6 @@ def validate_mcf(instance_dict: dict) -> bool:
 
     schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yml')
 
-    print(schema_file)
-
     with open(schema_file) as fh2:
         schema_dict = yaml.load(fh2, Loader=yaml.FullLoader)
 

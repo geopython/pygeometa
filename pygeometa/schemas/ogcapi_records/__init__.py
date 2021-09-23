@@ -45,6 +45,7 @@
 
 import json
 import os
+from typing import Union
 
 from pygeometa.core import get_charstring
 from pygeometa.helpers import json_serial
@@ -65,7 +66,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         super().__init__('oarec-record', 'json', THISDIR)
 
-    def write(self, mcf: dict, stringify: str = True) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
         Write outputschema to JSON string buffer
 
@@ -74,7 +75,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                           else native (dict, etree)
 
 
-        :returns: MCF as a STAC item representation
+        :returns: `dict` or `str` of MCF as an OARec record representation
         """
 
         lang1 = mcf['metadata'].get('language')
@@ -207,7 +208,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             record['associations'].append(link)
 
-        return json.dumps(record, default=json_serial, indent=4)
+        if stringify:
+            return json.dumps(record, default=json_serial, indent=4)
+
+        return record
 
     def generate_responsible_party(self, contact: dict,
                                    lang1: str, lang2: str, role: str) -> dict:

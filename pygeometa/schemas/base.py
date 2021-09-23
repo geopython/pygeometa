@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2021 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,6 +44,7 @@
 # =================================================================
 
 import os
+from typing import Union
 
 from pygeometa import core
 
@@ -68,7 +69,7 @@ class BaseOutputSchema:
         self.outputformat = outputformat
         self.template_dir = template_dir
 
-    def write(self, mcf: dict, stringify: str = True) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
         Write outputschema to string buffer
 
@@ -76,10 +77,13 @@ class BaseOutputSchema:
         :param stringify: whether to return a string representation (default)
                           else native (dict, etree)
 
-        :returns: str of metadata in outputschema representation
+        :returns: `dict` or `str` of metadata in outputschema representation
         """
 
-        return core.render_j2_template(mcf, template_dir=self.template_dir)
+        if stringify:
+            return core.render_j2_template(mcf, template_dir=self.template_dir)
+
+        return mcf
 
     def __repr__(self):
         return '<{}OutputSchema> {}'.format(self.name.upper(), self.name)
