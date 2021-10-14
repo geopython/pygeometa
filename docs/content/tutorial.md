@@ -39,7 +39,7 @@ The basic pygeometa workflow is:
 pygeometa
 
 # show all supported schemas
-pygeometa schemas
+pygeometa metadata schemas
 
 # provide a basic sanity check/report on an MCF (Metadata Control File)
 pygeometa metadata info path/to/file.yml
