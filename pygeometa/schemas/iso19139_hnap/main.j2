@@ -386,7 +386,7 @@
             <gmd:CI_Citation>
               {% if value['vocabulary']['name'] and value['vocabulary']['url'] %}
               <gmd:title>
-                <gmx:Anchor xlink:title="{{ value['vocabulary']['name'] }}" xlink:href="{{ value['vocabulary']['url'] }}">{{ value['vocabulary']['name'] }}</gmx:Anchor>
+                <gmx:Anchor xlink:title="{{ get_charstring(value['vocabulary'].get('name'), record['metadata']['language'], record['metadata']['language_alternate'])[0] }}" xlink:href="{{ value['vocabulary']['url'] }}">{{  get_charstring(value['vocabulary'].get('name'), record['metadata']['language'], record['metadata']['language_alternate'])[0] }}</gmx:Anchor>
               </gmd:title>
               {% elif not value['vocabulary']['url'] %}
               {{ cs.get_freetext('title', record['metadata']['language_alternate'], get_charstring(value['vocabulary'].get('name'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
