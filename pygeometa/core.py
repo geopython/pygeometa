@@ -497,9 +497,7 @@ def validate(ctx, mcf):
 
     click.echo('Validating {}'.format(mcf))
 
-    with open(mcf, encoding='utf8') as fh:
-        instance = json.loads(json.dumps(yaml.load(fh, Loader=yaml.FullLoader),
-                              default=json_serial))
+    instance = json.loads(json.dumps(read_mcf(mcf), default=json_serial))
     validate_mcf(instance)
 
     click.echo('Valid MCF document')

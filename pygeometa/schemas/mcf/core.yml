@@ -439,7 +439,7 @@ properties:
                         $ref: '#/definitions/i18n_string'
                         description: Format of the distribution method
                     format:
-                        type: string
+                        $ref: '#/definitions/i18n_string'
                         description: Format version of the distribution method
                 required:
                     - url

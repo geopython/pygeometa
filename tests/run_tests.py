@@ -271,7 +271,7 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('child.yml'))
 
-        self.assertEqual(mcf['metadata']['identifier'], 5678,
+        self.assertEqual(mcf['metadata']['identifier'], 's5678',
                          'Expected specific identifier')
 
         self.assertEqual(mcf['distribution']['waf']['type'], 'WWW:LINK',
@@ -364,6 +364,14 @@ class PygeometaTest(unittest.TestCase):
         """test MCF validation"""
 
         mcf = read_mcf(get_abspath('../sample.yml'))
+
+        instance = json.loads(json.dumps(mcf, default=json_serial))
+
+        is_valid = validate_mcf(instance)
+        assert is_valid
+
+        # validated nested MCF
+        mcf = read_mcf(get_abspath('./sample-child.yml'))
 
         instance = json.loads(json.dumps(mcf, default=json_serial))
 
