@@ -1,0 +1,128 @@
+mcf:
+    version: 1.0
+
+metadata:
+    base_mcf: base-metadata.yml
+    language: en
+    language_alternate: fr
+    charset: utf8
+    parentidentifier: someparentid
+    hierarchylevel: dataset
+    dataseturi: http://some/minted/uri
+
+spatial:
+    datatype: vector
+    geomtype: point
+
+identification:
+    language: eng; CAN
+    charset: utf8
+    title:
+        en: title in English
+        fr: title in French
+    abstract:
+        en: abstract in English
+        fr: abstract in French
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
+    keywords:
+        default:
+            keywords:
+                en: [kw1 in English,kw2 in English,kw3 in English]
+                fr: [kw1 in French,kw2 in French,kw3 in French]
+        wmo:
+            keywords:
+                en: [FOO,BAR]
+            keywords_type: theme
+            vocabulary:
+                name:
+                    en: My vocabulary
+                    fr: Mon vocabulaire
+                url: http://example.org/vocab
+        gc_cst:
+            keywords:
+                en: [kw1,kw2]
+                fr: [kw1,kw2]
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
+    fees: None
+    accessconstraints: otherRestrictions
+    rights:
+        en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+        fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
+    status: onGoing
+    maintenancefrequency: continual
+
+content_info:
+    type: image
+    cloud_cover: 72
+    processing_level: "1.0"
+    dimensions:
+        - name: B1
+          units: nm
+          min: 932
+          max: 958
+
+# platform metadata, applicable to iso19139-2 output
+acquisition:
+    platforms:
+        - identifier: LANDSAT_8
+          description: Landsat 8
+          instruments:
+              - identifier: OLI_TIRS
+                type: INS-NOBS
+
+contact:
+    main: &contact_main
+        organization: Environment Canada
+        url: https://www.ec.gc.ca/
+        individualname: Tom Kralidis
+        positionname: Senior Systems Scientist
+        phone: +01-123-456-7890
+        fax: +01-123-456-7890
+        address: 4905 Dufferin Street
+        city: Toronto
+        administrativearea: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        email: foo@bar.tld
+        hoursofservice: 0700h - 1500h EST
+        contactinstructions: email
+
+    distribution: *contact_main
+
+distribution:
+    waf:
+        url: https://dd.meteo.gc.ca
+        type: WWW:LINK
+        name: my waf
+        description:
+            en: description in English
+            fr: description in French
+        function: download
+
+    wms:
+        url: https://dd.meteo.gc.ca
+        type: OGC:WMS
+        name:
+            en: roads
+            fr: routes
+        description:
+            en: description in English
+            fr: description in French
+        function: download
+
+dataquality:
+    scope:
+        level: dataset
+    lineage:
+        statement: this dataset was derived from a custom process against dataset xyz

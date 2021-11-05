@@ -3,7 +3,7 @@ mcf:
 
 metadata:
     base_mcf: base-metadata.yml
-    identifier: 5678
+    identifier: s5678
 
 distribution:
     base_mcf: base-distribution.yml
