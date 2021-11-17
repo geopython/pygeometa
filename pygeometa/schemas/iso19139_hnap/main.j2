@@ -381,6 +381,24 @@
               </gmd:citedResponsibleParty>
             </gmd:CI_Citation>
           </gmd:thesaurusName>
+          {% elif key == 'wmo' %}
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              <gmd:title>
+                <gmx:Anchor xlink:href="http://wis.wmo.int/2012/codelists/WMOCodeLists.xml#WMO_CategoryCode"/>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2013-07-11</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <gmd:CI_DateTypeCode codeList="http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication" codeSpace="ISOTC211/19115">publication</gmd:CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
           {% elif value['vocabulary'] %}
           <gmd:thesaurusName>
             <gmd:CI_Citation>
