@@ -259,7 +259,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'address': {
                     'office': {
                         'deliveryPoint': address[0],
-                        'city': city,
+                        'city': city[0],
                         'administrativeArea': administrative_area[0],
                         'postalCode': postalcode[0],
                         'country': country[0]
