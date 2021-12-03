@@ -435,9 +435,6 @@ class MCFValidationError(Exception):
 def generate(ctx, mcf, schema, schema_local, output, verbosity):
     """generate metadata"""
 
-    if verbosity is not None:
-        logging.basicConfig(level=getattr(logging, verbosity))
-
     if schema is None and schema_local is None:
         raise click.UsageError('Missing arguments')
     elif None not in [schema, schema_local]:
@@ -465,9 +462,6 @@ def generate(ctx, mcf, schema, schema_local, output, verbosity):
 def info(ctx, mcf, verbosity):
     """provide information about an MCF"""
 
-    if verbosity is not None:
-        logging.basicConfig(level=getattr(logging, verbosity))
-
     LOGGER.info('Processing {}'.format(mcf))
     try:
         content = read_mcf(mcf)
@@ -484,7 +478,8 @@ def info(ctx, mcf, verbosity):
 
 @click.command()
 @click.pass_context
-def schemas(ctx):
+@cli_options.OPTION_VERBOSITY
+def schemas(ctx, verbosity):
     """list supported schemas"""
     click.echo('\n'.join(get_supported_schemas()))
 
@@ -492,7 +487,8 @@ def schemas(ctx):
 @click.command()
 @click.pass_context
 @cli_options.ARGUMENT_MCF
-def validate(ctx, mcf):
+@cli_options.OPTION_VERBOSITY
+def validate(ctx, mcf, verbosity):
     """Validate MCF Document"""
 
     click.echo('Validating {}'.format(mcf))

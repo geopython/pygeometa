@@ -45,6 +45,8 @@
 # =================================================================
 
 import click
+import logging
+import sys
 
 ARGUMENT_MCF = click.argument('mcf')
 
@@ -53,7 +55,22 @@ OPTION_OUTPUT = click.option(
     type=click.File('w', encoding='utf-8'),
     help='Name of output file')
 
-OPTION_VERBOSITY = click.option(
-    '--verbosity',
-    type=click.Choice(['ERROR', 'WARNING', 'INFO', 'DEBUG']),
-    help='Verbosity')
+
+def OPTION_VERBOSITY(f):
+    logging_options = ['ERROR', 'WARNING', 'INFO', 'DEBUG']
+
+    def callback(ctx, param, value):
+        if value is not None:
+            logging.basicConfig(stream=sys.stdout,
+                                level=getattr(logging, value))
+        return True
+
+    return click.option('--verbosity', '-v',
+                        type=click.Choice(logging_options),
+                        help='Verbosity',
+                        callback=callback)(f)
+
+
+def cli_callbacks(f):
+    f = OPTION_VERBOSITY(f)
+    return f
