@@ -255,13 +255,13 @@ MCFs can have 1..n `contact` sections as required using nesting.  Example:
 
 ```yaml
 contact:
-    main:
+    pointOfContact:
         ....
-    distribution:
+    distributor:
         ....
 ```
 
-The `contact.main` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.
+The `contact.pointOfContact` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.
 
 Within each `contact` section, the following elements are supported:
 
@@ -282,18 +282,18 @@ email|Mandatory|address of the electronic mailbox of the responsible organizatio
 hoursofservice|Optional|time period (including time zone) when individuals can contact the organization or individual|0700h - 1500h EST|ISO 19115:2003 Section B.3.2.3
 contactinstructions|Optional|supplementalinstructions on how or when to contact the individual or organization|contact during working business hours|ISO 19115:2003 Section B.3.2.3
 
-### `contact.distribution`
+### `contact.distributor`
 
-The `contact.distribution` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `contact.main`.
+The `contact.distributor` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `contact.pointOfContact`.
 
 If contact information is the same for both, use YAML node anchors and references to have it provided in both sections in the metadata:
 
 ```yaml
 contact:
-    main: &id_contact_main
+    pointOfContact: &id_contact_poc
         ...
 
-    distribution: *id_contact_main
+    distributor: *id_contact_poc
 ```
 
 

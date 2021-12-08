@@ -300,7 +300,7 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(mcf['distribution']['waf']['url'],
                          'http://dd.meteo.gc.ca', 'Expected specific URL')
 
-        self.assertEqual(mcf['contact']['main']['positionname'],
+        self.assertEqual(mcf['contact']['pointOfContact']['positionname'],
                          'Senior Systems Scientist', 'Expected specific name')
 
     def test_pre1900_dates(self):

@@ -18,12 +18,14 @@
   <gmd:hierarchyLevel>
     <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['hierarchylevel'] }}">{{ record['metadata']['hierarchylevel'] }}</gmd:MD_ScopeCode>
   </gmd:hierarchyLevel>
-  {% set contact = record['contact']['main'] %}
+  {% if 'pointOfContact' in record['contact'] %}
+  {% set contact = record['contact']['pointOfContact'] %}
   {% set role = 'pointOfContact; contact' %}
   {% set role_codelist_value = 'RI_414' %}
   <gmd:contact>
   {% include "contact.j2" %}
   </gmd:contact>
+  {% endif %}
   <gmd:dateStamp>
     {% set datestamp = record['metadata']['datestamp']|normalize_datestring %}
     {% if datestamp|length > 11 %}
@@ -527,16 +529,18 @@
       </gmd:distributionFormat>
       {% endif %}
       {% endfor %}
+      {% if 'distributor' in record['contact'] %}
       <gmd:distributor>
         <gmd:MD_Distributor>
           <gmd:distributorContact>
-          {% set contact = record['contact']['distribution'] %}
+          {% set contact = record['contact']['distributor'] %}
           {% set role = 'distributor' %}
           {% set role_codelist_value = 'RI_412' %}
           {% include "contact.j2" %}
           </gmd:distributorContact>
         </gmd:MD_Distributor>
       </gmd:distributor>
+      {% endif %}
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
         {% for k, v in record['distribution'].items() %}

@@ -119,7 +119,7 @@ class STACItemOutputSchema(BaseOutputSchema):
         if 'revision' in mcf['identification']['dates']:
             stac_item['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
 
-        stac_item['properties']['provider'] = {'name': mcf['contact']['main']['organization']}  # noqa
+        stac_item['properties']['providers'] = [{'name': mcf['contact']['pointOfContact']['organization']}]  # noqa
 
         for value in mcf['distribution'].values():
             title = get_charstring(value.get('title'), lang1, lang2)
