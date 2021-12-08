@@ -113,6 +113,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
+                'providers': [],
                 'language': lang1,
                 'type': mcf['metadata']['hierarchylevel'],
                 'extent': {
@@ -137,18 +138,15 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'interval': [begin, end],
                 'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
             }
+            if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
+                temporal['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
-            mcf['identification']['extents']['temporal'] = temporal
+            record['properties']['extent']['temporal'] = temporal
 
         if 'creation' in mcf['identification']['dates']:
             record['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
         if 'revision' in mcf['identification']['dates']:
             record['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
-
-        organization = get_charstring(mcf['contact']['main'].get('organization'),  # noqa
-                                      lang1, lang2)
-
-        record['properties']['publisher'] = organization[0]
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 lang1, lang2)
@@ -165,12 +163,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['formats'] = list(
                 set([f[0] for f in formats]))
 
-        record['properties']['contactPoint'] = self.generate_responsible_party(
-            mcf['contact']['main'], lang1, lang2, 'pointOfContact')
-
-        if 'distribution' in mcf['contact']:
-            record['properties']['publisher'] = self.generate_responsible_party(  # noqa
-                mcf['contact']['distribution'], lang1, lang2, 'distributor')
+        for key, value in mcf['contact'].items():
+            record['properties']['providers'].append(
+                self.generate_responsible_party(value, lang1, lang2, key))
 
         for value in mcf['identification']['keywords'].values():
             theme = {'concepts': []}
@@ -245,9 +240,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         postalcode = get_charstring(contact.get('postalcode'), lang1, lang2)
         country = get_charstring(contact.get('country'), lang1, lang2)
 
-        return {
-            'individualName': contact['individualname'],
-            'organizationName': organization_name[0],
+        rp = {
+            'name': organization_name[0],
+            'individual': contact['individualname'],
             'positionName': position_name[0],
             'contactInfo': {
                 'phone': {
@@ -271,7 +266,16 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'hoursOfService': hours_of_service[0],
                 'contactInstructions': contact_instructions[0]
             },
-            'role': {
+            'roles': [{
                 'name': role
-            }
+            }]
         }
+
+        if 'url' in contact:
+            rp['contactInfo']['url'] = {
+                'rel': 'canonical',
+                'type': 'text/html',
+                'href': contact['url']
+            }
+
+        return rp
