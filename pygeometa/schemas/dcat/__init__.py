@@ -186,7 +186,7 @@ class DCATOutputSchema(BaseOutputSchema):
                     else:
                         dcat[k] = v
             # transform set of keys to array
-            elif (key in ['distribution', 'contact']):
+            elif (key in ['distributor', 'contact']):
                 for k, v in value.items():
                     # add id (if url exists)
                     if (not isinstance(v, str) and v['url']):

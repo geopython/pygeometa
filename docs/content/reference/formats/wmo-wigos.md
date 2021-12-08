@@ -19,7 +19,7 @@ See MCF reference
 ### `contact`
 
 See MCF reference.  WMO WIGOS MCF add the contact type `facility` to
-attach contact information to a facility.  The main MCF contact is attached
+attach contact information to a facility.  The `pointOfContact` MCF contact is attached
 to the `wmdr:Header` element.
 
 ### `identification`

@@ -246,6 +246,9 @@ properties:
                                 type: [string, 'null']
                                 format: date-time
                                 nullable: true
+                            resolution:
+                                type: string
+                                description: Minimum time period resolvable in the dataset, as an ISO 8601 duration
             keywords:
                 type: object
                 patternProperties:
@@ -349,7 +352,7 @@ properties:
                 type: object
                 description: |- 
                     MCFs can have 1..n contact sections as required using nesting
-                    A contact with a key called `main` is minimally required.
+                    A contact with a key called `pointOfContact` is minimally required.
                 properties:
                     organization:
                         $ref: '#/definitions/i18n_string'

@@ -45,7 +45,7 @@ identification:
     maintenancefrequency: continual
     
 contact:
-    main:
+    pointOfContact:
         organization: Environment Canada
         url: http://www.ec.gc.ca/
         individualname: Tom Kralidis

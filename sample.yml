@@ -54,6 +54,7 @@ identification:
         temporal:
             - begin: 1950-07-31
               end: now
+              resolution: P1Y
     fees: None
     accessconstraints: otherRestrictions
     rights:
@@ -83,7 +84,7 @@ acquisition:
                 type: INS-NOBS
 
 contact:
-    main: &contact_main
+    pointOfContact: &contact_poc
         organization: Environment Canada
         url: https://www.ec.gc.ca/
         individualname: Tom Kralidis
@@ -99,7 +100,7 @@ contact:
         hoursofservice: 0700h - 1500h EST
         contactinstructions: email
 
-    distribution: *contact_main
+    distributor: *contact_poc
 
 distribution:
     waf:
