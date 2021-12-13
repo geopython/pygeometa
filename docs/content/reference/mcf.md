@@ -162,10 +162,10 @@ MCF `identification.extents` sections can have 1..n `spatial` and `temporal` sec
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-bbox|Mandatory|geographic position of the dataset, formatted as as list of 'minx,miny,maxx,maxy'|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
+bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy]|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
 crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 B.2.7.3
-temporal.begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
-temporal.end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
+temporal.begin|Optional|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
+temporal.end|Optional|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
 
 ```yaml
 identification:
