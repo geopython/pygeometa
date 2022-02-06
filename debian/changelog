@@ -1,4 +1,16 @@
+pygeometa (0.9.0) bionic; urgency=medium
+
+  * OARec model updates
+  * fix schema write stringify support 
+  * fix keyword vocabulary ref
+  * fix validation of nested MCFs
+  * add WMO thesaurus to ISO-based keywords
+  * align contact keys to ISO/STAC roles 
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sun, 6 Feb 2022 21:18:53 +0000
+
 pygeometa (0.8.0) bionic; urgency=medium
+
   * update multilingual support
   * add MCF schema support
 
