@@ -121,9 +121,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                         'bbox': [[minx, miny, maxx, maxy]],
                         'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
                     }
-                }
+                },
+                'associations': []
             },
-            'associations': [],
             'links': []
         }
 
@@ -201,7 +201,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             if all(x in value['url'] for x in ['{', '}']):
                 link['templated'] = True
 
-            record['associations'].append(link)
+            record['properties']['associations'].append(link)
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)
