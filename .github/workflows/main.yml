@@ -19,8 +19,9 @@ jobs:
     - name: Install requirements 📦
       run: |
         python3 -m pip install --upgrade pip
-        pip3 install -r requirements-dev.txt
         pip3 install cython
+        pip3 install pyproj --no-binary pyproj
+        pip3 install -r requirements-dev.txt
     - name: Install package 📦
       run: python3 setup.py install
     - name: run tests ⚙️
