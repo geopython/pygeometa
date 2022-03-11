@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2021 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -85,5 +85,16 @@ class BaseOutputSchema:
 
         return mcf
 
+    def import_(self, metadata: str) -> dict:
+        """
+        Import metadata into MCF
+
+        :param metadata: string of metadata content
+
+        :returns: `dict` of MCF content
+        """
+
+        raise NotImplementedError()
+
     def __repr__(self):
-        return '<{}OutputSchema> {}'.format(self.name.upper(), self.name)
+        return f'<{self.name.upper()}OutputSchema> {self.name}'

@@ -19,6 +19,7 @@ jobs:
     - name: Install requirements 📦
       run: |
         python3 -m pip install --upgrade pip
+        pip3 install "pyproj < 3"
         pip3 install -r requirements-dev.txt
     - name: Install package 📦
       run: python3 setup.py install

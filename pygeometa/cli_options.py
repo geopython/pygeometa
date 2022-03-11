@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,11 +44,13 @@
 #
 # =================================================================
 
-import click
 import logging
 import sys
 
+import click
+
 ARGUMENT_MCF = click.argument('mcf')
+ARGUMENT_METADATA_FILE = click.argument('metadata-file', type=click.File())
 
 OPTION_OUTPUT = click.option(
     '--output',

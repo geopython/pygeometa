@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2021 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -380,6 +380,43 @@ class PygeometaTest(unittest.TestCase):
 
         with self.assertRaises(MCFValidationError):
             is_valid = validate_mcf({'foo': 'bar'})
+
+    def test_import(self):
+        """test metadata import"""
+
+        schema = ISO19139OutputSchema()
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = schema.import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+            self.assertEqual(len(mcf['distribution']), 1,
+                             'Expected specific number of links')
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [124.167, 24.333, 145.583, 45.4]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
+
+        with open(get_abspath('urn:x-wmo:md:int.wmo.wis::ISMD01EDZW.xml')) as fh:  # noqa
+            mcf = schema.import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'GTS Bulletin: ISMD01 EDZW - Observational data (Binary coded) - BUFR (details are described in the abstract)',  # noqa
+                'Expected specific title')
+
+            self.assertEqual(len(mcf['distribution']), 1,
+                             'Expected specific number of links')
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [6.3467, 47.7244, 14.1203, 55.0111]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
 
 
 def get_abspath(filepath):
