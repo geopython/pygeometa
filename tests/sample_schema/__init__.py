@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -67,4 +67,4 @@ class SampleOutputSchema(BaseOutputSchema):
         Write MCF into sample schema output
         """
 
-        return "MCF_FILE_VERSION: {}".format(mcf['mcf']['version'])
+        return f"MCF_FILE_VERSION: {mcf['mcf']['version']}"

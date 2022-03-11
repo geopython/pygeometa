@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2021 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -68,8 +68,7 @@ from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
 
-SCHEMAS = '{}{}schemas'.format(os.path.dirname(os.path.realpath(__file__)),
-                               os.sep)
+SCHEMAS = f'{os.path.dirname(os.path.realpath(__file__))}{os.sep}schemas'
 
 VERSION = pkg_resources.require('pygeometa')[0].version
 
@@ -153,14 +152,13 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
                 return mo.group('year')
             else:  # default
                 mo = re.match(re2, datestring)
-                return '{}T{}'.format(mo.group('date'), mo.group('time'))
+                return f"{mo.group('date')}T{mo.group('time')}"
         elif '$Date' in datestring:  # svn Date keyword embedded
             if format_ == 'year':
                 mo = re.match(re3, datestring)
-                return '{}{}{}'.format(mo.group('start'),
-                                       mo.group('year'), mo.group('end'))
+                return f"{mo.group('start')}{mo.group('year')}{mo.group('end')}"  # noqa
     except (AttributeError, TypeError):
-        raise RuntimeError('Invalid datestring: {}'.format(datestring))
+        raise RuntimeError(f'Invalid datestring: {datestring}')
     return datestring
 
 
@@ -249,7 +247,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
                 with io.open(mcf_object, encoding='utf-8') as fh:
                     dict_ = yaml.load(fh, Loader=yaml.FullLoader)
         except yaml.scanner.ScannerError as err:
-            msg = 'YAML parsing error: {}'.format(err)
+            msg = f'YAML parsing error: {err}'
             LOGGER.debug(msg)
             raise MCFReadError(msg)
 
@@ -294,18 +292,18 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
                     dict2.pop(k, None)
         return dict2
 
-    LOGGER.debug('reading {}'.format(mcf))
+    LOGGER.debug(f'reading {mcf}')
     mcf_dict = __to_dict(mcf)
 
     LOGGER.debug('recursively parsing dict')
 
     mcf_dict = __parse_mcf_dict_recursive(mcf_dict)
 
-    LOGGER.debug('Fully parsed MCF: {}'.format(mcf_dict))
+    LOGGER.debug(f'Fully parsed MCF: {mcf_dict}')
 
     try:
         mcf_version = str(mcf_dict['mcf']['version'])
-        LOGGER.info('MCF version: {}'.format(mcf_version))
+        LOGGER.info(f'MCF version: {mcf_version}')
     except KeyError:
         msg = 'no MCF version specified'
         LOGGER.error(msg)
@@ -313,7 +311,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
 
     for mcf_version_ in mcf_versions:
         if not mcf_version_.startswith(mcf_version):
-            msg = 'invalid / unsupported version {}'.format(mcf_version)
+            msg = f'invalid / unsupported version {mcf_version}'
             LOGGER.error(msg)
             raise MCFReadError(msg)
 
@@ -351,7 +349,7 @@ def render_j2_template(mcf: dict, template_dir: str = None) -> str:
         LOGGER.error(msg)
         raise RuntimeError(msg)
 
-    LOGGER.debug('Setting up template environment {}'.format(template_dir))
+    LOGGER.debug(f'Setting up template environment {template_dir}')
     env = Environment(loader=FileSystemLoader([template_dir, SCHEMAS]))
 
     LOGGER.debug('Adding template filters')
@@ -419,6 +417,33 @@ class MCFValidationError(Exception):
     pass
 
 
+@click.command('import')
+@click.pass_context
+@cli_options.ARGUMENT_METADATA_FILE
+@cli_options.OPTION_OUTPUT
+@cli_options.OPTION_VERBOSITY
+@click.option('--schema', required=True,
+              type=click.Choice(get_supported_schemas()),
+              help='Metadata schema')
+def import_(ctx, metadata_file, schema, output, verbosity):
+    """import metadata"""
+
+    LOGGER.info(f'Importing {metadata_file} into {schema}')
+    schema_object = load_schema(schema)
+
+    try:
+        content = schema_object.import_(metadata_file.read())
+    except NotImplementedError:
+        raise click.ClickException(f'Import not support for {schema}')
+    except NotImplementedError as err:
+        raise click.ClickException(err)
+
+    if output is None:
+        click.echo(content)
+    else:
+        output.write(content)
+
+
 @click.command()
 @click.pass_context
 @cli_options.ARGUMENT_MCF
@@ -443,7 +468,7 @@ def generate(ctx, mcf, schema, schema_local, output, verbosity):
     mcf_dict = read_mcf(mcf)
 
     if schema is not None:
-        LOGGER.info('Processing {} into {}'.format(mcf, schema))
+        LOGGER.info(f'Processing {mcf} into {schema}')
         schema_object = load_schema(schema)
         content = schema_object.write(mcf_dict)
     else:
@@ -462,16 +487,14 @@ def generate(ctx, mcf, schema, schema_local, output, verbosity):
 def info(ctx, mcf, verbosity):
     """provide information about an MCF"""
 
-    LOGGER.info('Processing {}'.format(mcf))
+    LOGGER.info(f'Processing {mcf}')
     try:
         content = read_mcf(mcf)
 
         click.echo('MCF overview')
-        click.echo('  version: {}'.format(content['mcf']['version']))
-        click.echo('  identifier: {}'.format(
-            content['metadata']['identifier']))
-        click.echo('  language: {}'.format(
-                   content['metadata']['language']))
+        click.echo(f"  version: {content['mcf']['version']}")
+        click.echo(f"  identifier: {content['metadata']['identifier']}")
+        click.echo(f"  language: {content['metadata']['language']}")
     except Exception as err:
         raise click.ClickException(err)
 
@@ -491,7 +514,7 @@ def schemas(ctx, verbosity):
 def validate(ctx, mcf, verbosity):
     """Validate MCF Document"""
 
-    click.echo('Validating {}'.format(mcf))
+    click.echo(f'Validating {mcf}')
 
     instance = json.loads(json.dumps(read_mcf(mcf), default=json_serial))
     validate_mcf(instance)

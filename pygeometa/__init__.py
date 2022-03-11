@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -46,7 +46,7 @@
 
 import click
 
-from pygeometa.core import generate, info, schemas, validate
+from pygeometa.core import generate, import_, info, schemas, validate
 
 __version__ = '0.10.dev0'
 
@@ -64,6 +64,7 @@ def metadata():
 
 
 metadata.add_command(generate)
+metadata.add_command(import_)
 metadata.add_command(info)
 metadata.add_command(schemas)
 metadata.add_command(validate)

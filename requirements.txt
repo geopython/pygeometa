@@ -1,4 +1,5 @@
 Click
 Jinja2
 jsonschema
+OWSLib
 pyyaml
