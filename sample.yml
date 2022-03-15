@@ -128,3 +128,9 @@ dataquality:
         level: dataset
     lineage:
         statement: this dataset was derived from a custom process against dataset xyz
+
+attributes:
+    - name: foo
+      units: m
+    - name: bar
+      units: K

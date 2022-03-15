@@ -296,7 +296,6 @@ contact:
     distributor: *id_contact_poc
 ```
 
-
 ### `distribution`
 
 MCFs can have 1..n `distribution` sections as required using nesting.  Example:
@@ -320,6 +319,88 @@ description|Mandatory|detailed text description of what the online resources is/
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
 format|Optional|Format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
+
+### `attributes`
+
+MCFs can have 1..n `attributes` sections as required using nesting.  Example:
+
+```yaml
+attributes:
+    - name: temperature
+      title:
+          en: Air temperature
+      abstract:
+          en: Description of air temperature attribute
+      type: number
+      units: K
+      values: [1.2, 2.5, 1.3]
+```
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|attribute name|`temperature`||
+title|Optional|attribute title|Air temperature||
+abstract|Optional|attribute description|Description of air temperature||
+url|Optional|URL with more information about the attribute|Air temperature||
+type|Optional|data type|(must be one of 'string', 'number', 'integer', 'object', 'array', 'boolean')|string||
+units|Optional|SI units|K|https://en.wikipedia.org/wiki/International_System_of_Units|
+values|Optional|specification of attribute values|see below||
+
+#### `attributes.values`
+
+Attributes may also provide the values within a given domain, via one of the following constructs:
+
+##### `attributes.values.enum`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+enum|Optional|Enumerated list of values|[1, 2, 3, 4]||
+
+Example:
+
+```yaml
+ values:
+    enum: [1, 2, 3. 4]
+```    
+
+##### `attributes.values.range`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+range|Optional|Range of values (min/max)|[1, 4]||
+
+Example:
+
+```yaml
+ values:
+    range: [1, 4]
+```    
+
+##### `attributes.values.codelist`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+codelist|Optional|codelist of values|see below||
+codelist.name|Mandatory|value name|foo||
+codelist.title|Optional|value title|Foo||
+codelist.abstract|Optional|value abstract|Description of value Foo||
+codelist.url|Optional|URL with more information about the value|https://example.org/foo|
+
+Example:
+
+```yaml
+values:
+    codelist:
+     - name: foo
+       title:
+           en: foo title
+       abstract:
+           en: foo description
+       url: https://example.org/values/foo
+```
+
+
+
 
 ### `dataquality`
 
