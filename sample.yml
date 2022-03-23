@@ -68,6 +68,11 @@ content_info:
     type: image
     cloud_cover: 72
     processing_level: "1.0"
+    attributes:
+        - name: foo
+          units: m
+        - name: bar
+          units: K
     dimensions:
         - name: B1
           units: nm
