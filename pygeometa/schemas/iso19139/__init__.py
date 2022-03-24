@@ -138,7 +138,9 @@ class ISO19139OutputSchema(BaseOutputSchema):
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
-        mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
+        if m.identification.accessconstraints:
+            mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
+
         mcf['identification']['status'] = m.identification.status
 
         LOGGER.debug('Setting contact')
@@ -168,22 +170,28 @@ def get_contact(contact: CI_ResponsibleParty) -> dict:
     :returns: dict of MCF contact
     """
 
-    mcf_contact = {
-        contact.role: {
-            'organization': contact.organization,
-            'url': contact.onlineresource.url,
-            'individualname': contact.name,
-            'positionname': contact.position,
-            'phone': contact.phone,
-            'fax': contact.fax,
-            'address': contact.address,
-            'city': contact.city,
-            'administrativearea': contact.region,
-            'postalcode': contact.postcode,
-            'country': contact.country,
-            'email': contact.email
-        }
+    mcf_contact = {contact.role: {}}
+
+    cm_lookup = {
+        'organization': 'organization',
+        'individualname': 'name',
+        'positionname': 'position',
+        'phone': 'phone',
+        'fax': 'fax',
+        'address': 'address',
+        'city': 'city',
+        'administrativearea': 'region',
+        'postalcode': 'postcode',
+        'country': 'country',
+        'email': 'email'
     }
+
+    for key, value in cm_lookup.items():
+        if hasattr(contact, value):
+            mcf_contact[contact.role][key] = getattr(contact, value)
+
+    if hasattr(contact.onlineresource, 'url'):
+        mcf_contact[contact.role]['url'] = contact.onlineresource.url
 
     return mcf_contact
 
