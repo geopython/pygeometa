@@ -439,9 +439,9 @@ def import_(ctx, metadata_file, schema, output, verbosity):
         raise click.ClickException(err)
 
     if output is None:
-        click.echo(content)
+        click.echo(yaml.dump(content))
     else:
-        output.write(content)
+        output.write(yaml.dump(content, indent=4))
 
 
 @click.command()
