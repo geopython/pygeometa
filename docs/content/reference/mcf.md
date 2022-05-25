@@ -128,6 +128,7 @@ doi|Optional|Digital Object Identifier (DOI)|12345|ISO 19115:2003 Section B.3.2.
 language|Mandatory|language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'|eng; CAN|ISO 19115:2003 Section B.2.2.1
 charset|Mandatory|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
 title|Mandatory|name by which the cited resource is known|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
+edition|Optional|version of the cited resource|1.8.0|ISO 19115:2003 Section B.3.2.1
 abstract|Mandatory|brief narrative summary of the content of the resource(s)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6

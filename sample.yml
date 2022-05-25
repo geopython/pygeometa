@@ -24,6 +24,7 @@ identification:
     abstract:
         en: abstract in English
         fr: abstract in French
+    edition: 1.8.0
     dates:
         creation: 2011-11-11
         publication: 2000-09-01T00:00:00Z
