@@ -164,6 +164,9 @@
             </gmd:CI_Date>
           </gmd:date>
           {% endfor %}
+          {% if record['identification']['edition'] %}
+          {{ cs.get_freetext('edition', record['metadata']['language_alternate'], get_charstring(record['identification'].get('edition'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {% endif %}
           <gmd:citedResponsibleParty>
             {% set role = 'pointOfContact; contact' %}
             {% set role_codelist_value = 'RI_414' %}

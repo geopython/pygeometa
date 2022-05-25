@@ -113,6 +113,9 @@ properties:
             abstract:
                 $ref: '#/definitions/i18n_string'
                 description: brief narrative summary of the content of the resource(s)
+            edition:
+                $ref: '#/definitions/i18n_string'
+                description: version of the cited resource
             fees:
                 type: string
                 description: |-

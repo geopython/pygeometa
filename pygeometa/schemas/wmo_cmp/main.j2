@@ -144,6 +144,9 @@
             </gmd:CI_Date>
           </gmd:date>
           {% endfor %}
+          {% if record['identification']['edition'] %}
+          {{ cs.get_freetext('edition', record['metadata']['language_alternate'], get_charstring(record['identification'].get('edition'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
+          {% endif %}
           <gmd:identifier>
             <gmd:MD_Identifier>
               <gmd:code>
