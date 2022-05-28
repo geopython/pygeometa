@@ -159,6 +159,7 @@ python run_tests.py
 ## Releasing
 
 ```bash
+rm -fr build dist *.egg-info
 python setup.py sdist bdist_wheel --universal
 twine upload dist/*
 ```
