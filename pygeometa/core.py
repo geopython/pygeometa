@@ -387,7 +387,7 @@ def validate_mcf(instance_dict: dict) -> bool:
     :returns: `bool` of validation
     """
 
-    schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yml')
+    schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yaml')
 
     with open(schema_file) as fh2:
         schema_dict = yaml.load(fh2, Loader=yaml.FullLoader)
