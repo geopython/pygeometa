@@ -1,11 +1,11 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://raw.githubusercontent.com/geopython/pygeometa/master/pygeometa/config/wmo.yml
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/wmo-wigos.yaml
 title: pygeometa WMO WIGOS Metadata Standard configuration schema
 description: pygeometa WMO WIGOS Metadata Standard configuration schema
 
 
 allOf:
-    - $ref: './core.yml'
+    - $ref: './core.yaml'
 properties:
     facility:
         patternProperties:
@@ -58,9 +58,9 @@ properties:
                                     type: object
                                     properties:
                                         begin:
-                                            $ref: './core.yml#/definitions/date_or_datetime_string'
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
                                         end:
-                                            $ref: './core.yml#/definitions/date_or_datetime_string'
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
                                     required:
                                         - begin
                             required:
@@ -74,9 +74,9 @@ properties:
                                     type: object
                                     properties:
                                         begin:
-                                            $ref: './core.yml#/definitions/date_or_datetime_string'
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
                                         end:
-                                            $ref: './core.yml#/definitions/date_or_datetime_string'
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
                                     required:
                                         - begin
                                 location:
@@ -134,9 +134,9 @@ properties:
                                description: Specifies at least the begin date of the indicated reportingStatus.
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                                    - begin
                                 location:
@@ -153,9 +153,9 @@ properties:
                                description: Specifies at least the begin date of the indicated climate zone. If omitted, the dateEstablished of the facility will be assumed
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                                    - begin
                                 location:
@@ -175,9 +175,9 @@ properties:
                                description: Specifies at least the begin date of the indicated climate zone. If omitted, the dateEstablished of the facility will be assumed
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                                    - begin
                                 location:
@@ -195,9 +195,9 @@ properties:
                                description: Specifies at least the begin date of the indicated surface roughness. If omitted, the dateEstablished of the facility will be assumed
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                                    - begin
                                 location:
@@ -223,9 +223,9 @@ properties:
                                description: Specifies at least the begin date of the indicated surface roughness. If omitted, the dateEstablished of the facility will be assumed
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                                    - begin
                         required:
@@ -240,9 +240,9 @@ properties:
                                description: The time period over which the property is observed.
                                properties:
                                    begin:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                    end:
-                                       $ref: './core.yml#/definitions/date_or_datetime_string'
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
                                required:
                             url:
                                 type: string

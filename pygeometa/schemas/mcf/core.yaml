@@ -1,5 +1,5 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://raw.githubusercontent.com/geopython/pygeometa/master/pygeometa/config/pygeometa-mcf-0.x.yml
+$id: https://raw.githubusercontent.com/geopython/pygeometa/master/pygeometa/schemas/mcf/core.yaml
 title: pygeometa configuration schema
 description: pygeometa configuration schema
 

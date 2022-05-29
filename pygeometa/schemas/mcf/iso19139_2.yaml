@@ -1,5 +1,5 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://raw.githubusercontent.com/geopython/pygeometa/master/pygeometa/config/wmo.yml
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/iso19139_2.yaml
 title: pygeometa ISO 19139-2 configuration schema
 description: pygeometa ISO 19139-2 configuration schema
 
