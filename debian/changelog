@@ -1,3 +1,9 @@
+pygeometa (0.11.0) bionic; urgency=medium
+
+  * add link relation support to MCF model
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 7 Jun 2022 22:44:10 +0000
+
 pygeometa (0.10.0) bionic; urgency=medium
 
   * add ISO importer
