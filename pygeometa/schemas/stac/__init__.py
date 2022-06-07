@@ -124,7 +124,7 @@ class STACItemOutputSchema(BaseOutputSchema):
         for value in mcf['distribution'].values():
             title = get_charstring(value.get('title'), lang1, lang2)
             link = {
-                'rel': value['function'],
+                'rel': value.get('rel') or value.get('function'),
                 'title': title,
                 'href': value['url']
             }
