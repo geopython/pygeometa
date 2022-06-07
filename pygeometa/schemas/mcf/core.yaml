@@ -505,6 +505,9 @@ properties:
                     type:
                         type: string
                         description: connection protocol to be used. Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv
+                    rel:
+                        type: string
+                        description: the type or semantic of the relation.  The value should be an IANA link relation or a relation type specific to an established standard
                     name:
                         $ref: '#/definitions/i18n_string'
                         description: name of the online resource

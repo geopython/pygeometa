@@ -110,8 +110,9 @@ contact:
 
 distribution:
     waf:
-        url: https://dd.meteo.gc.ca
+        url: https://example.org/data
         type: WWW:LINK
+        rel: canonical
         name: my waf
         description:
             en: description in English
@@ -119,8 +120,9 @@ distribution:
         function: download
 
     wms:
-        url: https://dd.meteo.gc.ca
+        url: https://example.org/wms
         type: OGC:WMS
+        rel: service
         name:
             en: roads
             fr: routes
