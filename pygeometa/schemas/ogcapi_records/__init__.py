@@ -189,7 +189,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             name = get_charstring(value.get('name'), lang1, lang2)
 
-            reltype = value.get('links') or value.get('function')
+            reltype = value.get('rel') or value.get('function')
 
             link = {
                 'rel': reltype,

@@ -564,9 +564,15 @@
                   </gmd:textGroup>
                 </gmd:PT_FreeText>
               </gmd:description>
+              {% if v['function'] %}
               <gmd:function>
                 <gmd:CI_OnLineFunctionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeSpace="ISOTC211/19115" codeListValue="{{ v['function'] }}">{{ v['function'] }}</gmd:CI_OnLineFunctionCode>
               </gmd:function>
+              {% elif v['rel'] %}
+              <gmd:function>
+                <gmd:CI_OnLineFunctionCode codeList="https://www.iana.org/assignments/link-relations/link-relations.xml" codeSpace="rfc8288" codeListValue="{{ v['rel'] }}">{{ v['rel'] }}</gmd:CI_OnLineFunctionCode>
+              </gmd:function>
+              {% endif %}
             </gmd:CI_OnlineResource>
           </gmd:onLine>
         {% endfor %}
