@@ -92,8 +92,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         record = {
             'id': mcf['metadata']['identifier'],
+            'conformsTo': [
+                'http://www.opengis.net/spec/ogcapi-records-1/1.0/req/record-core',  # noqa
+            ],
             'type': 'Feature',
-            'bbox': [minx, miny, maxx, maxy],
             'geometry': {
                 'type': 'Polygon',
                 'coordinates': [[
@@ -106,7 +108,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             },
             'properties': {
                 'identifier': mcf['metadata']['identifier'],
-                'externalId': [{
+                'externalIds': [{
                     'scheme': 'default',
                     'value': mcf['metadata']['identifier']
                 }],
@@ -127,8 +129,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         }
 
         if 'temporal' in mcf['identification']['extents']:
-            begin = mcf['identification']['extents']['temporal'][0]['begin']
-            end = mcf['identification']['extents']['temporal'][0]['end']
+            begin = str(mcf['identification']['extents']['temporal'][0]['begin'])  # noqa
+            end = str(mcf['identification']['extents']['temporal'][0]['end'])
 
             if end == 'now':
                 end = None
@@ -143,9 +145,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['extent']['temporal'] = temporal
 
         if 'creation' in mcf['identification']['dates']:
-            record['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
+            record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
         if 'revision' in mcf['identification']['dates']:
-            record['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
+            record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 lang1, lang2)
