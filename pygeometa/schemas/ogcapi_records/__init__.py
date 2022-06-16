@@ -129,11 +129,15 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         }
 
         if 'temporal' in mcf['identification']['extents']:
-            begin = str(mcf['identification']['extents']['temporal'][0]['begin'])  # noqa
-            end = str(mcf['identification']['extents']['temporal'][0]['end'])
+            begin = mcf['identification']['extents']['temporal'][0]['begin']
+            end = mcf['identification']['extents']['temporal'][0]['end']
 
+            if begin is not None:
+                begin = str(begin)
             if end == 'now':
                 end = None
+            if end is not None:
+                end = str(end)
 
             temporal = {
                 'interval': [begin, end],
