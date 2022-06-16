@@ -1,3 +1,10 @@
+pygeometa (0.11.1) bionic; urgency=medium
+
+  * fix ISO gmd:function handling
+  * fix OARec generation based on latest specification updates
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Thu, 16 Jun 2022 13:56:28 +0000
+
 pygeometa (0.11.0) bionic; urgency=medium
 
   * add link relation support to MCF model
