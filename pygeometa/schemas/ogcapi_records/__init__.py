@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2021 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -47,7 +47,7 @@ import json
 import os
 from typing import Union
 
-from pygeometa.core import get_charstring
+from pygeometa.core import get_charstring, normalize_datestring
 from pygeometa.helpers import json_serial
 from pygeometa.schemas.base import BaseOutputSchema
 
@@ -153,6 +153,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         if 'revision' in mcf['identification']['dates']:
             record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
 
+        if 'publication' in mcf['identification']['dates']:
+            record['properties']['recordUpdated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
+
         rights = get_charstring(mcf['identification'].get('rights'),
                                 lang1, lang2)
 
@@ -189,26 +192,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['themes'].append(theme)
 
         for value in mcf['distribution'].values():
-            title = get_charstring(value.get('title'), lang1, lang2)
-
-            name = get_charstring(value.get('name'), lang1, lang2)
-
-            reltype = value.get('rel') or value.get('function')
-
-            link = {
-                'rel': reltype,
-                'href': value['url'],
-                'type': value['type']
-            }
-            if title != [None, None]:
-                link['title'] = name[0]
-            elif name != [None, None]:
-                link['title'] = name[0]
-
-            if all(x in value['url'] for x in ['{', '}']):
-                link['templated'] = True
-
-            record['links'].append(link)
+            record['links'].append(self.generate_link(value, lang1, lang2))
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)
@@ -286,3 +270,35 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             }
 
         return rp
+
+    def generate_link(self, distribution: dict, lang1, lang2) -> dict:
+        """
+        Generates OARec link object from MCF distribution object
+
+        :param distribution: `dict` of MCF distribution
+        :param lang1: primary language
+        :param lang2: alternate language
+
+        :returns: OARec link object
+        """
+
+        title = get_charstring(distribution.get('title'), lang1, lang2)
+
+        name = get_charstring(distribution.get('name'), lang1, lang2)
+
+        reltype = distribution.get('rel') or distribution.get('function')
+
+        link = {
+            'rel': reltype,
+            'href': distribution['url'],
+            'type': distribution['type']
+        }
+        if title != [None, None]:
+            link['title'] = name[0]
+        elif name != [None, None]:
+            link['title'] = name[0]
+
+        if all(x in distribution['url'] for x in ['{', '}']):
+            link['templated'] = True
+
+        return link

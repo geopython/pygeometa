@@ -159,6 +159,8 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
                 return f"{mo.group('start')}{mo.group('year')}{mo.group('end')}"  # noqa
     except (AttributeError, TypeError):
         raise RuntimeError(f'Invalid datestring: {datestring}')
+
+    print("DATESTRING", datestring)
     return datestring
 
 
