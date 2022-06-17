@@ -160,7 +160,6 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
     except (AttributeError, TypeError):
         raise RuntimeError(f'Invalid datestring: {datestring}')
 
-    print("DATESTRING", datestring)
     return datestring
 
 
