@@ -44,6 +44,7 @@
 # =================================================================
 
 import json
+import logging
 import os
 from typing import Union
 
@@ -51,6 +52,8 @@ from pygeometa.helpers import json_serial
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
+
+LOGGER = logging.getLogger(__name__)
 
 
 class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
@@ -79,10 +82,19 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
 
         record = super().write(mcf, stringify=False)
 
+        LOGGER.debug('Setting WCMP2 conformance')
         record['conformsTo'] = ['http://wis.wmo.int/spec/wcmp/2.0']
 
         if 'edition' in mcf['identification']:
             record['properties']['version'] = mcf['identification']['version']
+
+        LOGGER.debug('Setting WCMP2 distribution links')
+        record['links'] = []
+        for key, value in mcf['distribution'].items():
+            link = self.generate_link(value)
+            if 'wmo_topic' in value:
+                link['wmo:topic'] = value['wmo_topic']
+            record['links'].append(link)
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)

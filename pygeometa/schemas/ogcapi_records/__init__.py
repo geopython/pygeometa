@@ -44,6 +44,7 @@
 # =================================================================
 
 import json
+import logging
 import os
 from typing import Union
 
@@ -52,6 +53,8 @@ from pygeometa.helpers import json_serial
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
+
+LOGGER = logging.getLogger(__name__)
 
 
 class OGCAPIRecordOutputSchema(BaseOutputSchema):
@@ -78,18 +81,19 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         :returns: `dict` or `str` of MCF as an OARec record representation
         """
 
-        lang1 = mcf['metadata'].get('language')
-        lang2 = mcf['metadata'].get('language_alternate')
+        self.lang1 = mcf['metadata'].get('language')
+        self.lang2 = mcf['metadata'].get('language_alternate')
 
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
         title = get_charstring(mcf['identification'].get('title'),
-                               lang1, lang2)
+                               self.lang1, self.lang2)
 
         description = get_charstring(mcf['identification'].get('abstract'),
-                                     lang1, lang2)
+                                     self.lang1, self.lang2)
 
+        LOGGER.debug('Generating baseline record')
         record = {
             'id': mcf['metadata']['identifier'],
             'conformsTo': [
@@ -116,7 +120,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'description': description[0],
                 'themes': [],
                 'providers': [],
-                'language': lang1,
+                'language': self.lang1,
                 'type': mcf['metadata']['hierarchylevel'],
                 'extent': {
                     'spatial': {
@@ -128,6 +132,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'links': []
         }
 
+        LOGGER.debug('Checking for temporal')
         if 'temporal' in mcf['identification']['extents']:
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0]['end']
@@ -148,6 +153,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             record['properties']['extent']['temporal'] = temporal
 
+        LOGGER.debug('Checking for dates')
         if 'creation' in mcf['identification']['dates']:
             record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
         if 'revision' in mcf['identification']['dates']:
@@ -157,28 +163,33 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['recordUpdated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
 
         rights = get_charstring(mcf['identification'].get('rights'),
-                                lang1, lang2)
+                                self.lang1, self.lang2)
 
         record['properties']['rights'] = rights[0]
 
         formats = []
         for v in mcf['distribution'].values():
-            format_ = get_charstring(v.get('format'), lang1, lang2)
+            format_ = get_charstring(v.get('format'), self.lang1, self.lang2)
             if format_[0] is not None:
                 formats.append(format_)
 
+        LOGGER.debug('Checking for formats')
         if formats:
             record['properties']['formats'] = list(
                 set([f[0] for f in formats]))
 
+        LOGGER.debug('Checking for contacts')
         for key, value in mcf['contact'].items():
             record['properties']['providers'].append(
-                self.generate_responsible_party(value, lang1, lang2, key))
+                self.generate_responsible_party(value, self.lang1,
+                                                self.lang2, key))
 
+        LOGGER.debug('Checking for keywords')
         for value in mcf['identification']['keywords'].values():
             theme = {'concepts': []}
 
-            keywords = get_charstring(value.get('keywords'), lang1, lang2)
+            keywords = get_charstring(value.get('keywords'), self.lang1,
+                                      self.lang2)
 
             for kw in keywords[0]:
                 theme['concepts'].append(kw)
@@ -191,8 +202,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             record['properties']['themes'].append(theme)
 
+        LOGGER.debug('Checking for distribution')
         for value in mcf['distribution'].values():
-            record['links'].append(self.generate_link(value, lang1, lang2))
+            record['links'].append(self.generate_link(value))
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)
@@ -205,31 +217,38 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         generate responsibly party construct from MCF contact
 
         :param contact: dict of MCF contact
-        :param lang1: primary language
-        :param lang2: alternate language
+        :param self.lang1: primary language
+        :param self.lang2: alternate language
         :param role: role of contact
 
         :returns: MCF contact as a responsible party representation
         """
 
         organization_name = get_charstring(contact.get('organization'),
-                                           lang1, lang2)
+                                           self.lang1, self.lang2)
 
         position_name = get_charstring(contact.get('positionname'),
-                                       lang1, lang2)
+                                       self.lang1, self.lang2)
 
         hours_of_service = get_charstring(contact.get('hoursofservice'),
-                                          lang1, lang2)
+                                          self.lang1, self.lang2)
 
         contact_instructions = get_charstring(
-            contact.get('contactinstructions'), lang1, lang2)
+            contact.get('contactinstructions'), self.lang1, self.lang2)
 
-        address = get_charstring(contact.get('address'), lang1, lang2)
-        city = get_charstring(contact.get('city'), lang1, lang2)
+        address = get_charstring(contact.get('address'),
+                                 self.lang1, self.lang2)
+
+        city = get_charstring(contact.get('city'), self.lang1, self.lang2)
+
         administrative_area = get_charstring(contact.get('administrativearea'),
-                                             lang1, lang2)
-        postalcode = get_charstring(contact.get('postalcode'), lang1, lang2)
-        country = get_charstring(contact.get('country'), lang1, lang2)
+                                             self.lang1, self.lang2)
+
+        postalcode = get_charstring(contact.get('postalcode'),
+                                    self.lang1, self.lang2)
+
+        country = get_charstring(contact.get('country'),
+                                 self.lang1, self.lang2)
 
         rp = {
             'name': organization_name[0],
@@ -271,20 +290,19 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         return rp
 
-    def generate_link(self, distribution: dict, lang1, lang2) -> dict:
+    def generate_link(self, distribution: dict) -> dict:
         """
         Generates OARec link object from MCF distribution object
 
         :param distribution: `dict` of MCF distribution
-        :param lang1: primary language
-        :param lang2: alternate language
 
         :returns: OARec link object
         """
 
-        title = get_charstring(distribution.get('title'), lang1, lang2)
+        title = get_charstring(distribution.get('title'),
+                               self.lang1, self.lang2)
 
-        name = get_charstring(distribution.get('name'), lang1, lang2)
+        name = get_charstring(distribution.get('name'), self.lang1, self.lang2)
 
         reltype = distribution.get('rel') or distribution.get('function')
 
