@@ -18,14 +18,15 @@
   <gmd:hierarchyLevel>
     <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['metadata']['hierarchylevel'] }}">{{ record['metadata']['hierarchylevel'] }}</gmd:MD_ScopeCode>
   </gmd:hierarchyLevel>
-  {% if 'pointOfContact' in record['contact'] %}
-  {% set contact = record['contact']['pointOfContact'] %}
-  {% set role = 'pointOfContact; contact' %}
-  {% set role_codelist_value = 'RI_414' %}
+  {% for key, value in record['contact'].items() %}
+  {% if key not in ['distributor', 'pointOfContact'] %}
   <gmd:contact>
-  {% include "contact.j2" %}
+    {% set contact = value %}
+    {% set role = key %}
+    {% include "contact.j2" %}
   </gmd:contact>
   {% endif %}
+  {% endfor %}
   <gmd:dateStamp>
     {% set datestamp = record['metadata']['datestamp']|normalize_datestring %}
     {% if datestamp|length > 11 %}
@@ -178,6 +179,13 @@
       <gmd:status>
         <gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['status'] }}">{{ record['identification']['status'] }}</gmd:MD_ProgressCode>
       </gmd:status>
+      {% if 'pointOfContact' in record['contact'] %}
+      {% set contact = record['contact']['pointOfContact'] %}
+      {% set role = 'pointOfContact' %}
+      <gmd:pointOfContact>
+      {% include "contact.j2" %}
+      </gmd:pointOfContact>
+      {% endif %}
       <gmd:resourceMaintenance>
         <gmd:MD_MaintenanceInformation>
           <gmd:maintenanceAndUpdateFrequency>
