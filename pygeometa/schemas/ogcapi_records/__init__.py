@@ -112,22 +112,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             },
             'properties': {
                 'identifier': mcf['metadata']['identifier'],
-                'externalIds': [{
-                    'scheme': 'default',
-                    'value': mcf['metadata']['identifier']
-                }],
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
                 'providers': [],
                 'language': self.lang1,
                 'type': mcf['metadata']['hierarchylevel'],
-                'extent': {
-                    'spatial': {
-                        'bbox': [[minx, miny, maxx, maxy]],
-                        'crs': 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'  # noqa
-                    }
-                },
             },
             'links': []
         }
@@ -137,21 +127,22 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0]['end']
 
-            if begin is not None:
+            if begin in ['now', 'None']:
+                begin = '..'
+            else:
                 begin = str(begin)
-            if end == 'now':
-                end = None
-            if end is not None:
-                end = str(end)
 
-            temporal = {
-                'interval': [begin, end],
-                'trs': 'http://www.opengis.net/def/uom/ISO-8601/0/Gregorian'  # noqa
+            if end in ['now', 'None']:
+                end = '..'
+            else:
+                end = str(begin)
+
+            record['time'] = {
+                'interval': [begin, end]
             }
-            if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
-                temporal['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
-            record['properties']['extent']['temporal'] = temporal
+            if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
+                record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
         LOGGER.debug('Checking for dates')
         if 'creation' in mcf['identification']['dates']:
