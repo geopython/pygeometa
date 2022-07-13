@@ -127,15 +127,15 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0]['end']
 
-            if begin in ['now', 'None']:
-                begin = '..'
+            if begin in ['now', 'None', None]:
+                begin = None
             else:
                 begin = str(begin)
 
-            if end in ['now', 'None']:
-                end = '..'
+            if end in ['now', 'None', None]:
+                end = None
             else:
-                end = str(begin)
+                end = str(end)
 
             record['time'] = {
                 'interval': [begin, end]
