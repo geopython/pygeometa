@@ -139,6 +139,7 @@ class DCATOutputSchema(BaseOutputSchema):
                 "end": "dcat:endDate"
             },
             "@type": "dcat:Dataset",
+            "keywords": [],
             "keywords_en": [],
             "keywords_fr": [],
             "distribution": [],
@@ -174,7 +175,8 @@ class DCATOutputSchema(BaseOutputSchema):
                                 if (k5 != 'keywords_type'):
                                     for kw in v5:
                                         # assumes a key for language exists
-                                        dcat[k5].append(kw)
+                                        if k5 in dcat:
+                                            dcat[k5].append(kw)
                     elif (k in ['identifier']):
                         # mint a url from identifier if non exists on mcf
                         if (not mcf['metadata']['dataseturi']):
