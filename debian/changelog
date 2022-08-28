@@ -1,3 +1,14 @@
+pygeometa (0.12.0) bionic; urgency=medium
+
+  * fix OARec temporal extent date casting
+  * update OARec output to latest version of draft specification
+  * add support for WMO Core Metadata Profile 2 (WCMP2)
+  * fix ISO contact handling
+  * add temporal resolution support
+  * fix DCAT reference error
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sun, 28 Aug 2022 11:56:28 +0000
+
 pygeometa (0.11.1) bionic; urgency=medium
 
   * fix ISO gmd:function handling
