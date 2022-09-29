@@ -239,6 +239,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
         try:
             if isinstance(mcf_object, dict):
                 LOGGER.debug('mcf object is already a dict')
+                LOGGER.debug('Environment variables will NOT be interpreted')
                 dict_ = mcf_object
             elif 'metadata:' in mcf_object:
                 LOGGER.debug('mcf object is a string')
