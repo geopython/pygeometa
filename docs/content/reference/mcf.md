@@ -55,6 +55,16 @@ Notes about nesting MCFs:
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
+## Environment variables
+
+pygeometa supports environment variables, using the notation in the example MCF snippet below:
+
+```yaml
+metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    parentidentifier: ${COLLECTION_ID}
+```
+
 ## Multilingual support
 
 pygeometa supports default and alternate languages in ISO metadata.
