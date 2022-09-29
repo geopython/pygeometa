@@ -52,7 +52,7 @@ import logging
 import os
 import pkg_resources
 import re
-from typing import Union
+from typing import IO, Union
 from xml.dom import minidom
 
 import click
@@ -242,11 +242,11 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
                 dict_ = mcf_object
             elif 'metadata:' in mcf_object:
                 LOGGER.debug('mcf object is a string')
-                dict_ = yaml.load(mcf_object, Loader=yaml.FullLoader)
+                dict_ = yaml_load(mcf_object)
             else:
                 LOGGER.debug('mcf object is likely a filepath')
                 with io.open(mcf_object, encoding='utf-8') as fh:
-                    dict_ = yaml.load(fh, Loader=yaml.FullLoader)
+                    dict_ = yaml_load(fh)
         except yaml.scanner.ScannerError as err:
             msg = f'YAML parsing error: {err}'
             LOGGER.debug(msg)
@@ -391,7 +391,7 @@ def validate_mcf(instance_dict: dict) -> bool:
     schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yaml')
 
     with open(schema_file) as fh2:
-        schema_dict = yaml.load(fh2, Loader=yaml.FullLoader)
+        schema_dict = yaml_load(fh2)
 
         try:
             jsonschema_validate(instance_dict, schema_dict)
@@ -406,6 +406,55 @@ def get_abspath(mcf, filepath):
 
     abspath = os.path.dirname(os.path.realpath(mcf))
     return os.path.join(abspath, filepath)
+
+
+def get_typed_value(value) -> Union[float, int, str]:
+    """
+    Derive true type from data value
+    :param value: value
+    :returns: value as a native Python data type
+    """
+
+    try:
+        if '.' in value:  # float?
+            value2 = float(value)
+        elif len(value) > 1 and value.startswith('0'):
+            value2 = value
+        else:  # int?
+            value2 = int(value)
+    except ValueError:  # string (default)?
+        value2 = value
+
+    return value2
+
+
+def yaml_load(obj: Union[IO, str]) -> dict:
+    """
+    serializes a YAML files into a pyyaml object
+
+    :param obj: file handle or string
+
+    :returns: `dict` representation of YAML
+    """
+
+    # support environment variables in config
+    # https://stackoverflow.com/a/55301129
+    path_matcher = re.compile(r'.*\$\{([^}^{]+)\}.*')
+
+    def path_constructor(loader, node):
+        env_var = path_matcher.match(node.value).group(1)
+        if env_var not in os.environ:
+            msg = f'Undefined environment variable {env_var} in config'
+            raise EnvironmentError(msg)
+        return get_typed_value(os.path.expandvars(node.value))
+
+    class EnvVarLoader(yaml.SafeLoader):
+        pass
+
+    EnvVarLoader.add_implicit_resolver('!path', path_matcher, None)
+    EnvVarLoader.add_constructor('!path', path_constructor)
+
+    return yaml.load(obj, Loader=EnvVarLoader)
 
 
 class MCFReadError(Exception):
