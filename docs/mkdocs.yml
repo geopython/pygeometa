@@ -19,6 +19,7 @@ nav:
             - WMO Core Metadata Profile 2: reference/formats/wmo-wcmp2.md
             - WMO WIGOS Metadata Standard: reference/formats/wmo-wigos.md
 #        - Index: reference/index.md
+    - pygeoapi plugin: pygeoapi-plugin.md
 
 #theme: slate
 
