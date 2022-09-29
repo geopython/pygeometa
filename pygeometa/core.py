@@ -499,7 +499,6 @@ def import_(ctx, metadata_file, schema, output, verbosity):
 @click.pass_context
 @cli_options.ARGUMENT_MCF
 @cli_options.OPTION_OUTPUT
-@cli_options.OPTION_VERBOSITY
 @click.option('--schema',
               type=click.Choice(get_supported_schemas()),
               help='Metadata schema')
