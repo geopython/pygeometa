@@ -78,7 +78,6 @@
 # provide a developer-friendly interface to test and run requests
 #
 
-import json
 import logging
 
 from pygeometa.core import read_mcf, validate_mcf
