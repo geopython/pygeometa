@@ -115,7 +115,7 @@ PROCESS_METADATA_VALIDATE = {
         'type': 'text/html',
         'rel': 'about',
         'title': 'information',
-        'href': 'https://geopython.github.io/pygeometa',
+        'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
     'inputs': {
@@ -153,7 +153,7 @@ PROCESS_METADATA_GENERATE = {
         'type': 'text/html',
         'rel': 'about',
         'title': 'information',
-        'href': 'https://geopython.github.io/pygeometa',
+        'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
     'inputs': {
