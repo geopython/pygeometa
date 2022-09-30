@@ -45,6 +45,7 @@
 
 import json
 import os
+from typing import Union
 
 from pygeometa.helpers import json_serial
 from pygeometa.schemas.base import BaseOutputSchema
@@ -64,13 +65,15 @@ class DCATOutputSchema(BaseOutputSchema):
 
         super().__init__('dcat', 'json', THISDIR)
 
-    def write(self, mcf: dict) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
-        Write outputschema to JSON string buffer
+        Write MCF to DCAT
 
         :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
 
-        :returns: MCF as a dcat representation
+        :returns: `dict` or `str` of MCF as a DCAT representation
         """
 
         dcat = {
@@ -203,4 +206,7 @@ class DCATOutputSchema(BaseOutputSchema):
             else:
                 dcat[key] = value
 
-        return json.dumps(dcat, default=json_serial, indent=4)
+        if stringify:
+            return json.dumps(dcat, default=json_serial, indent=4)
+
+        return dcat
