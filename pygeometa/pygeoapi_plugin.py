@@ -268,6 +268,7 @@ class PygeometaMetadataGenerateProcessor(BaseProcessor):
             if schema_object.outputformat == 'json':
                 stringify = False
             else:
+                mimetype = 'application/xml'
                 stringify = True
 
             response = schema_object.write(instance, stringify=stringify)
@@ -275,12 +276,7 @@ class PygeometaMetadataGenerateProcessor(BaseProcessor):
         except Exception as err:
             response = f'Generation error: {err}'
 
-        outputs = {
-            'id': 'generate-report',
-            'value': response
-        }
-
-        return mimetype, outputs
+        return mimetype, response
 
     def __repr__(self):
         return '<PygeometaMetadataGenerateProcessor>'
