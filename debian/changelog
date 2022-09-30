@@ -1,3 +1,10 @@
+pygeometa (0.13.1) bionic; urgency=medium
+
+  * fix pygeoapi media type and payload for raw responses
+  * fix STAC and DCAT write() function signatures
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Fri, 30 Sep 2022 14:25:58 +0000
+
 pygeometa (0.13.0) bionic; urgency=medium
 
   * add environment variable support for MCFs
