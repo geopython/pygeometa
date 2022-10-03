@@ -80,6 +80,7 @@
 
 import logging
 
+from pygeometa import __version__
 from pygeometa.core import read_mcf, validate_mcf
 from pygeometa.schemas import get_supported_schemas, load_schema
 
@@ -102,7 +103,7 @@ INPUT_MCF = {
 }
 
 PROCESS_METADATA_VALIDATE = {
-    'version': '0.1.0',
+    'version': __version__,
     'id': 'pygeometa-metadata-validate',
     'title': {
         'en': 'pygeometa metadata control file (MCF) validation',
@@ -140,7 +141,7 @@ PROCESS_METADATA_VALIDATE = {
 
 
 PROCESS_METADATA_GENERATE = {
-    'version': '0.1.0',
+    'version': __version__,
     'id': 'pygeometa-metadata-generate',
     'title': {
         'en': 'pygeometa metadata generation',
