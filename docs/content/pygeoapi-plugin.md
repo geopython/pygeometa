@@ -3,7 +3,7 @@
 ## Overview
 
 pygeometa also provides a custom [pygeoapi](https://pygeoapi.io) processing plugin, providing
-metadata validation and generation via OGC API - Processes.
+pygeometa functionality via OGC API - Processes.
 
 ## Installation
 
@@ -11,9 +11,14 @@ To integrate this plugin in pygeoapi:
 
 - ensure pygeometa is installed into the pygeoapi deployment environment
 
-- add the two proceses to the pygeoapi configuration as follows:
+- add the processes to the pygeoapi configuration as follows:
 
 ```yaml
+pygeometa-metadata-import:
+    type: process
+    processor:
+        name: pygeometa.pygeoapi_plugin.PygeometaMetadataImportProcessor
+
 pygeometa-metadata-validate:
     type: process
     processor:
@@ -36,6 +41,7 @@ pygeoapi openapi generate $PYGEOAPI_CONFIG --output-file $PYGEOAPI_OPENAPI
 
 The resulting processes will be available at the following endpoints:
 
+* `/processes/pygeometa-metadata-import`
 * `/processes/pygeometa-metadata-validate`
 * `/processes/pygeometa-metadata-generate`
 
