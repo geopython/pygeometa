@@ -48,13 +48,18 @@
 # ----------------------
 #
 # This file is intended to be used as a pygeoapi process plugin which will
-# provide pygeometa validation and metadata generation via OGC API - Processes.
+# provide pygeometa functionality via OGC API - Processes.
 #
 # To integrate this plugin in pygeoapi:
 #
 # 1. ensure pygeometa is installed into the pygeoapi deployment environment
 #
-# 2. add the two proceses to the pygeoapi configuration as follows:
+# 2. add the processes to the pygeoapi configuration as follows:
+#
+# pygeometa-metadata-import:
+#     type: process
+#     processor:
+#         name: pygeometa.pygeoapi_plugin.PygeometaMetadataImportProcessor
 #
 # pygeometa-metadata-validate:
 #     type: process
@@ -69,6 +74,8 @@
 # 3. (re)start pygeoapi
 #
 # The resulting processes will be available at the following endpoints:
+#
+# /processes/pygeometa-metadata-import
 #
 # /processes/pygeometa-metadata-validate
 #
@@ -100,6 +107,60 @@ INPUT_MCF = {
     'maxOccurs': 1,
     'metadata': None,
     'keywords': ['metadata control file', 'mcf']
+}
+
+PROCESS_METADATA_IMPORT = {
+    'version': __version__,
+    'id': 'pygeometa-metadata-import',
+    'title': {
+        'en': 'pygeometa metadata import',
+    },
+    'description': {
+        'en': 'Import metadata into MCF'
+    },
+    'keywords': ['pygeometa', 'metadata', 'import'],
+    'links': [{
+        'type': 'text/html',
+        'rel': 'about',
+        'title': 'information',
+        'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
+        'hreflang': 'en-US'
+    }],
+    'inputs': {
+        'metadata': {
+            'title': 'Metadata',
+            'description': 'Metadata content',
+            'schema': {
+                'type': 'string',
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1,
+            'metadata': None,
+            'keywords': ['metadata', 'schema']
+        },
+        'schema': {
+            'title': 'Metadata schema',
+            'description': 'Output metadata schema',
+            'schema': {
+                'type': 'string',
+                'enum': list(get_supported_schemas())
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1,
+            'metadata': None,
+            'keywords': ['metadata', 'schema']
+        }
+    },
+    'outputs': {
+        'generation': {
+            'title': 'Generated MCF',
+            'description': 'Generated MCF',
+            'schema': {
+                'type': 'object',
+                'contentMediaType': 'application/json'
+            }
+        }
+    }
 }
 
 PROCESS_METADATA_VALIDATE = {
@@ -189,6 +250,55 @@ PROCESS_METADATA_GENERATE = {
         }
     }
 }
+
+
+class PygeometaMetadataImportProcessor(BaseProcessor):
+    """pygeometa metadata import example"""
+
+    def __init__(self, processor_def):
+        """
+        Initialize object
+
+        :param processor_def: provider definition
+
+        :returns: pygeometa.pygeoapi_plugin.PygeometaMetadataImportProcessor
+        """
+
+        super().__init__(processor_def, PROCESS_METADATA_IMPORT)
+
+    def execute(self, data):
+
+        response = None
+        mimetype = 'application/json'
+        metadata = data.get('metadata')
+        schema = data.get('schema')
+
+        if None in [metadata, schema]:
+            msg = 'Missing metadata or schema'
+            LOGGER.error(msg)
+            raise ProcessorExecuteError(msg)
+
+        try:
+            LOGGER.info(f'Importing metadata into {schema}')
+            schema_object = load_schema(schema)
+            response = schema_object.import_(metadata)
+        except NotImplementedError:
+            msg = f'Import not support for {schema}'
+            response = msg
+            raise ProcessorExecuteError(msg)
+        except Exception as err:
+            msg = f'Invalid metadata: {err}'
+            response = msg
+
+        outputs = {
+            'id': 'import-report',
+            'value': response
+        }
+
+        return mimetype, outputs
+
+    def __repr__(self):
+        return '<PygeometaMetadataImportProcessor>'
 
 
 class PygeometaMetadataValidateProcessor(BaseProcessor):
