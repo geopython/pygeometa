@@ -71,6 +71,12 @@
 #     processor:
 #         name: pygeometa.pygeoapi_plugin.PygeometaMetadataGenerateProcessor
 #
+# pygeometa-metadata-transform:
+#     type: process
+#     processor:
+#         name: pygeometa.pygeoapi_plugin.PygeometaMetadataTransformProcessor
+#
+#
 # 3. (re)start pygeoapi
 #
 # The resulting processes will be available at the following endpoints:
@@ -80,6 +86,8 @@
 # /processes/pygeometa-metadata-validate
 #
 # /processes/pygeometa-metadata-generate
+#
+# /processes/pygeometa-metadata-transform
 #
 # Note that pygeoapi's OpenAPI/Swagger interface (at /openapi) will also
 # provide a developer-friendly interface to test and run requests
@@ -109,6 +117,32 @@ INPUT_MCF = {
     'keywords': ['metadata control file', 'mcf']
 }
 
+INPUT_METADATA = {
+    'title': 'Metadata',
+    'description': 'Metadata record',
+    'schema': {
+        'type': 'string',
+    },
+    'minOccurs': 1,
+    'maxOccurs': 1,
+    'metadata': None,
+    'keywords': ['metadata', 'record']
+}
+
+INPUT_SCHEMA = {
+    'title': 'Metadata schema',
+    'description': 'Metadata schema',
+    'schema': {
+        'type': 'string',
+        'enum': list(get_supported_schemas())
+    },
+    'minOccurs': 1,
+    'maxOccurs': 1,
+    'metadata': None,
+    'keywords': ['metadata', 'schema']
+}
+
+
 PROCESS_METADATA_IMPORT = {
     'version': __version__,
     'id': 'pygeometa-metadata-import',
@@ -127,38 +161,23 @@ PROCESS_METADATA_IMPORT = {
         'hreflang': 'en-US'
     }],
     'inputs': {
-        'metadata': {
-            'title': 'Metadata',
-            'description': 'Metadata content',
-            'schema': {
-                'type': 'string',
-            },
-            'minOccurs': 1,
-            'maxOccurs': 1,
-            'metadata': None,
-            'keywords': ['metadata', 'schema']
-        },
-        'schema': {
-            'title': 'Metadata schema',
-            'description': 'Output metadata schema',
-            'schema': {
-                'type': 'string',
-                'enum': list(get_supported_schemas())
-            },
-            'minOccurs': 1,
-            'maxOccurs': 1,
-            'metadata': None,
-            'keywords': ['metadata', 'schema']
-        }
+        'metadata': INPUT_METADATA,
+        'schema': INPUT_SCHEMA
     },
     'outputs': {
-        'generation': {
+        'result': {
             'title': 'Generated MCF',
             'description': 'Generated MCF',
             'schema': {
                 'type': 'object',
                 'contentMediaType': 'application/json'
             }
+        }
+    },
+    'example': {
+        'inputs': {
+            'metadata': '<gmd:MD_Metadata>...</gmd:MD_Metadata>',
+            'schema': 'iso19139'
         }
     }
 }
@@ -184,7 +203,7 @@ PROCESS_METADATA_VALIDATE = {
         'mcf': INPUT_MCF
     },
     'outputs': {
-        'validate-report': {
+        'result': {
             'title': 'Validate report',
             'description': 'Validate report',
             'schema': {
@@ -220,21 +239,10 @@ PROCESS_METADATA_GENERATE = {
     }],
     'inputs': {
         'mcf': INPUT_MCF,
-        'schema': {
-            'title': 'Metadata schema',
-            'description': 'Output metadata schema',
-            'schema': {
-                'type': 'string',
-                'enum': list(get_supported_schemas())
-            },
-            'minOccurs': 1,
-            'maxOccurs': 1,
-            'metadata': None,
-            'keywords': ['metadata', 'schema']
-        }
+        'schema': INPUT_SCHEMA
     },
     'outputs': {
-        'generation': {
+        'result': {
             'title': 'Generated metadata',
             'description': 'Generated metadata',
             'schema': {
@@ -247,6 +255,48 @@ PROCESS_METADATA_GENERATE = {
         'inputs': {
             'mcf': {'mcf': {'version': '1.0'}},
             'schema': 'oarec-record'
+        }
+    }
+}
+
+
+PROCESS_METADATA_TRANSFORM = {
+    'version': __version__,
+    'id': 'pygeometa-metadata-transform',
+    'title': {
+        'en': 'pygeometa metadata transformation',
+    },
+    'description': {
+        'en': 'Transform metadata'
+    },
+    'keywords': ['pygeometa', 'metadata', 'transform'],
+    'links': [{
+        'type': 'text/html',
+        'rel': 'about',
+        'title': 'information',
+        'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
+        'hreflang': 'en-US'
+    }],
+    'inputs': {
+        'metadata': INPUT_METADATA,
+        'input-schema': INPUT_SCHEMA,
+        'output-schema': INPUT_SCHEMA
+    },
+    'outputs': {
+        'result': {
+            'title': 'Transformed metadata',
+            'description': 'Transformed metadata',
+            'schema': {
+                'type': 'object',
+                'contentMediaType': 'application/json'
+            }
+        }
+    },
+    'example': {
+        'inputs': {
+            'metadata': '<gmd:MD_Metadata>...</gmd:MD_Metadata>',
+            'input-schema': 'iso19139',
+            'output-schema': 'oarec-record'
         }
     }
 }
@@ -283,7 +333,7 @@ class PygeometaMetadataImportProcessor(BaseProcessor):
             schema_object = load_schema(schema)
             response = schema_object.import_(metadata)
         except NotImplementedError:
-            msg = f'Import not support for {schema}'
+            msg = f'Import not supported for {schema}'
             response = msg
             raise ProcessorExecuteError(msg)
         except Exception as err:
@@ -386,6 +436,59 @@ class PygeometaMetadataGenerateProcessor(BaseProcessor):
 
         except Exception as err:
             response = f'Generation error: {err}'
+
+        return mimetype, response
+
+    def __repr__(self):
+        return '<PygeometaMetadataGenerateProcessor>'
+
+
+class PygeometaMetadataTransformProcessor(BaseProcessor):
+    """pygeometa metadata transform example"""
+
+    def __init__(self, processor_def):
+        """
+        Initialize object
+
+        :param processor_def: provider definition
+
+        :returns: pygeometa.pygeoapi_plugin.PygeometaMetadataGenerateProcessor
+        """
+
+        super().__init__(processor_def, PROCESS_METADATA_TRANSFORM)
+
+    def execute(self, data):
+
+        content = None
+        response = None
+        mimetype = 'application/json'
+        metadata = data.get('metadata')
+        input_schema = data.get('input-schema')
+        output_schema = data.get('output-schema')
+
+        if None in [metadata, input_schema, output_schema]:
+            msg = 'Missing metadata or input-schema or output-schema'
+            LOGGER.error(msg)
+            raise ProcessorExecuteError(msg)
+
+        try:
+            LOGGER.info(f'Importing {metadata} into {input_schema}')
+            schema_object_input = load_schema(input_schema)
+            content = schema_object_input.import_(metadata)
+        except NotImplementedError:
+            msg = f'Import not supported for {input_schema}'
+            LOGGER.error(msg)
+            raise ProcessorExecuteError(msg)
+
+        schema_object_output = load_schema(output_schema)
+
+        if schema_object_output.outputformat == 'json':
+            stringify = False
+        else:
+            mimetype = 'application/xml'
+            stringify = True
+
+        response = schema_object_output.write(content, stringify=stringify)
 
         return mimetype, response
 

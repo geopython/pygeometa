@@ -485,9 +485,7 @@ def import_(ctx, metadata_file, schema, output, verbosity):
     try:
         content = schema_object.import_(metadata_file.read())
     except NotImplementedError:
-        raise click.ClickException(f'Import not support for {schema}')
-    except NotImplementedError as err:
-        raise click.ClickException(err)
+        raise click.ClickException(f'Import not supported for {schema}')
 
     if output is None:
         click.echo(yaml.dump(content))
@@ -562,7 +560,7 @@ def schemas(ctx, verbosity):
 @cli_options.ARGUMENT_MCF
 @cli_options.OPTION_VERBOSITY
 def validate(ctx, mcf, verbosity):
-    """Validate MCF Document"""
+    """validate MCF Document"""
 
     click.echo(f'Validating {mcf}')
 
@@ -570,3 +568,37 @@ def validate(ctx, mcf, verbosity):
     validate_mcf(instance)
 
     click.echo('Valid MCF document')
+
+
+@click.command()
+@click.pass_context
+@cli_options.ARGUMENT_METADATA_FILE
+@cli_options.OPTION_OUTPUT
+@cli_options.OPTION_VERBOSITY
+@click.option('--input-schema', required=True,
+              type=click.Choice(get_supported_schemas()),
+              help='Metadata schema of input file')
+@click.option('--output-schema', required=True,
+              type=click.Choice(get_supported_schemas()),
+              help='Metadata schema of input file')
+def transform(ctx, metadata_file, input_schema, output_schema, output,
+              verbosity):
+    """transform metadata"""
+
+    LOGGER.info(f'Importing {metadata_file} into {input_schema}')
+    schema_object_input = load_schema(input_schema)
+    content = None
+
+    try:
+        content = schema_object_input.import_(metadata_file.read())
+    except NotImplementedError:
+        raise click.ClickException(f'Import not supported for {input_schema}')
+
+    LOGGER.info(f'Processing into {output_schema}')
+    schema_object_output = load_schema(output_schema)
+    content = schema_object_output.write(content)
+
+    if output is None:
+        click.echo(content)
+    else:
+        output.write(content)

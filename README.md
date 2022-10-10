@@ -60,6 +60,12 @@ pygeometa metadata generate path/to/file.yml --schema_local=/path/to/my-schema -
 
 # validate your MCF
 pygeometa metadata validate path/to/file.yml
+
+# import a metadata document to MCF
+pygeometa metadata import path/to/file.xml --schema=iso19139
+
+# transform from one metadata representation to another
+pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-schema=oarec-record
 ```
 
 ### Supported schemas

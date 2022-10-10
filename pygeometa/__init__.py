@@ -46,7 +46,8 @@
 
 import click
 
-from pygeometa.core import generate, import_, info, schemas, validate
+from pygeometa.core import (generate, import_, info, schemas,
+                            transform, validate)
 
 __version__ = '0.13.1'
 
@@ -67,5 +68,6 @@ metadata.add_command(generate)
 metadata.add_command(import_)
 metadata.add_command(info)
 metadata.add_command(schemas)
+metadata.add_command(transform)
 metadata.add_command(validate)
 cli.add_command(metadata)

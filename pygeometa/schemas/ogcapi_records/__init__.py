@@ -125,7 +125,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         LOGGER.debug('Checking for temporal')
         if 'temporal' in mcf['identification']['extents']:
             begin = mcf['identification']['extents']['temporal'][0]['begin']
-            end = mcf['identification']['extents']['temporal'][0]['end']
+            end = mcf['identification']['extents']['temporal'][0].get('end')
 
             if begin in ['now', 'None', None]:
                 begin = None
