@@ -66,7 +66,6 @@ properties:
             - charset
             - hierarchylevel
             - datestamp
-            - dataseturi
     spatial:
         type: object
         properties:
@@ -293,8 +292,6 @@ properties:
                                 required:
                                     - name
         required:
-            - language
-            - charset
             - title
             - abstract
             - topiccategory
@@ -676,7 +673,7 @@ definitions:
             - boolean
     i18n_array:
         oneOf:
-            - type: string
+            - type: array
             - type: object
               patternProperties:  # e.g. keywords_en, keywords_fr
                   '.*_\w{2}$':
