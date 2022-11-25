@@ -377,8 +377,7 @@
       {% endif %}
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-        {% set formats = prune_transfer_option(record['distribution'], record['identification']['language']) %}
-        {% for v in formats %}
+        {% for v in record['distribution'].values() %}
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
