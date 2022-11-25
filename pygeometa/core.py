@@ -397,7 +397,7 @@ def validate_mcf(instance_dict: dict) -> bool:
         try:
             jsonschema_validate(instance_dict, schema_dict)
         except ValidationError as err:
-            raise MCFValidationError(err)
+            raise MCFValidationError(repr(err))
 
         return True
 
