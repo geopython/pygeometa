@@ -28,8 +28,8 @@ cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
 cd pygeometa
-python setup.py build
-python setup.py install
+python3 setup.py build
+python3 setup.py install
 ```
 
 ## Running
@@ -113,7 +113,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer
 requirements:
 
 ```bash
-pip install -r requirements-dev.txt
+pip3 install -r requirements-dev.txt
 ```
 
 ### Adding a Metadata Schema to the Core
@@ -156,10 +156,10 @@ vi pygeometa/schemas/foo/__init__.py
 
 ```bash
 # via setuptools
-python setup.py test
+python3 setup.py test
 # manually
 cd tests
-python run_tests.py
+python3 run_tests.py
 ```
 
 ## Releasing
@@ -175,7 +175,7 @@ git tag -a x.y.z -m 'tagging release x.y.z'
 # push tag
 git push --tags
 rm -fr build dist *.egg-info
-python setup.py sdist bdist_wheel --universal
+python3 setup.py sdist bdist_wheel --universal
 twine upload dist/*
 ```
 
