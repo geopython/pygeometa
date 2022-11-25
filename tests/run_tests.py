@@ -50,13 +50,14 @@ import json
 import os
 import unittest
 
+from jsonschema.protocols import Validator
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             get_charstring, normalize_datestring,
                             prune_distribution_formats,
                             prune_transfer_option, MCFReadError,
-                            MCFValidationError, validate_mcf)
+                            MCFValidationError, SCHEMAS, validate_mcf)
 from pygeometa.helpers import json_serial
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
@@ -359,6 +360,15 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
         self.assertEqual(iso_os.outputformat, 'xml',
                          'Expected specific output format')
+
+    def test_validate_mcf_schema(self):
+        """test MCF schema validation"""
+
+        schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yaml')
+
+        with open(schema_file) as fh:
+            schema = yaml.load(fh, Loader=yaml.SafeLoader)
+            Validator.check_schema(schema)
 
     def test_validate_mcf(self):
         """test MCF validation"""
