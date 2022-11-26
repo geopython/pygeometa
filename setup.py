@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,8 +44,7 @@
 #
 # =================================================================
 
-import io
-import os
+from pathlib import Path
 from setuptools import Command, find_packages, setup
 import re
 import sys
@@ -66,21 +65,26 @@ class PyTest(Command):
         raise SystemExit(errno)
 
 
-def read(filename, encoding='utf-8'):
+def read(filename) -> str:
     """read file contents"""
-    full_path = os.path.join(os.path.dirname(__file__), filename)
-    with io.open(full_path, encoding=encoding) as fh:
+
+    fullpath = Path(__file__).resolve().parent / filename
+
+    with fullpath.open() as fh:
         contents = fh.read().strip()
+
     return contents
 
 
 def get_package_version():
     """get version from top-level package init"""
+
     version_file = read('pygeometa/__init__.py')
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
                               version_file, re.M)
     if version_match:
         return version_match.group(1)
+
     raise RuntimeError("Unable to find version string.")
 
 
@@ -88,8 +92,10 @@ LONG_DESCRIPTION = read('README.md')
 
 DESCRIPTION = 'pygeometa is a Python package to generate metadata for geospatial datasets'  # noqa
 
-if os.path.exists('MANIFEST'):
-    os.unlink('MANIFEST')
+MANIFEST = Path('MANIFEST')
+
+if MANIFEST.exists():
+    MANIFEST.unlink()
 
 setup(
     name='pygeometa',

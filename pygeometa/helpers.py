@@ -47,11 +47,11 @@ import base64
 from datetime import date, datetime, time
 from decimal import Decimal
 import logging
-import os
+from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
 
-THISDIR = os.path.dirname(os.path.realpath(__file__))
+THISDIR = Path(__file__).resolve().parent
 
 
 def json_serial(obj):
