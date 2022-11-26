@@ -46,10 +46,10 @@
 
 from collections.abc import Mapping
 from datetime import date, datetime
-import io
 import json
 import logging
 import os
+import pathlib
 import pkg_resources
 import re
 from typing import IO, Union
@@ -68,7 +68,7 @@ from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
 
-SCHEMAS = f'{os.path.dirname(os.path.realpath(__file__))}{os.sep}schemas'
+SCHEMAS = pathlib.Path(__file__).resolve().parent / 'schemas'
 
 VERSION = pkg_resources.require('pygeometa')[0].version
 
@@ -241,12 +241,16 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
                 LOGGER.debug('mcf object is already a dict')
                 LOGGER.debug('Environment variables will NOT be interpreted')
                 dict_ = mcf_object
+            elif isinstance(mcf_object, pathlib.PurePath):
+                LOGGER.debug('mcf object is a pathlib.PurePath')
+                with mcf_object.open() as fh:
+                    dict_ = yaml_load(fh)
             elif 'metadata:' in mcf_object:
                 LOGGER.debug('mcf object is a string')
                 dict_ = yaml_load(mcf_object)
             else:
                 LOGGER.debug('mcf object is likely a filepath')
-                with io.open(mcf_object, encoding='utf-8') as fh:
+                with open(mcf_object, encoding='utf-8') as fh:
                     dict_ = yaml_load(fh)
         except yaml.scanner.ScannerError as err:
             msg = f'YAML parsing error: {err}'
@@ -389,9 +393,9 @@ def validate_mcf(instance_dict: dict) -> bool:
     :returns: `bool` of validation
     """
 
-    schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yaml')
+    schema_file = SCHEMAS / 'mcf' / 'core.yaml'
 
-    with open(schema_file) as fh2:
+    with schema_file.open() as fh2:
         schema_dict = yaml_load(fh2)
 
         try:
@@ -405,8 +409,9 @@ def validate_mcf(instance_dict: dict) -> bool:
 def get_abspath(mcf, filepath):
     """helper function absolute file access"""
 
-    abspath = os.path.dirname(os.path.realpath(mcf))
-    return os.path.join(abspath, filepath)
+    abspath = pathlib.Path(mcf).resolve().parent
+
+    return abspath / filepath
 
 
 def get_typed_value(value) -> Union[float, int, str]:
