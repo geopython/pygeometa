@@ -173,7 +173,7 @@ keywords_codelist|Optional|specific code list URL (for advanced use cases, else 
 
 ### `contact`
 
-MCFs can have 1..n `contact` sections as required using nesting.  Example:
+MCFs can have 1..n `contact` sections as required using nesting. Role is used as key for any contact, if multiple contacts have the same role, you can add each of them by postfixing the role with an underscore and a unique string, e.g. `author_1`, `author_2`. Example:
 
 ```yaml
 contact:
