@@ -97,11 +97,11 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
             record['links'].append(link)
 
         try:
-           record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']
+            record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
         except KeyError:
-           msg = 'Missing wmo:dataPolicy'
-           LOGGER.error(msg)
-           raise RuntimeError(msg)
+            msg = 'Missing wmo:dataPolicy'
+            LOGGER.error(msg)
+            raise RuntimeError(msg)
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)
