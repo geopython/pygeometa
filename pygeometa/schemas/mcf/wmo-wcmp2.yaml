@@ -1,0 +1,15 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/wmo-wcmp2.yaml
+title: pygeometa WMO Core Metadata Profile 2 configuration schema
+description: pygeometa WMO Core Metadata Profile 2 configuration schema
+
+
+allOf:
+    - $ref: './core.yaml#/properties/identification'
+properties:
+    wmo_data_policy:
+        type: string
+        description: Identifies the classification of the dataset exchange as described by WMO Unified Data Policy for the International Exchange of Earth System Data (Resolution 1 (Cg-Ext(2021) [32].
+        enum:
+            - core
+            - recommended
