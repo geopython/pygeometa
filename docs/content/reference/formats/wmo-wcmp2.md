@@ -5,13 +5,18 @@ enhancements in pygeometa.
 
 ## Sections
 
+### `identification`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+wmo_data_policy|Mandatory|WMO data policy as per Resolution 1 (Cg-Ext(2021) [28]|`core`|WMO Core Metadata Profile 2, clause 7
+
 ### `distribution`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-wmo_topic|Optional|WMO topic hierarchy|`data.core.observations-surface-land.mw.FWCL.landFixed`|WMO Core Metadata Profile, clause 7
+wmo_topic|Optional|WMO topic hierarchy for MQTT links|`mwi.mwi_met_centre.data.core.weather.surface-based-observations.synop`|WMO Core Metadata Profile 2, clause 7
 
-TODO
 
 ## Validation
 
