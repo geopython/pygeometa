@@ -412,7 +412,7 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(expected_bbox, result_bbox,
                              'Expected specific BBOX')
 
-        with open(get_abspath('urn:x-wmo:md:int.wmo.wis::ISMD01EDZW.xml')) as fh:  # noqa
+        with open(get_abspath('x-wmo-md-int.wmo.wis.ISMD01EDZW.xml')) as fh:  # noqa
             mcf = schema.import_(fh.read())
 
             self.assertEqual(
