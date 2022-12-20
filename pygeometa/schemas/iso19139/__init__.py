@@ -84,6 +84,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
                 'version': '1.0',
             },
             'metadata': {},
+            'spatial': {},
             'identification': {},
             'contact': {},
             'distribution': {}
@@ -162,7 +163,23 @@ class ISO19139OutputSchema(BaseOutputSchema):
         if identification.temporalextent_end:
             temp_extent['end'] = identification.temporalextent_end
 
+
         mcf['identification']['extents']['temporal'].append(temp_extent)
+
+        if m.identification.denominators:
+            mcf['spatial']['denominators'] = m.identification.denominators
+
+        if m.identification.distance:
+            mcf['spatial']['resolution'] = []
+            for k, v in enumerate(m.identification.distance):
+                uom = ''
+                if m.identification.uom and len(m.identification.uom) > k:
+                    uom = m.identification.uom[k]
+                mcf['spatial']['resolution'].append({'distance': v,
+                                                     'uom': uom})
+
+        if m.identification.accessconstraints:
+            mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
 
         if identification.accessconstraints:
             mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
