@@ -178,6 +178,9 @@ class ISO19139OutputSchema(BaseOutputSchema):
                 mcf['spatial']['resolution'].append({'distance': v,
                                                      'uom': uom})
 
+        if m.identification.spatialrepresentationtype and len(m.identification.spatialrepresentationtype) > 0:  # noqa
+            mcf['spatial']['datatype'] = m.identification.spatialrepresentationtype[0] # noqa
+
         if m.identification.accessconstraints:
             mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
 
