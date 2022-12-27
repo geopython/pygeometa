@@ -138,6 +138,9 @@ class ISO19139OutputSchema(BaseOutputSchema):
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
+        if m.identification.uselimitation:
+            mcf['identification']['uselimitation'] = m.identification.uselimitation
+
         if m.identification.accessconstraints:
             mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
 
