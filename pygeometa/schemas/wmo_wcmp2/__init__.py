@@ -88,12 +88,14 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         if 'edition' in mcf['identification']:
             record['properties']['version'] = mcf['identification']['version']
 
+        LOGGER.debug('Setting WMO Topic Hierarchy')
+        record['properties']['wmo:topicHierarchy'] = mcf['identification']['wmo_topic_hierarchy']  # noqa
+
         LOGGER.debug('Setting WCMP2 distribution links')
         record['links'] = []
         for key, value in mcf['distribution'].items():
             link = self.generate_link(value)
-            if 'wmo_topic' in value:
-                link['wmo:topic'] = value['wmo_topic']
+
             record['links'].append(link)
 
         try:

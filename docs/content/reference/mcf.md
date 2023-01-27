@@ -412,6 +412,7 @@ description|Mandatory|detailed text description of what the online resources is/
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
 format|Optional|Format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
+channel|Optional|channel/topic/exchange when link is a Pub/Sub endpoint|my/cool/topic|OGC API - Pub/Sub
 
 
 

@@ -523,9 +523,12 @@ properties:
                     format:
                         $ref: '#/definitions/i18n_string'
                         description: Format of the distribution method
-                    format:
+                    format_version:
                         $ref: '#/definitions/i18n_string'
                         description: Format version of the distribution method
+                    channel:
+                        type: string
+                        description: channel/topic/exchange when link is a Pub/Sub endpoint
                 required:
                     - url
                     - type

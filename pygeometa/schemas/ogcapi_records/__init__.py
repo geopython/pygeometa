@@ -310,4 +310,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         if all(x in distribution['url'] for x in ['{', '}']):
             link['templated'] = True
 
+        if 'channel' in distribution:
+            link['channel'] = distribution['channel']
+
         return link
