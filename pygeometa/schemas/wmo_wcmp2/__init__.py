@@ -88,8 +88,11 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         if 'edition' in mcf['identification']:
             record['properties']['version'] = mcf['identification']['version']
 
-        LOGGER.debug('Setting WMO Topic Hierarchy')
-        record['properties']['wmo:topicHierarchy'] = mcf['identification']['wmo_topic_hierarchy']  # noqa
+        try:
+            LOGGER.debug('Setting WMO Topic Hierarchy')
+            record['properties']['wmo:topicHierarchy'] = mcf['identification']['wmo_topic_hierarchy']  # noqa
+        except KeyError:
+            LOGGER.warning('WMO Topic Hierarchy missing from MCF')
 
         LOGGER.debug('Setting WCMP2 distribution links')
         record['links'] = []
