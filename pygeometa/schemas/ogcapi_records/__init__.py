@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2023 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -123,7 +123,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         }
 
         LOGGER.debug('Checking for temporal')
-        if 'temporal' in mcf['identification']['extents']:
+        if all(['temporal' in mcf['identification']['extents'],
+                mcf['identification']['extents']['temporal'] != [{}]]):
+
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0].get('end')
 
@@ -145,13 +147,14 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
         LOGGER.debug('Checking for dates')
-        if 'creation' in mcf['identification']['dates']:
-            record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
-        if 'revision' in mcf['identification']['dates']:
-            record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
+        if 'dates' in mcf['identification']:
+            if 'creation' in mcf['identification']['dates']:
+                record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
+            if 'revision' in mcf['identification']['dates']:
+                record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
 
-        if 'publication' in mcf['identification']['dates']:
-            record['properties']['recordUpdated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
+            if 'publication' in mcf['identification']['dates']:
+                record['properties']['updated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)

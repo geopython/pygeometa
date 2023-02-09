@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2023 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,6 +43,7 @@
 #
 # =================================================================
 
+from datetime import datetime
 import json
 import logging
 import os
@@ -104,9 +105,10 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         try:
             record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
         except KeyError:
-            msg = 'Missing wmo:dataPolicy'
-            LOGGER.error(msg)
-            raise RuntimeError(msg)
+            LOGGER.warning('Missing wmo:dataPolicy')
+
+        if 'dates' not in record['properties']:
+            record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
 
         if stringify:
             return json.dumps(record, default=json_serial, indent=4)
