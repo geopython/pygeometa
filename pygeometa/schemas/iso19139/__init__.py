@@ -99,58 +99,62 @@ class ISO19139OutputSchema(BaseOutputSchema):
         mcf['metadata']['hierarchylevel'] = m.hierarchy
         mcf['metadata']['datestamp'] = m.datestamp
 
-        LOGGER.debug('Setting identification')
-        mcf['identification']['title'] = m.identification.title
-        mcf['identification']['abstract'] = m.identification.abstract
+        LOGGER.debug('Setting language')
+        if m.language:
+            mcf['metadata']['language'] = m.language
+        elif m.languagecode:
+            mcf['metadata']['language'] = m.languagecode
 
-        if m.identification.date:
+        identification = m.identificationinfo[0]
+
+        LOGGER.debug('Setting identification')
+        mcf['identification']['title'] = identification.title
+        mcf['identification']['abstract'] = identification.abstract
+
+        if identification.date:
             mcf['identification']['dates'] = {}
-            for date_ in m.identification.date:
+            for date_ in identification.date:
                 mcf['identification']['dates'][date_.type] = date_.date
 
-        if m.identification.keywords2:
+        if identification.keywords:
             mcf['identification']['keywords'] = {}
-            for count, value in enumerate(m.identification.keywords2):
+            for count, value in enumerate(identification.keywords):
                 key = f'keywords-{count}'
                 mcf['identification']['keywords'][key] = {
                     'type': value.type,
-                    'keywords': value.keywords
+                    'keywords': [k.name for k in value.keywords]
                 }
-        mcf['identification']['topiccategory'] = m.identification.topiccategory  # noqa
+        mcf['identification']['topiccategory'] = identification.topiccategory  # noqa
 
         mcf['identification']['extents'] = {
             'spatial': [{
                 'bbox': [
-                    ast.literal_eval(m.identification.extent.boundingBox.minx),
-                    ast.literal_eval(m.identification.extent.boundingBox.miny),
-                    ast.literal_eval(m.identification.extent.boundingBox.maxx),
-                    ast.literal_eval(m.identification.extent.boundingBox.maxy)
+                    ast.literal_eval(identification.extent.boundingBox.minx),
+                    ast.literal_eval(identification.extent.boundingBox.miny),
+                    ast.literal_eval(identification.extent.boundingBox.maxx),
+                    ast.literal_eval(identification.extent.boundingBox.maxy)
                 ]
             }],
             'temporal': []
         }
 
         temp_extent = {}
-        if m.identification.temporalextent_start:
-            temp_extent['begin'] = m.identification.temporalextent_start
-        if m.identification.temporalextent_end:
-            temp_extent['end'] = m.identification.temporalextent_end
+        if identification.temporalextent_start:
+            temp_extent['begin'] = identification.temporalextent_start
+        if identification.temporalextent_end:
+            temp_extent['end'] = identification.temporalextent_end
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
-        if m.identification.accessconstraints:
-            mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
+        if identification.accessconstraints:
+            mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
 
-        mcf['identification']['status'] = m.identification.status
+        mcf['identification']['status'] = identification.status
 
-        LOGGER.debug('Setting contact')
-        if m.contact:
-            for c in m.contact:
-                mcf['contact'].update(get_contact(c))
-
-        if m.distribution.distributor:
-            for d in m.distribution.distributor:
-                mcf['contact'].update(get_contact(d.contact))
+        LOGGER.debug('Setting contacts')
+#        for contact in m.get_all_contacts():
+#            mcf['contact'].update(get_contact(contact))
+        mcf['contact'].update(get_contact(m.contact[0]))
 
         LOGGER.debug('Setting distribution')
         if m.distribution:
@@ -173,8 +177,8 @@ def get_contact(contact: CI_ResponsibleParty) -> dict:
     mcf_contact = {contact.role: {}}
 
     cm_lookup = {
+        'name': 'name',
         'organization': 'organization',
-        'individualname': 'name',
         'positionname': 'position',
         'phone': 'phone',
         'fax': 'fax',
@@ -187,7 +191,7 @@ def get_contact(contact: CI_ResponsibleParty) -> dict:
     }
 
     for key, value in cm_lookup.items():
-        if hasattr(contact, value):
+        if getattr(contact, value) is not None:
             mcf_contact[contact.role][key] = getattr(contact, value)
 
     if hasattr(contact.onlineresource, 'url'):
