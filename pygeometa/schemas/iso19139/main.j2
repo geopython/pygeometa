@@ -239,6 +239,11 @@
       {% endfor %}
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
+          {% if record['identification']['uselimitation'] %}
+          <gmd:useLimitation>
+            <gco:CharacterString>{{ record['identification']['uselimitation'] }}</gco:CharacterString>
+          </gmd:useLimitation>
+          {% endif %}
           <gmd:accessConstraints>
             <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['accessconstraints'] }}">{{ record['identification']['accessconstraints'] }}</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
