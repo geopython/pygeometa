@@ -244,16 +244,20 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         country = get_charstring(contact.get('country'),
                                  self.lang1, self.lang2)
 
-        rp = {
-            'name': organization_name[0],
-            'individual': contact['individualname'],
+        rp = {}
+
+        if organization_name[0] == contact.get('organization'):
+            LOGGER.debug('Contact name is organization')
+            rp['name'] = organization_name[0]
+
+        rp.update({
             'positionName': position_name[0],
             'contactInfo': {
                 'phone': {
-                    'office': contact['phone']
+                    'office': contact.get('phone')
                 },
                 'email': {
-                    'office': contact['fax']
+                    'office': contact.get('email')
                 },
                 'address': {
                     'office': {
@@ -262,10 +266,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                         'administrativeArea': administrative_area[0],
                         'postalCode': postalcode[0],
                         'country': country[0]
-                    },
-                    'onlineResource': {
-                        'href': contact['url']
-                    },
+                    }
                 },
                 'hoursOfService': hours_of_service[0],
                 'contactInstructions': contact_instructions[0]
@@ -273,7 +274,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'roles': [{
                 'name': role
             }]
-        }
+        })
 
         if 'url' in contact:
             rp['contactInfo']['url'] = {
