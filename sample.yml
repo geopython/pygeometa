@@ -58,6 +58,9 @@ identification:
               resolution: P1Y
     fees: None
     accessconstraints: otherRestrictions
+    license:
+        name: CC BY 4.0
+        url: https://creativecommons.org/licenses/by/4.0
     rights:
         en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
         fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada

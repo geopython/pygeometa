@@ -196,6 +196,23 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             record['properties']['themes'].append(theme)
 
+        LOGGER.debug('Checking for licensing')
+        if mcf['identification'].get('license') is not None:
+            license = mcf['identification']['license']
+
+            if 'url' in license:
+                LOGGER.debug('Encoding license as link')
+                license_link = {
+                    'rel': 'license',
+                    'type': 'text/html',
+                    'title': license.get('name', 'license for this resource'),
+                    'url': license['url']
+                }
+                record['links'].append(self.generate_link(license_link))
+            else:
+                LOGGER.debug('Encoding license as property')
+                record['properties']['license'] = license['name']
+
         LOGGER.debug('Checking for distribution')
         for value in mcf['distribution'].values():
             record['links'].append(self.generate_link(value))
@@ -307,7 +324,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'type': distribution['type']
         }
         if title != [None, None]:
-            link['title'] = name[0]
+            link['title'] = title[0]
         elif name != [None, None]:
             link['title'] = name[0]
 
