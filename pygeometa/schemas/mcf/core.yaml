@@ -165,6 +165,20 @@ properties:
             rights:
                 $ref: '#/definitions/i18n_string'
                 description: name by which the cited resource is known
+            license:
+                type: object
+                properties:
+                    name:
+                        $ref: '#/definitions/i18n_string'
+                        description: license applied to resource
+                    url:
+                        $ref: '#/definitions/i18n_string'
+                        description: URL with more information about license
+                anyOf:
+                  - required:
+                      - name
+                  - required:
+                      - url
             url:
                 $ref: '#/definitions/i18n_string'
                 description: URL of the dataset to which the metadata applies

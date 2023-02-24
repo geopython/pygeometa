@@ -151,7 +151,7 @@ browsegraphic|Optional|graphic that provides an illustration of the dataset|http
 
 #### `identification.dates`
 
-MCF `identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
+`identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -169,7 +169,7 @@ identification:
 
 #### `identification.extents`
 
-MCF `identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
+`identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -194,7 +194,7 @@ identification:
 
 #### `identification.keywords`
 
-MCF `identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
+`identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
 
 ```yaml
 identification:
@@ -235,12 +235,21 @@ keywords_codelist|Optional|specific code list URL (for advanced use cases, else 
 
 ##### `identification.keywords.vocabulary`
 
-MCF `keyword` sections can specify an optional `vocabulary` section with the following elements:
+`identification.keywords` sections can specify an optional `vocabulary` section with the following elements:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 name|Mandatory|name of the source of keywords (English)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
 url|Optional|URL of source of keywords|https://example.org/my-vocab|-
+
+##### `identification.license`
+
+`identification.license` sections can provide a optinoal license via a name or URL using the following elements:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|name of license|CC BY 4.0|-
+url|Optional|URL of license|https://creativecommons.org/licenses/by/4.0|-
 
 ### `content_info`
 
