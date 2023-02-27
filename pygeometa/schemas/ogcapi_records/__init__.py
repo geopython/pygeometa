@@ -186,7 +186,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                                       self.lang2)
 
             for kw in keywords[0]:
-                theme['concepts'].append(kw)
+                theme['concepts'].append({'id': kw})
 
             if 'vocabulary' in value:
                 if 'url' in value['vocabulary']:
