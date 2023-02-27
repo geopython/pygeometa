@@ -103,7 +103,9 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
             record['links'].append(link)
 
         try:
-            record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
+            record['properties']['wmo:dataPolicy'] = {
+                'name': mcf['identification']['wmo_data_policy']
+            }
         except KeyError:
             LOGGER.warning('Missing wmo:dataPolicy')
 
