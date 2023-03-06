@@ -326,6 +326,15 @@
               </gmd:northBoundLatitude>
             </gmd:EX_GeographicBoundingBox>
             {% endif %}
+            {% if spatial['description'] %}
+            <gmd:EX_GeographicDescription>
+              <gmd:MD_Identifier>
+                <gmd:code>
+                  <gco:CharacterString>{{ spatial['description'] }}</gco:CharacterString>
+                </gmd:code>
+              </gmd:MD_Identifier>
+            </gmd:EX_GeographicDescription>
+            {% endif %}
           </gmd:geographicElement>
           {% endfor %}
           <gmd:temporalElement>
