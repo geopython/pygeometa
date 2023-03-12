@@ -77,6 +77,7 @@ Schemas supported by pygeometa:
 * SpatioTemporal Asset Catalog [(STAC)](https://stacspec.org)
 * iso19139-2, [reference](https://www.iso.org/standard/67039.html)
 * [wmo-cmp](doc/content/reference/formats/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf)
+* [wmo-wcmp2](doc/content/reference/formats/wmo-wcmp2.md), [reference](https://wmo-im.github.io/wcmp2)
 * [wmo-wigos](doc/content/reference/formats/wmo-wigos.md), [reference](https://library.wmo.int/opac/doc_num.php?explnum_id=3653)
 * Local schema, specified with ```--schema_local=/path/to/my-schema```
 
