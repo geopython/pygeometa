@@ -115,7 +115,6 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
-                'providers': [],
                 'language': self.lang1,
                 'type': mcf['metadata']['hierarchylevel'],
             },
@@ -173,10 +172,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 set([f[0] for f in formats]))
 
         LOGGER.debug('Checking for contacts')
-        for key, value in mcf['contact'].items():
-            record['properties']['providers'].append(
-                self.generate_responsible_party(value, self.lang1,
-                                                self.lang2, key))
+        record['properties']['providers'] = self.generate_providers(
+            mcf['contact'])
 
         LOGGER.debug('Checking for keywords')
         for value in mcf['identification']['keywords'].values():
@@ -222,17 +219,17 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         return record
 
-    def generate_responsible_party(self, contact: dict,
-                                   lang1: str, lang2: str, role: str) -> dict:
+    def generate_party(self, contact: dict,
+                       lang1: str, lang2: str, roles: list) -> dict:
         """
-        generate responsibly party construct from MCF contact
+        generate party construct from MCF contact
 
         :param contact: dict of MCF contact
         :param self.lang1: primary language
         :param self.lang2: alternate language
-        :param role: role of contact
+        :param roles: roles of contact
 
-        :returns: MCF contact as a responsible party representation
+        :returns: MCF contact as a party representation
         """
 
         organization_name = get_charstring(contact.get('organization'),
@@ -288,10 +285,13 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'hoursOfService': hours_of_service[0],
                 'contactInstructions': contact_instructions[0]
             },
-            'roles': [{
-                'name': role
-            }]
+            'roles': []
         })
+
+        for r in set(roles):
+            rp['roles'].append({
+                'name': r
+            })
 
         if 'url' in contact:
             rp['contactInfo']['url'] = {
@@ -301,6 +301,44 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             }
 
         return rp
+
+    def generate_providers(self, contact: dict) -> list:
+        """
+        Generates 1..n contacts, streamlining identical
+        contacts with multiple roles
+
+        :param contact: `dict` of contacts
+
+        :returns: `list` of providers
+        """
+
+        contacts = []
+        providers = []
+
+        for key, value in contact.items():
+            if contacts:
+                for c in contacts:
+                    if value == c['contact']:
+                        LOGGER.debug('Found matching contact; adding role')
+                        c['roles'].append(key)
+                    else:
+                        LOGGER.debug('Adding contact')
+                        contacts.append({
+                            'contact': value,
+                            'roles': [key]
+                        })
+            else:
+                contacts.append({
+                    'contact': value,
+                    'roles': [key]
+                })
+
+        LOGGER.debug(f'Contacts: {contacts}')
+        for c in contacts:
+            providers.append(self.generate_party(c['contact'], self.lang1,
+                             self.lang2, c['roles']))
+
+        return providers
 
     def generate_link(self, distribution: dict) -> dict:
         """
