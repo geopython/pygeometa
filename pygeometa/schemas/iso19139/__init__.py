@@ -105,7 +105,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
         elif m.languagecode:
             mcf['metadata']['language'] = m.languagecode
 
-        identification = m.identificationinfo[0]
+        identification = m.identification[0]
 
         LOGGER.debug('Setting identification')
         mcf['identification']['title'] = identification.title
