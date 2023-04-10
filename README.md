@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/geopython/pygeometa/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/geopython/pygeometa/actions)
-[![Join the chat at https://gitter.im/geopython/pygeometa](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geopython/pygeometa)
+[![Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im](https://badges.gitter.im/Join%20Chat.svg)](https://matrix.to/#/#geopython_pygeometa:gitter.im)
 
 # pygeometa
 
@@ -168,8 +168,8 @@ python3 run_tests.py
 ```bash
 # update version
 vi pygeometa/__init__.py
-git commit -m 'update release version' pygeometa/__init__.py
 vi debian/changelog  # add changelog entry and summary of updates
+git commit -m 'update release version' pygeometa/__init__.py debian/changelog
 # push changes
 git push origin master
 git tag -a x.y.z -m 'tagging release x.y.z'
