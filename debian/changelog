@@ -1,3 +1,18 @@
+pygeometa (0.14.0) focal; urgency=medium
+
+  * add metadata transformation workflow (#186)
+  * MCF schema updates (#187)
+  * fix ISO based distribution model (#175)
+  * add WMO WCMP2 updates
+  * improve ISO contact parsing (#207)
+  * add identification.license to MCF (#205)
+  * update OARec themes/concepts model (#213)
+  * add support for spatial keywords to MCF (#202)
+  * streamline OARec contacts (@215)
+  * update ISO parsing based on OWSLib 0.29
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Mon, 10 Apr 2023 01:05:25 +0000
+
 pygeometa (0.13.1) bionic; urgency=medium
 
   * fix pygeoapi media type and payload for raw responses
