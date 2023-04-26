@@ -557,7 +557,11 @@ def info(ctx, mcf, verbosity):
 @cli_options.OPTION_VERBOSITY
 def schemas(ctx, verbosity):
     """list supported schemas"""
-    click.echo('\n'.join(get_supported_schemas()))
+    click.echo('Supported schemas')
+
+    for schema in get_supported_schemas(details=True):
+        s = f"{schema['schema']} (read: {schema['read']}, write: {schema['write']}): {schema['description']}"  # noqa
+        click.echo(s)
 
 
 @click.command()

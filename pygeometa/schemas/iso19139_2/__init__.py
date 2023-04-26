@@ -60,4 +60,5 @@ class ISO19139_2OutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('iso19139-2', 'xml', THISDIR)
+        description = 'ISO 19115-2/19139-2'
+        super().__init__('iso19139-2', description, 'xml', THISDIR)
