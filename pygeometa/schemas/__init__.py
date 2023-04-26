@@ -65,33 +65,47 @@ SCHEMAS = {
 }
 
 
-def get_supported_schemas() -> list:
+def get_supported_schemas(details: bool = False) -> list:
     """
     Get supported schemas
+
+    :param details: provide read/write details
 
     :returns: list of supported schemas
     """
 
+    def has_mode(plugin: BaseOutputSchema, mode: str) -> bool:
+        enabled = False
+
+        try:
+            _ = getattr(plugin, mode)('test')
+        except NotImplementedError:
+            pass
+        except Exception:
+            enabled = True
+
+        return enabled
+
+    schema_matrix = []
+
     LOGGER.debug('Generating list of supported schemas')
 
-    return SCHEMAS.keys()
+    if not details:
+        return SCHEMAS.keys()
 
-    dirs = os.listdir(THISDIR)
+    for key in SCHEMAS.keys():
+        schema = load_schema(key)
+        can_read = has_mode(schema, 'import_')
+        can_write = has_mode(schema, 'write')
 
-    LOGGER.debug(f'directory listing: {dirs}')
+        schema_matrix.append({
+            'schema': key,
+            'description': schema.description,
+            'read': can_read,
+            'write': can_write
+        })
 
-    dirs.remove('common')
-    dirs.remove('__init__.py')
-    dirs.remove('base.py')
-
-    try:
-        dirs.remove('__pycache__')
-    except ValueError:
-        pass
-
-    LOGGER.debug(f'schemas: {dirs}')
-
-    return dirs
+    return schema_matrix
 
 
 def load_schema(schema_name: str) -> BaseOutputSchema:

@@ -64,7 +64,9 @@ class STACItemOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('stac-item', 'json', THISDIR)
+        description = 'STAC Item'
+
+        super().__init__('stac-item', description, 'json', THISDIR)
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """

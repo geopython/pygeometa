@@ -56,6 +56,11 @@
 #
 # 2. add the processes to the pygeoapi configuration as follows:
 #
+# pygeometa-metadata-schemas:
+#     type: process
+#     processor:
+#         name: pygeometa.pygeoapi_plugin.PygeometaMetadataSchemasProcessor
+#
 # pygeometa-metadata-import:
 #     type: process
 #     processor:
@@ -80,6 +85,8 @@
 # 3. (re)start pygeoapi
 #
 # The resulting processes will be available at the following endpoints:
+#
+# /processes/pygeometa-metadata-schemas
 #
 # /processes/pygeometa-metadata-import
 #
@@ -143,6 +150,38 @@ INPUT_SCHEMA = {
 }
 
 
+PROCESS_METADATA_SCHEMAS = {
+    'version': __version__,
+    'id': 'pygeometa-metadata-schemas',
+    'title': {
+        'en': 'pygeometa metadata schemas',
+    },
+    'description': {
+        'en': 'List supported schemas'
+    },
+    'keywords': ['pygeometa', 'metadata', 'schemas'],
+    'links': [{
+        'type': 'text/html',
+        'rel': 'about',
+        'title': 'information',
+        'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
+        'hreflang': 'en-US'
+    }],
+    'inputs': {},
+    'outputs': {
+        'result': {
+            'title': 'List of supported schemas',
+            'description': 'List of supported schemas',
+            'schema': {
+                'type': 'object',
+                'contentMediaType': 'application/json'
+            }
+        }
+    },
+    'example': {
+        'inputs': {}
+    }
+}
 PROCESS_METADATA_IMPORT = {
     'version': __version__,
     'id': 'pygeometa-metadata-import',
@@ -300,6 +339,35 @@ PROCESS_METADATA_TRANSFORM = {
         }
     }
 }
+
+
+class PygeometaMetadataSchemasProcessor(BaseProcessor):
+    """pygeometa metadata schemas example"""
+
+    def __init__(self, processor_def):
+        """
+        Initialize object
+
+        :param processor_def: provider definition
+
+        :returns: pygeometa.pygeoapi_plugin.PygeometaMetadataSchemasProcessor
+        """
+
+        super().__init__(processor_def, PROCESS_METADATA_SCHEMAS)
+
+    def execute(self, data):
+
+        mimetype = 'application/json'
+
+        outputs = {
+            'id': 'schemas',
+            'value': get_supported_schemas(details=True)
+        }
+
+        return mimetype, outputs
+
+    def __repr__(self):
+        return '<PygeometaMetadataSchemasProcessor>'
 
 
 class PygeometaMetadataImportProcessor(BaseProcessor):

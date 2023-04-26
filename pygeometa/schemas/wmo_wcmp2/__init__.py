@@ -67,7 +67,11 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
+        description = 'WMO Core Metadata Profile 2 (WCMP2)'
+
         super().__init__()
+
+        self.description = description
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """

@@ -67,7 +67,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('oarec-record', 'json', THISDIR)
+        description = 'OGC API - Records - Part 1: Record Core'
+
+        super().__init__('oarec-record', description, 'json', THISDIR)
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """

@@ -54,18 +54,20 @@ TEMPLATES = os.path.dirname(os.path.realpath(__file__))
 class BaseOutputSchema:
     """generic OutputSchema ABC"""
 
-    def __init__(self, name: str = None, outputformat: str = None,
-                 template_dir: str = None):
+    def __init__(self, name: str = None, description: str = None,
+                 outputformat: str = None, template_dir: str = None):
         """
         Initialize object
 
         :param name: name of output schema
+        :param description: description of output schema
         :param outputformat: output format (XML, JSON)
 
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
         self.name = name
+        self.description = description
         self.outputformat = outputformat
         self.template_dir = template_dir
 

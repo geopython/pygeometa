@@ -63,7 +63,8 @@ class DCATOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('dcat', 'json', THISDIR)
+        description = 'DCAT'
+        super().__init__('dcat', description, 'json', THISDIR)
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
