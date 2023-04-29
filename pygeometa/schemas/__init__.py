@@ -99,7 +99,7 @@ def get_supported_schemas(details: bool = False) -> list:
         can_write = has_mode(schema, 'write')
 
         schema_matrix.append({
-            'schema': key,
+            'id': key,
             'description': schema.description,
             'read': can_read,
             'write': can_write

@@ -560,7 +560,7 @@ def schemas(ctx, verbosity):
     click.echo('Supported schemas')
 
     for schema in get_supported_schemas(details=True):
-        s = f"{schema['schema']} (read: {schema['read']}, write: {schema['write']}): {schema['description']}"  # noqa
+        s = f"{schema['id']} (read: {schema['read']}, write: {schema['write']}): {schema['description']}"  # noqa
         click.echo(s)
 
 
