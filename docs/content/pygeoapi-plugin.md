@@ -14,6 +14,12 @@ To integrate this plugin in pygeoapi:
 - add the processes to the pygeoapi configuration as follows:
 
 ```yaml
+
+pygeometa-metadata-schemas:
+    type: process
+    processor:
+        name: pygeometa.pygeoapi_plugin.PygeometaMetadataSchemasProcessor
+
 pygeometa-metadata-import:
     type: process
     processor:
