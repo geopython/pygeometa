@@ -123,9 +123,15 @@ class ISO19139OutputSchema(BaseOutputSchema):
             for count, value in enumerate(identification.keywords):
                 key = f'keywords-{count}'
                 mcf['identification']['keywords'][key] = {
-                    'type': value.type,
+                    'keywords_type': value.type,
                     'keywords': [k.name for k in value.keywords]
                 }
+                if value.thesaurus is not None:
+                    mcf['identification']['keywords'][key]['vocabulary'] = {
+                        'name': value.thesaurus['title'],
+                        'url': value.thesaurus['url']
+                    }
+
         mcf['identification']['topiccategory'] = identification.topiccategory  # noqa
 
         mcf['identification']['extents'] = {
