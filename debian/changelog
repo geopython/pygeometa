@@ -1,3 +1,10 @@
+pygeometa (0.15.0) focal; urgency=medium
+
+  * add support for detailed schema information
+  * add thesaurus handling to ISO import
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sat, 20 May 2023 11:27:33 +0000
+
 pygeometa (0.14.0) focal; urgency=medium
 
   * add metadata transformation workflow (#186)
