@@ -93,12 +93,6 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         if 'edition' in mcf['identification']:
             record['properties']['version'] = mcf['identification']['version']
 
-        try:
-            LOGGER.debug('Setting WMO Topic Hierarchy')
-            record['properties']['wmo:topicHierarchy'] = mcf['identification']['wmo_topic_hierarchy']  # noqa
-        except KeyError:
-            LOGGER.warning('WMO Topic Hierarchy missing from MCF')
-
         LOGGER.debug('Setting WCMP2 distribution links')
         record['links'] = []
         for key, value in mcf['distribution'].items():
@@ -106,10 +100,11 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
 
             record['links'].append(link)
 
-        try:
-            record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
-        except KeyError:
-            LOGGER.warning('Missing wmo:dataPolicy')
+        if mcf['metadata'].get('hierarchylevel') == 'dataset':
+            try:
+                record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
+            except KeyError:
+                LOGGER.warning('Missing wmo:dataPolicy')
 
         if 'dates' not in record['properties']:
             record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
