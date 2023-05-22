@@ -174,7 +174,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 set([f[0] for f in formats]))
 
         LOGGER.debug('Checking for contacts')
-        record['properties']['providers'] = self.generate_providers(
+        record['properties']['contacts'] = self.generate_contacts(
             mcf['contact'])
 
         LOGGER.debug('Checking for keywords')
@@ -268,25 +268,21 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         rp.update({
             'positionName': position_name[0],
-            'contactInfo': {
-                'phone': {
-                    'office': contact.get('phone')
-                },
-                'email': {
-                    'office': contact.get('email')
-                },
-                'address': {
-                    'office': {
-                        'deliveryPoint': address[0],
-                        'city': city[0],
-                        'administrativeArea': administrative_area[0],
-                        'postalCode': postalcode[0],
-                        'country': country[0]
-                    }
-                },
-                'hoursOfService': hours_of_service[0],
-                'contactInstructions': contact_instructions[0]
-            },
+            'phones': [{
+                'value': contact.get('phone')
+            }],
+            'emails': [{
+                'value': contact.get('email')
+            }],
+            'addresses': [{
+                'deliveryPoint': [address[0]],
+                'city': city[0],
+                'administrativeArea': administrative_area[0],
+                'postalCode': postalcode[0],
+                'country': country[0]
+            }],
+            'hoursOfService': hours_of_service[0],
+            'contactInstructions': contact_instructions[0],
             'roles': []
         })
 
@@ -296,26 +292,26 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             })
 
         if 'url' in contact:
-            rp['contactInfo']['url'] = {
+            rp['links'] = [{
                 'rel': 'canonical',
                 'type': 'text/html',
                 'href': contact['url']
-            }
+            }]
 
         return rp
 
-    def generate_providers(self, contact: dict) -> list:
+    def generate_contacts(self, contact: dict) -> list:
         """
         Generates 1..n contacts, streamlining identical
         contacts with multiple roles
 
         :param contact: `dict` of contacts
 
-        :returns: `list` of providers
+        :returns: `list` of contacts
         """
 
         contacts = []
-        providers = []
+        contacts2 = []
 
         for key, value in contact.items():
             if contacts:
@@ -337,10 +333,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         LOGGER.debug(f'Contacts: {contacts}')
         for c in contacts:
-            providers.append(self.generate_party(c['contact'], self.lang1,
+            contacts2.append(self.generate_party(c['contact'], self.lang1,
                              self.lang2, c['roles']))
 
-        return providers
+        return contacts2
 
     def generate_link(self, distribution: dict) -> dict:
         """
