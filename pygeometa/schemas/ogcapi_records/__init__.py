@@ -287,9 +287,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         })
 
         for r in set(roles):
-            rp['roles'].append({
-                'name': r
-            })
+            rp['roles'].append(r)
 
         if 'url' in contact:
             rp['links'] = [{
