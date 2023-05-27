@@ -146,7 +146,11 @@ class ISO19139OutputSchema(BaseOutputSchema):
             'temporal': []
         }
 
-        temp_extent = {}
+        temp_extent = {
+            'begin': None,
+            'end': None
+        }
+
         if identification.temporalextent_start:
             temp_extent['begin'] = identification.temporalextent_start
         if identification.temporalextent_end:

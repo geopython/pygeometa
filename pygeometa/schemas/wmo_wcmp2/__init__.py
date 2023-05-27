@@ -88,7 +88,7 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         record = super().write(mcf, stringify=False)
 
         LOGGER.debug('Setting WCMP2 conformance')
-        record['conformsTo'] = ['http://wis.wmo.int/spec/wcmp/2.0']
+        record['conformsTo'] = ['http://wis.wmo.int/spec/wcmp/2/conf/core']
 
         if 'edition' in mcf['identification']:
             record['properties']['version'] = mcf['identification']['version']
