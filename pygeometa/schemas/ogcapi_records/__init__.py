@@ -43,6 +43,7 @@
 #
 # =================================================================
 
+from datetime import datetime
 import json
 import logging
 import os
@@ -140,9 +141,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             else:
                 end = str(end)
 
-            record['time'] = {
-                'interval': [begin, end]
-            }
+            if [begin, end] == [None, None]:
+                record['time'] = None
+            else:
+                record['time'] = {
+                    'interval': [begin, end]
+                }
 
             if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
@@ -153,9 +157,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
             if 'revision' in mcf['identification']['dates']:
                 record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
-
             if 'publication' in mcf['identification']['dates']:
                 record['properties']['updated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
+
+        if record['properties'].get('created') is None:
+                record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)
@@ -260,31 +266,40 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         country = get_charstring(contact.get('country'),
                                  self.lang1, self.lang2)
 
-        rp = {}
+        rp = {
+            'addresses': [{}],
+            'roles': []
+        }
 
         if organization_name[0] == contact.get('organization'):
             LOGGER.debug('Contact name is organization')
             rp['name'] = organization_name[0]
 
-        rp.update({
-            'positionName': position_name[0],
-            'phones': [{
-                'value': contact.get('phone')
-            }],
-            'emails': [{
-                'value': contact.get('email')
-            }],
-            'addresses': [{
-                'deliveryPoint': [address[0]],
-                'city': city[0],
-                'administrativeArea': administrative_area[0],
-                'postalCode': postalcode[0],
-                'country': country[0]
-            }],
-            'hoursOfService': hours_of_service[0],
-            'contactInstructions': contact_instructions[0],
-            'roles': []
-        })
+        if position_name[0] is not None:
+            rp['positionName'] = position_name[0]
+        if hours_of_service[0] is not None:
+            rp['positionName'] = hours_of_service[0]
+        if contact_instructions[0] is not None:
+            rp['contactInstructions'] = contact_instructions[0]
+
+        if address[0] is not None:
+            rp['addresses'][0]['deliveryPoint'] = [address[0]]
+        if city[0] is not None:
+            rp['addresses'][0]['city'] = city[0]
+        if administrative_area[0] is not None:
+            rp['addresses'][0]['administrativeArea'] = administrative_area[0]
+        if postalcode[0] is not None:
+            rp['addresses'][0]['postalCode'] = postalcode[0]
+        if country[0] is not None:
+            rp['addresses'][0]['country'] = country[0]
+
+        if contact.get('phone') is not None:
+            rp['phones'] = [{'value': contact.get('phone')}]
+        if contact.get('email') is not None:
+            rp['emails'] = [{'value': contact.get('email')}]
+
+        if rp['addresses'][0] == {}:
+            rp.pop('addresses')
 
         for r in set(roles):
             rp['roles'].append(r)
@@ -350,13 +365,15 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         name = get_charstring(distribution.get('name'), self.lang1, self.lang2)
 
-        reltype = distribution.get('rel') or distribution.get('function')
-
         link = {
-            'rel': reltype,
             'href': distribution['url'],
             'type': distribution['type']
         }
+
+        reltype = distribution.get('rel') or distribution.get('function')
+        if reltype is not None:
+            link['rel'] = reltype
+
         if title != [None, None]:
             link['title'] = title[0]
         elif name != [None, None]:
