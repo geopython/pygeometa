@@ -145,7 +145,7 @@ fees|Mandatory|fees and terms for retreiving the resource.  Include monetary uni
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
-status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')",completed,ISO 19115:2003 Section B.2.2.1
+status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')"|completed|ISO 19115:2003 Section B.2.2.1
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
@@ -174,8 +174,8 @@ identification:
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy]|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
-spartial.crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 Section B.2.7.3
-spartial.description|Optional|description of the geographic area using an identifier|Toronto, Ontario, Canada|ISO 19115:2003 Section B.3.1.2
+spatial.crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 Section B.2.7.3
+spatial.description|Optional|description of the geographic area using an identifier|Toronto, Ontario, Canada|ISO 19115:2003 Section B.3.1.2
 temporal.begin|Optional|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
 temporal.end|Optional|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
 temporal.resolution|Optional|Minimum time period resolvable in the dataset, as an ISO 8601 duration|P1D|ISO 19108
