@@ -184,22 +184,27 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             mcf['contact'])
 
         LOGGER.debug('Checking for keywords')
-        for value in mcf['identification']['keywords'].values():
+        for key, value in mcf['identification']['keywords'].items():
             theme = {'concepts': []}
 
             keywords = get_charstring(value.get('keywords'), self.lang1,
                                       self.lang2)
 
-            for kw in keywords[0]:
-                theme['concepts'].append({'id': kw})
+            if key == 'default':
+                record['properties']['keywords'] = [kw[0] for kw in keywords]
+                continue
 
-            if 'vocabulary' in value:
-                if 'url' in value['vocabulary']:
-                    theme['scheme'] = value['vocabulary']['url']
-                elif 'name' in value['vocabulary']:
-                    theme['scheme'] = value['vocabulary']['name']
+            else:
+                for kw in keywords[0]:
+                    theme['concepts'].append({'id': kw})
 
-            record['properties']['themes'].append(theme)
+                if 'vocabulary' in value:
+                    if 'url' in value['vocabulary']:
+                        theme['scheme'] = value['vocabulary']['url']
+                    elif 'name' in value['vocabulary']:
+                        theme['scheme'] = value['vocabulary']['name']
+
+                record['properties']['themes'].append(theme)
 
         LOGGER.debug('Checking for licensing')
         if mcf['identification'].get('license') is not None:
