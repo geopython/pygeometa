@@ -191,7 +191,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                                       self.lang2)
 
             if key == 'default':
-                record['properties']['keywords'] = [kw[0] for kw in keywords]
+                record['properties']['keywords'] = [kw for kw in keywords]
                 continue
 
             else:
