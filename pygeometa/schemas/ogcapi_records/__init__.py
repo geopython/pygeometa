@@ -132,12 +132,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             end = mcf['identification']['extents']['temporal'][0].get('end')
 
             if begin in ['now', 'None', None]:
-                begin = None
+                begin = '..'
             else:
                 begin = str(begin)
 
             if end in ['now', 'None', None]:
-                end = None
+                end = '..'
             else:
                 end = str(end)
 
@@ -191,7 +191,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                                       self.lang2)
 
             if key == 'default':
-                record['properties']['keywords'] = [kw for kw in keywords]
+                record['properties']['keywords'] = keywords[0]
                 continue
 
             else:
