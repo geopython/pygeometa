@@ -1,3 +1,9 @@
+pygeometa (0.15.3) focal; urgency=medium
+
+  * OARec bugfixes
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Fri, 15 Sep 2023 20:15:36 +0000
+
 pygeometa (0.15.2) focal; urgency=medium
 
   * OARec bugfix
