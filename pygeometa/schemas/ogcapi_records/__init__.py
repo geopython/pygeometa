@@ -186,11 +186,18 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         LOGGER.debug('Checking for keywords')
         for key, value in mcf['identification']['keywords'].items():
             theme = {'concepts': []}
+            scheme = None
 
             keywords = get_charstring(value.get('keywords'), self.lang1,
                                       self.lang2)
 
-            if key == 'default':
+            if 'vocabulary' in value:
+                if 'url' in value['vocabulary']:
+                    scheme = value['vocabulary']['url']
+                elif 'name' in value['vocabulary']:
+                    scheme = value['vocabulary']['name']
+
+            if scheme is None:
                 record['properties']['keywords'] = keywords[0]
                 continue
 
@@ -198,11 +205,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 for kw in keywords[0]:
                     theme['concepts'].append({'id': kw})
 
-                if 'vocabulary' in value:
-                    if 'url' in value['vocabulary']:
-                        theme['scheme'] = value['vocabulary']['url']
-                    elif 'name' in value['vocabulary']:
-                        theme['scheme'] = value['vocabulary']['name']
+                theme['scheme'] = scheme
 
                 record['properties']['themes'].append(theme)
 
