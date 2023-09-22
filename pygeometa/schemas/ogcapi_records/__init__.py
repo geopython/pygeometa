@@ -183,6 +183,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         record['properties']['contacts'] = self.generate_contacts(
             mcf['contact'])
 
+        all_keywords = []
+
         LOGGER.debug('Checking for keywords')
         for key, value in mcf['identification']['keywords'].items():
             theme = {'concepts': []}
@@ -198,16 +200,20 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                     scheme = value['vocabulary']['name']
 
             if scheme is None:
-                record['properties']['keywords'] = keywords[0]
-                continue
-
+                LOGGER.debug('Keywords found without vocabulary')
+                LOGGER.debug('Aggregating as bare keywords')
+                all_keywords.extend(keywords[0])
             else:
+                LOGGER.debug('Adding as theme/concepts')
                 for kw in keywords[0]:
                     theme['concepts'].append({'id': kw})
 
                 theme['scheme'] = scheme
 
                 record['properties']['themes'].append(theme)
+
+        if all_keywords:
+            record['properties']['keywords'] = all_keywords
 
         LOGGER.debug('Checking for licensing')
         if mcf['identification'].get('license') is not None:
