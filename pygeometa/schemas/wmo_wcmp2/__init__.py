@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2023 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,15 +43,22 @@
 #
 # =================================================================
 
+from datetime import datetime
+import json
+import logging
 import os
+from typing import Union
 
-from pygeometa.schemas.base import BaseOutputSchema
+from pygeometa.helpers import json_serial
+from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
+LOGGER = logging.getLogger(__name__)
 
-class SampleOutputSchema(BaseOutputSchema):
-    """Sample output schema"""
+
+class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
+    """OGC API - Records - Part 1: Core record schema"""
 
     def __init__(self):
         """
@@ -60,11 +67,49 @@ class SampleOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('sample', 'json', THISDIR)
+        description = 'WMO Core Metadata Profile 2 (WCMP2)'
 
-    def write(self, mcf: dict) -> str:
+        super().__init__()
+
+        self.description = description
+
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
-        Write MCF into sample schema output
+        Write outputschema to JSON string buffer
+
+        :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
+
+
+        :returns: `dict` or `str` of MCF as an OARec record representation
         """
 
-        return f"MCF_FILE_VERSION: {mcf['mcf']['version']}"
+        record = super().write(mcf, stringify=False)
+
+        LOGGER.debug('Setting WCMP2 conformance')
+        record['conformsTo'] = ['http://wis.wmo.int/spec/wcmp/2/conf/core']
+
+        if 'edition' in mcf['identification']:
+            record['properties']['version'] = mcf['identification']['edition']
+
+        LOGGER.debug('Setting WCMP2 distribution links')
+        record['links'] = []
+        for key, value in mcf['distribution'].items():
+            link = self.generate_link(value)
+
+            record['links'].append(link)
+
+        if mcf['metadata'].get('hierarchylevel') == 'dataset':
+            try:
+                record['properties']['wmo:dataPolicy'] = mcf['identification']['wmo_data_policy']  # noqa
+            except KeyError:
+                LOGGER.warning('Missing wmo:dataPolicy')
+
+        if 'dates' not in record['properties']:
+            record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+        if stringify:
+            return json.dumps(record, default=json_serial, indent=4)
+        else:
+            return record

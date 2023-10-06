@@ -60,4 +60,5 @@ class WMOCMPOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('wmo-cmp', 'xml', THISDIR)
+        description = 'WMO Core Metadata Profile (WCMP)'
+        super().__init__('wmo-cmp', description, 'xml', THISDIR)

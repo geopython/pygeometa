@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -46,18 +46,23 @@
 # =================================================================
 
 import datetime
+import json
 import os
 import unittest
 
+from jsonschema.protocols import Validator
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             get_charstring, normalize_datestring,
                             prune_distribution_formats,
-                            prune_transfer_option, MCFReadError)
+                            prune_transfer_option, MCFReadError,
+                            MCFValidationError, SCHEMAS, validate_mcf)
+from pygeometa.helpers import json_serial
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
+from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 
 from sample_schema import SampleOutputSchema
 
@@ -145,30 +150,19 @@ class PygeometaTest(unittest.TestCase):
     def test_get_charstring(self):
         """Test support of unilingual or multilingual value(s)"""
 
-        values = get_charstring('title', {'title': 'foo'}, 'en')
+        values = get_charstring('foo', 'en')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_en': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'en': 'foo', 'fr': 'bar'}, 'en', 'fr')
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title': 'foo', 'title_fr': 'bar'},
-                                'en', 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr', 'en')  # noqa
         self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
 
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'},
-                                'fr', 'en')
-        self.assertEqual(values, ['foo', 'bar'], 'Expected specific values')
-
-        values = get_charstring('title',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring({'fr': 'foo', 'en': 'bar'}, 'fr')
         self.assertEqual(values, ['foo', None], 'Expected specific values')
 
-        values = get_charstring('notfound',
-                                {'title_fr': 'foo', 'title_en': 'bar'}, 'fr')
+        values = get_charstring(None, 'fr')
         self.assertEqual(values, [None, None], 'Expected specific values')
 
     def test_normalize_datestring(self):
@@ -225,12 +219,12 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 8,
+        self.assertEqual(len(schemas), 9,
                          'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
                          sorted(['dcat', 'iso19139', 'iso19139-2',
                                  'iso19139-hnap', 'oarec-record', 'stac-item',
-                                 'wmo-cmp', 'wmo-wigos']),
+                                 'wmo-cmp', 'wmo-wcmp2', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
     def test_render_j2_template(self):
@@ -278,7 +272,7 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('child.yml'))
 
-        self.assertEqual(mcf['metadata']['identifier'], 5678,
+        self.assertEqual(mcf['metadata']['identifier'], 's5678',
                          'Expected specific identifier')
 
         self.assertEqual(mcf['distribution']['waf']['type'], 'WWW:LINK',
@@ -307,7 +301,7 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(mcf['distribution']['waf']['url'],
                          'http://dd.meteo.gc.ca', 'Expected specific URL')
 
-        self.assertEqual(mcf['contact']['main']['positionname'],
+        self.assertEqual(mcf['contact']['pointOfContact']['positionname'],
                          'Senior Systems Scientist', 'Expected specific name')
 
     def test_pre1900_dates(self):
@@ -343,6 +337,18 @@ class PygeometaTest(unittest.TestCase):
         self.assertIn('platforms', mcf['acquisition'])
         self.assertIn('instruments', mcf['acquisition']['platforms'][0])
 
+    def test_json_output_schema(self):
+        """test JSON as dict-based output schemas"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+
+        record = OGCAPIRecordOutputSchema().write(mcf)
+        self.assertIsInstance(record, str)
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+        record = OGCAPIRecordOutputSchema().write(mcf, stringify=False)
+        self.assertIsInstance(record, dict)
+
     def test_output_schema(self):
         """test output schema"""
 
@@ -354,6 +360,73 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(iso_os.name, 'iso19139', 'Expected specific name')
         self.assertEqual(iso_os.outputformat, 'xml',
                          'Expected specific output format')
+
+    def test_validate_mcf_schema(self):
+        """test MCF schema validation"""
+
+        schema_file = os.path.join(SCHEMAS, 'mcf', 'core.yaml')
+
+        with open(schema_file) as fh:
+            schema = yaml.load(fh, Loader=yaml.SafeLoader)
+            Validator.check_schema(schema)
+
+    def test_validate_mcf(self):
+        """test MCF validation"""
+
+        mcf = read_mcf(get_abspath('../sample.yml'))
+
+        instance = json.loads(json.dumps(mcf, default=json_serial))
+
+        is_valid = validate_mcf(instance)
+        assert is_valid
+
+        # validated nested MCF
+        mcf = read_mcf(get_abspath('./sample-child.yml'))
+
+        instance = json.loads(json.dumps(mcf, default=json_serial))
+
+        is_valid = validate_mcf(instance)
+        assert is_valid
+
+        with self.assertRaises(MCFValidationError):
+            is_valid = validate_mcf({'foo': 'bar'})
+
+    def test_import(self):
+        """test metadata import"""
+
+        schema = ISO19139OutputSchema()
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = schema.import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+            self.assertEqual(len(mcf['distribution']), 1,
+                             'Expected specific number of links')
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [124.167, 24.333, 145.583, 45.4]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
+
+        with open(get_abspath('x-wmo-md-int.wmo.wis.ISMD01EDZW.xml')) as fh:  # noqa
+            mcf = schema.import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'GTS Bulletin: ISMD01 EDZW - Observational data (Binary coded) - BUFR (details are described in the abstract)',  # noqa
+                'Expected specific title')
+
+            self.assertEqual(len(mcf['distribution']), 1,
+                             'Expected specific number of links')
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [6.3467, 47.7244, 14.1203, 55.0111]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
 
 
 def get_abspath(filepath):

@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,6 +44,7 @@
 # =================================================================
 
 import os
+from typing import Union
 
 from pygeometa import core
 
@@ -53,22 +54,24 @@ TEMPLATES = os.path.dirname(os.path.realpath(__file__))
 class BaseOutputSchema:
     """generic OutputSchema ABC"""
 
-    def __init__(self, name: str = None, outputformat: str = None,
-                 template_dir: str = None):
+    def __init__(self, name: str = None, description: str = None,
+                 outputformat: str = None, template_dir: str = None):
         """
         Initialize object
 
         :param name: name of output schema
+        :param description: description of output schema
         :param outputformat: output format (XML, JSON)
 
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
         self.name = name
+        self.description = description
         self.outputformat = outputformat
         self.template_dir = template_dir
 
-    def write(self, mcf: dict, stringify: str = True) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
         Write outputschema to string buffer
 
@@ -76,10 +79,24 @@ class BaseOutputSchema:
         :param stringify: whether to return a string representation (default)
                           else native (dict, etree)
 
-        :returns: str of metadata in outputschema representation
+        :returns: `dict` or `str` of metadata in outputschema representation
         """
 
-        return core.render_j2_template(mcf, template_dir=self.template_dir)
+        if stringify:
+            return core.render_j2_template(mcf, template_dir=self.template_dir)
+
+        return mcf
+
+    def import_(self, metadata: str) -> dict:
+        """
+        Import metadata into MCF
+
+        :param metadata: string of metadata content
+
+        :returns: `dict` of MCF content
+        """
+
+        raise NotImplementedError()
 
     def __repr__(self):
-        return '<{}OutputSchema> {}'.format(self.name.upper(), self.name)
+        return f'<{self.name.upper()}OutputSchema> {self.name}'

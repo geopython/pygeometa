@@ -50,7 +50,7 @@ identification:
     maintenancefrequency: continual
 
 contact:
-    main: &contact_main
+    pointOfContacat: &contact_poc
         organization: Environment Canada
         url: http://www.ec.gc.ca/
         individualname: Tom Kralidis
@@ -66,7 +66,7 @@ contact:
         hoursofservice: 0700h - 1500h EST
         contactinstructions: email
 
-    distribution: *contact_main
+    distributor: *contact_poc
 
 distribution:
     waf:

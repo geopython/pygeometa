@@ -45,6 +45,7 @@
 
 import json
 import os
+from typing import Union
 
 from pygeometa.core import get_charstring
 from pygeometa.helpers import json_serial
@@ -63,29 +64,31 @@ class STACItemOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('stac-item', 'json', THISDIR)
+        description = 'STAC Item'
 
-    def write(self, mcf: dict) -> str:
+        super().__init__('stac-item', description, 'json', THISDIR)
+
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
-        Write outputschema to JSON string buffer
+        Write MCF to STAC Item
 
         :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
 
-        :returns: MCF as a STAC item representation
+        :returns: `dict` or `str` of MCF as a STAC item
         """
+
+        lang1 = mcf['metadata'].get('language')
+        lang2 = mcf['metadata'].get('language_alternate')
 
         minx, miny, maxx, maxy = (mcf['identification']['extents']
                                   ['spatial'][0]['bbox'])
 
-        title = get_charstring('title', mcf['identification'],
-                               mcf['metadata']['language'],
-                               mcf['metadata']['language_alternate'])
-        description = get_charstring('abstract', mcf['identification'],
-                                     mcf['metadata']['language'],
-                                     mcf['metadata']['language_alternate'])
-
-        begin = mcf['identification']['extents']['temporal'][0]['begin']
-        end = mcf['identification']['extents']['temporal'][0]['end']
+        title = get_charstring(mcf['identification'].get('title'),
+                               lang1, lang2)
+        description = get_charstring(mcf['identification'].get('abstract'),
+                                     lang1, lang2)
 
         stac_item = {
             'stac-version': '1.0.0-beta.2',
@@ -104,29 +107,35 @@ class STACItemOutputSchema(BaseOutputSchema):
             },
             'properties': {
                 'title': title[0],
-                'description': description[0],
-                'start_datetime': begin,
-                'end_datetime': end
+                'description': description[0]
             },
             'links': []
         }
+
+        if 'temporal' in mcf['identification']['extents']:
+            begin = mcf['identification']['extents']['temporal'][0]['begin']
+            end = mcf['identification']['extents']['temporal'][0]['end']
+
+            stac_item['properties']['start_datetime'] = begin
+            stac_item['properties']['end_datetime'] = end
 
         if 'creation' in mcf['identification']['dates']:
             stac_item['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
         if 'revision' in mcf['identification']['dates']:
             stac_item['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
 
-        stac_item['properties']['provider'] = {'name': mcf['contact']['main']['organization']}  # noqa
+        stac_item['properties']['providers'] = [{'name': mcf['contact']['pointOfContact']['organization']}]  # noqa
 
         for value in mcf['distribution'].values():
-            title = get_charstring('title', value,
-                                   mcf['metadata']['language'],
-                                   mcf['metadata']['language_alternate'])
+            title = get_charstring(value.get('title'), lang1, lang2)
             link = {
-                'rel': value['function'],
+                'rel': value.get('rel') or value.get('function'),
                 'title': title,
                 'href': value['url']
             }
             stac_item['links'].append(link)
 
-        return json.dumps(stac_item, default=json_serial, indent=4)
+        if stringify:
+            return json.dumps(stac_item, default=json_serial, indent=4)
+
+        return stac_item

@@ -45,6 +45,7 @@
 
 import json
 import os
+from typing import Union
 
 from pygeometa.helpers import json_serial
 from pygeometa.schemas.base import BaseOutputSchema
@@ -62,15 +63,18 @@ class DCATOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('dcat', 'json', THISDIR)
+        description = 'DCAT'
+        super().__init__('dcat', description, 'json', THISDIR)
 
-    def write(self, mcf: dict) -> str:
+    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
-        Write outputschema to JSON string buffer
+        Write MCF to DCAT
 
         :param mcf: dict of MCF content model
+        :param stringify: whether to return a string representation (default)
+                          else native (dict, etree)
 
-        :returns: MCF as a dcat representation
+        :returns: `dict` or `str` of MCF as a DCAT representation
         """
 
         dcat = {
@@ -139,6 +143,7 @@ class DCATOutputSchema(BaseOutputSchema):
                 "end": "dcat:endDate"
             },
             "@type": "dcat:Dataset",
+            "keywords": [],
             "keywords_en": [],
             "keywords_fr": [],
             "distribution": [],
@@ -174,7 +179,8 @@ class DCATOutputSchema(BaseOutputSchema):
                                 if (k5 != 'keywords_type'):
                                     for kw in v5:
                                         # assumes a key for language exists
-                                        dcat[k5].append(kw)
+                                        if k5 in dcat:
+                                            dcat[k5].append(kw)
                     elif (k in ['identifier']):
                         # mint a url from identifier if non exists on mcf
                         if (not mcf['metadata']['dataseturi']):
@@ -186,7 +192,7 @@ class DCATOutputSchema(BaseOutputSchema):
                     else:
                         dcat[k] = v
             # transform set of keys to array
-            elif (key in ['distribution', 'contact']):
+            elif (key in ['distributor', 'contact']):
                 for k, v in value.items():
                     # add id (if url exists)
                     if (not isinstance(v, str) and v['url']):
@@ -201,4 +207,7 @@ class DCATOutputSchema(BaseOutputSchema):
             else:
                 dcat[key] = value
 
-        return json.dumps(dcat, default=json_serial, indent=4)
+        if stringify:
+            return json.dumps(dcat, default=json_serial, indent=4)
+
+        return dcat

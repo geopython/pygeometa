@@ -1,0 +1,281 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/wmo-wigos.yaml
+title: pygeometa WMO WIGOS Metadata Standard configuration schema
+description: pygeometa WMO WIGOS Metadata Standard configuration schema
+
+
+allOf:
+    - $ref: './core.yaml'
+properties:
+    facility:
+        patternProperties:
+            "^.*":
+                type: object
+                description: |-
+                    The user defined key name indicates a given facility.  The values are the properties
+                    and objects.
+                properties:
+                    identifier:
+                        type: string
+                        description: WMO WIGOS identifier
+                    name:
+                        type: string
+                        description: facility name
+                    type:
+                        type: string
+                        description: |-
+                            The type of the observing facility from the station/platform type
+                            codelist (https://codes.wmo.int/wmdr/_FacilityType)
+                    geopositioning_method:
+                        type: string
+                        description: |-
+                            Element describes the geospatial reference system used for the specified
+                            geolocation (codelist http://codes.wmo.int/wmdr/_GeopositioningMethod) 
+                    url:
+                        type: string
+                        description: An online resource containing additional information about the facility or equipment
+                    date_established:
+                        type: string
+                        description: |-
+                            Date at which the observingFacility was established. Normally considered to be the date
+                            the first observations were made
+                    wmo_region::
+                        type: string
+                        description: |-
+                            The WMO region the observing facility is located in, from the WMORegionType
+                            codelist (http://codes.wmo.int/wmdr/_WMORegion) 
+                    territory:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    description: |-
+                                        The territory the observing facility is located in, from the TerritoryType
+                                        codelist (http://codes.wmo.int/wmdr/_TerritoryName)
+                                valid_period:
+                                    type: object
+                                    properties:
+                                        begin:
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                        end:
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                    required:
+                                        - begin
+                            required:
+                                - name
+                    spatiotemporal:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                timeperiod:
+                                    type: object
+                                    properties:
+                                        begin:
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                        end:
+                                            $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                    required:
+                                        - begin
+                                location:
+                                    type: object
+                                    properties:
+                                        geomtype:
+                                            type: string
+                                            description: geometry type
+                                            enum:
+                                                - point
+                                                - polygon
+                                            default: point
+                                        crs:
+                                            type: number
+                                            description: coordinate reference system
+                                            default: 4326
+                                        point:
+                                            type: object
+                                            properties:
+                                                x:
+                                                    type: number
+                                                    description: x coordinate
+                                                y:
+                                                    type: number
+                                                    description: y coordinate
+                                                z:
+                                                    type: number
+                                                    description: z coordinate
+                                            required:
+                                                - x
+                                                - y
+                                    required:
+                                        - geomtype
+                                        - crs
+                                        - point
+                            required:
+                                - timeperiod
+                                - location
+                    program_affilation:
+                        type: object
+                        properties:
+                            program:
+                                type: string
+                                description: Program Affiliation, see http://codes.wmo.int/wmdr/_ProgramAffiliation
+                        required:
+                            - program
+                    reporting_status:
+                        type: object
+                        properties:
+                           status:
+                               type: string
+                               description: Declared reporting status of the observing facility from the ReportingStatusType codelist (http://codes.wmo.int/wmdr/_ReportingStatus)
+                           valid_period:
+                               type: object
+                               description: Specifies at least the begin date of the indicated reportingStatus.
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                                   - begin
+                                location:
+                        required:
+                            - status
+                    climate_zone:
+                        type: object
+                        properties:
+                           name:
+                               type: string
+                               description: Climate zone of the observing facility, from the ClimateZone codelist (http://codes.wmo.int/wmdr/_ClimateZone)
+                           valid_period:
+                               type: object
+                               description: Specifies at least the begin date of the indicated climate zone. If omitted, the dateEstablished of the facility will be assumed
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                                   - begin
+                                location:
+                        required:
+                            - name
+                    surface_cover:
+                        type: object
+                        properties:
+                           name:
+                               type: string
+                               description: Predominant surface cover, from the given surface cover classification scheme and the SurfaceCover codelist (http://codes.wmo.int/wmdr/_SurfaceCover)
+                           surface_cover_classification:
+                               type: string
+                               description: Surface cover classification scheme, from the SurfaceCoverClassification codelist (http://codes.wmo.int/wmdr/_SurfaceCoverClassification)
+                           valid_period:
+                               type: object
+                               description: Specifies at least the begin date of the indicated climate zone. If omitted, the dateEstablished of the facility will be assumed
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                                   - begin
+                                location:
+                        required:
+                            - name
+                            - surface_cover_classification
+                    surface_roughness:
+                        type: object
+                        properties:
+                           name:
+                               type: string
+                               description: Surface roughness of surrounding of the observing facility, from the SurfaceRoughness codelist (http://codes.wmo.int/wmdr/_SurfaceRoughness)
+                           valid_period:
+                               type: object
+                               description: Specifies at least the begin date of the indicated surface roughness. If omitted, the dateEstablished of the facility will be assumed
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                                   - begin
+                                location:
+                        required:
+                            - name
+                    topography_bathymetry:
+                        type: object
+                        properties:
+                           local_topography:
+                               type: string
+                               description: Local topography of the observing facility from the LocalTopography codelist (http://codes.wmo.int/wmdr/_LocalTopography)
+                           relative_elevation:
+                               type: string
+                               description: Relative elevation of the observing facility compared to its surrounding, from the RelativeElevation codelist (http://codes.wmo.int/wmdr/_RelativeElevation)
+                           topographic_context:
+                               type: string
+                               description: Topographic context of the observing facility, from the TopographicContext codelist (http://codes.wmo.int/wmdr/_TopographicContext)
+                           altitude_or_depth:
+                               type: string
+                               description: Altitude or depth of observing facility, from the AltitudeOrDepth codelist (http://codes.wmo.int/wmdr/_AltitudeOrDepth)
+                           valid_period:
+                               type: object
+                               description: Specifies at least the begin date of the indicated surface roughness. If omitted, the dateEstablished of the facility will be assumed
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                                   - begin
+                        required:
+                            - name
+                    observations:
+                        properties:
+                            name:
+                                type: string
+                                description: Freeform name of observed property
+                            timeperiod:
+                               type: object
+                               description: The time period over which the property is observed.
+                               properties:
+                                   begin:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                                   end:
+                                       $ref: './core.yaml#/definitions/date_or_datetime_string'
+                               required:
+                            url:
+                                type: string
+                                description: The online resource of the final result (output) of the observation
+                            observedproperty:
+                                type: object
+                                properties:
+                                    name:
+                                        type: string
+                                        description: name relevant to the type
+                                type:
+                                    type: string
+                                    description: The property type being observed (ObservingMethodAtmosphere, ObservingMethodTerrestrial, ObservedVariableAtmosphere, ObservedVariableEarth, ObservedVariableOcean, ObservedVariableOuterSpace, ObservedVariableTerrestrial)
+                        required:
+                            - name
+                            - url
+                            - observedproperty
+                required:
+                    - identifier
+                    - name
+                    - type
+                    - date_established
+                    - wmo_region
+                    - program_affiliation
+
+
+
+
+
+
+
+
+
+
+
+

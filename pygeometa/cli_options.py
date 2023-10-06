@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2017 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -44,19 +44,35 @@
 #
 # =================================================================
 
+import logging
+import sys
+
 import click
 
-OPTION_MCF = click.option(
-    '--mcf',
-    type=click.Path(exists=True, resolve_path=True),
-    help='Path to metadata control file (.yml)')
+ARGUMENT_MCF = click.argument('mcf')
+ARGUMENT_METADATA_FILE = click.argument('metadata-file', type=click.File())
 
 OPTION_OUTPUT = click.option(
     '--output',
     type=click.File('w', encoding='utf-8'),
     help='Name of output file')
 
-OPTION_VERBOSITY = click.option(
-    '--verbosity',
-    type=click.Choice(['ERROR', 'WARNING', 'INFO', 'DEBUG']),
-    help='Verbosity')
+
+def OPTION_VERBOSITY(f):
+    logging_options = ['ERROR', 'WARNING', 'INFO', 'DEBUG']
+
+    def callback(ctx, param, value):
+        if value is not None:
+            logging.basicConfig(stream=sys.stdout,
+                                level=getattr(logging, value))
+        return True
+
+    return click.option('--verbosity', '-v',
+                        type=click.Choice(logging_options),
+                        help='Verbosity',
+                        callback=callback)(f)
+
+
+def cli_callbacks(f):
+    f = OPTION_VERBOSITY(f)
+    return f

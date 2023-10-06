@@ -1,0 +1,24 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/wmo-cmp.yaml
+title: pygeometa WMO Core Metadata Profile configuration schema
+description: pygeometa WMO Core Metadata Profile configuration schema
+
+
+allOf:
+    - $ref: './core.yaml#/properties/identification'
+properties:
+    otherconstraints_wmo_data_policy:
+        type: string
+        description: WMO data policy statment from WMO_DataLicenseCode
+        enum:
+            - WMOEssential
+            - WMOAdditional
+            - WMOOther
+    otherconstraints_wmo_gts_priority:
+        type: string
+        description: WMO GTS priority
+        enum:
+            - GTSPriority1
+            - GTSPriority2
+            - GTSPriority3
+            - GTSPriority4

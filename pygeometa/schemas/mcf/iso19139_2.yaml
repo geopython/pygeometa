@@ -1,0 +1,38 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://github.com/geopython/pygeometa/blob/master/pygeometa/schemas/mcf/iso19139_2.yaml
+title: pygeometa ISO 19139-2 configuration schema
+description: pygeometa ISO 19139-2 configuration schema
+
+
+allOf:
+    - $ref: './core.yaml'
+properties:
+    acquisition:
+        type: object
+        properties:
+            platforms:
+                type: object
+                properties:
+                    identifier:
+                        type: string
+                        description: unique identification of the platform
+                    description:
+                        type: string
+                       description: platform description
+                    instruments:
+                        type: array
+                        items:
+                            type: object
+                                properties:
+                                    identifier:
+                                        type: string
+                                        description: instrument identifier
+                                    type:
+                                        type: string
+                                        description: instrument type
+                required:
+                    - identifier
+                    - description
+                    - instruments
+        required:
+            - platforms

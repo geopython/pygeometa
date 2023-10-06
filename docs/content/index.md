@@ -1,6 +1,6 @@
 ## pygeometa
 
-[![Join the chat at https://gitter.im/geopython/pygeometa](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geopython/pygeometa) 
+[![Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im](https://badges.gitter.im/Join%20Chat.svg)](https://matrix.to/#/#geopython_pygeometa:gitter.im)
 
 <h2>Metadata Creation for the Rest of Us</h2>
 
@@ -28,9 +28,12 @@ pygeometa is [open source](https://opensource.org) and released under an
 
 ## Features
 * simple YAML-based configuration
+* real-time MCF validation
 * extensible: plugin architecture allows for easy addition of new metadata
   formats using Jinja2 templates or custom workflow (JSON, YAML, CSV, etc.)
 * flexible: use as a command-line tool or integrate as a library
+* import from external metadata sources
+* multilingual support
 
 ## History
 

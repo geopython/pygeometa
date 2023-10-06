@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/geopython/pygeometa/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/geopython/pygeometa/actions)
-[![Join the chat at https://gitter.im/geopython/pygeometa](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/geopython/pygeometa)
+[![Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im](https://badges.gitter.im/Join%20Chat.svg)](https://matrix.to/#/#geopython_pygeometa:gitter.im)
 
 # pygeometa
 
@@ -28,8 +28,8 @@ cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
 cd pygeometa
-python setup.py build
-python setup.py install
+python3 setup.py build
+python3 setup.py install
 ```
 
 ## Running
@@ -41,22 +41,31 @@ python setup.py install
 pygeometa
 
 # show all supported schemas
-pygeometa schemas
+pygeometa metadata schemas
 
 # provide a basic sanity check/report on an MCF
-pygeometa info --mcf=path/to/file.yml
+pygeometa metadata info path/to/file.yml
 
 # generate an ISO 19139 document to stdout
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139
+pygeometa metadata generate path/to/file.yml --schema=iso19139
 
 # generate an ISO 19139 document to disk
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml
+pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml
 
 # generate an ISO 19139 document to disk with debugging (ERROR, WARNING, INFO, DEBUG)
-pygeometa generate-metadata --mcf=path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
+pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
 
 # use your own defined schema
-pygeometa generate-metadata --mcf=path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
+pygeometa metadata generate path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
+
+# validate your MCF
+pygeometa metadata validate path/to/file.yml
+
+# import a metadata document to MCF
+pygeometa metadata import path/to/file.xml --schema=iso19139
+
+# transform from one metadata representation to another
+pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-schema=oarec-record
 ```
 
 ### Supported schemas
@@ -68,6 +77,7 @@ Schemas supported by pygeometa:
 * SpatioTemporal Asset Catalog [(STAC)](https://stacspec.org)
 * iso19139-2, [reference](https://www.iso.org/standard/67039.html)
 * [wmo-cmp](doc/content/reference/formats/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf)
+* [wmo-wcmp2](doc/content/reference/formats/wmo-wcmp2.md), [reference](https://wmo-im.github.io/wcmp2)
 * [wmo-wigos](doc/content/reference/formats/wmo-wigos.md), [reference](https://library.wmo.int/opac/doc_num.php?explnum_id=3653)
 * Local schema, specified with ```--schema_local=/path/to/my-schema```
 
@@ -104,7 +114,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer
 requirements:
 
 ```bash
-pip install -r requirements-dev.txt
+pip3 install -r requirements-dev.txt
 ```
 
 ### Adding a Metadata Schema to the Core
@@ -147,16 +157,26 @@ vi pygeometa/schemas/foo/__init__.py
 
 ```bash
 # via setuptools
-python setup.py test
+python3 setup.py test
 # manually
 cd tests
-python run_tests.py
+python3 run_tests.py
 ```
 
 ## Releasing
 
 ```bash
-python setup.py sdist bdist_wheel --universal
+# update version
+vi pygeometa/__init__.py
+vi debian/changelog  # add changelog entry and summary of updates
+git commit -m 'update release version' pygeometa/__init__.py debian/changelog
+# push changes
+git push origin master
+git tag -a x.y.z -m 'tagging release x.y.z'
+# push tag
+git push --tags
+rm -fr build dist *.egg-info
+python3 setup.py sdist bdist_wheel --universal
 twine upload dist/*
 ```
 

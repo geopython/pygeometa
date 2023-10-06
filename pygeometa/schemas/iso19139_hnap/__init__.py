@@ -60,4 +60,6 @@ class ISO19139HNAPOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('iso19139-hnap', 'xml', THISDIR)
+        description = 'ISO 19139 HNAP'
+
+        super().__init__('iso19139-hnap', description, 'xml', THISDIR)

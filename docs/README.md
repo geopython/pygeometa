@@ -13,7 +13,7 @@ cd pygeometa
 # download pygeometa from GitHub
 git clone https://github.com/geopython/pygeometa.git
 # install required dependencies
-pip install -r requirements-dev.txt
+pip3 install -r requirements-dev.txt
 cd pygeometa/doc
 # build the website
 mkdocs build

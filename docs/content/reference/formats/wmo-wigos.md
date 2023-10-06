@@ -19,7 +19,7 @@ See MCF reference
 ### `contact`
 
 See MCF reference.  WMO WIGOS MCF add the contact type `facility` to
-attach contact information to a facility.  The main MCF contact is attached
+attach contact information to a facility.  The `pointOfContact` MCF contact is attached
 to the `wmdr:Header` element.
 
 ### `identification`
@@ -36,7 +36,7 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 identifier|Mandatory|WMO WIGOS identifier|0-20008-0-JFJ|WIGOS Metadata Representation, Section 8.6.4
 name|Mandatory|||WIGOS Metadata Representation, Section 4.3
 type|Mandatory|The type of the observing facility from the Station/platform type codelist (http://codes.wmo.int/wmdr/_FacilityType)|landFixed|WIGOS Metadata Representation, Section 4.3.2
-geopositioning_method|Optional|Element describes the geospatial refer ence system used for the specified geolocation (codelist http://codes.wmo.int/wmdr/_GeopositioningMethod)|gps|WIGOS Metadata Representation, Section 4.2.2
+geopositioning_method|Optional|Element describes the geospatial reference system used for the specified geolocation (codelist http://codes.wmo.int/wmdr/_GeopositioningMethod)|gps|WIGOS Metadata Representation, Section 4.2.2
 url|Optional|An online resource containing additional information about the facility or equipment|https://example.org/station/123|WIGOS Metadata Representation, Section 4.2.2
 date_established|Mandatory|Date at which the observingFacility was established. Normally considered to be the date the first observations were made|2011-11-11T11:11:11Z|WIGOS Metadata Representation, Section 4.3.2
 wmo_region|Mandatory|The WMO region the observing facility is located in, from the WMORegionType codelist (http://codes.wmo.int/wmdr/_WMORegion)|northCentralAmericaCaribbean|WIGOS Metadata Representation, Section 4.3.2

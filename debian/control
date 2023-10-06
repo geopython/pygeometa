@@ -16,6 +16,9 @@ Architecture: all
 Depends: ${python3:Depends},
          python3-click,
          python3-jinja2,
+         python3-jsonschema,
+         python3-lxml,
+         python3-owslib,
          python3-yaml,
          ${misc:Depends}
 Description: Python package to generate metadata for geospatial datasets.

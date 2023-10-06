@@ -60,4 +60,6 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        super().__init__('wmo-wigos', 'xml', THISDIR)
+        description = 'WMO WIGOS Metadata Standard'
+
+        super().__init__('wmo-wigos', description, 'xml', THISDIR)

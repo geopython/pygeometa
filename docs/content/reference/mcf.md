@@ -55,6 +55,16 @@ Notes about nesting MCFs:
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
+## Environment variables
+
+pygeometa supports environment variables, using the notation in the example MCF snippet below:
+
+```yaml
+metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    parentidentifier: ${COLLECTION_ID}
+```
+
 ## Multilingual support
 
 pygeometa supports default and alternate languages in ISO metadata.
@@ -68,28 +78,29 @@ Example:
 
 ```yaml
 metadata:
-    language:en
-    language_alternate:fr
+    language: en
+    language_alternate: fr
 ```
 
 If `language_alternate` is not defined or missing, pygeometa assumes a single language.
 
-Values which support multilingual values can be specified with `_xx` suffixes to denote the respective language.  Examples:
+Values which support multilingual values can be specified with as keys to denote the respective language.  Examples:
 
 ```yaml
 # single language
 title: foo
 
-# two languages, no default suffix
-title: foo
-title_fr: bar
+# single language, explicit
+title:
+    en: foo
 
-# two languages, explicit default suffix
-title_en: foo
-title_fr: bar
+# two languages, explicit
+title:
+    en: foo
+    fr: bar
 ```
 
-The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```language_es``` for Spanish.
+The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```es``` for Spanish.
 
 ## Sections
 
@@ -110,7 +121,7 @@ charset|Mandatory|full name of the character coding standard used for the metada
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
 datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
-dataseturi|Mandatory|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
+dataseturi|Optional|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
 ### `spatial`
 
@@ -124,30 +135,23 @@ geomtype|Mandatory|name of point or vector objects used to locate zero-, one-, t
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 doi|Optional|Digital Object Identifier (DOI)|12345|ISO 19115:2003 Section B.3.2.1
-language|Mandatory|language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'|eng; CAN|ISO 19115:2003 Section B.2.2.1
-charset|Mandatory|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
+language|Optional|language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'|eng; CAN|ISO 19115:2003 Section B.2.2.1
+charset|Optional|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
 title|Mandatory|name by which the cited resource is known|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
-title_en|Optional|name by which the cited resource is known (English)|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
-title_fr|Optional|name by which the cited resource is known (French)|Zone importante d'oiseau|ISO 19115:2003 Section B.3.2.1
+edition|Optional|version of the cited resource|1.8.0|ISO 19115:2003 Section B.3.2.1
 abstract|Mandatory|brief narrative summary of the content of the resource(s)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-abstract_en|Optional|brief narrative summary of the content of the resource(s) (English)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-abstract_fr|Optional|brief narrative summary of the content of the resource(s) (French)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
 topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
 fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
 accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-rights_en|Optional|Information about rights held in and over the resource (English). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-rights_fr|Optional|Information about rights held in and over the resource (French). pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
 url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
-url_en|Optional|English URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
-url_fr|Optional|French URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
-status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')",completed,ISO 19115:2003 Section B.2.2.1
+status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')"|completed|ISO 19115:2003 Section B.2.2.1
 maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
 browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
 #### `identification.dates`
 
-MCF `identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
+`identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
@@ -165,14 +169,16 @@ identification:
 
 #### `identification.extents`
 
-MCF `identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
+`identification.extents` sections can have 1..n `spatial` and `temporal` sections as required with the following properties.
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-bbox|Mandatory|geographic position of the dataset, formatted as as list of 'minx,miny,maxx,maxy'|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
-crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 B.2.7.3
-temporal.begin|Mandatory|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
-temporal.end|Mandatory|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
+spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy]|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
+spatial.crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 Section B.2.7.3
+spatial.description|Optional|description of the geographic area using an identifier|Toronto, Ontario, Canada|ISO 19115:2003 Section B.3.1.2
+temporal.begin|Optional|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
+temporal.end|Optional|End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term `now`|now|ISO 19115:2003 Section B.3.1.3
+temporal.resolution|Optional|Minimum time period resolvable in the dataset, as an ISO 8601 duration|P1D|ISO 19108
 
 ```yaml
 identification:
@@ -184,26 +190,29 @@ identification:
         temporal:
             - begin: 1950-07-31
               end: now
+              resolution: P1D
 ```
 
 #### `identification.keywords`
 
-MCF `identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
+`identification` sections can have 1..n `keywords` sections as required using nesting.  Example:
 
 ```yaml
 identification:
     ...
     keywords:
         default:
-            keywords_en: [foo1, bar1]
-            keywords_fr: [foo2, bar2]
+            keywords:
+                en: [foo1, bar1]
+                fr: [foo2, bar2]
             keywords_type: theme
             vocabulary:
                 name: my vocabulary
                 url: https://example.org/vocab
         wmo:
-            keywords_en: [foo3, bar3]
-            keywords_fr: [foo4, bar4]
+            keywords:
+                en: [foo3, bar3]
+                fr: [foo4, bar4]
             keywords_type: theme
             keywords_codelist: http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
 ```
@@ -221,21 +230,27 @@ Within each `keywords` section, the following elements are supported:
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 keywords|Mandatory|category keywords|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_en|Optional|category keywords (English)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
-keywords_fr|Optional|category keywords (French)|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
 keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
 
 
 ##### `identification.keywords.vocabulary`
 
-MCF `keyword` sections can specify an optional `vocabulary` section with the following elements:
+`identification.keywords` sections can specify an optional `vocabulary` section with the following elements:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-name_en|Mandatory|name of the source of keywords (English)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
-name_fr|Mandatory|name of the source of keywords (French)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
+name|Mandatory|name of the source of keywords (English)|my thesaurus name|ISO 19115:2003 Section B.2.2.3
 url|Optional|URL of source of keywords|https://example.org/my-vocab|-
+
+##### `identification.license`
+
+`identification.license` sections can provide a optinoal license via a name or URL using the following elements:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|name of license|CC BY 4.0|-
+url|Optional|URL of license|https://creativecommons.org/licenses/by/4.0|-
 
 ### `content_info`
 
@@ -244,6 +259,85 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 type|Mandatory|Content type (must be one of 'coverage', 'image', 'feature_catalogue'|image|ISO 19115:2003 Section B.2.8.1
 cloud_cover|Optional|area of the dataset obscured by clouds, expressed as a percentage of the spatial extent|72|ISO 19115:2003 Section B.2.8.1
 processing_level|Optional|image distributor’s code that identifies the level of radiometric and geometric processing that has been applied|L1|ISO 19115:2003 Section B.2.8.1
+
+#### `content_info.attributes`
+
+`content_info` sections can have 1..n `attributes` sections as required using nesting.  Example:
+
+```yaml
+attributes:
+    - name: temperature
+      title:
+          en: Air temperature
+      abstract:
+          en: Description of air temperature attribute
+      type: number
+      units: K
+      values: [1.2, 2.5, 1.3]
+```
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+name|Mandatory|attribute name|`temperature`||
+title|Optional|attribute title|Air temperature||
+abstract|Optional|attribute description|Description of air temperature||
+url|Optional|URL with more information about the attribute|Air temperature||
+type|Optional|data type|(must be one of 'string', 'number', 'integer', 'object', 'array', 'boolean')|string||
+units|Optional|SI units|K|https://en.wikipedia.org/wiki/International_System_of_Units|
+values|Optional|specification of attribute values|see below||
+
+##### `content_info.attributes.values`
+
+Attributes may also provide the values within a given domain, via one of the following constructs:
+
+###### `content_info.attributes.values.enum`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+enum|Optional|Enumerated list of values|[1, 2, 3, 4]||
+
+Example:
+
+```yaml
+ values:
+    enum: [1, 2, 3. 4]
+```
+
+###### `content_info.attributes.values.range`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+range|Optional|Range of values (min/max)|[1, 4]||
+
+Example:
+
+```yaml
+ values:
+    range: [1, 4]
+```
+
+###### `content_info.attributes.values.codelist`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+codelist|Optional|codelist of values|see below||
+codelist.name|Mandatory|value name|foo||
+codelist.title|Optional|value title|Foo||
+codelist.abstract|Optional|value abstract|Description of value Foo||
+codelist.url|Optional|URL with more information about the value|https://example.org/foo|
+
+Example:
+
+```yaml
+values:
+    codelist:
+     - name: foo
+       title:
+           en: foo title
+       abstract:
+           en: foo description
+       url: https://example.org/values/foo
+```
 
 #### `content_info.dimensions`
 
@@ -263,21 +357,19 @@ MCFs can have 1..n `contact` sections as required using nesting.  Example:
 
 ```yaml
 contact:
-    main:
+    pointOfContact:
         ....
-    distribution:
+    distributor:
         ....
 ```
 
-The `contact.main` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.
+The `contact.pointOfContact` section provides information for the `pointOfContact` role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.
 
 Within each `contact` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 organization|Mandatory|name of the responsible organization|Environment Canada|ISO 19115:2003 Section B.3.2.1
-organization_en|Optional|name of the responsible organization (English)|Environment Canada|Harmonized NAP
-organization_fr|Optional|name of the responsible organization (French)|Environment Canada|Harmonized NAP
 url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
 individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Lastname, Firstname|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1
@@ -292,20 +384,19 @@ email|Mandatory|address of the electronic mailbox of the responsible organizatio
 hoursofservice|Optional|time period (including time zone) when individuals can contact the organization or individual|0700h - 1500h EST|ISO 19115:2003 Section B.3.2.3
 contactinstructions|Optional|supplementalinstructions on how or when to contact the individual or organization|contact during working business hours|ISO 19115:2003 Section B.3.2.3
 
-### `contact.distribution`
+### `contact.distributor`
 
-The `contact.distribution` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `contact.main`.
+The `contact.distributor` section provides information for the `distributor` role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as `contact.pointOfContact`.
 
 If contact information is the same for both, use YAML node anchors and references to have it provided in both sections in the metadata:
 
 ```yaml
 contact:
-    main: &id_contact_main
+    pointOfContact: &id_contact_poc
         ...
 
-    distribution: *id_contact_main
+    distributor: *id_contact_poc
 ```
-
 
 ### `distribution`
 
@@ -325,17 +416,15 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|http://host/path|ISO 19115:2003 Section B.3.2.5
 type|Mandatory|connection protocol to be used.  Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv|WWW:LINK|ISO 19115:2003 Section B.3.2.5
+rel|Optional|the type or semantic of the relation.  The value should be an [IANA link relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml) or a relation type specific to an established standard|canonical|Link Relations - Internet Assigned Numbers Authority
 name|Mandatory|name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
-name_en|Optional|English name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
-name_fr|Optional|French name of the online resource|Portail de téléchargement|ISO 19115:2003 Section B.3.2.5
 description|Mandatory|detailed text description of what the online resources is/does|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
-description_en|Optional|detailed text description of what the online resources is/does (English)|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
-description_fr|Optional|detailed text description of what the online resources is/does (French)|brief description of the online resource (French)|ISO 19115:2003 Section B.3.2.5
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
 format|Optional|Format of the distribution method|WMS|HNAP 2.3
-format_en|Optional|English format of the distribution method|WMS|HNAP 2.3
-format_fr|Optional|French format of the distribution method|WMS|HNAP 2.3
 format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
+channel|Optional|channel/topic/exchange when link is a Pub/Sub endpoint|my/cool/topic|OGC API - Pub/Sub
+
+
 
 ### `dataquality`
 

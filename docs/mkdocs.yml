@@ -16,8 +16,10 @@ nav:
             - "ISO 19115-2, Part 2: Extensions for acquisition and processing": reference/formats/iso19139-2.md
             - ISO Harmonized North American Profile (HNAP): reference/formats/iso19139-hnap.md
             - WMO Core Metadata Profile: reference/formats/wmo-cmp.md
+            - WMO Core Metadata Profile 2: reference/formats/wmo-wcmp2.md
             - WMO WIGOS Metadata Standard: reference/formats/wmo-wigos.md
 #        - Index: reference/index.md
+    - pygeoapi plugin: pygeoapi-plugin.md
 
 #theme: slate
 

@@ -1,0 +1,717 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://raw.githubusercontent.com/geopython/pygeometa/master/pygeometa/schemas/mcf/core.yaml
+title: pygeometa configuration schema
+description: pygeometa configuration schema
+
+type: object
+properties:
+    mcf:
+        type: object
+        description: core mcf metadata
+        properties:
+            version:
+                type: number
+                description: version of MCF format
+                const: 1.0
+        required:
+            - version
+    metadata:
+        type: object
+        description: unique identifier for this metadata file
+        properties:
+            identifier:
+                type: string
+                description: unique identifier for this metadata file
+            language:
+                type: string
+                description: primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless
+            language_alternate:
+                type: string
+                description: alternate language used for documenting metadata
+            charset:
+                type: string
+                description: full name of the character coding standard used for the metadata set
+            parentidentifier:
+                type: string
+                description: file identifier of the metadata to which this metadata is a subset
+            hierarchylevel:
+                type: string
+                description: level to which the metadata applies
+                enum:
+                    - series
+                    - software
+                    - featureType
+                    - model
+                    - collectionHardware
+                    - collectionSession
+                    - nonGeographicDataset
+                    - propertyType
+                    - fieldSession
+                    - dataset
+                    - service
+                    - attribute
+                    - attributeType
+                    - tile
+                    - feature
+                    - dimensionGroup
+            datestamp:
+                $ref: '#/definitions/date_or_datetime_string'
+                description: date that the metadata was created, pygeometa supports specifying the `$date$` or `$datetime$` variable to update the date value at run time
+            dataseturi:
+                type: string
+                description: Uniform Resource Identifier (URI) of the dataset to which the metadata applies
+        required:
+            - identifier
+            - language
+            - charset
+            - hierarchylevel
+            - datestamp
+    spatial:
+        type: object
+        properties:
+            datatype:
+                type: string
+                description: method used to represent geographic information in the dataset
+                enum:
+                    - vector
+                    - grid
+                    - textTable
+                    - tin
+                    - stereoModel
+                    - video
+            geomtype:
+                type: string
+                description: name of point or vector objects used to locate zero-, one-, two-, or threedimensional spatial locations in the dataset
+                enum:
+                    - complex
+                    - composite
+                    - curve
+                    - point
+                    - solid
+                    - surface
+        required:
+            - datatype
+            - geomtype
+    identification:
+        type: object
+        properties:
+            doi:
+                type: string
+                description: Digital Object Identifier (DOI)
+            language:
+                type: string
+                description: |-
+                    language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can
+                    be set to `missing`, `withheld`, `inapplicable`, `unknown` or `template`
+            charset:
+                type: string
+                description: full name of the character coding standard used for the dataset
+            title:
+                $ref: '#/definitions/i18n_string'
+                description: name by which the cited resource is known
+            abstract:
+                $ref: '#/definitions/i18n_string'
+                description: brief narrative summary of the content of the resource(s)
+            edition:
+                $ref: '#/definitions/i18n_string'
+                description: version of the cited resource
+            fees:
+                type: string
+                description: |-
+                    fees and terms for retreiving the resource. Include monetary units (as specified in ISO 4217). If there
+                    are no fees, use the term 'None'
+            accessconstraints:
+                type: string
+                description: |-
+                    access constraints applied to assure the protection of privacy or intellectual property, and any special
+                    restrictions or limitations on obtaining the resource or metadata. If there are no accessconstraints,
+                    use the term 'otherRestrictions'
+                items:
+                    type: string
+                    enum:
+                        - patent
+                        - otherRestrictions
+                        - copyright
+                        - trademark
+                        - patentPending
+                        - restricted
+                        - license
+                        - intellectualPropertyRights
+            topiccategory:
+                type: array
+                description: main theme(s) of the dataset
+                items:
+                    type: string
+                    enum:
+                        - geoscientificInformation
+                        - farming
+                        - elevation
+                        - utilitiesCommunication
+                        - oceans
+                        - boundaries
+                        - inlandWaters
+                        - intelligenceMilitary
+                        - environment
+                        - location
+                        - economy
+                        - planningCadastre
+                        - biota
+                        - health
+                        - imageryBaseMapsEarthCover
+                        - transportation
+                        - society
+                        - structure
+                        - climatologyMeteorologyAtmosphere
+            rights:
+                $ref: '#/definitions/i18n_string'
+                description: name by which the cited resource is known
+            license:
+                type: object
+                properties:
+                    name:
+                        $ref: '#/definitions/i18n_string'
+                        description: license applied to resource
+                    url:
+                        $ref: '#/definitions/i18n_string'
+                        description: URL with more information about license
+                anyOf:
+                  - required:
+                      - name
+                  - required:
+                      - url
+            url:
+                $ref: '#/definitions/i18n_string'
+                description: URL of the dataset to which the metadata applies
+            status:
+                $ref: '#/definitions/i18n_string'
+                description: the status of the resource(s)
+                items:
+                    type: string
+                    enum:
+                        - planned
+                        - historicalArchive
+                        - completed
+                        - onGoing
+                        - underDevelopment
+                        - required
+                        - obsolete
+            maintenancefrequency:
+                $ref: '#/definitions/i18n_string'
+                description: frequency with which modifications and deletions are made to the data after it is first produced
+                items:
+                    type: string
+                    enum:
+                        - continual
+                        - daily
+                        - weekly
+                        - fortnightly
+                        - monthly
+                        - quarterly
+                        - biannually
+                        - annually
+                        - asNeeded
+                        - irregular
+                        - notPlanned
+                        - unknown
+            browsegraphic:
+                type: string
+                description: graphic that provides an illustration of the dataset
+            dates:
+                type: object
+                properties:
+                    anyOf:
+                        creation:
+                            type: '#/definitions/date_or_datetime_string'
+                            format: string
+                        publication:
+                            type: '#/definitions/date_or_datetime_string'
+                            format: string
+                        revision:
+                            type: '#/definitions/date_or_datetime_string'
+                            format: string
+            extents:
+                type: object
+                description: spatial and temporal extents
+                properties:
+                    spatial:
+                        type: array
+                        description: spatial extent and CRS
+                        properties:
+                            bbox:
+                                type: array
+                                description: bounding box of resource
+                                items:
+                                    type: number
+                                minItems: 4
+                                maxItems: 6
+                            crs:
+                                type: string
+                                description: coordinate reference system of bbox
+                                default: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
+                            description:
+                                type: string
+                                description: description of the geographic area using an identifier
+                        required:
+                            - bbox
+                    temporal:
+                        type: array
+                        description: temporal extent of resource
+                        properties:
+                            begin:
+                                type: [string, 'null']
+                                format: date-time
+                                nullable: true
+                            end:
+                                type: [string, 'null']
+                                format: date-time
+                                nullable: true
+                            resolution:
+                                type: string
+                                description: Minimum time period resolvable in the dataset, as an ISO 8601 duration
+                required:
+                    - spatial
+            keywords:
+                type: object
+                patternProperties:
+                    "^.*":
+                        type: object
+                        description: |-
+                            The key name indicates the type of keywords (either schema specific
+                            of user defined).  The values are the keywords, type, and codelists.
+                        properties:
+                            keywords:
+                                $ref: '#/definitions/i18n_array'
+                                description: category keywords
+                            keywords_type:
+                                type: string
+                                description: subject matter used to group similar keywords
+                                enum:
+                                    - discipline
+                                    - place
+                                    - stratum
+                                    - temporal
+                                    - theme
+                            keywords_codelist:
+                                type: string
+                                description: |-
+                                    specific code list URL (for advanced use cases, else the default
+                                    is as per the given specified schema)
+                            vocabulary:
+                                type: object
+                                properties:
+                                    name:
+                                        $ref: '#/definitions/i18n_string'
+                                        description: name of the source of keywords
+                                    url:
+                                        type: string
+                                        format: uri
+                                        description: URL of source of keywords
+                                required:
+                                    - name
+        required:
+            - title
+            - abstract
+            - topiccategory
+            - fees
+            - accessconstraints
+            - rights
+            - url
+            - status
+            - maintenancefrequency
+            - dates
+            - extents
+            - keywords
+    content_info:
+        type: object
+        properties:
+            type:
+                type: string
+                description: Content type
+                enum:
+                    - coverage
+                    - image
+                    - feature_catalogue
+            cloud_cover:
+                type: number
+                description: |-
+                    area of the dataset obscured by clouds, expressed as a percentage
+                    of the spatial extent
+            processing_level:
+                type: string
+                description: |-
+                    image distributor’s code that identifies the level of radiometric
+                    and geometric processing that has been applied
+            attributes:
+                type: array
+                minItems: 1
+                items:
+                    type: object
+                    properties:
+                        name:
+                            type: string
+                            description: attribute name
+                        type:
+                            type: string
+                            description: data type of attribute
+                            enum:
+                                - string
+                                - number
+                                - integer
+                                - object
+                                - array
+                                - boolean
+                        units:
+                            type: string
+                            description: SI Unit
+                        title:
+                            $ref: '#/definitions/i18n_string'
+                            description: human readable title of attribute
+                        abstract:
+                            $ref: '#/definitions/i18n_string'
+                            description: description of attribute
+                        url:
+                            $ref: '#/definitions/i18n_string'
+                            description: URL with more information about the attribute
+                        values:
+                            type: object
+                            oneOf:
+                                - properties:
+                                      enum:
+                                          type: array
+                                          description: enumerated list of values
+                                          minItems: 1
+                                          items:
+                                              $ref: '#/definitions/any_type'
+                                - properties:
+                                      range:
+                                          type: array
+                                          description: range of values (min/max)
+                                          minItems: 2
+                                          maxItems: 2
+                                          items:
+                                              $ref: '#/definitions/any_type'
+                                - properties:
+                                      codelist:
+                                          type: array
+                                          description: values from a codelist
+                                          minItems: 1
+                                          items:
+                                              type: object
+                                              properties:
+                                                  name:
+                                                      type: string
+                                                      description: value name
+                                                  title:
+                                                      $ref: '#/definitions/i18n_string'
+                                                      description: human readable title of value
+                                                  abstract:
+                                                      $ref: '#/definitions/i18n_string'
+                                                      description: description of value
+                                                  url:
+                                                      $ref: '#/definitions/i18n_string'
+                                                      description: URL with more information about the value
+                                              required:
+                                                      - name
+                    required:
+                        - name
+
+            dimensions:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        name:
+                            type: string
+                            description: name of dimension
+                        units:
+                            type: string
+                            description: units in which sensor wavelengths are expressed
+                        min:
+                            type: number
+                            description: shortest wavelength that the sensor is capable of collecting within a designated band
+                        max:
+                            type: number
+                            description: longest wavelength that the sensor is capable of collecting within a designated band
+                    required:
+                        - name
+                        - units
+                        - min
+                        - max
+        required:
+            - type
+            - dimensions
+    contact:
+        patternProperties:
+            "^.*":
+                type: object
+                description: |- 
+                    MCFs can have 1..n contact sections as required using nesting
+                    A contact with a key called `pointOfContact` is minimally required.
+                properties:
+                    organization:
+                        $ref: '#/definitions/i18n_string'
+                        description: name of the responsible organization
+                    url:
+                        type: string
+                        format: uri
+                        description: on-line information that can be used to contact the individual or organization
+                    individualname:
+                        $ref: '#/definitions/i18n_string'
+                        description: name of the responsible person-surname
+                    positionname:
+                        $ref: '#/definitions/i18n_string'
+                        description: role or position of the responsible person
+                    phone:
+                        type: string
+                        description: telephone number by which individuals can speak to the responsible organization or individual
+                    fax:
+                        type: string
+                        description: telephone number of a facsimile machine for the responsible organization or individual
+                    address:
+                        $ref: '#/definitions/i18n_string'
+                        description: address line for the location (as described in ISO 11180)
+                    city:
+                        $ref: '#/definitions/i18n_string'
+                        description: city of the location
+                    administrativearea:
+                        $ref: '#/definitions/i18n_string'
+                        description: city of the location
+                    postalcode:
+                        type: string
+                        description: ZIP or other postal code
+                    country:
+                        $ref: '#/definitions/i18n_string'
+                        description: country of the physical address
+                    email:
+                        type: string
+                        description: address of the electronic mailbox of the responsible organization or individual
+                    hoursofservice:
+                        $ref: '#/definitions/i18n_string'
+                        description: time period (including time zone) when individuals can contact the organization or individual
+                    contactinstructions:
+                        $ref: '#/definitions/i18n_string'
+                        description: supplementalinstructions on how or when to contact the individual or organization
+                required:
+                    - organization
+                    - url
+                    - individualname
+                    - positionname
+                    - phone
+                    - fax
+                    - address
+                    - city
+                    - administrativearea
+                    - postalcode
+                    - country
+                    - email
+
+    distribution:
+        patternProperties:
+            "^.*":
+                type: object
+                description: |- 
+                    MCFs can have 1..n distribution sections as required using nesting.
+                properties:
+                    url:
+                        type: string
+                        format: uri
+                        description: location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/
+                    type:
+                        type: string
+                        description: connection protocol to be used. Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv
+                    rel:
+                        type: string
+                        description: the type or semantic of the relation.  The value should be an IANA link relation or a relation type specific to an established standard
+                    name:
+                        $ref: '#/definitions/i18n_string'
+                        description: name of the online resource
+                    description:
+                        $ref: '#/definitions/i18n_string'
+                        description: detailed text description of what the online resources is/does
+                    function:
+                        type: string
+                        description: code for function performed by the online resource
+                        enum:
+                            - download
+                            - information
+                            - offlineAccess
+                            - order
+                            - search
+                    format:
+                        $ref: '#/definitions/i18n_string'
+                        description: Format of the distribution method
+                    format_version:
+                        $ref: '#/definitions/i18n_string'
+                        description: Format version of the distribution method
+                    channel:
+                        type: string
+                        description: channel/topic/exchange when link is a Pub/Sub endpoint
+                required:
+                    - url
+                    - type
+                    - name
+                    - description
+                    - function
+    dataquality:
+        type: object
+        properties:
+            scope:
+                type: object
+                properties:
+                    level:
+                        type: string
+                        description: hierarchical level of the data specificed by the scope
+            lineage:
+                type: object
+                properties:
+                    statement:
+                        type: string
+                        description: general explanationn of the data producer's knowledge about the lineage of a dataset
+    acquisition:
+        type: object
+        properties:
+            platforms:
+                type: array
+                items:
+                    type: object
+                    properties:
+                        identifier:
+                            type: string
+                            description: unique identification of the platform
+                        description:
+                            type: string
+                            description: platform description
+                        instruments:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    identifier:
+                                        type: string
+                                        description: instrument identifier
+                                    type:
+                                        type: string
+                                        description: instrument type
+                    required:
+                        - identifier
+                        - description
+                        - instruments
+        required:
+            - platforms
+
+    attributes:
+        type: array
+        minItems: 1
+        items:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: attribute name
+                type:
+                    type: string
+                    description: data type of attribute
+                    enum:
+                        - string
+                        - number
+                        - integer
+                        - object
+                        - array
+                        - boolean
+                units:
+                    type: string
+                    description: SI Unit
+                title:
+                    $ref: '#/definitions/i18n_string'
+                    description: human readable title of attribute
+                abstract:
+                    $ref: '#/definitions/i18n_string'
+                    description: description of attribute
+                url:
+                    $ref: '#/definitions/i18n_string'
+                    description: URL with more information about the attribute
+                values:
+                    type: object
+                    oneOf:
+                        - properties:
+                              enum:
+                                  type: array
+                                  description: enumerated list of values
+                                  minItems: 1
+                                  items:
+                                      $ref: '#/definitions/any_type'
+                        - properties:
+                              range:
+                                  type: array
+                                  description: range of values (min/max)
+                                  minItems: 2
+                                  maxItems: 2
+                                  items:
+                                      $ref: '#/definitions/any_type'
+                        - properties:
+                              codelist:
+                                  type: array
+                                  description: values from a codelist
+                                  minItems: 1
+                                  items:
+                                      type: object
+                                      properties:
+                                          name:
+                                              type: string
+                                              description: value name
+                                          title:
+                                              $ref: '#/definitions/i18n_string'
+                                              description: human readable title of value
+                                          abstract:
+                                              $ref: '#/definitions/i18n_string'
+                                              description: description of value
+                                          url:
+                                              $ref: '#/definitions/i18n_string'
+                                              description: URL with more information about the value
+                                      required:
+                                              - name
+            required:
+                - name
+
+required:
+    - mcf
+    - metadata
+    - spatial
+    - identification
+    - contact
+    - distribution
+
+
+definitions:
+    any_type:
+        type:
+            - string
+            - number
+            - integer
+            - object
+            - array
+            - boolean
+    i18n_array:
+        oneOf:
+            - type: array
+            - type: object
+              patternProperties:  # e.g. keywords_en, keywords_fr
+                  '.*_\w{2}$':
+                      allOf:
+                          - type: array
+                            items:
+                                type: string
+    i18n_string:
+        oneOf:
+            - type: string
+            - type: object
+              patternProperties:  # e.g. title_en, abstract_fr
+                  '.*_\w{2}$':
+                      allOf:
+                          - type: string
+    date_or_datetime_string:
+        anyOf:
+            - type: string
+              format: date
+            - type: string
+              format: date-time

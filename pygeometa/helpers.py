@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2022 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -47,15 +47,20 @@ import base64
 from datetime import date, datetime, time
 from decimal import Decimal
 import logging
+from pathlib import Path
 
 LOGGER = logging.getLogger(__name__)
+
+THISDIR = Path(__file__).resolve().parent
 
 
 def json_serial(obj):
     """
     helper function to convert to JSON non-default
     types (source: https://stackoverflow.com/a/22238613)
+
     :param obj: `object` to be evaluated
+
     :returns: JSON non-default type to `str`
     """
 
@@ -71,6 +76,6 @@ def json_serial(obj):
     elif isinstance(obj, Decimal):
         return float(obj)
 
-    msg = '{} type {} not serializable'.format(obj, type(obj))
+    msg = f'{obj} type {type(obj)} not serializable'
     LOGGER.error(msg)
     raise TypeError(msg)
