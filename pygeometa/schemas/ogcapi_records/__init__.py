@@ -49,7 +49,7 @@ import logging
 import os
 from typing import Union
 
-from pygeometa.core import get_charstring, normalize_datestring
+from pygeometa.core import get_charstring
 from pygeometa.helpers import json_serial
 from pygeometa.schemas.base import BaseOutputSchema
 
@@ -157,11 +157,16 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
             if 'revision' in mcf['identification']['dates']:
                 record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
-            if 'publication' in mcf['identification']['dates']:
-                record['properties']['updated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
 
         if record['properties'].get('created') is None:
                 record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+        for date_type in ['created', 'updated']:
+            ds = record['properties'].get(date_type)
+            if ds is not None and len(ds) == 10:
+                LOGGER.debug('Date type found; expanding to date-time')
+                dt = datetime.strptime(ds, '%Y-%m-%d').strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+                record['properties'][date_type] = dt
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)
@@ -308,7 +313,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             rp['addresses'][0]['country'] = country[0]
 
         if contact.get('phone') is not None:
-            rp['phones'] = [{'value': contact.get('phone')}]
+            LOGGER.debug('Formatting phone number')
+            phone = contact['phone']
+            phone = phone.replace('-', '').replace('(', '').replace(')', '')
+            phone = phone.replace('+0', '+').replace(' ', '')
+
+            rp['phones'] = [{'value': phone}]
         if contact.get('email') is not None:
             rp['emails'] = [{'value': contact.get('email')}]
 
