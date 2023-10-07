@@ -316,8 +316,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             LOGGER.debug('Formatting phone number')
             phone = contact['phone']
             phone = phone.replace('-', '').replace('(', '').replace(')', '')
-            phone = phone.replace('+0', '').replace(' ', '')
-            phone = f'+{phone}'
+            phone = phone.replace('+0', '+').replace(' ', '')
 
             rp['phones'] = [{'value': phone}]
         if contact.get('email') is not None:

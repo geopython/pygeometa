@@ -106,7 +106,7 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
             except KeyError:
                 LOGGER.warning('Missing wmo:dataPolicy')
 
-        if 'dates' not in record['properties']:
+        if 'created' not in record['properties']:
             record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
 
         if stringify:
