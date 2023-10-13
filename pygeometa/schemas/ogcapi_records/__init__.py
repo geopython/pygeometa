@@ -262,6 +262,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         organization_name = get_charstring(contact.get('organization'),
                                            self.lang1, self.lang2)
 
+        individual_name = get_charstring(contact.get('individualname'),
+                                         self.lang1, self.lang2)
+
         position_name = get_charstring(contact.get('positionname'),
                                        self.lang1, self.lang2)
 
@@ -290,14 +293,14 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'roles': []
         }
 
-        if organization_name[0] == contact.get('organization'):
-            LOGGER.debug('Contact name is organization')
-            rp['name'] = organization_name[0]
-
+        if organization_name[0] is not None:
+            rp['organization'] = organization_name[0]
+        if individual_name[0] is not None:
+            rp['name'] = individual_name[0]
         if position_name[0] is not None:
-            rp['positionName'] = position_name[0]
+            rp['position'] = position_name[0]
         if hours_of_service[0] is not None:
-            rp['positionName'] = hours_of_service[0]
+            rp['hoursOfService'] = hours_of_service[0]
         if contact_instructions[0] is not None:
             rp['contactInstructions'] = contact_instructions[0]
 
@@ -319,6 +322,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             phone = phone.replace('+0', '+').replace(' ', '')
 
             rp['phones'] = [{'value': phone}]
+
         if contact.get('email') is not None:
             rp['emails'] = [{'value': contact.get('email')}]
 
