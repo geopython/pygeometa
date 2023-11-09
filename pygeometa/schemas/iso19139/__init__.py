@@ -163,28 +163,24 @@ class ISO19139OutputSchema(BaseOutputSchema):
         if identification.temporalextent_end:
             temp_extent['end'] = identification.temporalextent_end
 
-
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
-        if m.identification.denominators:
-            mcf['spatial']['denominators'] = m.identification.denominators
+        if hasattr(identification, 'denominators'):
+            mcf['spatial']['denominators'] = identification.denominators
 
-        if m.identification.distance:
+        if hasattr(identification, 'distance'):
             mcf['spatial']['resolution'] = []
-            for k, v in enumerate(m.identification.distance):
+            for k, v in enumerate(identification.distance):
                 uom = ''
-                if m.identification.uom and len(m.identification.uom) > k:
-                    uom = m.identification.uom[k]
+                if hasattr(identification, 'uom') and len(identification.uom) > k: # noqa
+                    uom = identification.uom[k]
                 mcf['spatial']['resolution'].append({'distance': v,
                                                      'uom': uom})
 
-        if m.identification.spatialrepresentationtype and len(m.identification.spatialrepresentationtype) > 0:  # noqa
-            mcf['spatial']['datatype'] = m.identification.spatialrepresentationtype[0] # noqa
+        if hasattr(identification, 'spatialrepresentationtype') and len(identification.spatialrepresentationtype) > 0:  # noqa
+            mcf['spatial']['datatype'] = identification.spatialrepresentationtype[0] # noqa
 
-        if m.identification.accessconstraints:
-            mcf['identification']['accessconstraints'] = m.identification.accessconstraints[0]  # noqa
-
-        if identification.accessconstraints:
+        if hasattr(identification, 'accessconstraints'):
             mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
 
         mcf['identification']['status'] = identification.status
