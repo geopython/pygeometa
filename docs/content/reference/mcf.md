@@ -155,6 +155,9 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 datatype|Mandatory|method used to represent geographic information in the dataset (must be one of 'vector', 'grid', 'textTable', 'tin', 'stereoModel', 'video')|vector|Section B.5.26
 geomtype|Mandatory|name of point or vector objects used to locate zero-, one-, two-, or threedimensional spatial locations in the dataset (must be one of 'complex', 'composite', 'curve', 'point', 'solid', 'surface')|point|ISO 19115:2003 B.5.15
+denominators|Optional|level of detail expressed as the scale of a comparable hardcopy map or chart|5000|ISO 19115:2003 Section B.2.2.5
+resolution.distance|Optional|ground sample distance|100|ISO 19115:2003 Section B.2.2.5
+resolution.uom|Optional|unit of measure of the distance|m|ISO 19115:2003 Section B.2.2.5
 
 ### `identification`
 

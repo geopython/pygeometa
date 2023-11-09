@@ -107,12 +107,16 @@ properties:
                     - surface
             denominators:
                 type: array
-                description:  one or two (min-max) denominators to indicate the scale of the resource
+                description:  one or two (min-max) denominators to indicate the scale of the resource                
+                minItems: 1
+                maxItems: 2
                 items:
                     type: integer
             resolutions:
                 type: array
                 description: one or two (min-max) distance values + uom to indicate the resolution of the resource
+                minItems: 1
+                maxItems: 2
                 properties:
                     distance:
                         type: number

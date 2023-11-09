@@ -108,7 +108,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
         elif m.languagecode:
             mcf['metadata']['language'] = m.languagecode
 
-        identification = m.identification[0]
+        identification = next(iter(m.identification), {})
 
         LOGGER.debug('Setting identification')
         mcf['identification']['title'] = identification.title
@@ -178,10 +178,10 @@ class ISO19139OutputSchema(BaseOutputSchema):
                                                      'uom': uom})
 
         if hasattr(identification, 'spatialrepresentationtype') and len(identification.spatialrepresentationtype) > 0:  # noqa
-            mcf['spatial']['datatype'] = identification.spatialrepresentationtype[0] # noqa
+            mcf['spatial']['datatype'] = next(iter(identification.spatialrepresentationtype), '') # noqa
 
         if hasattr(identification, 'accessconstraints'):
-            mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
+            mcf['identification']['accessconstraints'] = next(iter(identification.accessconstraints), '')  # noqa
 
         mcf['identification']['status'] = identification.status
 
