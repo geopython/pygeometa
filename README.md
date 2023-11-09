@@ -152,6 +152,7 @@ mkdir pygeometa/schemas/foo
 cp pygeometa/schemas/iso19139/__init__.py pygeometa/schemas/foo
 vi pygeometa/schemas/foo/__init__.py
 # update class name and super().__init__() function accordingly 
+```
 
 ### Running Tests
 
