@@ -53,6 +53,7 @@ Notes about nesting MCFs:
 * You can refer to one `base_mcf` per section of a MCF
 * Multiple sections can refer to the same base_mcf file
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
+    * Note that if a parameter in the current MCF is a YAML list, the corresponding base_mcf list (if it exists) is entirely overwritten  
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
 ## Environment variables
