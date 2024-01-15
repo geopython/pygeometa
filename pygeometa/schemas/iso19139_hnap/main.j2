@@ -541,13 +541,17 @@
     <gmd:MD_Distribution>
       {% set formats = prune_distribution_formats(record['distribution']) %}
       {% for v in formats %}
-      {% if v['format_en'] and v['format_fr'] and v['format_version'] %}
+      {% if v['format_en'] and v['format_fr'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
           {{ cs.get_freetext('name', 'fra', get_charstring(v.get('format'), 'en', 'fr')) }}
+          {% if v['format_version'] %}
           <gmd:version>
             <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
           </gmd:version>
+          {% else %}
+          <gmd:version gco:nilReason="missing"/>
+          {% endif %}
         </gmd:MD_Format>
       </gmd:distributionFormat>
       {% endif %}

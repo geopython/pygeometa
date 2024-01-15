@@ -47,7 +47,7 @@ distribution:
         format:
             en: Other
             fr: Autre
-        format_version: 0
+        format_version: '0'
         function: download
         
     waf_eng-CAN:
@@ -62,7 +62,7 @@ distribution:
         format:
             en: Other
             fr: Autre
-        format_version: 0
+        format_version: '0'
         function: download
         
     wms_eng-CAN:
@@ -72,7 +72,7 @@ distribution:
             fr: Service Web
         type: OGC:WMS
         format: WMS
-        format_version: 1.1.1
+        format_version: '1.1.1'
         name:
             en: GDPS.ETA_TT
             fr: GDPS.ETA_TT
@@ -85,7 +85,7 @@ distribution:
             fr: Service Web
         type: OGC:WMS
         format: WMS
-        format_version: 1.1.1
+        format_version: '1.1.1'
         name:
             en: GDPS.ETA_TT
             fr: GDPS.ETA_TT

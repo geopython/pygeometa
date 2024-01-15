@@ -384,11 +384,17 @@
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
       {% for k, v in record['distribution'].items() %}
-      {% if v['format'] and v['format_version'] %}
+      {% if v['format'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
           <gmd:name>{{ v['format'] }}</gmd:name>
-          <gmd:version>{{ v['format_version'] }}</gmd:version>
+          {% if v['format_version'] %}
+          <gmd:version>
+            <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
+          </gmd:version>
+          {% else %}
+          <gco:version gco:nilReason="missing"/>
+          {% endif %}
         </gmd:MD_Format>
       </gmd:distributionFormat>
       {% endif %}
