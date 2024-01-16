@@ -178,13 +178,19 @@ class PygeometaTest(unittest.TestCase):
 
         formats = {
             'wms': {
-                'format_en': 'image', 'format_fr': 'image', 'format_version': 2
+                'format_en': 'image',
+                'format_fr': 'image',
+                'format_version': '2'
             },
             'wfs': {
-                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+                'format_en': 'GRIB2',
+                'format_fr': 'GRIB2',
+                'format_version': '2'
             },
             'wcs': {
-                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+                'format_en': 'GRIB2',
+                'format_fr': 'GRIB2',
+                'format_version': '2'
             }
         }
 
