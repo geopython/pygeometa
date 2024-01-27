@@ -171,7 +171,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)
 
-        record['properties']['rights'] = rights[0]
+        if rights != [None, None]:
+            record['properties']['rights'] = rights[0]
 
         formats = []
         for v in mcf['distribution'].values():
