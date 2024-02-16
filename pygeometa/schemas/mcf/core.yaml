@@ -311,13 +311,9 @@ properties:
         required:
             - title
             - abstract
-            - topiccategory
-            - fees
-            - accessconstraints
             - rights
             - url
             - status
-            - maintenancefrequency
             - dates
             - extents
             - keywords
