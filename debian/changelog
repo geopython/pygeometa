@@ -1,3 +1,14 @@
+pygeometa (0.16.0) focal; urgency=medium
+
+  * MCF core: make identification topiccategory, fees, accessconstraints, maintenancefrequency optional (#242)
+  * OARec: write keywords as theme/concepts if vocabulary exists (#233)
+  * OARec: safeguard properties.rights
+  * WMO WCMP2: various fixes based on specification updates
+  * CLI: add -o as short option for --output
+  * ISO: distribution: ensure format_version exists or emit gco:nilReason=missing (#240)
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sun, 10 Mar 2024 23:07:13 +0000
+
 pygeometa (0.15.3) focal; urgency=medium
 
   * OARec bugfixes
