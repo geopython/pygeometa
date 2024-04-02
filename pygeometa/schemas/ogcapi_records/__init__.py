@@ -134,12 +134,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             if begin in ['now', 'None', None]:
                 begin = '..'
             else:
-                begin = str(begin)
+                begin = begin.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             if end in ['now', 'None', None]:
                 end = '..'
             else:
-                end = str(end)
+                end = end.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             if [begin, end] == [None, None]:
                 record['time'] = None
