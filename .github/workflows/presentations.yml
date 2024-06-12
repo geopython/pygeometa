@@ -27,4 +27,4 @@ jobs:
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          path: docs/presentations
+#          path: docs/presentations
