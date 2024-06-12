@@ -1,0 +1,28 @@
+name: presentations ⚙️
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'docs/presentations/**'
+  pull_request:
+    branches:
+    - master
+    paths:
+    - 'docs/presentations/**'
+
+jobs:
+  build:
+    name: Render and Publish presentations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Publish to GitHub Pages (and render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: docs/presentations

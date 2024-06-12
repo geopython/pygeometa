@@ -1,0 +1,71 @@
+---
+title: A fun way to do spatial cataloguing 
+subtitle: cataloguing and publishing using pygeometa and mdme
+author: Paul van Genuchten, Tom Kralidis
+date: 2024-07-03
+format:
+  revealjs: 
+    theme: default
+---
+
+## A fun way to do spatial cataloguing
+
+- we all know the edit-me-on-git link in modern websites/wikis
+- anybody can contribute, contributions are traceable, easily restore if things break
+- we want that experience for spatial cataloguing
+
+## Intro to mcf / pygeometa
+
+
+
+## CI-CD to publish to a catalogue
+
+- pycsw a standards based catalogue component (postgres backend)
+- Supports OGC API Records, various metadata models, faceted search 
+```{mermaid}
+flowchart TB
+    P[Project folder] -->|Files| CI{{crawler}}
+    CI -->|Extract metadata| P
+    CI --> G[Git] 
+    G --> PYCSW
+```
+
+
+## How is MCF percieved by typical users?
+
+- Typical users expect shiny webforms, like linked-in, facebook
+- Not used to YAML syntax and git CI-CD workflows
+- That's  where the MDME initiative came up
+
+## Land Soil Crop hubs
+
+- An example of a catalogue using the MCF approach
+- Collect resources which are relevant to agriculture in East Africa
+- Users initially provided metadata as lists in excel
+- Metadata is hosted in Github, users contribute content (and register issues)
+
+## Metadata as a source for Mapserver configuration
+
+- Use the metadata to generate map configuration 
+- Add the generated map endpoint to the metadata
+- Mapserver is fully aligned with the catalogue
+
+## TerriaJS, a webbased GIS
+
+- The project uses TerriaJS as a data viewer (react + leaflet/cesium)
+- TerriaJS includes a Catalogue search as CSW and links back to the catalogue via wms capabilities
+- Extra integration via 'Add data to viewer' from catalogue page
+
+## WMO Information System (WIS2)
+
+- Set of tools adopted by regional weather offices to build up a global system
+
+## Take aways
+
+- MCF is an interesting metadata format for embedded metadata in local file repositories
+- Git storage and CI-CD workflows are traceable, participatory approach for metadata management
+- OGCAPI records (in for example pycsw) offers a clean machine and human friendly interfaceto metadata
+
+## Demo time
+
+...
