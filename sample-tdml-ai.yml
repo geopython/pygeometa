@@ -1,0 +1,100 @@
+mcf:
+    version: 1.0
+
+metadata:
+    identifier: toronto_3d
+    language: en
+    language_alternate: fr
+    charset: utf8
+    parentidentifier: someparentid
+    hierarchylevel: dataset
+    datestamp: 2024-07-12
+    dataseturi: https://github.com/opengeospatial/TrainingDML-AI_SWG/blob/main/use-cases/examples/1.0/Toronto_3D.json
+
+spatial:
+    datatype: vector
+    geomtype: point
+
+identification:
+    language: eng; CAN
+    charset: utf8
+    title:
+        en: toronto-3D
+    abstract:
+        en: The dataset is a large urban outdoor point cloud dataset for segmentation collected by the Mobile Laser Scanning System (MLSS)
+    edition: 1.0
+    dates:
+        creation: 2020-01-01
+        revision: 2024-07-12
+    doi: 10.427/345638
+    keywords:
+        default:
+            keywords:
+                en: [toronto, 3d, training data, point cloud, mlss]
+    topiccategory:
+        - elevation
+    extents:
+        spatial:
+            - bbox: [-79.859619,43.502322,-78.870850,43.857382]
+              crs: 4326
+        temporal: []
+    fees: None
+    accessconstraints: otherRestrictions
+    license:
+        name: CC BY-SA 4.0
+        url: https://creativecommons.org/licenses/by-sa/4.0/
+    rights:
+        en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    url: https://github.com/opengeospatial/TrainingDML-AI_SWG/blob/main/use-cases/examples/1.0/Toronto_3D.json
+    status: onGoing
+    maintenancefrequency: continual
+
+contact:
+    pointOfContact: &contact_poc
+        organization: Environment Canada
+        url: https://www.ec.gc.ca/
+        individualname: Tom Kralidis
+        positionname: Senior Geospatial Architect
+        phone: +01-123-456-7890
+        fax: +01-123-456-7890
+        address: 4905 Dufferin Street
+        city: Toronto
+        administrativearea: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        email: foo@bar.tld
+        hoursofservice: 0700h - 1500h EST
+        contactinstructions: email
+
+    distributor: *contact_poc
+
+distribution: {}
+
+dataquality:
+    scope:
+        level: dataset
+    lineage:
+        statement: this dataset was derived from a custom process against dataset xyz
+
+attributes:
+    - name: red
+    - name: green
+    - name: blue
+
+tasks:
+    task1:
+      type: http://demo#point_cloud_semantic_segmentation
+      description: Point Cloud Semantic Segmentation
+
+classes:
+    - Ground
+    - Pole
+    - Fence
+
+training-data:
+    L001:
+        url: data/L001.ply
+        labels:
+            - url: data/L001.ply2
+              type: Point
+              field: scalar_Label
