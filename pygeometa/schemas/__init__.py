@@ -64,6 +64,8 @@ SCHEMAS = {
     'openaire': 'pygeometa.schemas.openaire.OpenAIREOutputSchema',
     'schema-org': 'pygeometa.schemas.schema_org.SchemaOrgOutputSchema',
     'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
+    'tdml-ai': 'pygeometa.schemas.tdml_ai.TDML_AIOutputSchema',
+    'tdml-ai-oarec': 'pygeometa.schemas.tdml_ai_oarec.TDML_AIOARecOutputSchema',  # noqa
     'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wcmp2': 'pygeometa.schemas.wmo_wcmp2.WMOWCMP2OutputSchema',
     'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'

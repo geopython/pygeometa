@@ -229,18 +229,19 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = get_supported_schemas()
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 14,
+        self.assertEqual(len(schemas), 16,
                          'Expected specific number of supported schemas')
         self.assertEqual(schemas,
                          sorted(['csvw', 'cwl', 'dcat', 'iso19139',
                                  'iso19139-2', 'iso19139-hnap', 'mmd',
                                  'oarec-record', 'openaire',
-                                 'schema-org', 'stac-item', 'wmo-cmp',
-                                 'wmo-wcmp2', 'wmo-wigos']),
+                                 'schema-org', 'stac-item',
+                                 'tdml-ai', 'tdml-ai-oarec',
+                                 'wmo-cmp', 'wmo-wcmp2', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
         schemas = get_supported_schemas(include_autodetect=True)
-        self.assertEqual(len(schemas), 15,
+        self.assertEqual(len(schemas), 17,
                          'Expected specific number of supported schemas')
         self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
