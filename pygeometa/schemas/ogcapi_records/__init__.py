@@ -125,9 +125,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         }
 
         LOGGER.debug('Checking for temporal')
-        if all(['temporal' in mcf['identification']['extents'],
-                mcf['identification']['extents']['temporal'] != [{}]]):
-
+        try:
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0].get('end')
 
@@ -150,6 +148,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
+
+        except (IndexError, KeyError):
+            record['time'] = None
 
         LOGGER.debug('Checking for dates')
         if 'dates' in mcf['identification']:
