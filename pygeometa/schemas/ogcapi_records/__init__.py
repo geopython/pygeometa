@@ -422,23 +422,31 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         print("VALUE", type(date_value))
         value = None
 
-        if isinstance(date_value, (date, datetime)):
+        if isinstance(date_value, str) and date_value != 'None':
+            if len(date_value) == 10:  # YYYY-MM-DD
+                format_ = '%Y-%m-%d'
+            elif len(date_value) == 7:  # YYYY-MM
+                format_ = '%Y-%m'
+            elif len(date_value) == 4:  # YYYY
+                format_ = '%Y'
+
+            LOGGER.debug('date type found; expanding to date-time')
+            value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+        elif isinstance(date_value, int) and len(str(date_value)) == 4:
+            date_value2 = str(date_value)
+            LOGGER.debug('date type found; expanding to date-time')
+            format_ = '%Y'
+            value = datetime.strptime(date_value2, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+        elif isinstance(date_value, (date, datetime)):
             value = date_value.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         elif date_value in [None, 'None']:
             value = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+
         else:
-            value = str(date_value)
-
-        if isinstance(value, str):
-            if len(value) == 10:  # YYYY-MM-DD
-                format_ = '%Y-%m-%d'
-            elif len(value) == 7:  # YYYY-MM
-                format_ = '%Y-%m'
-            elif len(value) == 4:  # YYYY
-                format_ = '%Y'
-
-            LOGGER.debug('date type found; expanding to date-time')
-            value = datetime.strptime(value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+            msg = f'Unknown date string: {date_value}'
+            raise RuntimeError(msg)
 
         return value
