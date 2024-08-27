@@ -43,7 +43,7 @@
 #
 # =================================================================
 
-from datetime import datetime
+from datetime import date, datetime
 import json
 import logging
 import os
@@ -153,21 +153,13 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['time'] = None
 
         LOGGER.debug('Checking for dates')
+
         if 'dates' in mcf['identification']:
             if 'creation' in mcf['identification']['dates']:
-                record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
+                record['properties']['created'] = self.generate_date(mcf['identification']['dates']['creation'])  # noqa
+
             if 'revision' in mcf['identification']['dates']:
-                record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
-
-        if record['properties'].get('created') is None:
-                record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
-
-        for date_type in ['created', 'updated']:
-            ds = record['properties'].get(date_type)
-            if ds is not None and len(ds) == 10:
-                LOGGER.debug('Date type found; expanding to date-time')
-                dt = datetime.strptime(ds, '%Y-%m-%d').strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
-                record['properties'][date_type] = dt
+                record['properties']['updated'] = self.generate_date(mcf['identification']['dates']['revision'])  # noqa
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)
@@ -416,3 +408,37 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             link['channel'] = distribution['channel']
 
         return link
+
+    def generate_date(self, date_value: str) -> str:
+        """
+        Helper function to derive RFC3339 date from MCF date type
+
+        :param date_value: `str` of date value
+
+        :returns: TODO
+        """
+
+        print("VALUE", date_value)
+        print("VALUE", type(date_value))
+        value = None
+
+        if isinstance(date_value, (date, datetime)):
+            value = date_value.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+        elif date_value in [None, 'None']:
+            value = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            value = str(date_value)
+
+        if isinstance(value, str):
+            if len(value) == 10:  # YYYY-MM-DD
+                format_ = '%Y-%m-%d'
+            elif len(value) == 7:  # YYYY-MM
+                format_ = '%Y-%m'
+            elif len(value) == 4:  # YYYY
+                format_ = '%Y'
+
+            LOGGER.debug('date type found; expanding to date-time')
+            value = datetime.strptime(value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+        return value
