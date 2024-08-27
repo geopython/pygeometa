@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11"]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@v5
       name: Setup Python ${{ matrix.python-version }}
       with:
         python-version: ${{ matrix.python-version }}
@@ -28,8 +28,6 @@ jobs:
       run: |
         coverage run --source pygeometa setup.py test
         coverage report -m
-#      with:
-#        fail_ci_if_error: false
     - name: build docs 🏗️
       run: mkdocs build -f docs/mkdocs.yml
     - name: run flake8 ⚙️
@@ -37,6 +35,4 @@ jobs:
     - name: build Python package 🏗️
       run: python3 setup.py sdist bdist_wheel --universal
     - name: build Debian package 🏗️
-#      with:
-#        fail_ci_if_error: false
       run: sudo debuild -b -uc -us
