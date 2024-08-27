@@ -415,11 +415,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         :param date_value: `str` of date value
 
-        :returns: TODO
+        :returns: `str` of date-time value
         """
 
-        print("VALUE", date_value)
-        print("VALUE", type(date_value))
         value = None
 
         if isinstance(date_value, str) and date_value != 'None':
