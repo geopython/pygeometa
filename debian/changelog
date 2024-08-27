@@ -1,3 +1,9 @@
+pygeometa (0.16.l) jammy; urgency=medium
+
+  * OARec: time and created/updated date-time fixes
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 27 Aug 2024 01:56:22 +0000
+
 pygeometa (0.16.0) focal; urgency=medium
 
   * MCF core: make identification topiccategory, fees, accessconstraints, maintenancefrequency optional (#242)
