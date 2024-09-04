@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -58,7 +58,7 @@ from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             prune_distribution_formats,
                             prune_transfer_option, MCFReadError,
                             MCFValidationError, SCHEMAS, validate_mcf)
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
@@ -381,7 +381,7 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('../sample.yml'))
 
-        instance = json.loads(json.dumps(mcf, default=json_serial))
+        instance = json.loads(json_dumps(mcf))
 
         is_valid = validate_mcf(instance)
         assert is_valid
@@ -389,7 +389,7 @@ class PygeometaTest(unittest.TestCase):
         # validated nested MCF
         mcf = read_mcf(get_abspath('./sample-child.yml'))
 
-        instance = json.loads(json.dumps(mcf, default=json_serial))
+        instance = json.loads(json_dumps(mcf))
 
         is_valid = validate_mcf(instance)
         assert is_valid

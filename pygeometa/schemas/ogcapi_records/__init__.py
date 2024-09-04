@@ -44,13 +44,12 @@
 # =================================================================
 
 from datetime import date, datetime
-import json
 import logging
 import os
 from typing import Union
 
 from pygeometa.core import get_charstring
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -236,7 +235,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['links'].append(self.generate_link(value))
 
         if stringify:
-            return json.dumps(record, default=json_serial, indent=4)
+            return json_dumps(record)
 
         return record
 

@@ -44,12 +44,11 @@
 # =================================================================
 
 from datetime import datetime
-import json
 import logging
 import os
 from typing import Union
 
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -110,6 +109,6 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
             record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
 
         if stringify:
-            return json.dumps(record, default=json_serial, indent=4)
+            return json_dumps(record)
         else:
             return record
