@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -63,7 +63,7 @@ from jsonschema.exceptions import ValidationError
 import yaml
 
 from pygeometa import cli_options
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
@@ -573,7 +573,7 @@ def validate(ctx, mcf, verbosity):
 
     click.echo(f'Validating {mcf}')
 
-    instance = json.loads(json.dumps(read_mcf(mcf), default=json_serial))
+    instance = json.loads(json_dumps(read_mcf(mcf)))
     validate_mcf(instance)
 
     click.echo('Valid MCF document')

@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis, Paul van Genuchten
+# Copyright (c) 2024 Tom Kralidis, Paul van Genuchten
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,11 +43,10 @@
 #
 # =================================================================
 
-import json
 import os
 from typing import Union
 
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -208,6 +207,6 @@ class DCATOutputSchema(BaseOutputSchema):
                 dcat[key] = value
 
         if stringify:
-            return json.dumps(dcat, default=json_serial, indent=4)
+            return json_dumps(dcat)
 
         return dcat

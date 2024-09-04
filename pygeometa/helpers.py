@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -46,17 +46,31 @@
 import base64
 from datetime import date, datetime, time
 from decimal import Decimal
+import json
 import logging
 from pathlib import Path
+from typing import Any
 
 LOGGER = logging.getLogger(__name__)
 
 THISDIR = Path(__file__).resolve().parent
 
 
-def json_serial(obj):
+def json_dumps(obj) -> str:
     """
-    helper function to convert to JSON non-default
+    Helper function to dump dict to JSON string
+
+    :param obj: `dict` of JSON
+
+    :returns: `str` of JSON
+    """
+
+    return json.dumps(obj, default=json_serial, indent=4, ensure_ascii=False)
+
+
+def json_serial(obj) -> Any:
+    """
+    Helper function to convert to JSON non-default
     types (source: https://stackoverflow.com/a/22238613)
 
     :param obj: `object` to be evaluated

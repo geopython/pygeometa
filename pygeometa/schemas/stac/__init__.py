@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2020 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,12 +43,11 @@
 #
 # =================================================================
 
-import json
 import os
 from typing import Union
 
 from pygeometa.core import get_charstring
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -136,6 +135,6 @@ class STACItemOutputSchema(BaseOutputSchema):
             stac_item['links'].append(link)
 
         if stringify:
-            return json.dumps(stac_item, default=json_serial, indent=4)
+            return json_dumps(stac_item)
 
         return stac_item
