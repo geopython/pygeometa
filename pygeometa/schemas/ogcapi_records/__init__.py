@@ -113,7 +113,6 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 ]]
             },
             'properties': {
-                'identifier': mcf['metadata']['identifier'],
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
