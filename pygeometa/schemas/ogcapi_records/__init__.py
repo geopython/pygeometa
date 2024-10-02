@@ -116,7 +116,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
-                'language': self.lang1,
+                'language': {
+                    'code': self.lang1
+                 },
                 'type': mcf['metadata']['hierarchylevel'],
             },
             'links': []
@@ -169,12 +171,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         for v in mcf['distribution'].values():
             format_ = get_charstring(v.get('format'), self.lang1, self.lang2)
             if format_[0] is not None:
-                formats.append(format_)
+                formats.append(format_[0])
 
         LOGGER.debug('Checking for formats')
         if formats:
-            record['properties']['formats'] = list(
-                set([f[0] for f in formats]))
+            formats2 = set(formats)
+            record['properties']['formats'] = [{'name': f} for f in formats2]
 
         LOGGER.debug('Checking for contacts')
         record['properties']['contacts'] = self.generate_contacts(
