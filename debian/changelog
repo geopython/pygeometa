@@ -1,4 +1,4 @@
-pygeometa (0.16.l) jammy; urgency=medium
+pygeometa (0.16.1) jammy; urgency=medium
 
   * OARec: time and created/updated date-time fixes
 
