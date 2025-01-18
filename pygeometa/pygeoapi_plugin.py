@@ -355,7 +355,7 @@ class PygeometaMetadataSchemasProcessor(BaseProcessor):
 
         super().__init__(processor_def, PROCESS_METADATA_SCHEMAS)
 
-    def execute(self, data, **kwargs)):
+    def execute(self, data, **kwargs):
 
         mimetype = 'application/json'
 
@@ -384,7 +384,7 @@ class PygeometaMetadataImportProcessor(BaseProcessor):
 
         super().__init__(processor_def, PROCESS_METADATA_IMPORT)
 
-    def execute(self, data, **kwargs)):
+    def execute(self, data, **kwargs):
 
         response = None
         mimetype = 'application/json'
@@ -433,7 +433,7 @@ class PygeometaMetadataValidateProcessor(BaseProcessor):
 
         super().__init__(processor_def, PROCESS_METADATA_VALIDATE)
 
-    def execute(self, data, **kwargs)):
+    def execute(self, data, **kwargs):
 
         response = None
         mimetype = 'application/json'
@@ -477,7 +477,7 @@ class PygeometaMetadataGenerateProcessor(BaseProcessor):
 
         super().__init__(processor_def, PROCESS_METADATA_GENERATE)
 
-    def execute(self, data, **kwargs)):
+    def execute(self, data, **kwargs):
 
         response = None
         mimetype = 'application/json'
