@@ -355,7 +355,7 @@ class PygeometaMetadataSchemasProcessor(BaseProcessor):
 
         super().__init__(processor_def, PROCESS_METADATA_SCHEMAS)
 
-    def execute(self, data, **kwargs):
+    def execute(self, data):
 
         mimetype = 'application/json'
 
