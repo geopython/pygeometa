@@ -99,7 +99,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         record = {
             'id': mcf['metadata']['identifier'],
             'conformsTo': [
-                'http://www.opengis.net/spec/ogcapi-records-1/1.0/req/record-core',  # noqa
+                'http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/record-core',  # noqa
             ],
             'type': 'Feature',
             'geometry': {
@@ -116,13 +116,15 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
-                'language': {
-                    'code': self.lang1
-                 },
                 'type': mcf['metadata']['hierarchylevel'],
             },
             'links': []
         }
+
+        if self.lang1 is not None:
+            record['properties']['language'] = {
+                'code': self.lang1
+            }
 
         LOGGER.debug('Checking for temporal')
         try:
@@ -141,6 +143,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             if [begin, end] == [None, None]:
                 record['time'] = None
+            elif [begin, end] == ['..', '..']:
+                pass
             else:
                 record['time'] = {
                     'interval': [begin, end]
@@ -213,6 +217,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         if all_keywords:
             record['properties']['keywords'] = all_keywords
+
+        if not record['properties']['themes']:
+            _ = record['properties'].pop('themes', None)
 
         LOGGER.debug('Checking for licensing')
         if mcf['identification'].get('license') is not None:
@@ -388,9 +395,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         name = get_charstring(distribution.get('name'), self.lang1, self.lang2)
 
         link = {
-            'href': distribution['url'],
-            'type': distribution['type']
+            'href': distribution['url']
         }
+
+        if distribution.get('type') is not None:
+            link['type'] = distribution['type']
 
         reltype = distribution.get('rel') or distribution.get('function')
         if reltype is not None:
