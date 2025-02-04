@@ -427,6 +427,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 format_ = '%Y-%m'
             elif len(date_value) == 4:  # YYYY
                 format_ = '%Y'
+            elif len(date_value) == 19:  # YYYY-MM-DDTHH:MM:SS
+                msg = 'YYYY-MM-DDTHH:MM:SS with no timezone; converting to UTC'
+                LOGGER.debug(msg)
+                format_ = '%Y-%m-%dT%H:%M:%S'
 
             LOGGER.debug('date type found; expanding to date-time')
             value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
