@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2024 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -427,6 +427,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 format_ = '%Y-%m'
             elif len(date_value) == 4:  # YYYY
                 format_ = '%Y'
+            elif len(date_value) == 19:  # YYYY-MM-DDTHH:MM:SS
+                msg = 'YYYY-MM-DDTHH:MM:SS with no timezone; converting to UTC'
+                LOGGER.debug(msg)
+                format_ = '%Y-%m-%dT%H:%M:%S'
 
             LOGGER.debug('date type found; expanding to date-time')
             value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
