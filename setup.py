@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -111,10 +111,10 @@ setup(
         'catalogue',
         'discovery'
     ]),
-    author='Meteorological Service of Canada',
-    author_email='tom.kralidis@canada.ca',
-    maintainer='Meteorological Service of Canada',
-    maintainer_email='tom.kralidis@canada.ca',
+    author='Tom Kralidis',
+    author_email='tomkralidis@gmail.com',
+    maintainer='Tom Kralidis',
+    maintainer_email='tomkralidis@gmail.com',
     url='https://geopython.github.io/pygeometa',
     install_requires=read('requirements.txt').splitlines(),
     packages=find_packages(),
