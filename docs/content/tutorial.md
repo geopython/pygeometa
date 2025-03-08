@@ -136,7 +136,7 @@ Adding an output metadata schemas to pygeometa involves extending
 `pygeometa.schemas.base.BaseOutputSchema` and supporting the `write`
 function to return a string of exported metadata content.  If you are using
 Jinja2 templates, see the next section.  If you are using another means of
-generating metadata (lxml, xml.etree, json, etc.), override the ABS `write`
+generating metadata (lxml, xml.etree, json, etc.), override the ABC `write`
 class to emit a string using your tooling/workflow accordingly.  See the
 below sections for examples.
 

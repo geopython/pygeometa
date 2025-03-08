@@ -239,7 +239,7 @@
       {% endfor %}
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
-          {{ cs.get_freetext('useLimitation', record.get('metadata',{}).get('language_alternate'), get_charstring(record['identification'].get('rights'), record.get('metadata',{}).get('language'), record.get('metadata',{}).get('language_alternate'))) }}           
+          {{ cs.get_freetext('useLimitation', record.get('metadata',{}).get('language_alternate'), get_charstring(record['identification'].get('rights'), record.get('metadata',{}).get('language'), record.get('metadata',{}).get('language_alternate'))) }}
           <gmd:accessConstraints>
             <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['accessconstraints'] }}">{{ record['identification']['accessconstraints'] }}</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
