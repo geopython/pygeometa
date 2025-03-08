@@ -53,12 +53,13 @@ LOGGER = logging.getLogger(__name__)
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 SCHEMAS = {
+    'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
     'iso19139-2': 'pygeometa.schemas.iso19139_2.ISO19139_2OutputSchema',
     'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
     'oarec-record': 'pygeometa.schemas.ogcapi_records.OGCAPIRecordOutputSchema',  # noqa
+    'schema-org': 'pygeometa.schemas.schema_org.SchemaOrgOutputSchema',
     'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
-    'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wcmp2': 'pygeometa.schemas.wmo_wcmp2.WMOWCMP2OutputSchema',
     'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema',
