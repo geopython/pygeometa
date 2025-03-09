@@ -19,7 +19,7 @@ are asked to read the 3rd Party Licenses referenced with those assets.
 The MIT License (MIT)
 =====================
 
-Copyright (c) 2015 Government of Canada
+Copyright (c) 2025 Government of Canada
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

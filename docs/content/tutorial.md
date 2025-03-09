@@ -25,7 +25,7 @@ more information.
 
 The basic pygeometa workflow is:
 
-1. Create a 'metadata control file' YAML file that contains metadata information 
+1. Create a 'Metadata Control File' YAML file that contains metadata information 
   1. Modify the [sample.yml](https://github.com/geopython/pygeometa/blob/master/sample.yml) example
   2. pygeometa supports nesting MCFs together, allowing providing a single MCF
      for common metadata parameters (e.g. common contact information)
@@ -132,15 +132,25 @@ pip3 install -r requirements-dev.txt
 
 ### Adding a Metadata Schema to the Core
 
-Adding an output metadata schemas to pygeometa involves extending
-`pygeometa.schemas.base.BaseOutputSchema` and supporting the `write`
-function to return a string of exported metadata content.  If you are using
-Jinja2 templates, see the next section.  If you are using another means of
-generating metadata (lxml, xml.etree, json, etc.), override the ABC `write`
-class to emit a string using your tooling/workflow accordingly.  See the
-below sections for examples.
+Adding metadata schemas to pygeometa involves extending
+`pygeometa.schemas.base.BaseOutputSchema` and implementing the following design pattern:
 
-Once you have added your metadata schema, you need to register it with
+- `__init__`: initializer, including the following code:
+```python
+# initialize args:
+super().__init__('shortname', 'my cool metadata', 'xml', THISDIR)
+# - 'shortname': shortname identifier for metadata schema
+# - 'my cool metadata': descripts of metadata schema
+# - 'xml': encoding type (default is `xml`; `json` also supported)
+# - 'THISDIR': current directory of plugin file for template rendering
+```
+- `write`: write a string or dictionary of metadata output.  Default behaviour
+  consists of Jinja2 template rendering (see [Jinja2 templates](#jinja2-templates)
+  for more information). Outputs can be generated via other means (lxml, xml.tree,
+  json, etc.)
+- `import_` (optional): import a metadata format into MCF
+
+Once you have added your metadata schema plugin, it needs to be registered it with
 pygeometa's schema registry:
 
 ```bash
@@ -151,9 +161,11 @@ vi pygeometa/schemas/__init__.py
 #### Jinja2 templates
 
 To add support for a new metadata schema using Jinja2 templates:
+
 ```bash
 cp -r pygeometa/schemas/iso19139 pygeometa/schemas/new-schema
 ```
+
 Then modify `*.j2` files in the new `pygeometa/schemas/new-schema` directory
 to comply to new metadata schema.
 
@@ -201,4 +213,4 @@ pulled out of pygdm to focus on the core requirement of generating geospatial
 metadata within a real-time environment and automated workflows.
 
 In 2015 pygeometa was made publically available in support of the Treasury
-Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
+Board [Policy on Acceptable Network and Device Use](https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
