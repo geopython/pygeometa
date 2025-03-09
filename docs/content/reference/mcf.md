@@ -4,18 +4,18 @@ Version: 1.0
 
 ## Basic Concepts
 
-* Sections are case sensitive
-* Section parameters are case sensitive
-* Section parameter values are case sensitive
+* Section names are case sensitive
+* Section parameter names are case sensitive
+* Section parameter codelist values are case sensitive
 * YAML [rules, conventions and features](https://en.wikipedia.org/wiki/YAML) are suppported, such as:
-  * node anchors / references
-  * data typing
-* If an optional section is specified, then its child parameters' cardinality are enforced
+    * node anchors / references
+    * data typing
+    * commented lines (`#`)
+* If an optional section is specified, then its child parameter cardinality is enforced
 * Filename conventions are up to the user. However, below are some suggestions:
     * use `.yml` as file extension
     * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
-* To add a comment in a MCF, a line that begins with a hash tag (`#`) will be ignored
-* If you have a colon (`:`) in your text / value, use quotation marks (`"` or `'`) on either side of your text to avoid mapping errors when parsing the YAML file
+* For colons (`:`) in text values, use quotation marks (`"` or `'`) on either side of your text to avoid parsing errors
 
 ## Version format
 
@@ -23,9 +23,7 @@ MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MC
 
 ## Encoding
 
-The MCF **MUST** be utf8 encoded.  That is all.
-
-Is your MCF Encoded as UTF8?
+The MCF **MUST** be UTF-8 encoded.  That is all.
 
 ```bash
 # editing in vim
@@ -41,16 +39,16 @@ iconv -f iso8859-1 -t utf-8 file.yml > file.yml.new
 
 ## Nesting MCFs
 
-In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF together. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
+In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCFs. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
 
 To use MCF nesting:
 
-* At the top of any section of a MCF add `base_mcf: foo.yml`
+* Add `base_mcf: foo.yml` at the top of any section of a MCF
 * Specify the corresponding section in the base_mcf file
 
 Notes about nesting MCFs: 
 
-* You can refer to one `base_mcf` per section of a MCF
+* One `base_mcf` per section of a MCF may be used
 * Multiple sections can refer to the same base_mcf file
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
     * Note that if a parameter in the current MCF is a YAML list, the corresponding base_mcf list (if it exists) is entirely overwritten  
@@ -58,7 +56,7 @@ Notes about nesting MCFs:
 
 ## Environment variables
 
-pygeometa supports environment variables, using the notation in the example MCF snippet below:
+pygeometa supports use of environment variables, using the notation in the example MCF snippet below:
 
 ```yaml
 metadata:
@@ -101,7 +99,19 @@ title:
     fr: bar
 ```
 
-The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```es``` for Spanish.
+The ```language``` value in the ```metadata``` section **must** be a 2 letter language code (e.g. ```es``` for Spanish).
+
+## Keyword Substitution
+
+pygeometa supports using the following keyword substitutions:
+
+Keyword|Description|Format|Example
+-------|-----------|------|-------:
+`$year$`|current year|`YYYY`|2016
+`$date$`|current date|`YYYY-MM-DD`|2016-12-22
+`$datetime$`|current date and time|`YYYY-MM-DDThh:mm:ssZ`|2016-12-22T16:34:15Z
+
+# Reference
 
 ## Sections
 
@@ -433,13 +443,3 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 scope.level|Optional|hierarchical level of the data specificed by the scope|dataset|ISO 19115:2003 Section B.2.4.5
 lineage.statement|Optional|general explanationn of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1
-
-## Tips
-
-### Keyword Substitution
-
-pygeometa supports using the following keyword substitutions:
-
-* `$year$`, which is substituted for the current year with the YYYY format, example: 2016
-* `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
-* `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
