@@ -6,7 +6,7 @@
 
 pygeometa provides a lightweight and Pythonic approach for users to easily
 create geospatial metadata in standards-based formats using simple
-configuration files (affectionately called metadata control files [MCF]).
+configuration files (affectionately called Metadata Control Files [MCF]).
 Leveraging the simple but powerful YAML format, pygeometa can generate metadata
 in numerous standards. Users can also create their own custom metadata formats
 which can be plugged into pygeometa for custom metadata format output.
@@ -20,7 +20,7 @@ The project supports various metadata formats out of the box including ISO
 find the format you're looking for?  Element(s) missing from a given format?
 Feel free to open an [issue](https://github.com/geopython/pygeometa/issues)!
 
-pygeometa has minimal dependencies (install is less than 50 kB), and provides
+pygeometa has minimal dependencies (wheel install is less than 100 kB), and provides
 a flexible extension mechanism leveraging the Jinja2 templating system.
 
 pygeometa is [open source](https://opensource.org) and released under an
@@ -44,4 +44,4 @@ pulled out of pygdm to focus on the core requirement of generating geospatial
 metadata within a real-time environment and automated workflows.
 
 In 2015 pygeometa was made publically available in support of the Treasury
-Board [Policy on Acceptable Network and Device Use](http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).
+Board [Policy on Acceptable Network and Device Use](https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122).

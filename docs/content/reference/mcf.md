@@ -31,7 +31,7 @@ Is your MCF Encoded as UTF8?
 # editing in vim
 # :set encoding=utf8
 # pasting in vim
-# in insert mode, hit CTRL-V $CODE, where $CODE is as per http://www.htmlhelp.com/reference/charset
+# in insert mode, hit CTRL-V $CODE, where $CODE is as per https://www.htmlhelp.com/reference/charset
 # to see how the file is actually encoded on disk
 file --mime-encoding file.txt
 file -i file.txt
@@ -145,10 +145,10 @@ topiccategory|Optional|main theme(s) of the dataset (must be one of 'geoscientif
 fees|Optional|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None|ISO 19115:2003 Section B.2.10.6
 accessconstraints|Optional|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
+url|Mandatory|URL of the dataset to which the metadata applies|https://example.org/data|ISO 19115:2003 Section B.2.1
 status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')"|completed|ISO 19115:2003 Section B.2.2.1
 maintenancefrequency|Optional|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
-browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
+browsegraphic|Optional|graphic that provides an illustration of the dataset|https://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
 #### `identification.dates`
 
@@ -215,7 +215,7 @@ identification:
                 en: [foo3, bar3]
                 fr: [foo4, bar4]
             keywords_type: theme
-            keywords_codelist: http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
+            keywords_codelist: https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
 ```
 
 Schema specific keywords sections
@@ -232,7 +232,7 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 keywords|Mandatory|category keywords|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
-keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
 
 
 ##### `identification.keywords.vocabulary`
@@ -371,7 +371,7 @@ Within each `contact` section, the following elements are supported:
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 organization|Mandatory|name of the responsible organization|Environment Canada|ISO 19115:2003 Section B.3.2.1
-url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
+url|Mandatory|on-line information that can be used to contact the individual or organization|https://example.org/data|ISO 19115:2003 Section B.3.2.3
 individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Lastname, Firstname|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1
 phone|Mandatory|telephone number by which individuals can speak to the responsible organization or individual|+01-123-456-7890|ISO 19115:2003 Section B.3.2.7
@@ -415,7 +415,7 @@ Within each `distribution` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|http://host/path|ISO 19115:2003 Section B.3.2.5
+url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|https://example.org/data|ISO 19115:2003 Section B.3.2.5
 type|Mandatory|connection protocol to be used.  Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv|WWW:LINK|ISO 19115:2003 Section B.3.2.5
 rel|Optional|the type or semantic of the relation.  The value should be an [IANA link relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml) or a relation type specific to an established standard|canonical|Link Relations - Internet Assigned Numbers Authority
 name|Mandatory|name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
