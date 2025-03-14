@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2024 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -54,10 +54,11 @@ from jsonschema.protocols import Validator
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
-                            get_charstring, normalize_datestring,
-                            prune_distribution_formats,
+                            get_charstring, import_metadata,
+                            normalize_datestring, prune_distribution_formats,
                             prune_transfer_option, MCFReadError,
-                            MCFValidationError, SCHEMAS, validate_mcf)
+                            MCFValidationError, SCHEMAS, transform_metadata,
+                            validate_mcf)
 from pygeometa.helpers import json_dumps
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
@@ -229,9 +230,15 @@ class PygeometaTest(unittest.TestCase):
                          'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
                          sorted(['dcat', 'iso19139', 'iso19139-2',
-                                 'iso19139-hnap', 'oarec-record', 'stac-item',
-                                 'wmo-cmp', 'wmo-wcmp2', 'wmo-wigos']),
+                                 'iso19139-hnap', 'oarec-record',
+                                 'stac-item', 'wmo-cmp', 'wmo-wcmp2',
+                                 'wmo-wigos']),
                          'Expected exact list of supported schemas')
+
+        schemas = get_supported_schemas(include_autodetect=True)
+        self.assertEqual(len(schemas), 10,
+                         'Expected specific number of supported schemas')
+        self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
     def test_render_j2_template(self):
         """test template rendering"""
@@ -397,8 +404,8 @@ class PygeometaTest(unittest.TestCase):
         with self.assertRaises(MCFValidationError):
             is_valid = validate_mcf({'foo': 'bar'})
 
-    def test_import(self):
-        """test metadata import"""
+    def test_schema_import(self):
+        """test direct metadata schema import"""
 
         schema = ISO19139OutputSchema()
 
@@ -433,6 +440,46 @@ class PygeometaTest(unittest.TestCase):
             expected_bbox = [6.3467, 47.7244, 14.1203, 55.0111]
             self.assertEqual(expected_bbox, result_bbox,
                              'Expected specific BBOX')
+
+    def test_import_metadata(self):
+        """test metadata import"""
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = import_metadata('iso19139', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = import_metadata('autodetect', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+    def test_transform_metadata(self):
+        """test metadata transform"""
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            m = transform_metadata('iso19139', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            m = transform_metadata('autodetect', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
 
 
 def get_abspath(filepath):

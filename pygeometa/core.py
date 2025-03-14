@@ -324,6 +324,61 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
     return mcf_dict
 
 
+def import_metadata(schema: str, metadata: str) -> Union[dict, None]:
+    """
+    Import metadata
+
+    :param schema: schema / format
+    :metadata: metadata string
+
+    :returns: MCF object or `None`
+    """
+
+    content = None
+
+    if schema == 'autodetect':
+        schemas = get_supported_schemas()
+    else:
+        schemas = [schema]
+
+    for s in schemas:
+        LOGGER.debug(f'Attempting to import into {s}')
+        schema_object = load_schema(s)
+
+        try:
+            content = schema_object.import_(metadata)
+        except NotImplementedError:
+            LOGGER.debug(f'Import not supported for {s}')
+        except Exception as err:
+            LOGGER.debug(f'Import failed: {err}')
+
+    return content
+
+
+def transform_metadata(input_schema: str, output_schema: str,
+                       metadata: str) -> str:
+    """
+    Transform metadata
+
+    :param input_schema: input schema / format
+    :param output_schema: output schema / format
+    :metadata: metadata string
+
+    :returns: transformed metadata or `None`
+    """
+
+    content = import_metadata(input_schema, metadata)
+
+    if content is None:
+        return None
+
+    LOGGER.info(f'Processing into {output_schema}')
+    schema_object_output = load_schema(output_schema)
+    content = schema_object_output.write(content)
+
+    return content
+
+
 def pretty_print(xml: str) -> str:
     """
     clean up indentation and spacing
@@ -479,18 +534,15 @@ class MCFValidationError(Exception):
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
 @click.option('--schema', required=True,
-              type=click.Choice(get_supported_schemas()),
+              type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
               help='Metadata schema')
 def import_(ctx, metadata_file, schema, output, verbosity):
     """import metadata"""
 
-    LOGGER.info(f'Importing {metadata_file} into {schema}')
-    schema_object = load_schema(schema)
+    content = import_metadata(schema, metadata_file.read())
 
-    try:
-        content = schema_object.import_(metadata_file.read())
-    except NotImplementedError:
-        raise click.ClickException(f'Import not supported for {schema}')
+    if content is None:
+        raise click.ClickException('No supported schema detected/found')
 
     if output is None:
         click.echo(yaml.dump(content))
@@ -585,7 +637,7 @@ def validate(ctx, mcf, verbosity):
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
 @click.option('--input-schema', required=True,
-              type=click.Choice(get_supported_schemas()),
+              type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
               help='Metadata schema of input file')
 @click.option('--output-schema', required=True,
               type=click.Choice(get_supported_schemas()),
@@ -594,18 +646,11 @@ def transform(ctx, metadata_file, input_schema, output_schema, output,
               verbosity):
     """transform metadata"""
 
-    LOGGER.info(f'Importing {metadata_file} into {input_schema}')
-    schema_object_input = load_schema(input_schema)
-    content = None
+    content = transform_metadata(input_schema, output_schema,
+                                 metadata_file.read())
 
-    try:
-        content = schema_object_input.import_(metadata_file.read())
-    except NotImplementedError:
-        raise click.ClickException(f'Import not supported for {input_schema}')
-
-    LOGGER.info(f'Processing into {output_schema}')
-    schema_object_output = load_schema(output_schema)
-    content = schema_object_output.write(content)
+    if content is None:
+        raise click.ClickException('No supported input schema detected/found')
 
     if output is None:
         click.echo(content)

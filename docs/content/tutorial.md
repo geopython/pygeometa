@@ -62,8 +62,14 @@ pygeometa validate path/to/file.yml
 # import a metadata document to MCF
 pygeometa metadata import path/to/file.xml --schema=iso19139
 
+# import a metadata document to MCF, autodetecting the metadata file format
+pygeometa metadata import path/to/file.xml --schema=autodetect
+
 # transform from one metadata representation to another
 pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-schema=oarec-record
+
+# transform from one metadata representation to another, autodetecting the metadata file format
+pygeometa metadata transform path/to/file.xml --input-schema=autodetect --output-schema=oarec-record
 ```
 
 ## For Developers
