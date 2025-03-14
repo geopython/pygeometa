@@ -324,17 +324,15 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
     return mcf_dict
 
 
-def import_metadata(schema: str, metadata: str) -> Union[dict, None]:
+def import_metadata(schema: str, metadata: str) -> dict:
     """
     Import metadata
 
     :param schema: schema / format
     :metadata: metadata string
 
-    :returns: MCF object or `None`
+    :returns: MCF object
     """
-
-    content = None
 
     if schema == 'autodetect':
         schemas = get_supported_schemas()
@@ -346,13 +344,11 @@ def import_metadata(schema: str, metadata: str) -> Union[dict, None]:
         schema_object = load_schema(s)
 
         try:
-            content = schema_object.import_(metadata)
+            return schema_object.import_(metadata)
         except NotImplementedError:
-            LOGGER.debug(f'Import not supported for {s}')
+            raise RuntimeError(f'Import not supported for {s}')
         except Exception as err:
-            LOGGER.debug(f'Import failed: {err}')
-
-    return content
+            raise RuntimeError(f'Import failed: {err}')
 
 
 def transform_metadata(input_schema: str, output_schema: str,
@@ -367,14 +363,15 @@ def transform_metadata(input_schema: str, output_schema: str,
     :returns: transformed metadata or `None`
     """
 
-    content = import_metadata(input_schema, metadata)
+    try:
+        content = import_metadata(input_schema, metadata)
 
-    if content is None:
+        LOGGER.info(f'Processing into {output_schema}')
+        schema_object_output = load_schema(output_schema)
+        content = schema_object_output.write(content)
+    except Exception as err:
+        LOGGER.debug(err)
         return None
-
-    LOGGER.info(f'Processing into {output_schema}')
-    schema_object_output = load_schema(output_schema)
-    content = schema_object_output.write(content)
 
     return content
 
@@ -535,19 +532,19 @@ class MCFValidationError(Exception):
 @cli_options.OPTION_VERBOSITY
 @click.option('--schema', required=True,
               type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
+              default='autodetect',
               help='Metadata schema')
 def import_(ctx, metadata_file, schema, output, verbosity):
     """import metadata"""
 
-    content = import_metadata(schema, metadata_file.read())
-
-    if content is None:
-        raise click.ClickException('No supported schema detected/found')
-
-    if output is None:
-        click.echo(yaml.dump(content))
-    else:
-        output.write(yaml.dump(content, indent=4))
+    try:
+        content = import_metadata(schema, metadata_file.read())
+        if output is None:
+            click.echo(yaml.dump(content))
+        else:
+            output.write(yaml.dump(content, indent=4))
+    except Exception as err:
+        raise click.ClickException(f'No supported schema detecte/found: {err}')
 
 
 @click.command()
@@ -638,6 +635,7 @@ def validate(ctx, mcf, verbosity):
 @cli_options.OPTION_VERBOSITY
 @click.option('--input-schema', required=True,
               type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
+              default='autodetect',
               help='Metadata schema of input file')
 @click.option('--output-schema', required=True,
               type=click.Choice(get_supported_schemas()),
