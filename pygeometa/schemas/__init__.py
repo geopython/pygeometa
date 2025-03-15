@@ -65,11 +65,13 @@ SCHEMAS = {
 }
 
 
-def get_supported_schemas(details: bool = False) -> list:
+def get_supported_schemas(details: bool = False,
+                          include_autodetect: bool = False) -> list:
     """
     Get supported schemas
 
     :param details: provide read/write details
+    :param include_autodetect: include magic auto detection mode
 
     :returns: list of supported schemas
     """
@@ -91,7 +93,12 @@ def get_supported_schemas(details: bool = False) -> list:
     LOGGER.debug('Generating list of supported schemas')
 
     if not details:
-        return SCHEMAS.keys()
+        if include_autodetect:
+            schemas_keys = list(SCHEMAS.keys())
+            schemas_keys.append('autodetect')
+            return schemas_keys
+        else:
+            return SCHEMAS.keys()
 
     for key in SCHEMAS.keys():
         schema = load_schema(key)
@@ -103,6 +110,14 @@ def get_supported_schemas(details: bool = False) -> list:
             'description': schema.description,
             'read': can_read,
             'write': can_write
+        })
+
+    if include_autodetect:
+        schema_matrix.append({
+            'id': 'autodetect',
+            'description': 'Auto schema detection',
+            'read': True,
+            'write': False
         })
 
     return schema_matrix
