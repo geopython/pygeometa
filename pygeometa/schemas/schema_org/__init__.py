@@ -43,14 +43,13 @@
 #
 # =================================================================
 
-from datetime import date, datetime
 import json
 import logging
 import os
 from typing import Union
 
 from pygeometa.core import get_charstring
-from pygeometa.helpers import json_dumps
+from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -123,7 +122,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             elif geo['@type'] == 'GeoShape':
                 mcf['spatial']['datatype'] = 'vector'
                 mcf['spatial']['geomtype'] = 'polygon'
-                bbox = geo['box'].split()
+                bt = geo['box'].split()
+                bbox = bt[1], bt[0], bt[3], bt[2]
 
             mcf['identification']['extents']['spatial'].append({
                 'bbox': bbox,
@@ -198,8 +198,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         :param stringify: whether to return a string representation (default)
                           else native (dict, etree)
 
-
-        :returns: `dict` or `str` of MCF as an OARec record representation
+        :returns: `dict` or `str` of MCF as Schema.org
         """
 
         self.lang1 = mcf['metadata'].get('language')
@@ -216,34 +215,22 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         LOGGER.debug('Generating baseline record')
         record = {
-            'id': mcf['metadata']['identifier'],
-            'conformsTo': [
-                'http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/record-core',  # noqa
-            ],
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': [[
-                    [minx, miny],
-                    [minx, maxy],
-                    [maxx, maxy],
-                    [maxx, miny],
-                    [minx, miny]
-                ]]
-            },
-            'properties': {
-                'title': title[0],
-                'description': description[0],
-                'themes': [],
-                'type': mcf['metadata']['hierarchylevel'],
-            },
-            'links': []
+            'identifier': mcf['metadata']['identifier'],
+            '@type': dict(zip(TYPES.values(), TYPES.keys()))[mcf['metadata']['hierarchylevel']],  # noqa
+            'spatialCoverage': [{
+                '@type': 'Place',
+                'geo': {
+                    '@type': 'GeoShape',
+                    'box': f'{miny},{minx} {maxy},{maxx}'
+                }
+            }],
+            'title': title[0],
+            'description': description[0],
+            'distribution': []
         }
 
         if self.lang1 is not None:
-            record['properties']['language'] = {
-                'code': self.lang1
-            }
+            record['inLanguage'] = self.lang1
 
         LOGGER.debug('Checking for temporal')
         try:
@@ -265,44 +252,22 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             elif [begin, end] == ['..', '..']:
                 pass
             else:
-                record['time'] = {
-                    'interval': [begin, end]
-                }
-
-            if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
-                record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
-
+                record['temporalCoverage'] = [f'{begin}/{end}']
         except (IndexError, KeyError):
-            record['time'] = None
+            pass
 
         LOGGER.debug('Checking for dates')
 
-        if 'dates' in mcf['identification']:
-            if 'creation' in mcf['identification']['dates']:
-                record['properties']['created'] = self.generate_date(mcf['identification']['dates']['creation'])  # noqa
-
-            if 'revision' in mcf['identification']['dates']:
-                record['properties']['updated'] = self.generate_date(mcf['identification']['dates']['revision'])  # noqa
-
-        rights = get_charstring(mcf['identification'].get('rights'),
-                                self.lang1, self.lang2)
-
-        if rights != [None, None]:
-            record['properties']['rights'] = rights[0]
-
-        formats = []
-        for v in mcf['distribution'].values():
-            format_ = get_charstring(v.get('format'), self.lang1, self.lang2)
-            if format_[0] is not None:
-                formats.append(format_[0])
-
-        LOGGER.debug('Checking for formats')
-        if formats:
-            formats2 = set(formats)
-            record['properties']['formats'] = [{'name': f} for f in formats2]
+        for key, value in mcf['identification']['dates'].items():
+            if key == 'creation':
+                record['dateCreated'] = generate_datetime(value)
+            elif key == 'revision':
+                record['dateModified'] = generate_datetime(value)
+            elif key == 'publication':
+                record['datePublished'] = generate_datetime(value)
 
         LOGGER.debug('Checking for contacts')
-        record['properties']['contacts'] = self.generate_contacts(
+        record['contacts'] = self.generate_contacts(
             mcf['contact'])
 
         all_keywords = []
@@ -332,13 +297,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
                 theme['scheme'] = scheme
 
-                record['properties']['themes'].append(theme)
-
         if all_keywords:
-            record['properties']['keywords'] = all_keywords
-
-        if not record['properties']['themes']:
-            _ = record['properties'].pop('themes', None)
+            record['keywords'] = all_keywords
 
         LOGGER.debug('Checking for licensing')
         if mcf['identification'].get('license') is not None:
@@ -352,14 +312,14 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                     'title': license.get('name', 'license for this resource'),
                     'url': license['url']
                 }
-                record['links'].append(self.generate_link(license_link))
+                record['distribution'].append(self.generate_link(license_link))
             else:
                 LOGGER.debug('Encoding license as property')
-                record['properties']['license'] = license['name']
+                record['license'] = license['name']
 
         LOGGER.debug('Checking for distribution')
         for value in mcf['distribution'].values():
-            record['links'].append(self.generate_link(value))
+            record['distribution'].append(self.generate_link(value))
 
         if stringify:
             return json_dumps(record)
@@ -453,7 +413,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             rp['roles'].append(r)
 
         if 'url' in contact:
-            rp['links'] = [{
+            rp['distribution'] = [{
                 'rel': 'canonical',
                 'type': 'text/html',
                 'href': contact['url']
@@ -501,20 +461,18 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
     def generate_link(self, distribution: dict) -> dict:
         """
-        Generates OARec link object from MCF distribution object
+        Generates Schema.org link object from MCF distribution object
 
         :param distribution: `dict` of MCF distribution
 
-        :returns: OARec link object
+        :returns: Schema.org link object
         """
 
-        title = get_charstring(distribution.get('title'),
-                               self.lang1, self.lang2)
-
-        name = get_charstring(distribution.get('name'), self.lang1, self.lang2)
+        name = get_charstring(distribution.get('name'),
+                              self.lang1, self.lang2)
 
         link = {
-            'href': distribution['url']
+            'contentUrl': distribution['url']
         }
 
         if distribution.get('type') is not None:
@@ -524,59 +482,9 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         if reltype is not None:
             link['rel'] = reltype
 
-        if title != [None, None]:
-            link['title'] = title[0]
+        if name != [None, None]:
+            link['name'] = name[0]
         elif name != [None, None]:
-            link['title'] = name[0]
-
-        if all(x in distribution['url'] for x in ['{', '}']):
-            link['templated'] = True
-
-        if 'channel' in distribution:
-            link['channel'] = distribution['channel']
+            link['name'] = name[0]
 
         return link
-
-    def generate_date(self, date_value: str) -> str:
-        """
-        Helper function to derive RFC3339 date from MCF date type
-
-        :param date_value: `str` of date value
-
-        :returns: `str` of date-time value
-        """
-
-        value = None
-
-        if isinstance(date_value, str) and date_value != 'None':
-            if len(date_value) == 10:  # YYYY-MM-DD
-                format_ = '%Y-%m-%d'
-            elif len(date_value) == 7:  # YYYY-MM
-                format_ = '%Y-%m'
-            elif len(date_value) == 4:  # YYYY
-                format_ = '%Y'
-            elif len(date_value) == 19:  # YYYY-MM-DDTHH:MM:SS
-                msg = 'YYYY-MM-DDTHH:MM:SS with no timezone; converting to UTC'
-                LOGGER.debug(msg)
-                format_ = '%Y-%m-%dT%H:%M:%S'
-
-            LOGGER.debug('date type found; expanding to date-time')
-            value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
-
-        elif isinstance(date_value, int) and len(str(date_value)) == 4:
-            date_value2 = str(date_value)
-            LOGGER.debug('date type found; expanding to date-time')
-            format_ = '%Y'
-            value = datetime.strptime(date_value2, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
-
-        elif isinstance(date_value, (date, datetime)):
-            value = date_value.strftime('%Y-%m-%dT%H:%M:%SZ')
-
-        elif date_value in [None, 'None']:
-            value = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-
-        else:
-            msg = f'Unknown date string: {date_value}'
-            raise RuntimeError(msg)
-
-        return value
