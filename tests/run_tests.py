@@ -236,7 +236,7 @@ class PygeometaTest(unittest.TestCase):
                          'Expected exact list of supported schemas')
 
         schemas = get_supported_schemas(include_autodetect=True)
-        self.assertEqual(len(schemas), 10,
+        self.assertEqual(len(schemas), 11,
                          'Expected specific number of supported schemas')
         self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
