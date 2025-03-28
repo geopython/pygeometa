@@ -216,15 +216,16 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         LOGGER.debug('Generating baseline record')
         record = {
             'identifier': mcf['metadata']['identifier'],
-            '@type': dict(zip(TYPES.values(), TYPES.keys()))[mcf['metadata']['hierarchylevel']],  # noqa
+            "@context": "http://schema.org/",
+            '@type': 'schema:' + dict(zip(TYPES.values(), TYPES.keys()))[mcf['metadata']['hierarchylevel']],  # noqa
             'spatialCoverage': [{
-                '@type': 'Place',
+                '@type': 'schema:Place',
                 'geo': {
-                    '@type': 'GeoShape',
+                    '@type': 'schema:GeoShape',
                     'box': f'{miny},{minx} {maxy},{maxx}'
                 }
             }],
-            'title': title[0],
+            'name': title[0],
             'description': description[0],
             'distribution': []
         }
@@ -234,8 +235,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         LOGGER.debug('Checking for temporal')
         try:
-            begin = mcf['identification']['extents']['temporal'][0]['begin']
-            end = mcf['identification']['extents']['temporal'][0].get('end')
+            begin = mcf['identification']['extents']['temporal'][0].get('begin') # noqa
+            end = mcf['identification']['extents']['temporal'][0].get('end') # noqa
 
             if begin in ['now', 'None', None]:
                 begin = '..'
@@ -267,8 +268,10 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 record['datePublished'] = generate_datetime(value)
 
         LOGGER.debug('Checking for contacts')
-        record['contacts'] = self.generate_contacts(
-            mcf['contact'])
+        for ct in ['author', 'publisher', 'creator', 'provider', 'funder', 'producer', 'accountablePerson', 'copyrightHolder', 'contributor', 'editor', 'maintainer', 'sponsor']: # noqa
+            contacts = self.generate_contacts(mcf['contact'], ct)
+            if contacts and len(contacts) > 0:
+                record[ct] = contacts
 
         all_keywords = []
 
@@ -306,13 +309,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
             if 'url' in license:
                 LOGGER.debug('Encoding license as link')
-                license_link = {
-                    'rel': 'license',
-                    'type': 'text/html',
-                    'title': license.get('name', 'license for this resource'),
-                    'url': license['url']
-                }
-                record['distribution'].append(self.generate_link(license_link))
+                record['license'] = license['url']
             else:
                 LOGGER.debug('Encoding license as property')
                 record['license'] = license['name']
@@ -321,20 +318,28 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         for value in mcf['distribution'].values():
             record['distribution'].append(self.generate_link(value))
 
+        LOGGER.debug('Checking for content_info')
+        if 'content_info' in mcf and mcf['content_info'] not in [None, '']:
+            ci = mcf['content_info']
+            if 'attributes' in ci and ci['attributes'] not in [None, '']:
+                record['variableMeasured'] = self.generate_variables(ci['attributes']) # noqa
+            if 'dimensions' in ci and ci['dimensions'] not in [None, '']:
+                record['variableMeasured'] = self.generate_variables(ci['dimensions']) # noqa
+
         if stringify:
             return json_dumps(record)
 
         return record
 
     def generate_party(self, contact: dict,
-                       lang1: str, lang2: str, roles: list) -> dict:
+                       lang1: str, lang2: str) -> dict:
         """
         generate party construct from MCF contact
 
         :param contact: dict of MCF contact
         :param self.lang1: primary language
         :param self.lang2: alternate language
-        :param roles: roles of contact
+
 
         :returns: MCF contact as a party representation
         """
@@ -347,12 +352,6 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         position_name = get_charstring(contact.get('positionname'),
                                        self.lang1, self.lang2)
-
-        hours_of_service = get_charstring(contact.get('hoursofservice'),
-                                          self.lang1, self.lang2)
-
-        contact_instructions = get_charstring(
-            contact.get('contactinstructions'), self.lang1, self.lang2)
 
         address = get_charstring(contact.get('address'),
                                  self.lang1, self.lang2)
@@ -373,91 +372,102 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             'roles': []
         }
 
-        if organization_name[0] is not None:
-            rp['organization'] = organization_name[0]
         if individual_name[0] is not None:
+            rp['@type'] = "schema:Person"
             rp['name'] = individual_name[0]
-        if position_name[0] is not None:
-            rp['position'] = position_name[0]
-        if hours_of_service[0] is not None:
-            rp['hoursOfService'] = hours_of_service[0]
-        if contact_instructions[0] is not None:
-            rp['contactInstructions'] = contact_instructions[0]
+            if position_name[0] is not None:
+                rp['jobTitle'] = position_name[0]
+            rp['affiliation'] = {
+                '@type': "schema:Organization",
+                'name': organization_name[0]
+            }
+        else:
+            rp['@type'] = "schema:Organization"
+            rp['name'] = organization_name[0]
 
         if address[0] is not None:
-            rp['addresses'][0]['deliveryPoint'] = [address[0]]
-        if city[0] is not None:
-            rp['addresses'][0]['city'] = city[0]
-        if administrative_area[0] is not None:
-            rp['addresses'][0]['administrativeArea'] = administrative_area[0]
-        if postalcode[0] is not None:
-            rp['addresses'][0]['postalCode'] = postalcode[0]
-        if country[0] is not None:
-            rp['addresses'][0]['country'] = country[0]
+            rp['address'] = {"@type": "schema:PostalAddress"}
+            rp['address']['streetAddress'] = address[0]
+            if city[0] is not None:
+                rp['address']['addressLocality'] = city[0]
+            if administrative_area[0] is not None:
+                rp['address']['addressRegion'] = administrative_area[0]
+            if postalcode[0] is not None:
+                rp['address']['postalCode'] = postalcode[0]
+            if country[0] is not None:
+                rp['address']['addressCountry'] = country[0]
 
         if contact.get('phone') is not None:
             LOGGER.debug('Formatting phone number')
             phone = contact['phone']
             phone = phone.replace('-', '').replace('(', '').replace(')', '')
             phone = phone.replace('+0', '+').replace(' ', '')
-
-            rp['phones'] = [{'value': phone}]
+            rp['telephone'] = phone
 
         if contact.get('email') is not None:
-            rp['emails'] = [{'value': contact.get('email')}]
-
-        if rp['addresses'][0] == {}:
-            rp.pop('addresses')
-
-        for r in set(roles):
-            rp['roles'].append(r)
+            rp['email'] = contact.get('email')
 
         if 'url' in contact:
-            rp['distribution'] = [{
-                'rel': 'canonical',
-                'type': 'text/html',
-                'href': contact['url']
-            }]
+            rp['url'] = contact['url']
 
         return rp
 
-    def generate_contacts(self, contact: dict) -> list:
+    def generate_variables(self, attrs: dict) -> list:
+        """
+        Generates 1..n variables
+
+        :param attrs: `dict` of attributes
+
+        :returns: `list` of variables
+        """
+        attrs2 = []
+        for attr in attrs:
+            attr2 = {
+                '@type':'schema:PropertyValue',
+                'name': attr.get('name',''),
+                'decription': attr.get('description',''),
+            }
+            if 'max' in attr.keys() and attr['max'] not in [None, '']:
+                attr2['maxValue'] = attr['max']
+            if 'min' in attr.keys() and attr['min'] not in [None, '']:
+                attr2['minValue'] = attr['min']
+            if 'units' in attr.keys() and attr['units'] not in [None, '']:
+                attr2['unitCode'] = attr['unit']
+            attrs2.append(attr2)
+        return attrs2
+
+    def generate_contacts(self, contact: dict, tp: str) -> list:
         """
         Generates 1..n contacts, streamlining identical
         contacts with multiple roles
 
         :param contact: `dict` of contacts
+        :param tp: `str` of role
 
         :returns: `list` of contacts
         """
 
+        role_mcf_schema_map = {
+            'author': ['originator'], 
+            'publisher': ['pointOfContact'], 
+            'creator': [], 
+            'producer': ['principalInvestigator','distributor'],
+            'provider': ['resourceProvider'], 
+            'funder': [],
+            'accountablePerson': [], 
+            'copyrightHolder': ['owner'], 
+            'contributor': ['user'], 
+            'editor': [], 
+            'maintainer': ['processor','custodian'], 
+            'sponsor': []
+        }
         contacts = []
-        contacts2 = []
-
         for key, value in contact.items():
-            if contacts:
-                for c in contacts:
-                    if value == c['contact']:
-                        LOGGER.debug('Found matching contact; adding role')
-                        c['roles'].append(key)
-                    else:
-                        LOGGER.debug('Adding contact')
-                        contacts.append({
-                            'contact': value,
-                            'roles': [key]
-                        })
-            else:
-                contacts.append({
-                    'contact': value,
-                    'roles': [key]
-                })
-
-        LOGGER.debug(f'Contacts: {contacts}')
-        for c in contacts:
-            contacts2.append(self.generate_party(c['contact'], self.lang1,
-                             self.lang2, c['roles']))
-
-        return contacts2
+            if value.get('role', key) == tp or value.get('role', key) in role_mcf_schema_map[tp]:
+                contacts.append(
+                    self.generate_party(value, self.lang1,
+                        self.lang2))
+        return contacts
 
     def generate_link(self, distribution: dict) -> dict:
         """
@@ -471,20 +481,23 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         name = get_charstring(distribution.get('name'),
                               self.lang1, self.lang2)
 
+        desc = get_charstring(distribution.get('description'),
+                              self.lang1, self.lang2)
+
         link = {
+            '@type': 'schema:DataDownload',
             'contentUrl': distribution['url']
         }
 
         if distribution.get('type') is not None:
-            link['type'] = distribution['type']
-
-        reltype = distribution.get('rel') or distribution.get('function')
-        if reltype is not None:
-            link['rel'] = reltype
+            link['encodingFormat'] = distribution['type']
 
         if name != [None, None]:
             link['name'] = name[0]
         elif name != [None, None]:
             link['name'] = name[0]
+
+        if desc != [None, None]:
+            link['description'] = desc[0]
 
         return link
