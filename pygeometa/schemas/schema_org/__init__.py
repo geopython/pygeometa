@@ -128,43 +128,48 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         if 'spatialCoverage' in md or 'spatial' in md:
             crs = 4326
-            geo = md['spatialCoverage']['geo']
-            if geo['@type'] == 'GeoCoordinates':
-                mcf['spatial']['datatype'] = 'vector'
-                mcf['spatial']['geomtype'] = 'point'
-                bbox = [geo['longitude'], geo['latitude'],
-                        geo['longitude'], geo['latitude']]
-            elif geo['@type'] == 'GeoShape':
-                mcf['spatial']['datatype'] = 'vector'
-                mcf['spatial']['geomtype'] = 'polygon'
-                bt = geo['box'].split()
-                bbox = bt[1], bt[0], bt[3], bt[2]
-
-            mcf['identification']['extents']['spatial'].append({
-                'bbox': bbox,
-                'crs': crs
-            })
+            mcf['spatial'] = mcf.get('spatial', {})
+            md['spatial'] = md.get('spatial', md.get('spatialCoverage'))
+            geo = self.get_first(self.get_first(md, 'spatial', {}), 'geo')
+            bbox = None
+            if geo and '@type' in geo.keys():
+                if geo['@type'] == 'GeoCoordinates':
+                    mcf['spatial']['datatype'] = 'vector'
+                    mcf['spatial']['geomtype'] = 'point'
+                    bbox = [geo['longitude'], geo['latitude'],
+                            geo['longitude'], geo['latitude']]
+                elif geo['@type'] == 'GeoShape':
+                    mcf['spatial']['datatype'] = 'vector'
+                    mcf['spatial']['geomtype'] = 'polygon'
+                    bt = geo['box'].replace(' ', ',').split()
+                    if len(bt) == 4:
+                        bbox = bt[1], bt[0], bt[3], bt[2]
+            if bbox:
+                mcf['identification']['extents']['spatial'].append({
+                    'bbox': bbox,
+                    'crs': crs
+                })
 
         if 'temporalCoverage' in md:
-            begin, end = md['temporalCoverage'].split('/')
+            begin, end = self.get_first(md, 'temporalCoverage', '/').split('/')
             mcf['identification']['extents']['temporal'] = [{
                 'begin': begin,
                 'end': end
             }]
 
         mcf['identification']['language'] = mcf['metadata']['language']
-        mcf['identification']['title'] = md['name']
-        mcf['identification']['abstract'] = md['description']
+        mcf['identification']['title'] = self.get_first(md, 'name')
+        mcf['identification']['abstract'] = self.get_first(md, 'description')
 
         if 'dateCreated' in md:
-            mcf['metadata']['identification']['creation'] = md['datePublished']
+            mcf['identification']['creation'] = self.get_first(md, 'datePublished') # noqa
         if 'datePublished' in md:
-            mcf['metadata']['identification']['publication'] = md['datePublished']  # noqa
+            mcf['identification']['publication'] = self.get_first(md, 'datePublished')  # noqa
         if 'dateModified' in md:
-            mcf['metadata']['identification']['revision'] = md['dateModified']
+            mcf['identification']['revision'] = self.get_first(md, 'dateModified') # noqa
 
         if 'version' in md:
-            mcf['metadata']['identification']['edition'] = md['version']
+            mcf['identification']['edition'] = self.get_first(md, 'version')
 
         mcf['identification']['keywords'] = {
             'default': {
@@ -174,9 +179,9 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         for dist in md['distribution']:
             mcf['distribution'][dist['name']] = {
-                'name': dist['name'],
-                'type': dist['encodingFormat'],
-                'url': dist['contentUrl'],
+                'name': self.get_first(dist, 'name'),
+                'type': self.get_first(dist, 'encodingFormat'),
+                'url': self.get_first(dist, 'contentUrl'),
                 'rel': 'download',
                 'function': 'download'
             }
@@ -185,21 +190,21 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             if ct in md:
                 contact = {}
                 contact['url'] = md[ct]['url']
-                contact['individualname'] = md[ct]['name']
+                contact['individualname'] = self.get_first(ct, 'name')
                 if md[ct]['@type'] == 'Organization':
-                    contact['organization'] = md[ct]['name']
+                    contact['organization'] = self.get_first(ct, 'name')
 
                 if 'address' in md[ct]:
-                    contact['address'] = md[ct]['streetAddress']
-                    contact['city'] = md[ct]['addressLocality']
-                    contact['administrativearea'] = md[ct]['addressRegion']
-                    contact['postalcode'] = md[ct]['postalCode']
-                    contact['country'] = md[ct]['addressCountry']
+                    contact['address'] = self.get_first(ct, 'streetAddress')
+                    contact['city'] = self.get_first(ct, 'addressLocality')
+                    contact['administrativearea'] = self.get_first(ct, 'addressRegion') # noqa
+                    contact['postalcode'] = self.get_first(ct, 'postalCode')
+                    contact['country'] = self.get_first(ct, 'addressCountry')
 
                 if 'contactPoint' in md[ct]:
-                    cp = md[ct][0]
-                    contact['email'] = cp['email']
-                    contact['fax'] = cp['fax']
+                    cp = self.get_first(ct, 'contactPoint')
+                    contact['email'] = self.get_first(cp, 'email')
+                    contact['fax'] = self.get_first(cp, 'fax')
 
                 mcf['contact'][ct] = contact
 
@@ -522,3 +527,36 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             link['description'] = desc[0]
 
         return link
+
+    def get_first(self, obj, key, default=None):
+        """
+        returns first element of a list else return element
+
+        :param obj: any
+
+        :returns: first element (str, num or dict)
+        """
+        if key not in obj.keys() or not obj[key]:
+            return default
+        elif isinstance(obj[key], list):
+            if len(obj[key]) > 0:
+                return obj[key][0]
+            else:
+                return default
+        else:
+            return obj[key]
+
+    def get_all(self, obj, key, default=[]):
+        """
+        return list of elements
+
+        :param obj: any
+
+        :returns: list of elements
+        """
+        if 'key' not in obj.keys() or not obj[key]:
+            return default
+        elif isinstance(obj[key], list):
+            return obj[key]
+        else:
+            return [obj[key]]
