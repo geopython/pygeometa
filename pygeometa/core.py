@@ -50,7 +50,7 @@ import json
 import logging
 import os
 import pathlib
-import pkg_resources
+from importlib.metadata import version
 import re
 from typing import IO, Union
 from xml.dom import minidom
@@ -70,7 +70,7 @@ LOGGER = logging.getLogger(__name__)
 
 SCHEMAS = pathlib.Path(__file__).resolve().parent / 'schemas'
 
-VERSION = pkg_resources.require('pygeometa')[0].version
+VERSION = version('pygeometa')
 
 
 def get_charstring(option: Union[str, dict], language: str,
