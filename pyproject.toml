@@ -37,6 +37,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["flake8"]
 docs = ["zensical"]
+gbif = ["beautifulsoup4", "pycountry"]
 release = ["build", "twine", "wheel"]
 
 [project.scripts]
