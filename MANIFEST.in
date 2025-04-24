@@ -1,4 +1,0 @@
-recursive-include pygeometa *.j2 *.yaml
-include LICENSE.md
-include README.md
-include requirements.txt

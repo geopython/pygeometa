@@ -1,0 +1,53 @@
+[project]
+name = "pygeometa"
+description = "pygeometa is a Python package to generate metadata for geospatial datasets"
+readme = "README.md"
+authors = [{ name = "Tom Kralidis", email = "tomkralidis@gmail.com" }]
+maintainers = [{ name = "Tom Kralidis", email = "tomkralidis@gmail.com" }]
+dependencies = ["Click", "Jinja2", "jsonschema", "lxml", "OWSLib", "pyyaml"]
+license = 'MIT'
+license-files = [
+    "LICENSE.md"
+]
+dynamic = ['version']
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Topic :: Scientific/Engineering :: GIS',
+]
+keywords = ["geospatial", "metadata", "catalogue", "discovery"]
+
+[project.optional-dependencies]
+dev = ["coverage", "flake8", "mkdocs", "mkdocs-bootswatch", "twine", "wheel", "build"]
+
+[project.urls]
+"Home page" = "https://geopython.github.io/pygeometa"
+
+[project.scripts]
+pygeometa = "pygeometa:cli"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.setuptools]
+platforms = ["all"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "pygeometa*"
+]
+
+
+[tool.setuptools.package-data]
+pygeometa = ["*.j2", "*.yaml",]
+
+
+[tool.setuptools.dynamic]
+version = {attr = "pygeometa.__version__"}

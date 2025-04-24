@@ -1,6 +1,0 @@
-coverage
-flake8
-mkdocs
-mkdocs-bootswatch
-twine
-wheel
