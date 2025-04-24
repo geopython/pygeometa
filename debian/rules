@@ -5,6 +5,7 @@
 #export DH_VERBOSE=1
 
 export PYBUILD_NAME=pygeometa
+export PYBUILD_SYSTEM=pyproject
 
 %:
 	dh $@ --with python3 --buildsystem pybuild

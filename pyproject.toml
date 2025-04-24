@@ -5,7 +5,7 @@ readme = "README.md"
 authors = [{ name = "Tom Kralidis", email = "tomkralidis@gmail.com" }]
 maintainers = [{ name = "Tom Kralidis", email = "tomkralidis@gmail.com" }]
 dependencies = ["Click", "Jinja2", "jsonschema", "lxml", "OWSLib", "pyyaml"]
-license = 'MIT'
+license = "MIT"
 license-files = [
     "LICENSE.md"
 ]
@@ -20,9 +20,10 @@ classifiers = [
     'Topic :: Scientific/Engineering :: GIS',
 ]
 keywords = ["geospatial", "metadata", "catalogue", "discovery"]
+requires-python = ">=3.10"
 
 [project.optional-dependencies]
-dev = ["coverage", "flake8", "mkdocs", "mkdocs-bootswatch", "twine", "wheel", "build"]
+dev = ["coverage", "setuptools>=77.0.3", "flake8", "mkdocs", "mkdocs-bootswatch", "twine", "wheel", "build"]
 
 [project.urls]
 "Home page" = "https://geopython.github.io/pygeometa"
@@ -31,7 +32,7 @@ dev = ["coverage", "flake8", "mkdocs", "mkdocs-bootswatch", "twine", "wheel", "b
 pygeometa = "pygeometa:cli"
 
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=77.0.3", "wheel"]
 build-backend = "setuptools.build_meta"
 
 

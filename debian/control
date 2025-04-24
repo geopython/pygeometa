@@ -6,7 +6,8 @@ Uploaders: Angelos Tzotsos <gcpp.kalxas@gmail.com>
 Build-Depends: debhelper (>= 9),
                dh-python,
                python3-all,
-               python3-setuptools
+               python3-setuptools,
+               pybuild-plugin-pyproject
 Standards-Version: 4.3.0
 Vcs-Git: https://github.com/geopython/pygeometa.git
 Homepage: https://geopython.github.io/pygeometa
