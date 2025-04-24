@@ -1,0 +1,150 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:dc="http://purl.org/dc/terms/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
+    packageId="{{ record['metadata']['dataseturi'] }}" system="http://gbif.org"
+    scope="system" xml:lang="{{ record['identification']['language'] }}">
+
+    <dataset>
+        <alternateIdentifier>{{ record['identification']['doi' ]}}</alternateIdentifier>
+        <title xml:lang="{{ record['identification']['language'] }}">{{ record['identification']['title'] }}</title>
+        {#
+        <!--creator>
+            {% include 'person.j2' %}
+        </creator>
+        <creator>
+            {% include 'person.j2' %}
+        </creator>
+        <metadataProvider>
+            {% include 'person.j2' %}
+        </metadataProvider-->
+        #}
+        <pubDate>
+            {{ record['identification']['dates']['publication'] }}
+        </pubDate>
+        <language>{{ record['identification']['language'] }}</language>
+        <abstract>
+            <para>{{ record['identification']['abstract'] }}</para>
+        </abstract>
+        {% for group, keywords in record['identification']['keywords'].items() %}
+        <keywordSet>
+            {% for kw in keywords['keywords'] %}
+            <keyword>{{ kw }}</keyword>
+            {% endfor %}
+            <keywordThesaurus>{{ keywords['vocabulary']['name'] }}: {{ keywords['vocabulary']['url'] }}</keywordThesaurus>
+        </keywordSet>
+        {% endfor%}
+        <intellectualRights>
+            <para>This work is licensed under a <ulink url="{{ record['identification']['rights']['url'] }}">
+                    <citetitle>{{ record['identification']['rights']['name'] }}</citetitle>
+                </ulink>.</para>
+        </intellectualRights>
+        <distribution scope="document">
+            <online>
+                {% for key, value in record['distribution'].items() %}
+                <url function="{{ value['function'] }}">{{ value['url' ]}}</url>
+                {% endfor %}
+            </online>
+        </distribution>
+        {% set extents = record['identification']['extents'] %}
+        {% set bbox = extents['spatial'][0]['bbox'] %}
+        <coverage>
+            <geographicCoverage>
+                <geographicDescription>{{ extents['spatial'][0]['description'] }}</geographicDescription>
+                <boundingCoordinates>
+                    <westBoundingCoordinate>{{ bbox[0] }}</westBoundingCoordinate>
+                    <eastBoundingCoordinate>{{ bbox[1] }}</eastBoundingCoordinate>
+                    <northBoundingCoordinate>{{ bbox[2] }}</northBoundingCoordinate>
+                    <southBoundingCoordinate>{{ bbox[3] }}</southBoundingCoordinate>
+                </boundingCoordinates>
+            </geographicCoverage>
+            {% if 'temporal' in extents %}
+            <temporalCoverage>
+                <rangeOfDates>
+                    <beginDate>
+                        <calendarDate>{{ extents['temporal'][0]['begin'] }}</calendarDate>
+                    </beginDate>
+                    {% if extents['temporal'][0]['end'] %}
+                    <endDate>
+                        <calendarDate>{{ extents['temporal'][0]['end'] }}</calendarDate>
+                    </endDate>
+                    {% endif %}
+                </rangeOfDates>
+            </temporalCoverage>
+            {% endif %}
+            <taxonomicCoverage>
+                <generalTaxonomicCoverage>
+                </generalTaxonomicCoverage>
+                <taxonomicClassification>
+                    <taxonRankName></taxonRankName>
+                    <taxonRankValue></taxonRankValue>
+                    <commonName></commonName>
+                </taxonomicClassification>
+            </taxonomicCoverage>
+        </coverage>
+        <maintenance>
+            <description>
+                <para />
+            </description>
+            <maintenanceUpdateFrequency></maintenanceUpdateFrequency>
+        </maintenance>
+
+        {#
+        <contact>
+            {% include 'person.j2' %}
+        </contact>
+        <methods>
+            <methodStep>
+                <description>
+                    <para></para>
+                </description>
+            </methodStep>
+            <sampling>
+                <studyExtent>
+                    <description>
+                        <para>
+                        </para>
+                    </description>
+                </studyExtent>
+                <samplingDescription>
+                    <para></para>
+                </samplingDescription>
+            </sampling>
+            <qualityControl>
+                <description>
+                    <para></para>
+                </description>
+            </qualityControl>
+        </methods>
+        <project>
+            <title></title>
+            <personnel>
+                {% include 'person.j2' %}
+                <role />
+            </personnel>
+            <abstract>
+                <para></para>
+            </abstract>
+            <funding>
+                <para>Artsdatabanken</para>
+            </funding>
+            <studyAreaDescription>
+                <descriptor name="generic" citableClassificationSystem="false">
+                    <descriptorValue></descriptorValue>
+                </descriptor>
+            </studyAreaDescription>
+        </project>
+         #}
+    </dataset>
+    {#
+    <additionalMetadata>
+        <metadata>
+            <gbif>
+                <dateStamp></dateStamp>
+                <hierarchyLevel>dataset</hierarchyLevel>
+                <citation></citation>
+                <resourceLogoUrl></resourceLogoUrl>
+            </gbif>
+        </metadata>
+    </additionalMetadata>
+    #}
+</eml:eml>

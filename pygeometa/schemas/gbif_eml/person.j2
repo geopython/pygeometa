@@ -1,0 +1,11 @@
+<individualName>
+    <givenName>{{ first_name }}</givenName>
+    <surName>{{ last_name }}</surName>
+</individualName>
+<organizationName>{{ org_name }}</organizationName>
+<positionName>{{ position }}</positionName>
+<address>
+    <country>{{ country }}</country>
+</address>
+<electronicMailAddress>{{ email }}</electronicMailAddress>
+{% if  orcid %}<userId directory="http://orcid.org/">{{ orcid }}</userId>{% endif %}
