@@ -56,6 +56,21 @@ THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 LOGGER = logging.getLogger(__name__)
 
+CONTACTS = [
+    'accountablePerson',
+    'author',
+    'contributor',
+    'copyrightHolder',
+    'creator',
+    'editor',
+    'funder',
+    'maintainer',
+    'producer',
+    'provider',
+    'publisher',
+    'sponsor'
+]
+
 TYPES = {
     'Series': 'series',
     'SoftwareApplication': 'software',
@@ -235,8 +250,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         LOGGER.debug('Checking for temporal')
         try:
-            begin = mcf['identification']['extents']['temporal'][0].get('begin') # noqa
-            end = mcf['identification']['extents']['temporal'][0].get('end') # noqa
+            begin = mcf['identification']['extents']['temporal'][0].get('begin')  # noqa
+            end = mcf['identification']['extents']['temporal'][0].get('end')  # noqa
 
             if begin in ['now', 'None', None]:
                 begin = '..'
@@ -268,7 +283,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 record['datePublished'] = generate_datetime(value)
 
         LOGGER.debug('Checking for contacts')
-        for ct in ['author', 'publisher', 'creator', 'provider', 'funder', 'producer', 'accountablePerson', 'copyrightHolder', 'contributor', 'editor', 'maintainer', 'sponsor']: # noqa
+
+        for ct in CONTACTS:
             contacts = self.generate_contacts(mcf['contact'], ct)
             if contacts and len(contacts) > 0:
                 record[ct] = contacts
@@ -319,11 +335,11 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             record['distribution'].append(self.generate_link(value))
 
         LOGGER.debug('Checking for content_info')
-        if 'content_info' in mcf and mcf['content_info'] not in [None, '']:
+        if mcf.get('content_info', {}):
             ci = mcf['content_info']
-            if 'attributes' in ci and ci['attributes'] not in [None, '']:
+            if ci.get('attributes', {}):
                 record['variableMeasured'] = self.generate_variables(ci['attributes']) # noqa
-            if 'dimensions' in ci and ci['dimensions'] not in [None, '']:
+            if ci.get('dimensions', {}):
                 record['variableMeasured'] = self.generate_variables(ci['dimensions']) # noqa
 
         if stringify:
@@ -412,61 +428,67 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
 
         return rp
 
-    def generate_variables(self, attrs: dict) -> list:
+    def generate_variables(self, dict_: dict) -> list:
         """
         Generates 1..n variables
 
-        :param attrs: `dict` of attributes
+        :param dict_: `dict` of attributes
 
         :returns: `list` of variables
         """
-        attrs2 = []
-        for attr in attrs:
-            attr2 = {
-                '@type':'schema:PropertyValue',
-                'name': attr.get('name',''),
-                'decription': attr.get('description',''),
-            }
-            if 'max' in attr.keys() and attr['max'] not in [None, '']:
-                attr2['maxValue'] = attr['max']
-            if 'min' in attr.keys() and attr['min'] not in [None, '']:
-                attr2['minValue'] = attr['min']
-            if 'units' in attr.keys() and attr['units'] not in [None, '']:
-                attr2['unitCode'] = attr['unit']
-            attrs2.append(attr2)
-        return attrs2
 
-    def generate_contacts(self, contact: dict, tp: str) -> list:
+        dict2 = []
+        for d in dict_:
+            d2 = {
+                '@type':'schema:PropertyValue',
+                'name': attr.get('name', ''),
+                'decription': attr.get('description', ''),
+            }
+            if d.get('max') is not None:
+                d2['maxValue'] = attr['max']
+            if d.get('min') is not None:
+                d2['minValue'] = attr['min']
+            if d.get('units') is not None:
+                d2['unitCode'] = attr['unit']
+            dict2.append(d2)
+        
+        return dict2
+
+    def generate_contacts(self, contact: dict, role: str) -> list:
         """
         Generates 1..n contacts, streamlining identical
         contacts with multiple roles
 
         :param contact: `dict` of contacts
-        :param tp: `str` of role
+        :param role: `str` of role
 
         :returns: `list` of contacts
         """
 
+        contacts = []
+
         role_mcf_schema_map = {
-            'author': ['originator'], 
-            'publisher': ['pointOfContact'], 
-            'creator': [], 
-            'producer': ['principalInvestigator','distributor'],
-            'provider': ['resourceProvider'], 
+            'accountablePerson': [],
+            'author': ['originator'],
+            'contributor': ['user'],
+            'copyrightHolder': ['owner'],
+            'creator': [],
+            'editor': [],
             'funder': [],
-            'accountablePerson': [], 
-            'copyrightHolder': ['owner'], 
-            'contributor': ['user'], 
-            'editor': [], 
-            'maintainer': ['processor','custodian'], 
+            'maintainer': ['processor','custodian'],
+            'producer': ['distributor', 'principalInvestigator'],
+            'provider': ['resourceProvider'],
+            'publisher': ['pointOfContact'],  
             'sponsor': []
         }
-        contacts = []
+
         for key, value in contact.items():
-            if value.get('role', key) == tp or value.get('role', key) in role_mcf_schema_map[tp]:
+            if any([value.get('role', key) == role,
+                    value.get('role', key) in role_mcf_schema_map[role]]):
                 contacts.append(
                     self.generate_party(value, self.lang1,
                         self.lang2))
+
         return contacts
 
     def generate_link(self, distribution: dict) -> dict:
