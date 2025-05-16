@@ -440,18 +440,18 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         dict2 = []
         for d in dict_:
             d2 = {
-                '@type':'schema:PropertyValue',
-                'name': attr.get('name', ''),
-                'decription': attr.get('description', ''),
+                '@type': 'schema:PropertyValue',
+                'name': d.get('name', ''),
+                'decription': d.get('description', ''),
             }
             if d.get('max') is not None:
-                d2['maxValue'] = attr['max']
+                d2['maxValue'] = d['max']
             if d.get('min') is not None:
-                d2['minValue'] = attr['min']
+                d2['minValue'] = d['min']
             if d.get('units') is not None:
-                d2['unitCode'] = attr['unit']
+                d2['unitCode'] = d['unit']
             dict2.append(d2)
-        
+
         return dict2
 
     def generate_contacts(self, contact: dict, role: str) -> list:
@@ -478,7 +478,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             'maintainer': ['processor','custodian'],
             'producer': ['distributor', 'principalInvestigator'],
             'provider': ['resourceProvider'],
-            'publisher': ['pointOfContact'],  
+            'publisher': ['pointOfContact'],
             'sponsor': []
         }
 
@@ -486,8 +486,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             if any([value.get('role', key) == role,
                     value.get('role', key) in role_mcf_schema_map[role]]):
                 contacts.append(
-                    self.generate_party(value, self.lang1,
-                        self.lang2))
+                    self.generate_party(value, self.lang1, self.lang2))
 
         return contacts
 
