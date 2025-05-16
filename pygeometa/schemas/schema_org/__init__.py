@@ -475,7 +475,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             'creator': [],
             'editor': [],
             'funder': [],
-            'maintainer': ['processor','custodian'],
+            'maintainer': ['processor', 'custodian'],
             'producer': ['distributor', 'principalInvestigator'],
             'provider': ['resourceProvider'],
             'publisher': ['pointOfContact'],
