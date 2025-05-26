@@ -47,6 +47,7 @@ import logging
 import os
 from typing import Union
 
+from pygeometa import __version__
 from pygeometa.core import get_charstring
 from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
@@ -124,6 +125,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             record['properties']['language'] = {
                 'code': self.lang1
             }
+
+        if 'doi' in mcf['identification']:
+            record['properties']['externalIds'] = [{
+                'scheme': 'https://doi.org',
+                'value': mcf['identification']['doi']
+            }]
 
         LOGGER.debug('Checking for temporal')
         try:
@@ -239,6 +246,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         LOGGER.debug('Checking for distribution')
         for value in mcf['distribution'].values():
             record['links'].append(self.generate_link(value))
+
+        record['generated_by'] = f'pygeometa {__version__}'
 
         if stringify:
             return json_dumps(record)
