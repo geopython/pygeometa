@@ -48,6 +48,7 @@ import logging
 import os
 from typing import Union
 
+from pygeometa import __version__
 from pygeometa.core import get_charstring
 from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
@@ -120,6 +121,12 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             },
             'links': []
         }
+
+        if 'doi' in mcf['identification']:
+            record['properties']['externalIds'] = [{
+                'scheme': 'https://doi.org',
+                'value': mcf['identification']['doi']
+            }]
 
         if self.lang1 is not None:
             record['properties']['language'] = {
@@ -241,6 +248,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         LOGGER.debug('Checking for distribution')
         for value in mcf['distribution'].values():
             record['links'].append(self.generate_link(value))
+
+        record['generated_by'] = f'pygeometa {__version__}'
 
         if stringify:
             return json_dumps(record)
