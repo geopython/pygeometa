@@ -93,3 +93,48 @@ def json_serial(obj) -> Any:
     msg = f'{obj} type {type(obj)} not serializable'
     LOGGER.error(msg)
     raise TypeError(msg)
+
+
+def generate_datetime(date_value: str) -> str:
+    """
+    Helper function to derive RFC3339 date from MCF date type
+
+    :param date_value: `str` of date value
+
+    :returns: `str` of date-time value
+    """
+
+    value = None
+
+    if isinstance(date_value, str) and date_value != 'None':
+        if len(date_value) == 10:  # YYYY-MM-DD
+            format_ = '%Y-%m-%d'
+        elif len(date_value) == 7:  # YYYY-MM
+            format_ = '%Y-%m'
+        elif len(date_value) == 4:  # YYYY
+            format_ = '%Y'
+        elif len(date_value) == 19:  # YYYY-MM-DDTHH:MM:SS
+            msg = 'YYYY-MM-DDTHH:MM:SS with no timezone; converting to UTC'
+            LOGGER.debug(msg)
+            format_ = '%Y-%m-%dT%H:%M:%S'
+
+        LOGGER.debug('date type found; expanding to date-time')
+        value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+    elif isinstance(date_value, int) and len(str(date_value)) == 4:
+        date_value2 = str(date_value)
+        LOGGER.debug('date type found; expanding to date-time')
+        format_ = '%Y'
+        value = datetime.strptime(date_value2, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+    elif isinstance(date_value, (date, datetime)):
+        value = date_value.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    elif date_value in [None, 'None']:
+        value = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    else:
+        msg = f'Unknown date string: {date_value}'
+        raise RuntimeError(msg)
+
+    return value
