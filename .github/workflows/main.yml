@@ -10,29 +10,25 @@ jobs:
         python-version: ["3.10", "3.11"]
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-python@v5
-      name: Setup Python ${{ matrix.python-version }}
+    - name: Install uv and set the python version ${{ matrix.python-version }}
+      uses: astral-sh/setup-uv@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install system dependencies 📦
-      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all python3-setuptools build-essential
-    - name: Install requirements 📦
-      run: |
-        python3 -m pip install --upgrade pip
-        pip3 install -r requirements-dev.txt
-    - name: Install package 📦
-      run: python3 setup.py install
+      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all python3-setuptools build-essential pybuild-plugin-pyproject
+    - name: Install dependencies and package 📦
+      run: uv sync --extra dev
     - name: run tests ⚙️
-      run: python3 setup.py test
+      run: uv run tests/run_tests.py
     - name: run test coverage ⚙️
       run: |
-        coverage run --source pygeometa setup.py test
-        coverage report -m
+        uv run coverage run --source pygeometa tests/run_tests.py
+        uv run coverage report -m
     - name: build docs 🏗️
-      run: mkdocs build -f docs/mkdocs.yml
+      run: uv run mkdocs build -f docs/mkdocs.yml
     - name: run flake8 ⚙️
-      run: flake8
+      run: uv run flake8 tests pygeometa
     - name: build Python package 🏗️
-      run: python3 setup.py sdist bdist_wheel --universal
+      run: uv build
     - name: build Debian package 🏗️
       run: sudo debuild -b -uc -us
