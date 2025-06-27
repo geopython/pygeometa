@@ -50,7 +50,6 @@ import json
 import logging
 import os
 import pathlib
-import pkg_resources
 import re
 from typing import IO, Union
 from xml.dom import minidom
@@ -60,6 +59,7 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from jsonschema import validate as jsonschema_validate
 from jsonschema.exceptions import ValidationError
+from importlib.metadata import version, PackageNotFoundError
 import yaml
 
 from pygeometa import cli_options
@@ -70,7 +70,12 @@ LOGGER = logging.getLogger(__name__)
 
 SCHEMAS = pathlib.Path(__file__).resolve().parent / 'schemas'
 
-VERSION = pkg_resources.require('pygeometa')[0].version
+try:
+    package_version = version("pygeometa")
+except PackageNotFoundError:
+    package_version = "unknown"
+
+VERSION = package_version
 
 
 def get_charstring(option: Union[str, dict], language: str,
