@@ -46,6 +46,7 @@
 
 from collections.abc import Mapping
 from datetime import date, datetime
+from importlib.metadata import version, PackageNotFoundError
 import json
 import logging
 import os
@@ -59,7 +60,6 @@ from jinja2 import Environment, FileSystemLoader
 from jinja2.exceptions import TemplateNotFound
 from jsonschema import validate as jsonschema_validate
 from jsonschema.exceptions import ValidationError
-from importlib.metadata import version, PackageNotFoundError
 import yaml
 
 from pygeometa import cli_options
@@ -71,9 +71,9 @@ LOGGER = logging.getLogger(__name__)
 SCHEMAS = pathlib.Path(__file__).resolve().parent / 'schemas'
 
 try:
-    package_version = version("pygeometa")
+    package_version = version('pygeometa')
 except PackageNotFoundError:
-    package_version = "unknown"
+    package_version = 'unknown'
 
 VERSION = package_version
 
