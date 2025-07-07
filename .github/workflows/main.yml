@@ -22,11 +22,9 @@ jobs:
         pip3 install -r requirements-dev.txt
     - name: Install package 📦
       run: python3 setup.py install
-    - name: run tests ⚙️
-      run: python3 setup.py test
-    - name: run test coverage ⚙️
+    - name: run tests with coverage ⚙️
       run: |
-        coverage run --source pygeometa setup.py test
+        coverage run --source pygeometa tests/run_tests.py
         coverage report -m
     - name: build docs 🏗️
       run: mkdocs build -f docs/mkdocs.yml
