@@ -167,7 +167,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
         except (IndexError, KeyError):
-            record['time'] = None
+            pass
 
         LOGGER.debug('Checking for dates')
 
