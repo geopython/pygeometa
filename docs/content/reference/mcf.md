@@ -442,4 +442,4 @@ channel|Optional|channel/topic/exchange when link is a Pub/Sub endpoint|my/cool/
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 scope.level|Optional|hierarchical level of the data specificed by the scope|dataset|ISO 19115:2003 Section B.2.4.5
-lineage.statement|Optional|general explanationn of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1
+lineage.statement|Optional|general explanation of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1

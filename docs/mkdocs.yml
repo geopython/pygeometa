@@ -1,5 +1,5 @@
 site_name: "pygeometa: Metadata Creation for the Rest of Us"
-site_description: pygeometa is a Python package to generate metadata for geospatial datasets
+site_description: pygeometa is a Python package to manage metadata for geospatial datasets
 site_author: the pygeometa team
 copyright: Copyright (c) 2015 - 2025 the pygeometa team
 site_url: https://geopython.github.io/pygeometa

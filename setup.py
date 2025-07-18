@@ -90,7 +90,7 @@ def get_package_version():
 
 LONG_DESCRIPTION = read('README.md')
 
-DESCRIPTION = 'pygeometa is a Python package to generate metadata for geospatial datasets'  # noqa
+DESCRIPTION = 'pygeometa is a Python package to manage metadata for geospatial datasets'  # noqa
 
 MANIFEST = Path('MANIFEST')
 
