@@ -49,7 +49,7 @@ import click
 from pygeometa.core import (generate, import_, info, schemas,
                             transform, validate)
 
-__version__ = '0.17.0'
+__version__ = '0.18.dev0'
 
 
 @click.group()
