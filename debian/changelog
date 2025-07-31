@@ -1,3 +1,17 @@
+pygeometa (0.17.0) jammy; urgency=medium
+
+  * do not force ASCII on JSON dump, add json_dumps helper function
+  * OARec: remove properties.identifier
+  * OARec: add DOI support
+  * OARec: update to latest changes in standard
+  * fix pygeoapi plugin execute signature
+  * handle YYYY-MM-DDTHH:MM:SS date parsing
+  * use field uselimitation to set rights property and license in othercontstraints
+  * STAC: fix item provider output
+  * add support for import/transform schema autodetection
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Thu, 31 July 2025 12:11:32 +0000
+
 pygeometa (0.16.1) jammy; urgency=medium
 
   * OARec: time and created/updated date-time fixes
