@@ -4,3 +4,4 @@ jsonschema
 lxml
 OWSLib
 pyyaml
+beautifulsoup4
