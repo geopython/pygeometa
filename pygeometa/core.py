@@ -357,13 +357,14 @@ def import_metadata(schema: str, metadata: str) -> dict:
 
 
 def transform_metadata(input_schema: str, output_schema: str,
-                       metadata: str) -> str:
+                       metadata: str, validate: bool = False) -> str | None:
     """
     Transform metadata
 
     :param input_schema: input schema / format
     :param output_schema: output schema / format
-    :metadata: metadata string
+    :param metadata: metadata string
+    :param validate: whether to validate output
 
     :returns: transformed metadata or `None`
     """
@@ -374,6 +375,8 @@ def transform_metadata(input_schema: str, output_schema: str,
         LOGGER.info(f'Processing into {output_schema}')
         schema_object_output = load_schema(output_schema)
         content = schema_object_output.write(content)
+        if validate and not schema_object_output.validate(content):
+            raise RuntimeError('Validation failed')
     except Exception as err:
         LOGGER.debug(err)
         return None
@@ -563,21 +566,29 @@ def import_(ctx, metadata_file, schema, output, verbosity):
               type=click.Path(exists=True, resolve_path=True,
                               dir_okay=True, file_okay=False),
               help='Locally defined metadata schema')
+@click.option('--validate', required=False, is_flag=True,)
 @cli_options.OPTION_VERBOSITY
-def generate(ctx, mcf, schema, schema_local, output, verbosity):
+def generate(ctx, mcf, schema, schema_local, output, validate, verbosity):
     """generate metadata"""
 
     if schema is None and schema_local is None:
         raise click.UsageError('Missing arguments')
     elif None not in [schema, schema_local]:
         raise click.UsageError('schema / schema_local are mutually exclusive')
+    if schema_local and validate:
+        raise click.UsageError('validation / schema_local are mutually exclusive') # noqa
 
     mcf_dict = read_mcf(mcf)
 
     if schema is not None:
         LOGGER.info(f'Processing {mcf} into {schema}')
         schema_object = load_schema(schema)
+        if validate and not schema_object.has_mode('validate'):
+            raise click.ClickException('Selected schema does not support validation') # noqa
         content = schema_object.write(mcf_dict)
+        if validate:
+            if not schema_object.validate(content):
+                raise click.ClickException('Validation failed')
     else:
         content = render_j2_template(mcf_dict, template_dir=schema_local)
 
@@ -614,7 +625,7 @@ def schemas(ctx, verbosity):
     click.echo('Supported schemas')
 
     for schema in get_supported_schemas(details=True):
-        s = f"{schema['id']} (read: {schema['read']}, write: {schema['write']}): {schema['description']}"  # noqa
+        s = f"{schema['id']} (read: {schema['read']}, write: {schema['write']}, validate: {schema['validate']}): {schema['description']}"  # noqa
         click.echo(s)
 
 
@@ -645,12 +656,16 @@ def validate(ctx, mcf, verbosity):
 @click.option('--output-schema', required=True,
               type=click.Choice(get_supported_schemas()),
               help='Metadata schema of input file')
+@click.option('--validate', required=False, is_flag=True,)
 def transform(ctx, metadata_file, input_schema, output_schema, output,
-              verbosity):
+              validate, verbosity):
     """transform metadata"""
 
+    if validate and output_schema.has_mode('validate'):
+        raise click.ClickException('Output schema does not support validation')
+
     content = transform_metadata(input_schema, output_schema,
-                                 metadata_file.read())
+                                 metadata_file.read(), validate)
 
     if content is None:
         raise click.ClickException('No supported input schema detected/found')

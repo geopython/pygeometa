@@ -98,5 +98,25 @@ class BaseOutputSchema:
 
         raise NotImplementedError()
 
+    def validate(self, metadata: Union[dict, str]) -> bool:
+        """
+        Validate metadata against schema
+
+        :param metadata: metadata content
+
+        :returns: `bool` of validation result
+        """
+
+        raise NotImplementedError()
+
+    def has_mode(self, mode: str) -> bool:
+        """
+        Check if schema implementation supports a mode
+
+        :param mode: mode to check, e.g. 'import_', 'write', 'validate'
+        :returns: `bool` indicating whether mode is supported
+        """
+        return mode in self.__class__.__dict__
+
     def __repr__(self):
         return f'<{self.name.upper()}OutputSchema> {self.name}'
