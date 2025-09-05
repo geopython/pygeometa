@@ -100,8 +100,34 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
 
         self.exml = etree.fromstring(metadata)
 
-        mcf['metadata']['identifier'] = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:identifier')
         mcf['metadata']['datestamp'] = self._get_xpath_value('//wmdr:headerInformation//wmdr:fileDateTime')
+        id_ = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:identifier')
+        name = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:name')
+        description = self._get_xpath_value('//wmdr:facility//wmdr:Description/wmdr:description')
+        date_established = self._get_xpath_value('//wmdr:facility//wmdr:dateEstablished')
+        wmo_region = self._get_xpath_value('//wmdr:facility//wmdr:wmoRegion/@xlink:href')
+        type_ = self._get_xpath_value('//wmdr:facility//wmdr:facilityType/@xlink:href')
+
+        geo = self._get_xpath_value('//wmdr:facility//wmdr:geoLocation//gml:pos')[0]
+
+        mcf['metadata']['identifier'] = id_
+ 
+        mcf['facility'][id_] = {
+            'identifier': id_,
+            'name': name,
+            'description': description,
+            'type': type_,
+            'date_established': date_established,
+            'wmo_region': wmo_region,
+            'spatiotemporal': [{
+                'location': {
+                    'geomtype': 'point',
+                    'crs': 4326,
+                    'point': geo
+                }
+            }],
+            'program_affiliation': []
+        }
 
         contact_xpaths = [
             '//wmdr:recordOwner/gmd:CI_ResponsibleParty',
@@ -111,6 +137,18 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         for contact_xpath in contact_xpaths:
             role, contact = self._get_contact(contact_xpath)
             mcf['contact'][role] = contact
+
+        for pa in self.exml.xpath('//wmdr:facility//wmdr:ProgramAffiliation', namespaces=NAMESPACES):
+            pa_ = {
+                'program': str(pa.xpath('//wmdr:programAffiliation/@xlink:href', namespaces=NAMESPACES)[0]),
+                'reporting_status': {
+                    'valid_period': {
+                        'begin': str(pa.xpath('//wmdr:reportingStatus//wmdr:validPeriod//gml:beginPosition', namespaces=NAMESPACES)[0].text),
+                        'end': str(pa.xpath('//wmdr:reportingStatus//wmdr:validPeriod//gml:endPosition', namespaces=NAMESPACES)[0].text)
+                     }
+                }
+            }
+            mcf['facility'][id_]['program_affiliation'].append(pa_) 
 
         return mcf
 
@@ -187,6 +225,5 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         val = self._get_xpath_value(f'{xpath}//gmd:electronicMailAddress/gco:CharacterString')
         if val:
             contact['email'] = val[0]
-
 
         return role, contact
