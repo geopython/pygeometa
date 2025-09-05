@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2024 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -549,7 +549,8 @@ def import_(ctx, metadata_file, schema, output, verbosity):
         else:
             output.write(yaml.dump(content, indent=4))
     except Exception as err:
-        raise click.ClickException(f'No supported schema detecte/found: {err}')
+        raise click.ClickException(
+            f'No supported schema detected/found: {err}')
 
 
 @click.command()
