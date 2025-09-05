@@ -120,6 +120,9 @@ facility:
                   type: ObservedVariableAtmosphere
                   name: 262
               url: https://example.org/data/atmos
+              schedule:
+                  begin: 0 0 * 1 1
+                  end: 59 23 * 12 7
             - name: Ozone/TotalOzone/dobson
               timeperiod:
                   begin: 2013-01-01

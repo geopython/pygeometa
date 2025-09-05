@@ -104,11 +104,13 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         id_ = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:identifier')
         name = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:name')
         description = self._get_xpath_value('//wmdr:facility//wmdr:Description/wmdr:description')
-        date_established = self._get_xpath_value('//wmdr:facility//wmdr:dateEstablished')
+        date_established = self._get_xpath_value('//wmdr:facility//wmdr:dateEstablished') or None
         wmo_region = self._get_xpath_value('//wmdr:facility//wmdr:wmoRegion/@xlink:href')
         type_ = self._get_xpath_value('//wmdr:facility//wmdr:facilityType/@xlink:href')
 
         geo = self._get_xpath_value('//wmdr:facility//wmdr:geoLocation//gml:pos')[0]
+        geo_time_begin = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:beginPosition')[0]
+        geo_time_end = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:endPosition')[0]
 
         mcf['metadata']['identifier'] = id_
 
@@ -123,10 +125,16 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
                 'location': {
                     'geomtype': 'point',
                     'crs': 4326,
-                    'point': geo
-                }
+                    'point': geo.replace(' ', ',')
+                },
+                'timeperiod': {
+                    'begin': geo_time_begin,
+                    'end': geo_time_end
+                },
             }],
-            'program_affiliation': []
+            'program_affiliation': [],
+            'territory': [],
+            'observations': []
         }
 
         contact_xpaths = [
@@ -140,7 +148,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
 
         for pa in self.exml.xpath('//wmdr:facility//wmdr:ProgramAffiliation', namespaces=NAMESPACES):
             pa_ = {
-                'program': str(pa.xpath('//wmdr:programAffiliation/@xlink:href', namespaces=NAMESPACES)[0]),
+                'program': str(pa.xpath('wmdr:programAffiliation/@xlink:href', namespaces=NAMESPACES)[0]),
                 'reporting_status': {
                     'valid_period': {
                         'begin': str(pa.xpath('//wmdr:reportingStatus//wmdr:validPeriod//gml:beginPosition', namespaces=NAMESPACES)[0].text),
@@ -149,6 +157,29 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
                 }
             }
             mcf['facility'][id_]['program_affiliation'].append(pa_)
+
+        for tr in self.exml.xpath('//wmdr:facility//wmdr:Territory', namespaces=NAMESPACES):
+            tr_ = {
+                'program': str(tr.xpath('wmdr:territoryName/@xlink:href', namespaces=NAMESPACES)[0]),
+                'reporting_status': {
+                    'valid_period': {
+                        'begin': str(tr.xpath('//wmdr:validPeriod//gml:beginPosition', namespaces=NAMESPACES)[0].text),
+                        'end': str(tr.xpath('//wmdr:validPeriod//gml:endPosition', namespaces=NAMESPACES)[0].text)
+                     }
+                }
+            }
+            mcf['facility'][id_]['territory'].append(tr_)
+
+        for ob in self.exml.xpath('//wmdr:facility/wmdr:ObservingFacility//wmdr:ObservingCapability', namespaces=NAMESPACES):
+            op = str(ob.xpath('wmdr:observation/om:OM_Observation/om:observedProperty/@xlink:href', namespaces=NAMESPACES)[0])
+            op_type = op.split('/')[-2]
+            ob_ = {
+                'observedproperty': {
+                    'name': op,
+                    'type': op_type
+                }
+            }
+            mcf['facility'][id_]['observations'].append(ob_)
 
         return mcf
 
