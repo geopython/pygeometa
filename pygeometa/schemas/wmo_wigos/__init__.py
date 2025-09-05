@@ -111,7 +111,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         geo = self._get_xpath_value('//wmdr:facility//wmdr:geoLocation//gml:pos')[0]
 
         mcf['metadata']['identifier'] = id_
- 
+
         mcf['facility'][id_] = {
             'identifier': id_,
             'name': name,
@@ -148,7 +148,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
                      }
                 }
             }
-            mcf['facility'][id_]['program_affiliation'].append(pa_) 
+            mcf['facility'][id_]['program_affiliation'].append(pa_)
 
         return mcf
 
