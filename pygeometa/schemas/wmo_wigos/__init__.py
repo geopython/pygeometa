@@ -43,12 +43,15 @@
 #
 # =================================================================
 
+import logging
 import os
 from typing import Union
 
 from lxml import etree
 
 from pygeometa.schemas.base import BaseOutputSchema
+
+LOGGER = logging.getLogger(__name__)
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -100,6 +103,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
 
         self.exml = etree.fromstring(metadata)
 
+        LOGGER.debug('Parsing baseline information')
         mcf['metadata']['datestamp'] = self._get_xpath_value('//wmdr:headerInformation//wmdr:fileDateTime')
         id_ = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:identifier')
         name = self._get_xpath_value('//wmdr:facility/wmdr:ObservingFacility/gml:name')
@@ -108,12 +112,12 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         wmo_region = self._get_xpath_value('//wmdr:facility//wmdr:wmoRegion/@xlink:href')
         type_ = self._get_xpath_value('//wmdr:facility//wmdr:facilityType/@xlink:href')
 
-        geo = self._get_xpath_value('//wmdr:facility//wmdr:geoLocation//gml:pos')[0]
-        geo_time_begin = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:beginPosition')[0]
-        geo_time_end = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:endPosition')[0]
+        LOGGER.debug('Parsing geospatial / temporal information')
+        geo = self._get_xpath_value('//wmdr:facility//wmdr:geoLocation//gml:pos')
+        geo_time_begin = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:beginPosition')
+        geo_time_end = self._get_xpath_value('//wmdr:facility//wmdr:GeospatialLocation//gml:endPosition')
 
         mcf['metadata']['identifier'] = id_
-
         mcf['facility'][id_] = {
             'identifier': id_,
             'name': name,
@@ -142,10 +146,14 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
             '//wmdr:facility/wmdr:ObservingFacility//gmd:CI_ResponsibleParty'
         ]
 
+        LOGGER.debug('Parsing contacts')
         for contact_xpath in contact_xpaths:
             role, contact = self._get_contact(contact_xpath)
+            role = role[0]
+            print("ROLE", role, "contact", contact)
             mcf['contact'][role] = contact
 
+        LOGGER.debug('Parsing wmdr:programAffiliation')
         for pa in self.exml.xpath('//wmdr:facility//wmdr:ProgramAffiliation', namespaces=NAMESPACES):
             pa_ = {
                 'program': str(pa.xpath('wmdr:programAffiliation/@xlink:href', namespaces=NAMESPACES)[0]),
@@ -158,6 +166,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
             }
             mcf['facility'][id_]['program_affiliation'].append(pa_)
 
+        LOGGER.debug('Parsing wmdr:territory')
         for tr in self.exml.xpath('//wmdr:facility//wmdr:Territory', namespaces=NAMESPACES):
             tr_ = {
                 'program': str(tr.xpath('wmdr:territoryName/@xlink:href', namespaces=NAMESPACES)[0]),
@@ -170,6 +179,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
             }
             mcf['facility'][id_]['territory'].append(tr_)
 
+        LOGGER.debug('Parsing observations')
         for ob in self.exml.xpath('//wmdr:facility/wmdr:ObservingFacility//wmdr:ObservingCapability', namespaces=NAMESPACES):
             op = str(ob.xpath('wmdr:observation/om:OM_Observation/om:observedProperty/@xlink:href', namespaces=NAMESPACES)[0])
             op_type = op.split('/')[-2]
@@ -200,14 +210,23 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
             node2 = node
 
         values = node2.xpath(xpath, namespaces=NAMESPACES)
+        print("VALUES", values)
+
+        if not values:
+            return None
 
         if len(values) == 1:
+            print("1111")
             if hasattr(values[0], 'text'):
                 return values[0].text
             else:
                 return str(values[0])
-        else:
-            return [value.text for value in values]
+        elif len(values) > 1:
+            print("222", values)
+            if hasattr(values[0], 'text'):
+                return [value.text for value in values]
+            else:
+                return values
 
         return values
 
@@ -228,6 +247,7 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
             role = val
         else:
             role = 'host'
+
 
         val = self._get_xpath_value(f'{xpath}/gmd:individualName/gco:CharacterString')
         if val:
@@ -257,4 +277,5 @@ class WMOWIGOSOutputSchema(BaseOutputSchema):
         if val:
             contact['email'] = val[0]
 
+        print("JJ2")
         return role, contact

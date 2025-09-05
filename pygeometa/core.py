@@ -549,6 +549,8 @@ def import_(ctx, metadata_file, schema, output, verbosity):
         else:
             output.write(yaml.dump(content, indent=4))
     except Exception as err:
+        import traceback
+        print(traceback.format_exc())
         raise click.ClickException(
             f'No supported schema detected/found: {err}')
 
