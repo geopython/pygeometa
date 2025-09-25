@@ -42,11 +42,17 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 # =================================================================
-
+import json
 from datetime import date, datetime
 import logging
 import os
 from typing import Union
+
+import requests
+import yaml
+from jsonschema import validate as jsonschema_validate
+from jsonschema import RefResolver
+from jsonschema.exceptions import ValidationError
 
 from pygeometa import __version__
 from pygeometa.core import get_charstring
@@ -161,7 +167,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
         except (IndexError, KeyError):
-            record['time'] = None
+            pass
 
         LOGGER.debug('Checking for dates')
 
@@ -470,3 +476,45 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             raise RuntimeError(msg)
 
         return value
+
+    def validate(self, metadata: Union[dict, str]) -> bool:
+        """
+        Validate metadata against schema
+
+        :param metadata: OGC Records metadata content
+
+        :returns: `bool` of validation result
+        """
+
+        if isinstance(metadata, str):
+            try:
+                metadata = json.loads(metadata)
+            except TypeError:
+                return False
+
+        schema_uri = 'https://schemas.opengis.net/ogcapi/records/part1/1.0/openapi/schemas/recordGeoJSON.yaml' # noqa
+
+        def yaml_loader(uri: str) -> dict:
+            r = requests.get(uri)
+            r.raise_for_status()
+            return yaml.safe_load(r.text)
+
+        schema_dict = yaml_loader(schema_uri)
+
+        resolver = RefResolver(
+            base_uri=schema_uri,
+            referrer=schema_dict,
+            handlers={'http': yaml_loader, 'https': yaml_loader}
+        )
+
+        try:
+            jsonschema_validate(
+                instance=metadata,
+                schema=schema_dict,
+                resolver=resolver
+            )
+        except ValidationError as err:
+            LOGGER.error(f'Validation error: {err.message}')
+            return False
+
+        return True

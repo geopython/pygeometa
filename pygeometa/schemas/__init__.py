@@ -75,19 +75,6 @@ def get_supported_schemas(details: bool = False,
 
     :returns: list of supported schemas
     """
-
-    def has_mode(plugin: BaseOutputSchema, mode: str) -> bool:
-        enabled = False
-
-        try:
-            _ = getattr(plugin, mode)('test')
-        except NotImplementedError:
-            pass
-        except Exception:
-            enabled = True
-
-        return enabled
-
     schema_matrix = []
 
     LOGGER.debug('Generating list of supported schemas')
@@ -102,14 +89,16 @@ def get_supported_schemas(details: bool = False,
 
     for key in SCHEMAS.keys():
         schema = load_schema(key)
-        can_read = has_mode(schema, 'import_')
-        can_write = has_mode(schema, 'write')
+        can_read = schema.has_mode('import_')
+        can_write = schema.has_mode('write')
+        can_validate = schema.has_mode('validate')
 
         schema_matrix.append({
             'id': key,
             'description': schema.description,
             'read': can_read,
-            'write': can_write
+            'write': can_write,
+            'validate': can_validate
         })
 
     if include_autodetect:
