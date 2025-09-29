@@ -1,3 +1,10 @@
+pygeometa (0.18.0) jammy; urgency=medium
+
+  * add support for CWL parsing
+  * fix typo in error message
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Mon, 29 Sep 2025 20:54:23 +0000
+
 pygeometa (0.17.0) jammy; urgency=medium
 
   * do not force ASCII on JSON dump, add json_dumps helper function
