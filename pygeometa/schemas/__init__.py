@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -61,7 +61,8 @@ SCHEMAS = {
     'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wcmp2': 'pygeometa.schemas.wmo_wcmp2.WMOWCMP2OutputSchema',
-    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
+    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema',
+    'cwl': 'pygeometa.schemas.cwl.CWLOutputSchema'
 }
 
 
