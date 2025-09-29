@@ -4,10 +4,10 @@ on: [ push, pull_request ]
 
 jobs:
   main:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.12"]
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-python@v5
@@ -15,13 +15,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install system dependencies 📦
-      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all python3-setuptools build-essential
+      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all build-essential
     - name: Install requirements 📦
       run: |
         python3 -m pip install --upgrade pip
+        pip3 install setuptools
         pip3 install -r requirements-dev.txt
     - name: Install package 📦
-      run: python3 setup.py install
+      run: pip3 install .
     - name: run tests with coverage ⚙️
       run: |
         coverage run --source pygeometa tests/run_tests.py
