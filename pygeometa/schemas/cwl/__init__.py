@@ -58,7 +58,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class CWLOutputSchema(BaseOutputSchema):
-    """OGC API - Records - Part 1: Core record schema"""
+    """Common Workflow Language schema"""
 
     def __init__(self):
         """
