@@ -58,7 +58,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class CWLOutputSchema(BaseOutputSchema):
-    """Common Workflow Language schema"""
+    """Common Workflow Language v1.2 schema"""
 
     def __init__(self):
         """
