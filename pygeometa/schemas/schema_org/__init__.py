@@ -146,7 +146,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             })
 
         if 'temporalCoverage' in md:
-            begin, end = md['temporalCoverage'].split('/')
+            begin, end = md['temporalCoverage'][0].split('/')
             mcf['identification']['extents']['temporal'] = [{
                 'begin': begin,
                 'end': end
@@ -157,14 +157,14 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         mcf['identification']['abstract'] = md['description']
 
         if 'dateCreated' in md:
-            mcf['metadata']['identification']['creation'] = md['datePublished']
+            mcf['identification']['creation'] = md['datePublished']
         if 'datePublished' in md:
-            mcf['metadata']['identification']['publication'] = md['datePublished']  # noqa
+            mcf['identification']['publication'] = md['datePublished']  # noqa
         if 'dateModified' in md:
-            mcf['metadata']['identification']['revision'] = md['dateModified']
+            mcf['identification']['revision'] = md['dateModified']
 
         if 'version' in md:
-            mcf['metadata']['identification']['edition'] = md['version']
+            mcf['identification']['edition'] = md['version']
 
         mcf['identification']['keywords'] = {
             'default': {
@@ -184,20 +184,27 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         for ct in ['author', 'publisher', 'creator', 'provider', 'funder']:
             if ct in md:
                 contact = {}
-                contact['url'] = md[ct]['url']
-                contact['individualname'] = md[ct]['name']
-                if md[ct]['@type'] == 'Organization':
-                    contact['organization'] = md[ct]['name']
 
-                if 'address' in md[ct]:
-                    contact['address'] = md[ct]['streetAddress']
-                    contact['city'] = md[ct]['addressLocality']
-                    contact['administrativearea'] = md[ct]['addressRegion']
-                    contact['postalcode'] = md[ct]['postalCode']
-                    contact['country'] = md[ct]['addressCountry']
+                if isinstance(md[ct], list):
+                    ct2 = md[ct][0]
+                else:
+                    ct2 = md[ct]
 
-                if 'contactPoint' in md[ct]:
-                    cp = md[ct][0]
+                if 'url' in ct2:
+                    contact['url'] = ct2['url']
+                contact['individualname'] = ct2['name']
+                if ct2['@type'] == 'Organization':
+                    contact['organization'] = ct2['name']
+
+                if 'address' in ct2:
+                    contact['address'] = ct2['streetAddress']
+                    contact['city'] = ct2['addressLocality']
+                    contact['administrativearea'] = ct2['addressRegion']
+                    contact['postalcode'] = ct2['postalCode']
+                    contact['country'] = ct2['addressCountry']
+
+                if 'contactPoint' in ct2:
+                    cp = ct2[0]
                     contact['email'] = cp['email']
                     contact['fax'] = cp['fax']
 
