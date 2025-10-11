@@ -111,6 +111,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             'mcf': {
                 'version': '1.0',
             },
+            'spatial': {},
             'metadata': {},
             'identification': {
                 'extents': {
@@ -121,14 +122,18 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             'distribution': {}
         }
 
-        mcf['metadata']['identifier'] = md['identifier']
+        id_ = md.get('identifier', md.get('@id'))
+        mcf['metadata']['identifier'] = id_
         mcf['metadata']['charset'] = 'utf-8'
         mcf['metadata']['type'] = TYPES[md.get('type', 'Dataset')]
         mcf['metadata']['language'] = md.get('inLanguage', 'en')
 
         if 'spatialCoverage' in md or 'spatial' in md:
+            sc = _get_list_or_dict(md['spatialCoverage'])
             crs = 4326
-            geo = md['spatialCoverage']['geo']
+
+            geo = _get_list_or_dict(sc['geo'])
+
             if geo['@type'] == 'GeoCoordinates':
                 mcf['spatial']['datatype'] = 'vector'
                 mcf['spatial']['geomtype'] = 'point'
@@ -185,30 +190,30 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             if ct in md:
                 contact = {}
 
-                if isinstance(md[ct], list):
-                    ct2 = md[ct][0]
-                else:
-                    ct2 = md[ct]
+                ct2 = _get_list_or_dict(md[ct])
 
-                if 'url' in ct2:
-                    contact['url'] = ct2['url']
-                contact['individualname'] = ct2['name']
-                if ct2['@type'] == 'Organization':
-                    contact['organization'] = ct2['name']
+                if ct2:
+                    contact['individualname'] = ct2['name']
 
-                if 'address' in ct2:
-                    contact['address'] = ct2['streetAddress']
-                    contact['city'] = ct2['addressLocality']
-                    contact['administrativearea'] = ct2['addressRegion']
-                    contact['postalcode'] = ct2['postalCode']
-                    contact['country'] = ct2['addressCountry']
+                    if 'url' in ct2:
+                        contact['url'] = ct2['url']
 
-                if 'contactPoint' in ct2:
-                    cp = ct2[0]
-                    contact['email'] = cp['email']
-                    contact['fax'] = cp['fax']
+                    if ct2['@type'] == 'Organization':
+                        contact['organization'] = ct2['name']
 
-                mcf['contact'][ct] = contact
+                    if 'address' in ct2:
+                        contact['address'] = ct2['streetAddress']
+                        contact['city'] = ct2['addressLocality']
+                        contact['administrativearea'] = ct2['addressRegion']
+                        contact['postalcode'] = ct2['postalCode']
+                        contact['country'] = ct2['addressCountry']
+
+                    if 'contactPoint' in ct2:
+                        cp = _get_list_or_dict(ct2['contactPoint'])
+                        contact['email'] = cp.get('email')
+                        contact['fax'] = cp.get('fax')
+
+                    mcf['contact'][ct] = contact
 
         return mcf
 
@@ -528,3 +533,25 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             link['description'] = desc[0]
 
         return link
+
+
+def _get_list_or_dict(value: Union[None, list, dict]) -> Union[None, dict]:
+    """
+    Helper function to determine whether an element is a list, object or `None`
+
+    :param value: value to evaluate
+
+    :returns: `dict` or None
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, list):
+        if len(value) == 0:
+            return None
+        else:
+            return value[0]
+
+    else:
+        return value
