@@ -237,7 +237,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 '@type': 'schema:Place',
                 'geo': {
                     '@type': 'schema:GeoShape',
-                    'box': f'{miny},{minx} {maxy},{maxx}'
+                    'box': f'{miny} {minx} {maxy} {maxx}'
                 }
             }],
             'name': title[0],
@@ -384,7 +384,6 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                                  self.lang1, self.lang2)
 
         rp = {
-            'addresses': [{}],
             'roles': []
         }
 
@@ -449,7 +448,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             if d.get('min') is not None:
                 d2['minValue'] = d['min']
             if d.get('units') is not None:
-                d2['unitCode'] = d['unit']
+                d2['unitCode'] = d['units']
             dict2.append(d2)
 
         return dict2
