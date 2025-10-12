@@ -45,9 +45,8 @@
 # =================================================================
 
 from pathlib import Path
-from setuptools import Command, find_packages, setup
+from setuptools import find_packages, setup
 import re
-import sys
 
 
 def read(filename) -> str:
