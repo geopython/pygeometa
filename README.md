@@ -28,8 +28,7 @@ cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
 cd pygeometa
-python3 setup.py build
-python3 setup.py install
+pip3 install .
 ```
 
 ## Running
@@ -163,9 +162,6 @@ vi pygeometa/schemas/foo/__init__.py
 ### Running Tests
 
 ```bash
-# via setuptools
-python3 setup.py test
-# manually
 cd tests
 python3 run_tests.py
 ```
