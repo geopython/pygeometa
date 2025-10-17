@@ -144,6 +144,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 mcf['spatial']['geomtype'] = 'polygon'
                 bt = geo['box'].split()
                 bbox = bt[1], bt[0], bt[3], bt[2]
+            else:
+                bbox = [-180, -90, 180, 90]
 
             mcf['identification']['extents']['spatial'].append({
                 'bbox': bbox,
@@ -202,11 +204,11 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                         contact['organization'] = ct2['name']
 
                     if 'address' in ct2:
-                        contact['address'] = ct2['streetAddress']
-                        contact['city'] = ct2['addressLocality']
-                        contact['administrativearea'] = ct2['addressRegion']
-                        contact['postalcode'] = ct2['postalCode']
-                        contact['country'] = ct2['addressCountry']
+                        contact['address'] = ct2['address']['streetAddress']
+                        contact['city'] = ct2['address']['addressLocality']
+                        contact['administrativearea'] = ct2['address']['addressRegion']  # noqa
+                        contact['postalcode'] = ct2['address']['postalCode']
+                        contact['country'] = ct2['address']['addressCountry']
 
                     if 'contactPoint' in ct2:
                         cp = _get_list_or_dict(ct2['contactPoint'])

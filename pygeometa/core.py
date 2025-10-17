@@ -544,7 +544,7 @@ class MCFValidationError(Exception):
 @cli_options.ARGUMENT_METADATA_FILE
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
-@click.option('--schema', required=True,
+@click.option('-s', '--schema', required=True,
               type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
               default='autodetect',
               help='Metadata schema')
