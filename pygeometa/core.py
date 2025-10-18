@@ -339,6 +339,9 @@ def import_metadata(schema: str, metadata: str) -> dict:
     :returns: MCF object
     """
 
+    content = None
+    error_message = None
+
     if schema == 'autodetect':
         schemas = get_supported_schemas()
     else:
@@ -349,11 +352,17 @@ def import_metadata(schema: str, metadata: str) -> dict:
         schema_object = load_schema(s)
 
         try:
-            return schema_object.import_(metadata)
+            content = schema_object.import_(metadata)
+            break
         except NotImplementedError:
-            raise RuntimeError(f'Import not supported for {s}')
+            error_message = f'Import not supported for {s}'
         except Exception as err:
-            raise RuntimeError(f'Import failed: {err}')
+            error_message = f'Import failed: {err}'
+
+    if error_message is not None:
+        LOGGER.warning(error_message)
+
+    return content
 
 
 def transform_metadata(input_schema: str, output_schema: str,
@@ -535,7 +544,7 @@ class MCFValidationError(Exception):
 @cli_options.ARGUMENT_METADATA_FILE
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
-@click.option('--schema', required=True,
+@click.option('-s', '--schema', required=True,
               type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
               default='autodetect',
               help='Metadata schema')
