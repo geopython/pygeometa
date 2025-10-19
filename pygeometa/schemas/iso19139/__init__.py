@@ -164,9 +164,8 @@ class ISO19139OutputSchema(BaseOutputSchema):
         mcf['identification']['status'] = identification.status
 
         LOGGER.debug('Setting contacts')
-#        for contact in m.get_all_contacts():
-#            mcf['contact'].update(get_contact(contact))
-        mcf['contact'].update(get_contact(m.contact[0]))
+        for contact in m.get_all_contacts():
+            mcf['contact'].update(get_contact(contact))
 
         LOGGER.debug('Setting distribution')
         if m.distribution:
