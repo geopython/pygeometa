@@ -480,7 +480,21 @@ class PygeometaTest(unittest.TestCase):
                 m['properties']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
-
+    
+    def test_dcat_import(self):
+        with open(get_abspath('dcat.rdf.xml')) as fh:
+            m = import_metadata('dcat', fh.read())
+            print('f',m['identification']['title'])
+            self.assertEqual(
+                str(m['identification']['title']),
+                "Plan de Prévention des Risques Naturels (PPRN) de Campan, approuvé le 10/07/2012",
+                'Expected specific title (dcat-rdf/xml)')
+        with open(get_abspath('dcat.jsonld.json')) as fh:
+            m = import_metadata('dcat', fh.read())
+            self.assertEqual(
+                str(m['identification']['title']),
+                "[DRAAF NORMANDIA] Community-wide Soil Observatory \u2014 Department of the Channel \u2014 Mile 2011",
+                'Expected specific title (dcat-json-ld)')
 
 def get_abspath(filepath):
     """helper function absolute file access"""
