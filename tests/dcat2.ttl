@@ -1,0 +1,118 @@
+PREFIX dcat:     <http://www.w3.org/ns/dcat#>
+PREFIX dcatapde: <http://dcat-ap.de/def/dcatde/>
+PREFIX dct:      <http://purl.org/dc/terms/>
+PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
+PREFIX rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+
+<http://data.europa.eu/88u/distribution/0e06fffb-69b1-4564-b45c-f4ce1bca4176>
+        rdf:type          rdfs:Resource , dcat:Distribution;
+        dct:description   "Dargestellt wird der Durchschnitt aller Messwerte eines Sensors der letzten 5 Minuten\r\n\r\nDie dargestellten Messwerte wurden auf hohe und niedrige Ausreißer gefiltert. - Hohe Ausreißer sind alles jenseits des 3. Quartils + 1,5 * des Inter-Quartils-Bereichs (IQB) - Niedrige Ausreißer sind alles unterhalb des 1. Quartils - 1,5 * IQB\r\n\r\n";
+        dct:format        <http://publications.europa.eu/resource/authority/file-type/GPKG>;
+        dct:identifier    "https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/c3daa0c1-7e90-4279-b610-81476ae757c6#distribution";
+        dct:issued        "2022-07-27T12:37:29.035092"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:license       <http://dcat-ap.de/def/licenses/other-opensource>;
+        dct:modified      "2025-11-12T00:03:13.537791"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:title         "LuftDatenInfo - Luftdruck auf Meereshöhe (GPKG)";
+        dcat:accessURL    <https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/c3daa0c1-7e90-4279-b610-81476ae757c6#distribution>;
+        dcat:downloadURL  <https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=application%2Fx-gpkg> .
+
+<http://data.europa.eu/88u/distribution/b1297e6e-f588-4287-aba5-3355634f2b98>
+        rdf:type          dcat:Distribution , rdfs:Resource;
+        dct:description   "Dargestellt wird der Durchschnitt aller Messwerte eines Sensors der letzten 5 Minuten\r\n\r\nDie dargestellten Messwerte wurden auf hohe und niedrige Ausreißer gefiltert. - Hohe Ausreißer sind alles jenseits des 3. Quartils + 1,5 * des Inter-Quartils-Bereichs (IQB) - Niedrige Ausreißer sind alles unterhalb des 1. Quartils - 1,5 * IQB\r\n\r\n";
+        dct:format        <http://publications.europa.eu/resource/authority/file-type/GEOJSON>;
+        dct:identifier    "https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/4f62fd1b-41f1-4931-8108-e9453386fe07#distribution";
+        dct:issued        "2022-07-27T12:37:29.035083"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:license       <http://dcat-ap.de/def/licenses/other-opensource>;
+        dct:modified      "2025-11-12T00:03:13.537343"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:title         "LuftDatenInfo - Luftdruck auf Meereshöhe (GeoJSON)";
+        dcat:accessURL    <https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/4f62fd1b-41f1-4931-8108-e9453386fe07#distribution>;
+        dcat:downloadURL  <https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=application%2Fjson> .
+
+dct:MediaTypeOrExtent
+        rdf:type  rdfs:Class , rdfs:Resource .
+
+<http://data.europa.eu/88u/dataset/https-daten-digitale-mrn-de-dataset-4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e-dataset>
+        rdf:type                dcat:Dataset , dcat:Resource;
+        dcatapde:contributorID  <http://dcat-ap.de/def/contributors/metropolregionRheinNeckar>;
+        dct:description         "Dargestellt wird der Durchschnitt aller Messwerte eines Sensors der letzten 5 Minuten\r\n\r\nDie dargestellten Messwerte wurden auf hohe und niedrige Ausreißer gefiltert. - Hohe Ausreißer sind alles jenseits des 3. Quartils + 1,5 * des Inter-Quartils-Bereichs (IQB) - Niedrige Ausreißer sind alles unterhalb des 1. Quartils - 1,5 * IQB\r\n\r\n";
+        dct:identifier          <https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e#dataset>;
+        dct:issued              "2022-04-05T12:06:22.900384"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:modified            "2025-11-12T00:03:13.524842"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:publisher           <https://www.m-r-n.com>;
+        dct:title               "LuftDatenInfo - Luftdruck auf Meereshöhe";
+        dcat:distribution       <http://data.europa.eu/88u/distribution/cec5bc48-7ecd-49b4-9f41-c5caf595baea> , <http://data.europa.eu/88u/distribution/d01d1b9a-a78d-4b4f-a4ac-1ae5db41ad71> , <http://data.europa.eu/88u/distribution/0e06fffb-69b1-4564-b45c-f4ce1bca4176> , <http://data.europa.eu/88u/distribution/b1297e6e-f588-4287-aba5-3355634f2b98>;
+        dcat:theme              <http://publications.europa.eu/resource/authority/data-theme/TRAN> .
+
+dct:LicenseDocument  rdf:type  rdfs:Resource , rdfs:Class .
+
+<http://publications.europa.eu/resource/authority/file-type/GPKG>
+        rdf:type  dct:MediaTypeOrExtent .
+
+dcat:Distribution  rdf:type  rdfs:Resource , rdfs:Class .
+
+<http://publications.europa.eu/resource/authority/file-type/CSV>
+        rdf:type  dct:MediaTypeOrExtent .
+
+rdfs:Resource  rdf:type  rdfs:Resource , rdfs:Class .
+
+<https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=application%2Fjson>
+        rdf:type  rdfs:Resource .
+
+<http://data.europa.eu/88u/distribution/cec5bc48-7ecd-49b4-9f41-c5caf595baea>
+        rdf:type          rdfs:Resource , dcat:Distribution;
+        dct:description   "Dargestellt wird der Durchschnitt aller Messwerte eines Sensors der letzten 5 Minuten\r\n\r\nDie dargestellten Messwerte wurden auf hohe und niedrige Ausreißer gefiltert. - Hohe Ausreißer sind alles jenseits des 3. Quartils + 1,5 * des Inter-Quartils-Bereichs (IQB) - Niedrige Ausreißer sind alles unterhalb des 1. Quartils - 1,5 * IQB\r\n\r\n";
+        dct:format        <http://publications.europa.eu/resource/authority/file-type/CSV>;
+        dct:identifier    "https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/efc56e03-2fa5-4e7d-a6f7-e36a571cbda3#distribution";
+        dct:issued        "2022-07-27T12:37:29.035090"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:license       <http://dcat-ap.de/def/licenses/other-opensource>;
+        dct:modified      "2025-11-12T00:03:13.537634"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:title         "LuftDatenInfo - Luftdruck auf Meereshöhe (CSV)";
+        dcat:accessURL    <https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/efc56e03-2fa5-4e7d-a6f7-e36a571cbda3#distribution>;
+        dcat:downloadURL  <https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=csv> .
+
+<http://data.europa.eu/88u/distribution/d01d1b9a-a78d-4b4f-a4ac-1ae5db41ad71>
+        rdf:type          dcat:Distribution , rdfs:Resource;
+        dct:description   "Dargestellt wird der Durchschnitt aller Messwerte eines Sensors der letzten 5 Minuten\r\n\r\nDie dargestellten Messwerte wurden auf hohe und niedrige Ausreißer gefiltert. - Hohe Ausreißer sind alles jenseits des 3. Quartils + 1,5 * des Inter-Quartils-Bereichs (IQB) - Niedrige Ausreißer sind alles unterhalb des 1. Quartils - 1,5 * IQB\r\n\r\n";
+        dct:format        <http://publications.europa.eu/resource/authority/file-type/WMS_SRVC>;
+        dct:identifier    "https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/bc7dadda-ffd3-4559-a55a-cf9dff2c233f#distribution";
+        dct:issued        "2022-07-27T12:37:29.035088"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:license       <http://dcat-ap.de/def/licenses/other-opensource>;
+        dct:modified      "2025-11-12T00:03:13.537938"^^<http://www.w3.org/2001/XMLSchema#dateTime>;
+        dct:title         "LuftDatenInfo - Luftdruck auf Meereshöhe (WMS)";
+        dcat:accessURL    <https://daten.digitale-mrn.de/dataset/4e85fa95-cd25-4578-a5b8-a5a3cbdcc33e/resource/bc7dadda-ffd3-4559-a55a-cf9dff2c233f#distribution>;
+        dcat:downloadURL  <https://geoserver.digitale-mrn.de/geoserver/metropolatlas/MRN_LDI_PREASSURE_4326_Point/wms?request=GetCapabilities> .
+
+<https://www.m-r-n.com>
+        rdf:type   foaf:Agent;
+        foaf:name  "Metropolregion Rhein-Neckar" .
+
+<http://dcat-ap.de/def/licenses/other-opensource>
+        rdf:type  dct:LicenseDocument;
+        dct:type  <http://purl.org/adms/licencetype/UnknownIPR> .
+
+dcat:Dataset  rdf:type   rdfs:Resource , rdfs:Class;
+        rdfs:subClassOf  dcat:Dataset , dcat:Resource .
+
+foaf:Agent  rdf:type  rdfs:Resource , rdfs:Class .
+
+<https://geoserver.digitale-mrn.de/geoserver/metropolatlas/MRN_LDI_PREASSURE_4326_Point/wms?request=GetCapabilities>
+        rdf:type  rdfs:Resource .
+
+<https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=csv>
+        rdf:type  rdfs:Resource .
+
+<http://publications.europa.eu/resource/authority/file-type/GEOJSON>
+        rdf:type  dct:MediaTypeOrExtent .
+
+dcat:Resource  rdf:type  rdfs:Resource , rdfs:Class;
+        rdfs:subClassOf  dcat:Resource .
+
+<https://geoserver.digitale-mrn.de/geoserver/metropolatlas/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=metropolatlas%3AMRN_LDI_PREASSURE_4326_Point&outputFormat=application%2Fx-gpkg>
+        rdf:type  rdfs:Resource .
+
+<http://publications.europa.eu/resource/authority/file-type/WMS_SRVC>
+        rdf:type  dct:MediaTypeOrExtent .
+
+rdfs:Class  rdf:type     rdfs:Resource , rdfs:Class;
+        rdfs:subClassOf  rdfs:Class , rdfs:Resource .

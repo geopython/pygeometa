@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <dcat:Catalog xmlns:dcat="http://www.w3.org/ns/dcat#"
+                 rdf:about="/catalogs/FR-120066022-CATALOGUE-GICAT-INTERNET">
+      <dct:title xmlns:dct="http://purl.org/dc/terms/" xml:lang="du">Catalogue interministériel de données géographiques</dct:title>
+      <dct:description xmlns:dct="http://purl.org/dc/terms/"/>
+      <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:lang="du">Catalogue interministériel de données géographiques (GEO-IDE Catalogue FrontOffice Internet)
+      </rdfs:label>
+      <foaf:homepage xmlns:foaf="http://xmlns.com/foaf/0.1/"/>
+      <void:openSearchDescription xmlns:void="http://www.w3.org/TR/void/">eng/portal.opensearch</void:openSearchDescription>
+      <void:uriLookupEndpoint xmlns:void="http://www.w3.org/TR/void/">eng/rdf.search?any=</void:uriLookupEndpoint>
+      <dct:publisher xmlns:dct="http://purl.org/dc/terms/"
+                     rdf:resource="/organizations/GEO-IDECatalogueFrontOfficeInternet"/>
+      <dcat:themes rdf:resource="/registries/vocabularies/external.place.regions"/>
+      <dcat:themes rdf:resource="/registries/vocabularies/external.theme.inspire-theme"/>
+      <dcat:themes rdf:resource="/registries/vocabularies/local.theme.inspire-theme"/>
+      <dct:language xmlns:dct="http://purl.org/dc/terms/">dut</dct:language>
+      <dcat:dataset rdf:resource="/datasets/fr-120066022-ldd-d3dd26af-d7bd-4697-a892-2baf212b393c"/>
+      <dcat:record rdf:resource="/records/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e"/>
+   </dcat:Catalog>
+   <foaf:Organization xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                      rdf:about="/organizations/GEO-IDECatalogueFrontOfficeInternet">
+      <foaf:name>GEO-IDE Catalogue FrontOffice Internet</foaf:name>
+   </foaf:Organization>
+   <skos:ConceptScheme xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                       rdf:about="/registries/vocabularies/external.place.regions">
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">Continents, countries, sea regions of the world.</dct:title>
+      <dct:uri xmlns:dct="http://purl.org/dc/terms/">http://catalogue.geo-ide.developpement-durable.gouv.fr:/catalogue/srv/eng/thesaurus.download?ref=external.place.regions</dct:uri>
+   </skos:ConceptScheme>
+   <skos:ConceptScheme xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                       rdf:about="/registries/vocabularies/external.theme.inspire-theme">
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">GEMET - INSPIRE themes, version 1.0</dct:title>
+      <dct:uri xmlns:dct="http://purl.org/dc/terms/">http://catalogue.geo-ide.developpement-durable.gouv.fr:/catalogue/srv/eng/thesaurus.download?ref=external.theme.inspire-theme</dct:uri>
+   </skos:ConceptScheme>
+   <skos:ConceptScheme xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                       rdf:about="/registries/vocabularies/local.theme.inspire-theme">
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">GEMET - INSPIRE themes, version 1.0</dct:title>
+      <dct:uri xmlns:dct="http://purl.org/dc/terms/">http://catalogue.geo-ide.developpement-durable.gouv.fr:/catalogue/srv/eng/thesaurus.download?ref=local.theme.inspire-theme</dct:uri>
+   </skos:ConceptScheme>
+   <dcat:CatalogRecord xmlns:dcat="http://www.w3.org/ns/dcat#"
+                       rdf:about="/records/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e">
+      <foaf:primaryTopic xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                         rdf:resource="/resources/fr-120066022-ldd-d3dd26af-d7bd-4697-a892-2baf212b393c"/>
+      <dct:issued xmlns:dct="http://purl.org/dc/terms/">2016-07-06</dct:issued>
+      <dct:modified xmlns:dct="http://purl.org/dc/terms/">2016-07-06</dct:modified>
+      <dct:references xmlns:dct="http://purl.org/dc/terms/">
+         <rdf:Description rdf:about="/records/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e/formatters/xml">
+            <dct:format>
+               <dct:IMT>
+                  <rdf:value>application/xml</rdf:value>
+                  <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">XML</rdfs:label>
+               </dct:IMT>
+            </dct:format>
+         </rdf:Description>
+      </dct:references>
+      <dct:references xmlns:dct="http://purl.org/dc/terms/">
+         <rdf:Description rdf:about="/records/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e">
+            <dct:format>
+               <dct:IMT>
+                  <rdf:value>text/html</rdf:value>
+                  <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">HTML</rdfs:label>
+               </dct:IMT>
+            </dct:format>
+         </rdf:Description>
+      </dct:references>
+   </dcat:CatalogRecord>
+   <dcat:Dataset xmlns:dcat="http://www.w3.org/ns/dcat#"
+                 rdf:about="/datasets/fr-120066022-ldd-d3dd26af-d7bd-4697-a892-2baf212b393c">
+      <dct:identifier xmlns:dct="http://purl.org/dc/terms/">fr-120066022-ldd-d3dd26af-d7bd-4697-a892-2baf212b393c</dct:identifier>
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">Plan de Prévention des Risques Naturels (PPRN) de Campan, approuvé le 10/07/2012</dct:title>
+      <dct:abstract xmlns:dct="http://purl.org/dc/terms/">Numérisation vectorielle du PPRN de Campan (65123).
+Numérisation réalisée en Novembre 2012, reprise selon le cahier des charges COVADIS Midi-Pyrénées.
+
+Cette représentation du PPRN, ne peut se substituer au document papier, seul document opposable.</dct:abstract>
+      <dcat:keyword>nuisance</dcat:keyword>
+      <dcat:keyword>ressources - nuisances</dcat:keyword>
+      <dcat:keyword>source de nuisance (inclut risques industriels et naturels)</dcat:keyword>
+      <dcat:keyword>données ouvertes</dcat:keyword>
+      <dcat:theme rdf:resource="/registries/vocabularies/Arborescenceth%C3%A9matiquedelaCOVADIS/concepts/Risque/ZonagesRisquenaturel"/>
+      <dcat:theme rdf:resource="/registries/vocabularies/GEMET-INSPIREthemes%2Cversion1.0/concepts/Zonesdegestionderestrictionoudereglementationetunitesdedeclaration"/>
+      <dcat:theme rdf:resource="/registries/vocabularies/isoTopicCategory/concepts/planningCadastre"/>
+      <dcat:theme rdf:resource="/registries/vocabularies/isoTopicCategory/concepts/geoscientificInformation"/>
+      <dct:spatial xmlns:dct="http://purl.org/dc/terms/">
+         <ogc:Polygon xmlns:ogc="http://www.opengis.net/rdf#">
+            <ogc:asWKT rdf:datatype="http://www.opengis.net/rdf#WKTLiteral">
+            &lt;http://www.opengis.net/def/crs/OGC/1.3/CRS84&gt;
+            Polygon((0.3126432895660400390625 42.87058258056640625, 0.3126432895660400390625 43.02680206298828125, 0.139534175395965576171875 43.02680206298828125, 0.139534175395965576171875 42.87058258056640625, 0.3126432895660400390625 42.87058258056640625))
+          </ogc:asWKT>
+         </ogc:Polygon>
+      </dct:spatial>
+      <dct:issued xmlns:dct="http://purl.org/dc/terms/">2013-01-17</dct:issued>
+      <dct:publisher xmlns:dct="http://purl.org/dc/terms/"
+                     rdf:resource="/organizations/DDT65%28DirectionD%C3%A9partementaledesTerritoiresdesHautes-Pyr%C3%A9n%C3%A9es%29"/>
+      <dct:language xmlns:dct="http://purl.org/dc/terms/">fre</dct:language>
+      <dct:license xmlns:dct="http://purl.org/dc/terms/">otherRestrictions</dct:license>
+      <dct:license xmlns:dct="http://purl.org/dc/terms/">license</dct:license>
+      <dct:license xmlns:dct="http://purl.org/dc/terms/">Pas de restriction d'accès public selon INSPIRE</dct:license>
+      <dcat:distribution rdf:resource="http://catalogue.geo-ide.developpement-durable.gouv.fr/catalogue/srv/fre/catalog.search#/metadata/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e"/>
+      <dcat:distribution rdf:resource="http://ogc.geo-ide.developpement-durable.gouv.fr/csw/all-dataset?REQUEST=GetRecordById&amp;SERVICE=CSW&amp;VERSION=2.0.2&amp;RESULTTYPE=results&amp;elementSetName=full&amp;TYPENAMES=gmd:MD_Metadata&amp;OUTPUTSCHEMA=http://www.isotc211.org/2005/gmd&amp;ID=fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e"/>
+      <dcat:distribution rdf:resource="http://www.risquesmajeurs-hautes-pyrenees.pref.gouv.fr/"/>
+      <dcat:dataQuality>Saisie interne, d'après les fichiers fournis par le service métier (BRNT).
+Saisie sur BD-Parcellaire image 2010.
+
+Il s'agit d'une représentation du zonage du PPRN.
+En effet, il n'est pas toujours possible de reproduire le zonage de façon strictement identique au plan approuvé, du fait de la qualité du plan d'origine, des échelles de définition variables, de l'évolution du cadastre, ...
+Dans ce cas, les interprétations nécessaires pour numériser le zonage, sont listées ci-dessus dans le paragraphe ''Particularités''.
+Pour ces raisons, cette donnée ne peut pas se substituer au document opposable ; pour consulter le PPRN opposable, se reporter au site des risques majeurs :
+http://www.risquesmajeurs-hautes-pyrenees.pref.gouv.fr/
+
+
+Méthodologie de saisie :
+Le plan de zonage est constitué de zones graphiques (polygones fermés), correspondant chacune à un règlement opposable aux tiers.
+En général, on aura trois grands types de zones : zone rouge où il est interdit de construire, zone bleue où la construction est autorisée sous conditions, zone jaune où la construction est interdite sauf dérogation. 
+Chacune des zones se décline en sous-ensembles correspondant au type d'aléa rencontré.
+
+La numérisation inclut également le tracé des cours d'eau lorsqu'il figure sur le plan opposable.
+En effet, certains documents graphiques ont été établis avec un fond parcellaire où figure un tracé spécifique des cours d'eau à l'origine des phénomènes d'inondations. Ces tracés des cours d'eau sont en général différents de ceux du Référentiel à Grand Echelle, sachant que des écarts importants existent entre le cadastre (et donc la BD-Parcellaire®) et l'orthophotographie. Ces écarts sont liés à la définition à une date donnée du parcellaire, parfois fort ancienne, et l'évolution des cours d'eau parfois très dynamique (voir, par exemple, l'Adour au Nord du département des Hautes-Pyrénées). 
+Il est donc nécessaire que l'information sur le tracé du cours d'eau référence soit également véhiculée au travers du PPRN numérisé, sous peine de rendre sinon incompréhensible la définition des limites de zonage. Ne sont saisis que les cours d'eau explicitement désignés sur le document joint à l'arrêté préfectoral.
+Lorsque le cours d'eau est intégré au zonage sur le document joint à l'arrêté préfectoral, il en est de même lors de la numérisation.
+
+Par ailleurs, sur certaines communes l'étude du PPR, porte uniquement sur un périmètre défini.
+Pour obtenir une couverture communale complète, les zones « hors périmètre d'études » sont également saisies au sein de la table « zonages », avec le code « hpe » et représentées par un hachurage spécifique.
+Ainsi la numérisation du PPR couvre systématiquement la totalité de la surface de la commune.
+
+Enfin, sur certains PPRN, figurent des éléments ponctuels, repérant des côtes de submersion, des côtes de référence, des seuils de submersion, des déversoirs, des profils en travers, des ponts.
+Ce traitement n'étant pas homogène sur l'ensemble des PPRN du département, cette information n'a pas été reprise lors de la numérisation.
+Dans ce cas, cette information sera également mentionnée dans le paragraphe ''Particularités''.
+
+
+
+Particularités :
+Le PPRN de Campan, présente une zone d'étude, sur laquelle sont définies les zones réglementées du PPRN.
+Cette zone d'étude présente la particularité de ne pas correspondre strictement à la limité communale.
+Si cette divergence peut être attribuée à un référentiel ou un millésime différent, elle a pour autant été conservée, conformément au plan opposable.
+Pour cette raison, la zone d'étude ne peut être dissociée du zonage PPRN ; elle permet de justifier les zones réglementaires, au delà de la limite communale, qui n'aurait pas lieu d'être selon le cahier des charges de numérisation.
+Au delà de la zone d'étude, le reste de la commune se situe hors périmètre d'étude.
+
+
+
+QUALITÉ DES DONNÉES : Echelle de travail (pour garantir un degré de précision de l'ordre de celle du RGE) :
+- Zone urbaine : 1/500° recommandé, 1/750° obligatoire
+- Zone peu dense : 1/1500° obligatoire
+Vérification selon la méthode arrêtée dans le cahier des charges (régions, vérifications précision des points par sondage, etc.).
+Interprétation sur les raccords de section non contigus (hors tolérance DGI).
+Les limites de zones sont raccordées sur les limites communales de la BD Parcellaire.</dcat:dataQuality>
+   </dcat:Dataset>
+   <skos:Concept xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                 rdf:about="/registries/vocabularies/Arborescenceth%C3%A9matiquedelaCOVADIS/concepts/Risque%2FZonagesRisquenaturel">
+      <skos:inScheme rdf:resource="/registries/vocabularies/Arborescenceth%C3%A9matiquedelaCOVADIS"/>
+      <skos:prefLabel>Risque/Zonages Risque naturel</skos:prefLabel>
+   </skos:Concept>
+   <skos:Concept xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+                 rdf:about="/registries/vocabularies/GEMET-INSPIREthemes%2Cversion1.0/concepts/Zonesdegestion%2Cderestrictionouder%C3%A9glementationetunit%C3%A9sded%C3%A9claration">
+      <skos:inScheme rdf:resource="/registries/vocabularies/GEMET-INSPIREthemes%2Cversion1.0"/>
+      <skos:prefLabel>Zones de gestion, de restriction ou de réglementation et unités de déclaration</skos:prefLabel>
+   </skos:Concept>
+   <dcat:Distribution xmlns:dcat="http://www.w3.org/ns/dcat#"
+                      rdf:about="http://catalogue.geo-ide.developpement-durable.gouv.fr/catalogue/srv/fre/catalog.search#/metadata/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e">
+      <dcat:accessURL>http://catalogue.geo-ide.developpement-durable.gouv.fr/catalogue/srv/fre/catalog.search#/metadata/fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e</dcat:accessURL>
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">Vue HTML des métadonnées sur internet</dct:title>
+      <dct:format xmlns:dct="http://purl.org/dc/terms/">
+         <dct:IMT>
+            <rdf:value>WWW:DOWNLOAD-1.0-http--download</rdf:value>
+            <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">WWW:DOWNLOAD-1.0-http--download</rdfs:label>
+         </dct:IMT>
+      </dct:format>
+   </dcat:Distribution>
+   <dcat:Distribution xmlns:dcat="http://www.w3.org/ns/dcat#"
+                      rdf:about="http://ogc.geo-ide.developpement-durable.gouv.fr/csw/all-dataset?REQUEST=GetRecordById&amp;SERVICE=CSW&amp;VERSION=2.0.2&amp;RESULTTYPE=results&amp;elementSetName=full&amp;TYPENAMES=gmd:MD_Metadata&amp;OUTPUTSCHEMA=http://www.isotc211.org/2005/gmd&amp;ID=fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e">
+      <dcat:accessURL>http://ogc.geo-ide.developpement-durable.gouv.fr/csw/all-dataset?REQUEST=GetRecordById&amp;SERVICE=CSW&amp;VERSION=2.0.2&amp;RESULTTYPE=results&amp;elementSetName=full&amp;TYPENAMES=gmd:MD_Metadata&amp;OUTPUTSCHEMA=http://www.isotc211.org/2005/gmd&amp;ID=fr-120066022-ldd-ee9f1327-d8b8-4827-9c5b-bda8bb82770e</dcat:accessURL>
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">Vue XML des métadonnées</dct:title>
+      <dct:format xmlns:dct="http://purl.org/dc/terms/">
+         <dct:IMT>
+            <rdf:value>WWW:DOWNLOAD-1.0-http--download</rdf:value>
+            <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">WWW:DOWNLOAD-1.0-http--download</rdfs:label>
+         </dct:IMT>
+      </dct:format>
+   </dcat:Distribution>
+   <dcat:Distribution xmlns:dcat="http://www.w3.org/ns/dcat#"
+                      rdf:about="http://www.risquesmajeurs-hautes-pyrenees.pref.gouv.fr/">
+      <dcat:accessURL>http://www.risquesmajeurs-hautes-pyrenees.pref.gouv.fr/</dcat:accessURL>
+      <dct:title xmlns:dct="http://purl.org/dc/terms/">Site des Risques Majeurs dans les Hautes-Pyrénées</dct:title>
+      <dct:format xmlns:dct="http://purl.org/dc/terms/">
+         <dct:IMT>
+            <rdf:value>WWW:LINK-1.0-http--link</rdf:value>
+            <rdfs:label xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">WWW:LINK-1.0-http--link</rdfs:label>
+         </dct:IMT>
+      </dct:format>
+   </dcat:Distribution>
+   <foaf:Organization xmlns:foaf="http://xmlns.com/foaf/0.1/"
+                      rdf:about="/organizations/DDT65%28DirectionD%C3%A9partementaledesTerritoiresdesHautes-Pyr%C3%A9n%C3%A9es%29">
+      <foaf:name>DDT 65 (Direction Départementale des Territoires des Hautes-Pyrénées)</foaf:name>
+      <foaf:member rdf:resource="/persons/ddt-sig%40hautes-pyrenees.gouv.fr"/>
+   </foaf:Organization>
+   <foaf:Agent xmlns:foaf="http://xmlns.com/foaf/0.1/"
+               rdf:about="/persons/ddt-sig%40hautes-pyrenees.gouv.fr">
+      <foaf:mbox rdf:resource="mailto:ddt-sig@hautes-pyrenees.gouv.fr"/>
+   </foaf:Agent>
+</rdf:RDF>
