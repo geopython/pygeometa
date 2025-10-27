@@ -1,0 +1,113 @@
+PREFIX dcat:  <http://www.w3.org/ns/dcat#>
+PREFIX dct:   <http://purl.org/dc/terms/>
+PREFIX foaf:  <http://xmlns.com/foaf/0.1/>
+PREFIX locn:  <http://www.w3.org/ns/locn#>
+PREFIX prov:  <http://www.w3.org/ns/prov#>
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+<http://data.europa.eu/88u/dataset/ef4e0260-63c9-43e4-b064-f90659c20e45~~1>
+        rdf:type                   dcat:Dataset;
+        <http://data.europa.eu/930/referenceSystem>
+                <http://www.opengis.net/def/crs/EPSG/0/4326>;
+        <http://data.europa.eu/930/resourceType>
+                <http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset>;
+        <http://data.europa.eu/930/topicCategory>
+                <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans>;
+        dct:accrualPeriodicity     <http://publications.europa.eu/resource/authority/frequency/CONT>;
+        dct:created                "2025-10-31"^^<http://www.w3.org/2001/XMLSchema#date>;
+        dct:description            "Vertikalno širenje slojeva dubine"@hr-t-de-t0-mtec , "Vertikální rozšíření hloubkových vrstev"@cs-t-de-t0-mtec , "Expansão vertical das camadas de profundidade"@pt-t-de-t0-mtec , "Expansiunea verticală a straturilor de adâncime"@ro-t-de-t0-mtec , "Espansjoni vertikali tas-saffi tal-fond"@mt-t-de-t0-mtec , "Vertikalus gylio sluoksnių plėtimasis"@lt-t-de-t0-mtec , "Vertikalna širitev globinskih plasti"@sl-t-de-t0-mtec , "Vertikálne rozšírenie vrstiev hĺbky"@sk-t-de-t0-mtec , "Expansión vertical de las capas de profundidad"@es-t-de-t0-mtec , "Espansione verticale degli strati di profondità"@it-t-de-t0-mtec , "Вертикальне розширення глибинних шарів"@uk-t-de-t0-mtec , "Schichtdicken des operationellen Zirkulationsmodells des Bundesamtes für Seeschifffahrt und Hydrographie (BSH) in der deutschen Bucht und der westlichen Ostsee (horizontale Auflösung ca. 900 m). Das Modell (HBM, HIROMB-BOOS-Modell) läuft viermal am Tag in einer Konfiguration mit einem feineren Gitter in der Deutschen Bucht und westlichen Ostsee (900 m Auflösung, dieser Datensatz) und einem gröberen Gitter, das die gesamte Nord- und Ostsee abdeckt (5 km Auflösung, separater Datensatz). Das Modell wird von aktuellen Wettervorhersagen des Deutschen Wetterdienstes (DWD) angetrieben. Genauere Informationen über die Modellkonfiguration sind in Brüning et al. (2021); https://doi.org/10.23784/HN118-01; zu finden."@de , "Sügavuskihtide vertikaalne paisumine"@et-t-de-t0-mtec , "A mélységrétegek függőleges tágulása"@hu-t-de-t0-mtec , "Verticale uitbreiding van de dieptelagen"@nl-t-de-t0-mtec , "Leathnú Ingearach na sraitheanna doimhneacht"@ga-t-de-t0-mtec , "Layer thickness of the operational circulation model of the Federal Maritime and Hydrographic Agency of Germany (BSH), in the German Bight and the western Baltic Sea (horizontal resolution ca. 900 m). The model (HBM, HIROMB-BOOS-Model) is run four times each day in a configuration with a fine grid in the German Bight and western Baltic Sea (900 m resolution, this dataset) and a coarser grid which covers the North and Baltic Sea (5 km resolution, separate dataset). The model is forced by the weather forecast of the German Weather Service (DWD). More detailed information about the model configuration can be found in Brüning et al. (2021); https://doi.org/10.23784/HN118-01."@en , "Syvyyskerrosten pystysuora laajeneminen"@fi-t-de-t0-mtec , "Vertikal expansion av djupskikten"@sv-t-de-t0-mtec , "Вертикално разширяване на дълбочинните слоеве"@bg-t-de-t0-mtec , "Dziļuma slāņu vertikālā izplešanās"@lv-t-de-t0-mtec , "Κατακόρυφη επέκταση των στρωμάτων βάθους"@el-t-de-t0-mtec , "Pionowa ekspansja warstw głębokości"@pl-t-de-t0-mtec , "Lodret udvidelse af dybdelagene"@da-t-de-t0-mtec , "Extension verticale des couches profondes"@fr-t-de-t0-mtec;
+        dct:identifier             "https://gdi.bsh.de/de/metadata/Layer-thickness-of-the-operational-circulation-model-of-BSH-in-the-German-Bight-and-the-western-Baltic-Sea-horizontal-resolution-900-m-00.xml"^^<http://www.w3.org/2001/XMLSchema#anyURI>;
+        dct:isPartOf               [ dct:identifier
+                          "504273c2-4174-4ce2-85f6-5a9f47255655" ];
+        dct:issued                 "2025-10-31"^^<http://www.w3.org/2001/XMLSchema#date>;
+        dct:language               <http://publications.europa.eu/resource/authority/language/DEU>;
+        dct:modified               "2025-10-31"^^<http://www.w3.org/2001/XMLSchema#date>;
+        dct:provenance             [ rdf:type    dct:ProvenanceStatement;
+                                     rdfs:label  "Bundesamt für Seeschifffahrt und Hydrographie (BSH)"@de , "Federal Maritime and Hydrographic Agency (BSH)"@en
+                                   ];
+        dct:spatial                [ rdf:type      dct:Location;
+                                     rdfs:seeAlso  [ rdf:type        skos:Concept;
+                                                     skos:prefLabel  "000000000000"@de
+                                                   ]
+                                   ];
+        dct:spatial                [ rdf:type   dct:Location;
+                                     dcat:bbox  "POLYGON((6.1736 56.4458,14.9097 56.4458,14.9097 53.2292,6.1736 53.2292,6.1736 56.4458))"^^<http://replacement.io/ont/geosparql#wktLiteral>
+                                   ];
+        dct:title                  "Sejtvastagság előrejelzés 00"@hu-t-de-t0-mtec , "Previsione dello spessore delle cellule 00"@it-t-de-t0-mtec , "Schichtdicken des operationellen Zirkulationsmodells des BSH in der deutschen Bucht und der westlichen Ostsee (horizontale Auflösung 900 m) 00"@de , "Šūnu biezuma prognoze 00"@lv-t-de-t0-mtec , "Förutsägelse av celltjocklek 00"@sv-t-de-t0-mtec , "Прогнозування товщини клітин 00"@uk-t-de-t0-mtec , "Previsão da espessura telemóvel 00"@pt-t-de-t0-mtec , "Tuar tiús cille 00"@ga-t-de-t0-mtec , "Forudsigelse af celletykkelse 00"@da-t-de-t0-mtec , "Predicția grosimii celulei 00"@ro-t-de-t0-mtec , "Πρόβλεψη πάχους κυττάρων 00"@el-t-de-t0-mtec , "Solujen paksuuden ennuste 00"@fi-t-de-t0-mtec , "Tbassir tal-ħxuna taċ-ċellula 00"@mt-t-de-t0-mtec , "Layer thickness of the operational circulation model of BSH in the German Bight and the western Baltic Sea (horizontal resolution 900 m) 00"@en , "Predviđanje debljine ćelije 00"@hr-t-de-t0-mtec , "Predicción del espesor de la célula 00"@es-t-de-t0-mtec , "Ląstelių storio prognozė 00"@lt-t-de-t0-mtec , "Raku paksuse prognoos 00"@et-t-de-t0-mtec , "Napovedovanje debeline celice 00"@sl-t-de-t0-mtec , "Przewidywanie grubości komórek 00"@pl-t-de-t0-mtec , "Predpovedanie hrúbky bunky 00"@sk-t-de-t0-mtec , "Celdikte voorspelling 00"@nl-t-de-t0-mtec , "Predikce tloušťky buněk 00"@cs-t-de-t0-mtec , "Prévision de l’épaisseur des cellules 00"@fr-t-de-t0-mtec , "Прогноза за дебелината на клетката 00"@bg-t-de-t0-mtec;
+        dcat:contactPoint          [ rdf:type                 vcard:Organization;
+                                     vcard:hasAddress         [ rdf:type              vcard:Address;
+                                                                vcard:country-name    "Deutschland" , "Deutschland\n                          \n                          \n                            Germany";
+                                                                vcard:locality        "Hamburg";
+                                                                vcard:postal-code     "20359";
+                                                                vcard:region          "Hamburg";
+                                                                vcard:street-address  "Bernhard-Nocht-Str. 78"
+                                                              ];
+                                     vcard:hasEmail           <mailto:opmod@bsh.de>;
+                                     vcard:organization-name  "Bundesamt für Seeschifffahrt und Hydrographie (BSH)"
+                                   ];
+        dcat:distribution          <http://data.europa.eu/88u/distribution/cddff7e1-cbd8-46d5-84bf-86164abd5f6b> , <http://data.europa.eu/88u/distribution/a17c9a02-ec39-4538-a610-f68334351156>;
+        dcat:keyword               "Nordsee"@de , "Open Data"@en , "operational model forecast"@en , "open data"@de , "Westliche Ostsee"@de , "Open Data"@de , "circulation model"@en , "Bundesamt für Seeschifffahrt und Hydrographie"@de , "Baltic Sea"@en , "Western Baltic Sea"@en , "Ozeanographie"@de , "model layer thickness"@en , "Deutsche Bucht"@de , "North Sea"@en , "oceanography"@en , "German Bight"@en , "Federal Maritime and Hydrographic Agency"@en , "Ostsee"@de , "opendata"@de , "open data"@en , "BSH"@en , "operationelle Modellvorhersage"@de , "Modell-Schichtdicken"@de , "BSH"@de , "Zirkulationsmodell"@de , "opendata"@en;
+        dcat:theme                 <http://publications.europa.eu/resource/authority/data-theme/ENVI>;
+        dcat:theme                 [ rdf:type        skos:Concept;
+                                     skos:inScheme   [ rdf:type    skos:ConceptScheme;
+                                                       dct:issued  "2019-05-22"^^<http://www.w3.org/2001/XMLSchema#date>;
+                                                       dct:title   "Spatial scope"@de
+                                                     ];
+                                     skos:prefLabel  "National"
+                                   ];
+        prov:qualifiedAttribution  [ rdf:type      prov:Attribution;
+                                     dcat:hadRole  <http://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/pointOfContact>;
+                                     prov:agent    [ rdf:type      foaf:Organization;
+                                                     locn:address  [ rdf:type           locn:Address;
+                                                                     locn:adminUnitL1   "Deutschland" , "Deutschland\n                          \n                          \n                            Germany";
+                                                                     locn:adminUnitL2   "Hamburg";
+                                                                     locn:postCode      "20359";
+                                                                     locn:postName      "Hamburg";
+                                                                     locn:thoroughfare  "Bernhard-Nocht-Str. 78"
+                                                                   ];
+                                                     foaf:mbox     <mailto:opmod@bsh.de>;
+                                                     foaf:name     "Bundesamt für Seeschifffahrt und Hydrographie (BSH)"
+                                                   ]
+                                   ];
+        foaf:isPrimaryTopicOf      []  .
+
+<http://www.opengis.net/def/crs/EPSG/0/4326>
+        rdf:type  dct:Standard;
+        dct:type  <http://inspire.ec.europa.eu/metadata-codelist/SpatialReferenceSystem> .
+
+<http://data.europa.eu/88u/distribution/a17c9a02-ec39-4538-a610-f68334351156>
+        rdf:type        dcat:Distribution;
+        dct:format      <http://publications.europa.eu/resource/authority/file-type/NETCDF>;
+        dct:identifier  "https://gdi.bsh.de/de/data/Layer-thickness-of-the-operational-circulation-model-of-BSH-in-the-German-Bight-and-the-western-Baltic-Sea-horizontal-resolution-900-m-00.zip";
+        dct:license     [ rdf:type    dct:LicenseDocument;
+                          rdfs:label  "Dieser Datensatz kann gemäß der \"Datenlizenz Deutschland – Namensnennung – Version 2.0\" (www.govdata.de/dl-de/by-2-0) genutzt werden."@de
+                        ];
+        dct:rights      [ rdf:type    dct:RightsStatement;
+                          rdfs:label  "Es gelten keine Zugriffsbeschränkungen"@de
+                        ];
+        <http://www.w3.org/2011/content#characterEncoding>
+                "UTF-8";
+        dcat:accessURL  <https://gdi.bsh.de/de/data/Layer-thickness-of-the-operational-circulation-model-of-BSH-in-the-German-Bight-and-the-western-Baltic-Sea-horizontal-resolution-900-m-00.zip> .
+
+<http://publications.europa.eu/resource/authority/frequency/CONT>
+        rdf:type  dct:Frequency .
+
+<http://data.europa.eu/88u/distribution/cddff7e1-cbd8-46d5-84bf-86164abd5f6b>
+        rdf:type        dcat:Distribution;
+        dct:format      <http://publications.europa.eu/resource/authority/file-type/NETCDF>;
+        dct:identifier  "https://gdi.bsh.de/de/feed/Layer-thickness-of-the-operational-circulation-model-of-BSH-in-the-German-Bight-and-the-western-Baltic-Sea-horizontal-resolution-900-m-00.xml";
+        dct:license     [ rdf:type    dct:LicenseDocument;
+                          rdfs:label  "Dieser Datensatz kann gemäß der \"Datenlizenz Deutschland – Namensnennung – Version 2.0\" (www.govdata.de/dl-de/by-2-0) genutzt werden."@de
+                        ];
+        dct:rights      [ rdf:type    dct:RightsStatement;
+                          rdfs:label  "Es gelten keine Zugriffsbeschränkungen"@de
+                        ];
+        <http://www.w3.org/2011/content#characterEncoding>
+                "UTF-8";
+        dcat:accessURL  <https://gdi.bsh.de/de/feed/Layer-thickness-of-the-operational-circulation-model-of-BSH-in-the-German-Bight-and-the-western-Baltic-Sea-horizontal-resolution-900-m-00.xml> .
+
+<http://publications.europa.eu/resource/authority/file-type/NETCDF>
+        rdf:type  dct:MediaType .

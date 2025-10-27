@@ -1,0 +1,1057 @@
+{
+    "@graph": [
+        {
+            "@id": "rdf:Property",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "rdf:Property"
+                }
+            ],
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "http://data.europa.eu/88u/dataset/f178f1ef-6be3-4377-8441-433e3531c11f",
+            "dcat:keyword": [
+                "Loans",
+                "Remaining Assets",
+                "Deposits redeemable at notice",
+                "Total Liabilities",
+                "Deposits",
+                "Households",
+                "Current Accounts",
+                "Post Office Savings Accounts",
+                "Other Household Loans",
+                "Overnight Deposits",
+                "Debt Securities",
+                "Capital and Reserves",
+                "Repurchase Agreements",
+                "Remaining Liabilities",
+                "Accrued Interest",
+                "Irish Private Sector",
+                "M1",
+                "Borrowing from the Eurosystem relating to monetary policy operations",
+                "Other Euro Area residents",
+                "M2",
+                "Private Sector Credit",
+                "Central Bank balances",
+                "Pension Funds",
+                "General Government",
+                "Debt Securities Issued",
+                "Lending to Non-Bank IFSCs",
+                "Total Assets",
+                "Shares and Other Equity Held",
+                "On-balance sheet",
+                "Monetary Financial Institutions",
+                "Deposits with agreed maturity",
+                "Private sector",
+                "Insurance Corporations",
+                "M3",
+                "Consumer Credit",
+                "Non-MMF Investment Funds",
+                "Other Financial Intermediaries",
+                "Rest of the World",
+                "Shares and Other Equity",
+                "Currency in circulation",
+                "Non-Euro Area residents",
+                "Holdings of securities",
+                "Securitised",
+                "Affiliated interbank",
+                "Non-Financial Corporations",
+                "Securities Other Than Shares",
+                "Loans for House Purchase",
+                "Financial Vehicle Corporations",
+                "Debt Securities Held"
+            ],
+            "dct:description": [
+                {
+                    "@language": "ro-t-ga-t0-mtec",
+                    "@value": "Statisticile monetare și bancare conțin date privind pasivele și activele oficiilor de stat ale instituțiilor de credit. Aceste date sunt defalcate în continuare în funcţie de sectorul instituţional, rezidenţa contrapartidelor, precum şi în funcţie de tipul şi scadenţa activului principal (împrumuturi, deţineri de titluri de valoare) şi a instrumentelor de pasiv (depozite, titluri emise) de interes. Sunt disponibile statistici detaliate privind evoluțiile de pe piețele irlandeze ale creditelor ipotecare, ale bunurilor de consum și ale depozitelor."
+                },
+                {
+                    "@language": "sk-t-ga-t0-mtec",
+                    "@value": "Peňažná a banková štatistika obsahuje údaje o pasívach a aktívach štátnych úradov úverových inštitúcií. Tieto údaje sú ďalej členené podľa inštitucionálneho sektora, rezidentskej príslušnosti protistrán a podľa druhu a splatnosti hlavného aktíva (úvery, držba cenných papierov) a nástrojov pasív (vklady, emitované cenné papiere). K dispozícii sú podrobné štatistiky o vývoji na írskych hypotekárnych, spotrebiteľských a vkladových trhoch."
+                },
+                {
+                    "@language": "pl-t-ga-t0-mtec",
+                    "@value": "Statystyka pieniężna i bankowa zawiera dane dotyczące pasywów i aktywów wewnątrzpaństwowych biur instytucji kredytowych. Dane te są dalej przedstawiane w podziale na sektor instytucjonalny, rezydencję kontrahentów oraz rodzaj i termin zapadalności głównego składnika aktywów (pożyczki, portfele papierów wartościowych) i instrumentów pasywów (depozyty, wyemitowane papiery wartościowe) będących przedmiotem zainteresowania. Dostępne są szczegółowe statystyki dotyczące rozwoju sytuacji na irlandzkich rynkach kredytów hipotecznych, konsumenckich i depozytowych."
+                },
+                {
+                    "@language": "nl-t-ga-t0-mtec",
+                    "@value": "De monetaire en bancaire statistieken bevatten gegevens over de passiva en activa van de nationale kantoren van kredietinstellingen. Deze gegevens worden verder uitgesplitst naar institutionele sector, ingezetenschap van tegenpartijen en naar het type en de looptijd van het belangrijkste actief (leningen, aangehouden effecten) en passiefinstrumenten (deposito's, uitgegeven effecten) van de rente. Gedetailleerde statistieken zijn beschikbaar over de ontwikkelingen op de Ierse hypotheek-, consumenten- en depositomarkten."
+                },
+                {
+                    "@language": "sv-t-ga-t0-mtec",
+                    "@value": "Penning- och bankstatistiken innehåller uppgifter om skulder och tillgångar hos kreditinstitutens statliga kontor. Dessa uppgifter delas upp ytterligare efter institutionell sektor, motparternas hemvist och efter typ och löptid för den viktigaste tillgången (lån, innehav av värdepapper) och skuldinstrument (inlåning, emitterade värdepapper) av intresse. Detaljerad statistik finns tillgänglig om utvecklingen på de irländska bolåne-, konsument- och inlåningsmarknaderna."
+                },
+                {
+                    "@language": "pt-t-ga-t0-mtec",
+                    "@value": "As Estatísticas Monetárias e Bancárias contêm dados sobre os passivos e activos das sedes estaduais das instituições de crédito. Estes dados são ainda desagregados por setor institucional, residência das contrapartes e por tipo e prazo de vencimento do principal ativo (empréstimos, detenções de títulos) e dos instrumentos de passivo (depósitos, títulos emitidos) de interesse. Estão disponíveis estatísticas pormenorizadas sobre a evolução dos mercados irlandeses de crédito hipotecário, de consumo e de depósitos."
+                },
+                {
+                    "@language": "hu-t-ga-t0-mtec",
+                    "@value": "A pénz- és bankstatisztikák a hitelintézetek állami hivatalainak kötelezettségeire és eszközeire vonatkozó adatokat tartalmaznak. Ezeket az adatokat tovább bontják a gazdasági szektor, az ügyfelek rezidens státusza, valamint a legfontosabb kamatozó eszközök (hitelek, értékpapír-állományok) és kötelezettséginstrumentumok (betétek, kibocsátott értékpapírok) típusa és lejárata szerint. Részletes statisztikák állnak rendelkezésre az ír jelzálog-, fogyasztói és betéti piacok alakulásáról."
+                },
+                {
+                    "@language": "de-t-ga-t0-mtec",
+                    "@value": "Die Geld- und Bankenstatistik enthält Daten über die Verbindlichkeiten und Vermögenswerte von Kreditinstituten innerhalb der staatlichen Ämter. Diese Daten werden weiter nach institutionellem Sektor, Ansässigkeit der Gegenparteien sowie nach Art und Fälligkeit des wichtigsten Vermögenswerts (Darlehen, Wertpapierbestände) und der Schuldinstrumente (Einlagen, begebene Wertpapiere) von Interesse aufgeschlüsselt. Detaillierte Statistiken über die Entwicklungen auf den irischen Hypotheken-, Verbraucher- und Einlagenmärkten stehen zur Verfügung."
+                },
+                {
+                    "@language": "lv-t-ga-t0-mtec",
+                    "@value": "Naudas un banku statistika ietver datus par kredītiestāžu valsts iestāžu pasīviem un aktīviem. Šos datus sīkāk iedala pēc institucionālā sektora, darījuma partneru rezidences vietas un pēc galveno procentu aktīvu (aizdevumi, vērtspapīru turējumi) un saistību instrumentu (noguldījumi, emitētie vērtspapīri) veida un termiņa. Ir pieejama detalizēta statistika par norisēm Īrijas hipotēku, patēriņa un noguldījumu tirgos."
+                },
+                {
+                    "@language": "cs-t-ga-t0-mtec",
+                    "@value": "Měnová a bankovní statistika obsahuje údaje o pasivech a aktivech vnitrostátních úřadů úvěrových institucí. Tyto údaje jsou dále členěny podle institucionálního sektoru, rezidentské příslušnosti protistran a podle druhu a splatnosti hlavních aktiv (úvěry, držba cenných papírů) a závazkových nástrojů (vklady, emitované cenné papíry) úroků. K dispozici jsou podrobné statistiky o vývoji na irském hypotečním, spotřebitelském a depozitním trhu."
+                },
+                {
+                    "@language": "hr-t-ga-t0-mtec",
+                    "@value": "Novčana i bankovna statistika sadržava podatke o obvezama i imovini unutar državnih ureda kreditnih institucija. Ti se podaci dalje raščlanjuju prema institucionalnom sektoru, rezidentnosti drugih ugovornih strana te prema vrsti i dospijeću glavne imovine (krediti, držanje vrijednosnih papira) i instrumenata obveza (depoziti, izdani vrijednosni papiri) od interesa. Dostupni su detaljni statistički podaci o kretanjima na irskom tržištu hipotekarnih kredita, potrošačkih tržišta i tržišta depozita."
+                },
+                {
+                    "@language": "et-t-ga-t0-mtec",
+                    "@value": "Raha- ja pangandusstatistika sisaldab andmeid krediidiasutuste riiklike büroode kohustuste ja varade kohta. Need andmed jaotatakse täiendavalt institutsionaalse sektori, vastaspoolte residentsuse ning peamise huvipakkuva vara (laenud, väärtpaberipositsioonid) ja kohustuste instrumentide (hoiused, emiteeritud väärtpaberid) liigi ja tähtaja järgi. Iirimaa hüpoteeklaenu-, tarbija- ja hoiuseturgude arengu kohta on olemas üksikasjalikud statistilised andmed."
+                },
+                {
+                    "@language": "da-t-ga-t0-mtec",
+                    "@value": "Penge- og bankstatistikken indeholder data om kreditinstitutternes passiver og aktiver i de enkelte lande. Disse data opdeles yderligere efter institutionel sektor, modparternes hjemsted og efter type og løbetid for det vigtigste aktiv (udlån, beholdninger af værdipapirer) og passivinstrumenter (indlån, udstedte værdipapirer) af interesse. Der foreligger detaljerede statistikker om udviklingen på de irske realkredit-, forbruger- og indlånsmarkeder."
+                },
+                {
+                    "@language": "ga",
+                    "@value": "Sonraí faoi dhliteanais agus faoi shócmhainní oifigí de chuid na bhforas creidmheasa atá sa Stát a áirítear faoi Ábhar Staidrimh maidir le hAirgead agus Baincéireacht. Déantar na sonraí sin a bhriseadh síos níos mine i ndáil le hearnálacha na bhforas, cónaitheacht na bhfrithpháirtithe, agus cineál agus aibíocht na príomh-shócmhainne (iasacht, sealbhú urrús) agus na n-ionstraimí dliteanais (taisce, urrús arna eisiúint) faoi chaibidil. Bíonn ábhar mionsonraithe staidrimh ar fáil faoi chora i margadh morgáistí, tomhaltóirí agus taiscí na hÉireann."
+                },
+                {
+                    "@language": "mt-t-ga-t0-mtec",
+                    "@value": "L-Istatistika dwar il-Flus u l-Banek fiha data dwar l-obbligazzjonijiet u l-assi ta’ uffiċċji fi ħdan l-Istat ta’ istituzzjonijiet ta’ kreditu. Din id-data tkompli titqassam skont is-settur istituzzjonali, ir-residenza tal-kontropartijiet, u skont it-tip u l-maturità tal-assi ewlieni (self, investimenti f’titoli) u l-istrumenti ta’ obbligazzjoni (depożiti, titoli maħruġa) ta’ interess. Statistika dettaljata hija disponibbli dwar l-iżviluppi fis-swieq Irlandiżi tal-ipoteki, tal-konsumaturi u tad-depożiti."
+                },
+                {
+                    "@language": "sl-t-ga-t0-mtec",
+                    "@value": "Denarna in bančna statistika vsebuje podatke o obveznostih in sredstvih znotraj državnih uradov kreditnih institucij. Ti podatki so nadalje razčlenjeni po institucionalnem sektorju, rezidenčnosti nasprotnih strank ter po vrsti in zapadlosti glavnih sredstev (posojila, imetja vrednostnih papirjev) in instrumentov obveznosti (vloge, izdani vrednostni papirji) obresti. Na voljo so podrobni statistični podatki o gibanjih na irskem hipotekarnem, potrošniškem in depozitnem trgu."
+                },
+                {
+                    "@language": "fr-t-ga-t0-mtec",
+                    "@value": "Les statistiques monétaires et bancaires contiennent des données sur les passifs et les actifs des bureaux nationaux des établissements de crédit. Ces données sont ensuite ventilées par secteur institutionnel, par résidence des contreparties et par type et échéance des principaux actifs (prêts, détentions de titres) et instruments de passif (dépôts, titres émis) d’intérêt. Des statistiques détaillées sont disponibles sur l'évolution des marchés irlandais des prêts hypothécaires, de la consommation et des dépôts."
+                },
+                {
+                    "@language": "en",
+                    "@value": "The Money and Banking Statistics contain data on the liabilities and assets of within-the-State offices of credit institutions. These data are further broken down by institutional sector, residency of counterparties, and by the type and maturity of the main asset (loans, holdings of securities) and liability instruments (deposits, securities issued) of interest. Detailed statistics are available on developments in Irish mortgage, consumer and deposit markets."
+                },
+                {
+                    "@language": "bg-t-ga-t0-mtec",
+                    "@value": "Паричната и банковата статистика съдържа данни за пасивите и активите на вътрешните държавни служби на кредитните институции. Тези данни са допълнително разбити по институционални сектори, постоянно пребиваване на контрагентите и по вид и падеж на основния актив (кредити, държани ценни книжа) и инструменти на пасивите (депозити, емитирани ценни книжа). Налични са подробни статистически данни за развитието на ирландските ипотечни, потребителски и депозитни пазари."
+                },
+                {
+                    "@language": "el-t-ga-t0-mtec",
+                    "@value": "Οι νομισματικές και τραπεζικές στατιστικές περιέχουν στοιχεία σχετικά με τις υποχρεώσεις και τα περιουσιακά στοιχεία των εντός των κρατικών υπηρεσιών των πιστωτικών ιδρυμάτων. Τα στοιχεία αυτά αναλύονται περαιτέρω ανά θεσμικό τομέα, κατοικία των αντισυμβαλλομένων, καθώς και κατά είδος και διάρκεια του κύριου περιουσιακού στοιχείου (δάνεια, διακρατήσεις τίτλων) και μέσων υποχρέωσης (καταθέσεις, εκδοθέντες τίτλοι) που παρουσιάζουν ενδιαφέρον. Λεπτομερή στατιστικά στοιχεία είναι διαθέσιμα σχετικά με τις εξελίξεις στις ιρλανδικές αγορές ενυπόθηκων δανείων, καταναλωτών και καταθέσεων."
+                },
+                {
+                    "@language": "uk-t-ga-t0-mtec",
+                    "@value": "Грошова та банківська статистика містить дані про зобов'язання та активи внутрішньодержавних відділень кредитних установ. Ці дані додатково розбивають інституційний сектор, резидентність контрагентів, а також за типом та терміном погашення основного активу (кредитів, холдингів цінних паперів) та інструментами відповідальності (депозитів, емітованих цінних паперів) відсотків. Детальна статистика доступна щодо подій на ірландському іпотечному, споживчому та депозитному ринках."
+                },
+                {
+                    "@language": "it-t-ga-t0-mtec",
+                    "@value": "Le statistiche monetarie e bancarie contengono dati sulle passività e sulle attività degli uffici statali degli enti creditizi. Tali dati sono ulteriormente disaggregati per settore istituzionale, residenza delle controparti e tipologia e scadenza delle principali attività (prestiti, disponibilità di titoli) e passività (depositi, titoli emessi) di interesse. Sono disponibili statistiche dettagliate sugli sviluppi nei mercati irlandesi dei mutui ipotecari, dei consumatori e dei depositi."
+                },
+                {
+                    "@language": "fi-t-ga-t0-mtec",
+                    "@value": "Raha- ja pankkitilasto sisältää tietoja luottolaitosten valtionsisäisten toimipaikkojen veloista ja varoista. Nämä tiedot eritellään edelleen institutionaalisen sektorin, vastapuolten kotipaikan sekä pääsaamisen (lainat, hallussa olevat arvopaperit) ja velkainstrumenttien (talletukset, liikkeeseen lasketut arvopaperit) tyypin ja maturiteetin mukaan. Irlannin asuntolaina-, kuluttaja- ja talletusmarkkinoiden kehityksestä on saatavilla yksityiskohtaisia tilastoja."
+                },
+                {
+                    "@language": "lt-t-ga-t0-mtec",
+                    "@value": "Pinigų ir bankų statistikoje pateikiami duomenys apie kredito įstaigų valstybės vidaus įstaigų įsipareigojimus ir turtą. Šie duomenys toliau skirstomi pagal institucinį sektorių, sandorio šalių rezidavimo vietą, pagrindinio palūkanų turto (paskolų, turimų vertybinių popierių) ir įsipareigojimų priemonių (indėlių, išleistų vertybinių popierių) rūšį ir terminą. Yra išsamių statistinių duomenų apie Airijos hipotekos, vartotojų ir indėlių rinkų pokyčius."
+                },
+                {
+                    "@language": "es-t-ga-t0-mtec",
+                    "@value": "Las estadísticas monetarias y bancarias contienen datos sobre los pasivos y activos de las oficinas estatales de las entidades de crédito. Estos datos se desglosan además por sector institucional, residencia de las contrapartes y por tipo y vencimiento del activo principal (préstamos, tenencias de valores) e instrumentos de pasivo (depósitos, valores emitidos) de interés. Se dispone de estadísticas detalladas sobre la evolución de los mercados hipotecarios, de consumo y de depósitos irlandeses."
+                }
+            ],
+            "dct:title": [
+                {
+                    "@language": "lt-t-ga-t0-mtec",
+                    "@value": "Pinigų ir bankų statistika"
+                },
+                {
+                    "@language": "hr-t-ga-t0-mtec",
+                    "@value": "Statistika novca i bankarstva"
+                },
+                {
+                    "@language": "fi-t-ga-t0-mtec",
+                    "@value": "Raha- ja pankkitilastot"
+                },
+                {
+                    "@language": "en-t-ga-t0-mtec",
+                    "@value": "Money and Banking Statistics"
+                },
+                {
+                    "@language": "mt-t-ga-t0-mtec",
+                    "@value": "Statistika dwar il-Flus u l-Banek"
+                },
+                {
+                    "@language": "fr-t-ga-t0-mtec",
+                    "@value": "Statistiques monétaires et bancaires"
+                },
+                {
+                    "@language": "it-t-ga-t0-mtec",
+                    "@value": "Statistiche monetarie e bancarie"
+                },
+                {
+                    "@language": "sv-t-ga-t0-mtec",
+                    "@value": "Penning- och bankstatistik"
+                },
+                {
+                    "@language": "sl-t-ga-t0-mtec",
+                    "@value": "Denarna in bančna statistika"
+                },
+                {
+                    "@language": "cs-t-ga-t0-mtec",
+                    "@value": "Peněžní a bankovní statistika"
+                },
+                {
+                    "@language": "ro-t-ga-t0-mtec",
+                    "@value": "Bani și statistici bancare"
+                },
+                {
+                    "@language": "da-t-ga-t0-mtec",
+                    "@value": "Penge- og bankstatistik"
+                },
+                {
+                    "@language": "pt-t-ga-t0-mtec",
+                    "@value": "Estatísticas monetárias e bancárias"
+                },
+                {
+                    "@language": "el-t-ga-t0-mtec",
+                    "@value": "Χρηματικές και τραπεζικές στατιστικές"
+                },
+                {
+                    "@language": "sk-t-ga-t0-mtec",
+                    "@value": "Peňažná a banková štatistika"
+                },
+                {
+                    "@language": "es-t-ga-t0-mtec",
+                    "@value": "Estadísticas de Dinero y Banca"
+                },
+                {
+                    "@language": "nl-t-ga-t0-mtec",
+                    "@value": "Geld- en bankstatistieken"
+                },
+                "Money and Banking Statistics",
+                {
+                    "@language": "uk-t-ga-t0-mtec",
+                    "@value": "Грошова та банківська статистика"
+                },
+                {
+                    "@language": "pl-t-ga-t0-mtec",
+                    "@value": "Statystyka pieniężna i bankowa"
+                },
+                {
+                    "@language": "bg-t-ga-t0-mtec",
+                    "@value": "Парична и банкова статистика"
+                },
+                {
+                    "@language": "et-t-ga-t0-mtec",
+                    "@value": "Raha- ja pangandusstatistika"
+                },
+                {
+                    "@language": "hu-t-ga-t0-mtec",
+                    "@value": "Pénz- és bankstatisztikák"
+                },
+                {
+                    "@language": "lv-t-ga-t0-mtec",
+                    "@value": "Naudas un banku statistika"
+                },
+                {
+                    "@language": "de-t-ga-t0-mtec",
+                    "@value": "Geld- und Bankenstatistik"
+                }
+            ],
+            "dcat:theme": [
+                {
+                    "@id": "https://data.gov.ie/Government"
+                },
+                {
+                    "@id": "http://publications.europa.eu/resource/authority/data-theme/GOVE"
+                }
+            ],
+            "dct:issued": {
+                "@value": "2025-10-31",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            },
+            "dct:language": {
+                "@id": "http://publications.europa.eu/resource/authority/language/ENG"
+            },
+            "@type": [
+                "dcat:Resource",
+                "rdfs:Resource",
+                "dcat:Dataset"
+            ],
+            "dct:temporal": [
+                {
+                    "@id": "_:b0"
+                },
+                {
+                    "@id": "_:b2"
+                }
+            ],
+            "dct:accrualPeriodicity": "Monthly",
+            "dcat:contactPoint": {
+                "@id": "_:b1"
+            },
+            "dct:identifier": "f178f1ef-6be3-4377-8441-433e3531c11f",
+            "dct:publisher": {
+                "@id": "https://data.gov.ie/organization/central-bank-of-ireland"
+            },
+            "dct:created": {
+                "@value": "2024-07-17T17:28:08",
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+            },
+            "dcat:distribution": {
+                "@id": "http://data.europa.eu/88u/distribution/84e3f199-10c4-407d-a378-1c6c60ebff95"
+            },
+            "dct:modified": {
+                "@value": "2025-11-07T17:50:08",
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+        },
+        {
+            "@id": "http://publications.europa.eu/resource/authority/language/ENG",
+            "@type": [
+                "rdfs:Resource",
+                "dct:LinguisticSystem"
+            ]
+        },
+        {
+            "@id": "dcat:Resource",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "dcat:Resource"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ]
+        },
+        {
+            "@id": "_:b0",
+            "@type": [
+                "rdfs:Resource",
+                "dct:PeriodOfTime"
+            ],
+            "http://schema.org/startDate": {
+                "@value": "2003-01-31",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            },
+            "http://schema.org/endDate": {
+                "@value": "2025-09-30",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            }
+        },
+        {
+            "@id": "_:b1",
+            "@type": [
+                "rdfs:Resource",
+                "vcard:Organization"
+            ],
+            "vcard:hasEmail": {
+                "@id": "mailto:creditinst@centralbank.ie"
+            }
+        },
+        {
+            "@id": "https://data.gov.ie/organization/central-bank-of-ireland",
+            "@type": [
+                "foaf:Organization",
+                "rdfs:Resource",
+                "foaf:Agent"
+            ],
+            "foaf:name": "Central Bank of Ireland"
+        },
+        {
+            "@id": "dcat:Dataset",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "dcat:Dataset"
+                },
+                {
+                    "@id": "dcat:Resource"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ],
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ]
+        },
+        {
+            "@id": "http://data.europa.eu/88u/distribution/84e3f199-10c4-407d-a378-1c6c60ebff95",
+            "dct:title": [
+                {
+                    "@language": "ro-t-ga-t0-mtec",
+                    "@value": "Bani și statistici bancare"
+                },
+                {
+                    "@language": "da-t-ga-t0-mtec",
+                    "@value": "Penge- og bankstatistik"
+                },
+                {
+                    "@language": "pl-t-ga-t0-mtec",
+                    "@value": "Statystyka pieniężna i bankowa"
+                },
+                {
+                    "@language": "cs-t-ga-t0-mtec",
+                    "@value": "Peněžní a bankovní statistika"
+                },
+                {
+                    "@language": "en-t-ga-t0-mtec",
+                    "@value": "Money and Banking Statistics"
+                },
+                {
+                    "@language": "hu-t-ga-t0-mtec",
+                    "@value": "Pénz- és bankstatisztikák"
+                },
+                {
+                    "@language": "el-t-ga-t0-mtec",
+                    "@value": "Χρηματικές και τραπεζικές στατιστικές"
+                },
+                {
+                    "@language": "nl-t-ga-t0-mtec",
+                    "@value": "Geld- en bankstatistieken"
+                },
+                {
+                    "@language": "de-t-ga-t0-mtec",
+                    "@value": "Geld- und Bankenstatistik"
+                },
+                {
+                    "@language": "fi-t-ga-t0-mtec",
+                    "@value": "Raha- ja pankkitilastot"
+                },
+                {
+                    "@language": "bg-t-ga-t0-mtec",
+                    "@value": "Парична и банкова статистика"
+                },
+                {
+                    "@language": "uk-t-ga-t0-mtec",
+                    "@value": "Грошова та банківська статистика"
+                },
+                {
+                    "@language": "fr-t-ga-t0-mtec",
+                    "@value": "Statistiques monétaires et bancaires"
+                },
+                {
+                    "@language": "et-t-ga-t0-mtec",
+                    "@value": "Raha- ja pangandusstatistika"
+                },
+                {
+                    "@language": "sk-t-ga-t0-mtec",
+                    "@value": "Peňažná a banková štatistika"
+                },
+                {
+                    "@language": "it-t-ga-t0-mtec",
+                    "@value": "Statistiche monetarie e bancarie"
+                },
+                {
+                    "@language": "mt-t-ga-t0-mtec",
+                    "@value": "Statistika dwar il-Flus u l-Banek"
+                },
+                {
+                    "@language": "lv-t-ga-t0-mtec",
+                    "@value": "Naudas un banku statistika"
+                },
+                "Money and Banking Statistics",
+                {
+                    "@language": "hr-t-ga-t0-mtec",
+                    "@value": "Statistika novca i bankarstva"
+                },
+                {
+                    "@language": "sv-t-ga-t0-mtec",
+                    "@value": "Penning- och bankstatistik"
+                },
+                {
+                    "@language": "pt-t-ga-t0-mtec",
+                    "@value": "Estatísticas monetárias e bancárias"
+                },
+                {
+                    "@language": "sl-t-ga-t0-mtec",
+                    "@value": "Denarna in bančna statistika"
+                },
+                {
+                    "@language": "es-t-ga-t0-mtec",
+                    "@value": "Estadísticas de Dinero y Banca"
+                },
+                {
+                    "@language": "lt-t-ga-t0-mtec",
+                    "@value": "Pinigų ir bankų statistika"
+                }
+            ],
+            "@type": [
+                "rdfs:Resource",
+                "dcat:Distribution"
+            ],
+            "dcat:downloadURL": {
+                "@id": "https://opendata.centralbank.ie/dataset/f178f1ef-6be3-4377-8441-433e3531c11f/resource/ea2149b9-3429-4f9f-ab4f-99803f32b537/download/money-and-banking-statistics.csv"
+            },
+            "dct:modified": {
+                "@value": "2025-11-07T17:50:08",
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+            },
+            "dct:identifier": "https://data.gov.ie/dataset/f178f1ef-6be3-4377-8441-433e3531c11f/resource/ea2149b9-3429-4f9f-ab4f-99803f32b537",
+            "dct:issued": {
+                "@value": "2024-07-05T14:42:33",
+                "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+            },
+            "dcat:byteSize": {
+                "@value": "28353886",
+                "@type": "http://www.w3.org/2001/XMLSchema#decimal"
+            },
+            "spdx:checksum": {
+                "@id": "_:b6"
+            },
+            "dct:format": {
+                "@id": "_:b4"
+            },
+            "dcat:accessURL": {
+                "@id": "https://opendata.centralbank.ie/dataset/f178f1ef-6be3-4377-8441-433e3531c11f/resource/ea2149b9-3429-4f9f-ab4f-99803f32b537/download/money-and-banking-statistics.csv"
+            }
+        },
+        {
+            "@id": "_:b2",
+            "dcat:startDate": {
+                "@value": "2003-01-31",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            },
+            "@type": [
+                "rdfs:Resource",
+                "dct:PeriodOfTime"
+            ],
+            "dcat:endDate": {
+                "@value": "2025-09-30",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            }
+        },
+        {
+            "@id": "rdfs:ContainerMembershipProperty",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:ContainerMembershipProperty"
+                },
+                {
+                    "@id": "rdf:Property"
+                }
+            ]
+        },
+        {
+            "@id": "_:b3",
+            "foaf:name": "Fraunhofer FOKUS (DPS)",
+            "foaf:homepage": {
+                "@id": "https://www.fokus.fraunhofer.de/de/dps.html/"
+            }
+        },
+        {
+            "@id": "_:b4",
+            "@type": [
+                "dct:MediaTypeOrExtent",
+                "rdfs:Resource"
+            ],
+            "rdf:value": "CSV",
+            "rdfs:label": "CSV"
+        },
+        {
+            "@id": "dct:MediaTypeOrExtent",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "dct:MediaTypeOrExtent"
+                }
+            ]
+        },
+        {
+            "@id": "rdf:Statement",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": {
+                "@id": "rdfs:Resource"
+            }
+        },
+        {
+            "@id": "owl:Ontology",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdfs:domain",
+            "rdfs:range": {
+                "@id": "rdfs:Class"
+            },
+            "rdfs:domain": {
+                "@id": "rdf:Property"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "dcat:Distribution",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "dcat:Distribution"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ]
+        },
+        {
+            "@id": "rdf:object",
+            "rdfs:subPropertyOf": {
+                "@id": "rdf:object"
+            },
+            "rdfs:domain": {
+                "@id": "rdf:Statement"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "_:b5",
+            "http://schema.org/affiliation": {
+                "@id": "_:b3"
+            },
+            "foaf:name": "Simon Dutkowski"
+        },
+        {
+            "@id": "dcat:DataService",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "dcat:Resource"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "dcat:DataService"
+                }
+            ]
+        },
+        {
+            "@id": "rdfs:comment",
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ],
+            "rdfs:range": {
+                "@id": "rdfs:Literal"
+            }
+        },
+        {
+            "@id": "rdfs:Literal",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": {
+                "@id": "rdfs:Resource"
+            }
+        },
+        {
+            "@id": "dct:PeriodOfTime",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "dct:PeriodOfTime"
+                }
+            ]
+        },
+        {
+            "@id": "rdfs:range",
+            "rdfs:range": {
+                "@id": "rdfs:Class"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ],
+            "rdfs:domain": {
+                "@id": "rdf:Property"
+            }
+        },
+        {
+            "@id": "rdf:List",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": {
+                "@id": "rdfs:Resource"
+            }
+        },
+        {
+            "@id": "_:b6",
+            "@type": [
+                "rdfs:Resource",
+                "spdx:Checksum"
+            ],
+            "spdx:checksumValue": {
+                "@value": "04deb10f64a577363e629f1fa3198df1",
+                "@type": "http://www.w3.org/2001/XMLSchema#hexBinary"
+            }
+        },
+        {
+            "@id": "rdf:Bag",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Container"
+                },
+                {
+                    "@id": "rdf:Bag"
+                }
+            ]
+        },
+        {
+            "@id": "rdfs:Container",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": {
+                "@id": "rdfs:Container"
+            }
+        },
+        {
+            "@id": "dct:LinguisticSystem",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "dct:LinguisticSystem"
+                }
+            ],
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ]
+        },
+        {
+            "@id": "https://piveau.io/solution/dcat-ap",
+            "owl:versionInfo": "1.0.0",
+            "rdfs:comment": {
+                "@language": "en",
+                "@value": "This ontology is meant for piveau internal use only"
+            },
+            "rdfs:label": {
+                "@language": "en",
+                "@value": "piveau ontology for DCAT-AP"
+            },
+            "@type": "owl:Ontology",
+            "dct:creator": {
+                "@id": "_:b5"
+            }
+        },
+        {
+            "@id": "rdf:first",
+            "rdfs:subPropertyOf": {
+                "@id": "rdf:first"
+            },
+            "rdfs:domain": {
+                "@id": "rdf:List"
+            },
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ]
+        },
+        {
+            "@id": "rdf:Alt",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Container"
+                },
+                {
+                    "@id": "rdf:Alt"
+                }
+            ]
+        },
+        {
+            "@id": "foaf:Organization",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "foaf:Organization"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ]
+        },
+        {
+            "@id": "foaf:Agent",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "foaf:Agent"
+                }
+            ],
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ]
+        },
+        {
+            "@id": "rdfs:isDefinedBy",
+            "rdfs:subPropertyOf": [
+                {
+                    "@id": "rdfs:seeAlso"
+                },
+                {
+                    "@id": "rdfs:isDefinedBy"
+                }
+            ],
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdfs:seeAlso",
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ],
+            "rdfs:subPropertyOf": {
+                "@id": "rdfs:seeAlso"
+            }
+        },
+        {
+            "@id": "rdfs:Datatype",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Class"
+                },
+                {
+                    "@id": "rdfs:Datatype"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ]
+        },
+        {
+            "@id": "vcard:Organization",
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "vcard:Organization"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                }
+            ]
+        },
+        {
+            "@id": "rdfs:subClassOf",
+            "rdfs:domain": {
+                "@id": "rdfs:Class"
+            },
+            "rdfs:range": {
+                "@id": "rdfs:Class"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdf:subject",
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ],
+            "rdfs:domain": {
+                "@id": "rdf:Statement"
+            },
+            "rdfs:subPropertyOf": {
+                "@id": "rdf:subject"
+            }
+        },
+        {
+            "@id": "rdf:nil",
+            "@type": [
+                "rdf:List",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdf:Seq",
+            "@type": [
+                "rdfs:Resource",
+                "rdfs:Class"
+            ],
+            "rdfs:subClassOf": [
+                {
+                    "@id": "rdfs:Container"
+                },
+                {
+                    "@id": "rdf:Seq"
+                }
+            ]
+        },
+        {
+            "@id": "rdf:type",
+            "rdfs:range": {
+                "@id": "rdfs:Class"
+            },
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ]
+        },
+        {
+            "@id": "dcat:DatasetSeries",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "dcat:Resource"
+                },
+                {
+                    "@id": "rdfs:Resource"
+                },
+                {
+                    "@id": "dcat:DatasetSeries"
+                }
+            ],
+            "@type": [
+                "rdfs:Class",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdfs:subPropertyOf",
+            "rdfs:domain": {
+                "@id": "rdf:Property"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ],
+            "rdfs:range": {
+                "@id": "rdf:Property"
+            }
+        },
+        {
+            "@id": "rdf:rest",
+            "rdfs:domain": {
+                "@id": "rdf:List"
+            },
+            "rdfs:range": {
+                "@id": "rdf:List"
+            },
+            "rdfs:subPropertyOf": {
+                "@id": "rdf:rest"
+            },
+            "@type": [
+                "rdf:Property",
+                "rdfs:Resource"
+            ]
+        },
+        {
+            "@id": "rdfs:label",
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ],
+            "rdfs:range": {
+                "@id": "rdfs:Literal"
+            }
+        },
+        {
+            "@id": "rdf:XMLLiteral",
+            "@type": [
+                "rdfs:Datatype",
+                "rdfs:Resource",
+                "rdfs:Class"
+            ]
+        },
+        {
+            "@id": "rdf:predicate",
+            "rdfs:subPropertyOf": {
+                "@id": "rdf:predicate"
+            },
+            "@type": [
+                "rdfs:Resource",
+                "rdf:Property"
+            ],
+            "rdfs:domain": {
+                "@id": "rdf:Statement"
+            }
+        }
+    ],
+    "@context": {
+        "dct": "http://purl.org/dc/terms/",
+        "spdx": "http://spdx.org/rdf/terms#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "owl": "http://www.w3.org/2002/07/owl#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "vcard": "http://www.w3.org/2006/vcard/ns#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "foaf": "http://xmlns.com/foaf/0.1/"
+    }
+}

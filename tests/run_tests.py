@@ -452,6 +452,8 @@ class PygeometaTest(unittest.TestCase):
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
 
+    def test_import_autodetect(self):
+        """test metadata autodetect"""
         with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
             mcf = import_metadata('autodetect', fh.read())
 
@@ -499,12 +501,47 @@ class PygeometaTest(unittest.TestCase):
 
         with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
             m = transform_metadata('autodetect', 'oarec-record', fh.read())
-
             m = json.loads(m)
             self.assertEqual(
                 m['properties']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
+
+    def test_dcat_import_rdf(self):
+        """Test dcat rdf-xml"""
+        with open(get_abspath('dcat.rdf.xml')) as fh:
+            m = import_metadata('dcat', fh.read())
+            self.assertEqual(
+                str(m['identification']['title']),
+                "Plan de Prévention des Risques Naturels (PPRN) de Campan, approuvé le 10/07/2012", # noqa
+                'Expected specific title (dcat-rdf/xml)')
+
+    def test_dcat_import_jsonld(self):
+        """Test dcat json-ld"""
+        with open(get_abspath('dcat.jsonld.json')) as fh:
+            m = import_metadata('dcat', fh.read())
+            self.assertEqual(
+                str(m['identification']['title']['nl-t-de-t0-mtec']),
+                "Celdikte voorspelling 00",
+                'Expected specific title (dcat-json-ld)')
+
+    def test_dcat_import2(self):
+        """Test dcat as turtle"""
+        with open(get_abspath('dcat2.ttl')) as fh:
+            m = import_metadata('dcat', fh.read())
+            self.assertEqual(
+                str(m['identification']['license']),
+                "http://dcat-ap.de/def/licenses/other-opensource",
+                'Expected specific license')
+
+    def test_dcat_timeperiod_autodetect(self):
+        """Test dcat with time period and autodetect"""
+        with open(get_abspath('dcat3.json')) as fh:
+            m = import_metadata('autodetect', fh.read())
+            self.assertEqual(
+                str(m['identification']['extents']['temporal'][0]['begin']),
+                "2003-01-31",
+                'Expected specific begin date temporal coverage')
 
 
 def get_abspath(filepath):
