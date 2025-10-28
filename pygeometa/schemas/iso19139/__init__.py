@@ -136,15 +136,19 @@ class ISO19139OutputSchema(BaseOutputSchema):
 
         mcf['identification']['extents'] = {
             'spatial': [{
-                'bbox': [
+                'bbox': []
+            }],
+            'temporal': []
+        }
+        try:
+            mcf['identification']['extents']['spatial'][0]['bbox'] = [
                     ast.literal_eval(identification.extent.boundingBox.minx),
                     ast.literal_eval(identification.extent.boundingBox.miny),
                     ast.literal_eval(identification.extent.boundingBox.maxx),
                     ast.literal_eval(identification.extent.boundingBox.maxy)
                 ]
-            }],
-            'temporal': []
-        }
+        except ValueError as err:
+            LOGGER.info(f'boundingBox missing: {err}')
 
         temp_extent = {
             'begin': None,

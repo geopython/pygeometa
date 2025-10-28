@@ -45,8 +45,8 @@
 # =================================================================
 
 from collections.abc import Mapping
-from datetime import date, datetime
 from importlib.metadata import version, PackageNotFoundError
+import datetime
 import json
 import logging
 import os
@@ -125,14 +125,14 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
     :returns: string of properly formatted datestring
     """
 
-    today_and_now = datetime.utcnow()
+    today_and_now = datetime.datetime.now(datetime.UTC)
 
     re1 = r'\$Date: (?P<year>\d{4})'
     re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
     re3 = r'(?P<start>.*)\$Date: (?P<year>\d{4}).*\$(?P<end>.*)'
 
     try:
-        if isinstance(datestring, date):
+        if isinstance(datestring, datetime.date):
             if datestring.year < 1900:
                 datestring2 = '{0.day:02d}.{0.month:02d}.{0.year:4d}'.format(
                     datestring)

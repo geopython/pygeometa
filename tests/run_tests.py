@@ -460,6 +460,25 @@ class PygeometaTest(unittest.TestCase):
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
 
+    def test_empty_extents(self):
+        # do not fail on empty elements
+        schema = ISO19139OutputSchema()
+        with open(get_abspath('iso19139-no-bbox.xml')) as fh:
+            # owslib selects the first EX_GeographicBoundingBox,
+            # so if it is empty, it will not check others
+            mcf = schema.import_(fh.read())
+            print(mcf)
+            self.assertEqual(
+                len(mcf['identification']['extents']['spatial'][0]['bbox']),
+                0,
+                'empty box')
+            # owslib selects first beginPosition element,
+            # so it skips empty temporalElements
+            self.assertEqual(
+                mcf['identification']['extents']['temporal'][0]['begin'],
+                '2005-11-03',
+                'assert date, skip empty period')
+
     def test_transform_metadata(self):
         """test metadata transform"""
 
