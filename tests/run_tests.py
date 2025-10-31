@@ -467,7 +467,6 @@ class PygeometaTest(unittest.TestCase):
             # owslib selects the first EX_GeographicBoundingBox,
             # so if it is empty, it will not check others
             mcf = schema.import_(fh.read())
-            print(mcf)
             self.assertEqual(
                 len(mcf['identification']['extents']['spatial'][0]['bbox']),
                 0,
