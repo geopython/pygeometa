@@ -356,6 +356,8 @@ properties:
                                 - object
                                 - array
                                 - boolean
+                                - date
+                                - datetime
                         units:
                             type: string
                             description: SI Unit
@@ -595,79 +597,6 @@ properties:
         required:
             - platforms
 
-    attributes:
-        type: array
-        minItems: 1
-        items:
-            type: object
-            properties:
-                name:
-                    type: string
-                    description: attribute name
-                type:
-                    type: string
-                    description: data type of attribute
-                    enum:
-                        - string
-                        - number
-                        - integer
-                        - object
-                        - array
-                        - boolean
-                units:
-                    type: string
-                    description: SI Unit
-                title:
-                    $ref: '#/definitions/i18n_string'
-                    description: human readable title of attribute
-                abstract:
-                    $ref: '#/definitions/i18n_string'
-                    description: description of attribute
-                url:
-                    $ref: '#/definitions/i18n_string'
-                    description: URL with more information about the attribute
-                values:
-                    type: object
-                    oneOf:
-                        - properties:
-                              enum:
-                                  type: array
-                                  description: enumerated list of values
-                                  minItems: 1
-                                  items:
-                                      $ref: '#/definitions/any_type'
-                        - properties:
-                              range:
-                                  type: array
-                                  description: range of values (min/max)
-                                  minItems: 2
-                                  maxItems: 2
-                                  items:
-                                      $ref: '#/definitions/any_type'
-                        - properties:
-                              codelist:
-                                  type: array
-                                  description: values from a codelist
-                                  minItems: 1
-                                  items:
-                                      type: object
-                                      properties:
-                                          name:
-                                              type: string
-                                              description: value name
-                                          title:
-                                              $ref: '#/definitions/i18n_string'
-                                              description: human readable title of value
-                                          abstract:
-                                              $ref: '#/definitions/i18n_string'
-                                              description: description of value
-                                          url:
-                                              $ref: '#/definitions/i18n_string'
-                                              description: URL with more information about the value
-                                      required:
-                                              - name
-            required:
-                - name
 
 required:
     - mcf
