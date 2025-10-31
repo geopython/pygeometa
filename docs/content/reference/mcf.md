@@ -126,6 +126,7 @@ version|Mandatory|version of MCF format|1.0|pygeometa
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 identifier|Mandatory|unique identifier for this metadata file|11800c2c-e6b9-11df-b9ae-0014c2c00eab|ISO 19115:2003 Section B.2.1
+additional_identifiers|Optional|any additional identifiers for the resource with their scheme property|10.5324/3f342f64|ISO 19115:2003 Section B.2.1
 language|Mandatory|primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless|en|ISO 19115:2003 Section B.2.1
 language_alternate|Optional|alternate language used for documenting metadata|en|ISO 19115:2003 Annex J
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1

@@ -22,6 +22,11 @@ properties:
             identifier:
                 type: string
                 description: unique identifier for this metadata file
+            additional_identifiers:
+                type: array
+                description: additional resource identifiers
+                items:
+                    $ref: '#/definitions/identifier_scheme'
             language:
                 type: string
                 description: primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless
@@ -711,3 +716,14 @@ definitions:
               format: date
             - type: string
               format: date-time
+    identifier_scheme:
+        type: object
+        properties:
+            identifier:
+                type: string
+                description: identifier
+            scheme:
+                type: string
+                description: the scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI.
+        required:
+            - identifier
