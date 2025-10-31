@@ -73,10 +73,19 @@ content_info:
     cloud_cover: 72
     processing_level: "1.0"
     attributes:
-        - name: foo
-          units: m
-        - name: bar
-          units: K
+        - name: TS_OBS
+          title: Observation timestamp
+          type: datetime
+        - name: CA_MG_L
+          title: Calcium content in MG per L
+          type: number
+          url: https://en.wikipedia.org/wiki/Calcium
+          units: MilliGM-PER-L
+        - name: MG_MG_L
+          title: Magnesium content in MG per L
+          type: number
+          url: https://en.wikipedia.org/wiki/Magnesium
+          units: MilliGM-PER-L
     dimensions:
         - name: B1
           units: nm
@@ -139,9 +148,3 @@ dataquality:
         level: dataset
     lineage:
         statement: this dataset was derived from a custom process against dataset xyz
-
-attributes:
-    - name: foo
-      units: m
-    - name: bar
-      units: K
