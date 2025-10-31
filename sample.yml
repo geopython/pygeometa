@@ -10,6 +10,10 @@ metadata:
     language_alternate: fr
     charset: utf8
     parentidentifier: someparentid
+    relations:
+        - identifier: 10.278/45e22-11223-2
+          scheme: http://doi.org
+          type: source 
     hierarchylevel: dataset
     datestamp: 2014-11-11
     dataseturi: http://some/minted/uri

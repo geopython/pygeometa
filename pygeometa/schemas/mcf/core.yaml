@@ -39,6 +39,17 @@ properties:
             parentidentifier:
                 type: string
                 description: file identifier of the metadata to which this metadata is a subset
+            relations:
+                type: array
+                description: relations to other records
+                items:
+                    type: object
+                    allOf:
+                        - $ref: '#/definitions/identifier_scheme'
+                    properties:
+                        type:
+                            type: string
+                            description: a relation type (source, partof, version, reference, ...)
             hierarchylevel:
                 type: string
                 description: level to which the metadata applies
