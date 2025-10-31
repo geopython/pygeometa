@@ -34,6 +34,11 @@ properties:
             parentidentifier:
                 type: string
                 description: file identifier of the metadata to which this metadata is a subset
+            relations:
+                type: array
+                description: relations between this record and other records
+                items:
+                    $ref: '#/definitions/relation'
             hierarchylevel:
                 type: string
                 description: level to which the metadata applies
@@ -634,6 +639,47 @@ definitions:
                   '.*_\w{2}$':
                       allOf:
                           - type: string
+    relation:
+        type: object
+        properties:
+            identifier:
+                type: string
+                description: A reference to other record, either by UUID or URI
+            hierarchylevel:
+                type: string
+                description: The type of the linked resource
+                enum:
+                    - series
+                    - software
+                    - featureType
+                    - model
+                    - collectionHardware
+                    - collectionSession
+                    - nonGeographicDataset
+                    - propertyType
+                    - fieldSession
+                    - dataset
+                    - service
+                    - attribute
+                    - attributeType
+                    - tile
+                    - feature
+                    - dimensionGroup
+            relationType:
+                type: string
+                description: The type of relation to the linked resource
+                enum: 
+                    - crossReference
+                    - largerWorkCitation
+                    - partOfSeamlessDatabase
+                    - source
+                    - uses
+                    - version
+                    - part
+                    - supplement
+                    - reference
+        required:
+            - identifier
     date_or_datetime_string:
         anyOf:
             - type: string
