@@ -7,6 +7,10 @@ metadata:
     language_alternate: fr
     charset: utf8
     parentidentifier: someparentid
+    relations:
+        - identifier: some-related-identifier
+          hierarchylevel: dataset
+          relationType: source 
     hierarchylevel: dataset
     datestamp: 2014-11-11
     dataseturi: http://some/minted/uri
