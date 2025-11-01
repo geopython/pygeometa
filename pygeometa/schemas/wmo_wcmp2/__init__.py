@@ -71,6 +71,7 @@ class WMOWCMP2OutputSchema(OGCAPIRecordOutputSchema):
         super().__init__()
 
         self.description = description
+        self.name = 'wmo-wcmp2'
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
