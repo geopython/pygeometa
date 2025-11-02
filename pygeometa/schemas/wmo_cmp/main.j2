@@ -149,13 +149,15 @@
           {% if record['identification']['edition'] %}
           {{ cs.get_freetext('edition', record['metadata']['language_alternate'], get_charstring(record['identification'].get('edition'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
           {% endif %}
+          {% for ai in record['metadata'].get('additional_identifiers', []) %}
           <gmd:identifier>
             <gmd:MD_Identifier>
               <gmd:code>
-                <gmx:Anchor xlink:href="http://dx.doi.org/{{ record['identification']['doi'] }}" xlink:title="DOI" xlink:actuate="onRequest">doi:{{ record['identification']['doi'] }}</gmx:Anchor>
+                <gmx:Anchor xlink:href="{{ ai['scheme'] }}/{{ ai['identifier'] }}" xlink:title="{{ai['scheme']}}" xlink:actuate="onRequest">{{ai['scheme']}}:{{ ai['identifier'] }}</gmx:Anchor>
               </gmd:code>
             </gmd:MD_Identifier>
           </gmd:identifier>
+          {% endfor %}
           {{ cs.get_freetext('otherCitationDetails', record['metadata']['language_alternate'], get_charstring(record['identification'].get('rights'), record['metadata']['language'], record['metadata']['language_alternate'])) }}
         </gmd:CI_Citation>
       </gmd:citation>

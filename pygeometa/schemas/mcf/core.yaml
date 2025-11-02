@@ -100,9 +100,6 @@ properties:
     identification:
         type: object
         properties:
-            doi:
-                type: string
-                description: Digital Object Identifier (DOI)
             language:
                 type: string
                 description: |-
@@ -653,6 +650,6 @@ definitions:
                 description: identifier
             scheme:
                 type: string
-                description: the scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI.
+                description: scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI
         required:
             - identifier
