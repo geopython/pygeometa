@@ -121,11 +121,19 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'links': []
         }
 
-        if 'doi' in mcf['identification']:
-            record['properties']['externalIds'] = [{
-                'scheme': 'https://doi.org',
-                'value': mcf['identification']['doi']
-            }]
+        if 'additional_identifiers' in mcf['metadata']:
+            LOGGER.debug('Adding additional identifiers')
+
+            record['properties']['externalIds'] = []
+
+            for ai in mcf['metadata'].get('additional_identifiers', []):
+                ai_dict = {
+                    'value': ai['identifier']
+                }
+                if 'scheme' in ai:
+                    ai_dict['scheme'] = ai['scheme']
+
+                record['properties']['externalIds'].append(ai_dict)
 
         if self.lang1 is not None:
             record['properties']['language'] = {
