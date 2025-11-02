@@ -3,6 +3,9 @@ mcf:
 
 metadata:
     identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    additional_identifiers:
+        - identifier: 10.277/3f342f64-9348
+          scheme: https://doi.org/
     language: en
     language_alternate: fr
     charset: utf8
