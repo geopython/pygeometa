@@ -47,7 +47,7 @@ import logging
 import os
 from typing import Union
 
-from pygeometa import __version__
+
 from pygeometa.core import get_charstring
 from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
@@ -255,7 +255,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         for value in mcf['distribution'].values():
             record['links'].append(self.generate_link(value))
 
-        record['generated_by'] = f'pygeometa {__version__}'
+        from importlib.metadata import version
+        record['generated_by'] = f'pygeometa {version("pygeometa")}'
 
         if stringify:
             return json_dumps(record)
