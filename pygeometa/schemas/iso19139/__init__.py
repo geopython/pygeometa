@@ -148,6 +148,8 @@ class ISO19139OutputSchema(BaseOutputSchema):
                     ast.literal_eval(identification.extent.boundingBox.maxy)
                 ]
         except ValueError as err:
+            LOGGER.info(f'boundingBox empty: {err}')
+        except AttributeError as err:
             LOGGER.info(f'boundingBox missing: {err}')
 
         temp_extent = {

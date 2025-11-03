@@ -477,6 +477,13 @@ class PygeometaTest(unittest.TestCase):
                 mcf['identification']['extents']['temporal'][0]['begin'],
                 '2005-11-03',
                 'assert date, skip empty period')
+        with open(get_abspath('707a02ac-9240-4a2d-afbd-395b69756534.xml')) as fh:  # noqa
+            # owslib does currently not parse gmd:polygon -> empty box
+            mcf = schema.import_(fh.read())
+            self.assertEqual(
+                len(mcf['identification']['extents']['spatial'][0]['bbox']),
+                0,
+                'empty box')
 
     def test_transform_metadata(self):
         """test metadata transform"""
