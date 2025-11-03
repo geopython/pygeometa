@@ -141,6 +141,14 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 identifier|Mandatory|identifier|10.5324/3f342f64|ISO 19115:2003 Section B.2.1
 scheme|Optional|scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI|https://doi.org|ISO 19115:2003 Section B.2.1
 
+### `metadata.relations`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+identifier|Mandatory|identifier|10.5324/3f342f64|ISO 19115:2003 Section B.2.1
+scheme|Optional|scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI|https://doi.org|ISO 19115:2003 Section B.2.1
+type|Optional|a relation type (source, partof, version, reference, ...)|source|ISO 19115:2003 Section B.2.1
+
 ### `spatial`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
