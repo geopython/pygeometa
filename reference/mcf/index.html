@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="the pygeometa team">
+        <link rel="canonical" href="https://geopython.github.io/pygeometa/reference/mcf/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Core - pygeometa: Metadata Creation for the Rest of Us</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">pygeometa: Metadata Creation for the Rest of Us</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="https://github.com/geopython/pygeometa" class="nav-link">Code</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../tutorial/" class="nav-link">Tutorial</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Reference</a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Metadata Control File</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Core</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Extensions</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../extensions/iso19139-2/" class="dropdown-item">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
+</li>
+            
+<li>
+    <a href="../extensions/iso19139-hnap/" class="dropdown-item">ISO Harmonized North American Profile (HNAP)</a>
+</li>
+            
+<li>
+    <a href="../extensions/wmo-cmp/" class="dropdown-item">WMO Core Metadata Profile</a>
+</li>
+            
+<li>
+    <a href="../extensions/wmo-wcmp2/" class="dropdown-item">WMO Core Metadata Profile 2</a>
+</li>
+            
+<li>
+    <a href="../extensions/wmo-wigos/" class="dropdown-item">WMO WIGOS Metadata Standard</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../pygeoapi-plugin/" class="nav-link">pygeoapi plugin</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../tutorial/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../extensions/iso19139-2/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/reference/mcf.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#metadata-control-file-reference" class="nav-link">Metadata Control File Reference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#basic-concepts" class="nav-link">Basic Concepts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#version-format" class="nav-link">Version format</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#encoding" class="nav-link">Encoding</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#nesting-mcfs" class="nav-link">Nesting MCFs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#environment-variables" class="nav-link">Environment variables</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#multilingual-support" class="nav-link">Multilingual support</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#keyword-substitution" class="nav-link">Keyword Substitution</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#reference" class="nav-link">Reference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#sections" class="nav-link">Sections</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="metadata-control-file-reference">Metadata Control File Reference</h1>
+<p>Version: 1.0</p>
+<h2 id="basic-concepts">Basic Concepts</h2>
+<ul>
+<li>Section names are case sensitive</li>
+<li>Section parameter names are case sensitive</li>
+<li>Section parameter codelist values are case sensitive</li>
+<li>YAML <a href="https://en.wikipedia.org/wiki/YAML">rules, conventions and features</a> are suppported, such as:<ul>
+<li>node anchors / references</li>
+<li>data typing</li>
+<li>commented lines (<code>#</code>)</li>
+</ul>
+</li>
+<li>If an optional section is specified, then its child parameter cardinality is enforced</li>
+<li>Filename conventions are up to the user. However, below are some suggestions:<ul>
+<li>use <code>.yml</code> as file extension</li>
+<li>name the MCF basename the same as the dataset (e.g. <code>foo.shp</code>, <code>foo.yml</code>)</li>
+</ul>
+</li>
+<li>For colons (<code>:</code>) in text values, use quotation marks (<code>"</code> or <code>'</code>) on either side of your text to avoid parsing errors</li>
+</ul>
+<h2 id="version-format">Version format</h2>
+<p>MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.</p>
+<h2 id="encoding">Encoding</h2>
+<p>The MCF <strong>MUST</strong> be UTF-8 encoded.  That is all.</p>
+<pre><code class="language-bash"># editing in vim
+# :set encoding=utf8
+# pasting in vim
+# in insert mode, hit CTRL-V $CODE, where $CODE is as per https://www.htmlhelp.com/reference/charset
+# to see how the file is actually encoded on disk
+file --mime-encoding file.txt
+file -i file.txt
+# to convert from one encoding to another
+iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
+</code></pre>
+<h2 id="nesting-mcfs">Nesting MCFs</h2>
+<p>In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCFs. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.</p>
+<p>To use MCF nesting:</p>
+<ul>
+<li>Add <code>base_mcf: foo.yml</code> at the top of any section of a MCF</li>
+<li>Specify the corresponding section in the base_mcf file</li>
+</ul>
+<p>Notes about nesting MCFs: </p>
+<ul>
+<li>One <code>base_mcf</code> per section of a MCF may be used</li>
+<li>Multiple sections can refer to the same base_mcf file</li>
+<li>When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file<ul>
+<li>Note that if a parameter in the current MCF is a YAML list, the corresponding base_mcf list (if it exists) is entirely overwritten  </li>
+</ul>
+</li>
+<li>MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF</li>
+</ul>
+<h2 id="environment-variables">Environment variables</h2>
+<p>pygeometa supports use of environment variables, using the notation in the example MCF snippet below:</p>
+<pre><code class="language-yaml">metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    parentidentifier: ${COLLECTION_ID}
+</code></pre>
+<h2 id="multilingual-support">Multilingual support</h2>
+<p>pygeometa supports default and alternate languages in ISO metadata.</p>
+<p>Multilingual support is driven by the following sections in <code>[metadata]</code>:</p>
+<ul>
+<li><code>language</code>: 2 letter language code (i.e. <code>en</code>, <code>fr</code>) of primary language</li>
+<li><code>language_alternate</code>: 2 letter language code (i.e. <code>en</code>, <code>fr</code>) of secondary language</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-yaml">metadata:
+    language: en
+    language_alternate: fr
+</code></pre>
+<p>If <code>language_alternate</code> is not defined or missing, pygeometa assumes a single language.</p>
+<p>Values which support multilingual values can be specified with as keys to denote the respective language.  Examples:</p>
+<pre><code class="language-yaml"># single language
+title: foo
+
+# single language, explicit
+title:
+    en: foo
+
+# two languages, explicit
+title:
+    en: foo
+    fr: bar
+</code></pre>
+<p>The <code>language</code> value in the <code>metadata</code> section <strong>must</strong> be a 2 letter language code (e.g. <code>es</code> for Spanish).</p>
+<h2 id="keyword-substitution">Keyword Substitution</h2>
+<p>pygeometa supports using the following keyword substitutions:</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Description</th>
+<th>Format</th>
+<th style="text-align: right;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$year$</code></td>
+<td>current year</td>
+<td><code>YYYY</code></td>
+<td style="text-align: right;">2016</td>
+</tr>
+<tr>
+<td><code>$date$</code></td>
+<td>current date</td>
+<td><code>YYYY-MM-DD</code></td>
+<td style="text-align: right;">2016-12-22</td>
+</tr>
+<tr>
+<td><code>$datetime$</code></td>
+<td>current date and time</td>
+<td><code>YYYY-MM-DDThh:mm:ssZ</code></td>
+<td style="text-align: right;">2016-12-22T16:34:15Z</td>
+</tr>
+</tbody>
+</table>
+<h1 id="reference">Reference</h1>
+<h2 id="sections">Sections</h2>
+<h3 id="mcf"><code>mcf</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td>Mandatory</td>
+<td>version of MCF format</td>
+<td>1.0</td>
+<td style="text-align: right;">pygeometa</td>
+</tr>
+</tbody>
+</table>
+<h3 id="metadata"><code>metadata</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>Mandatory</td>
+<td>unique identifier for this metadata file</td>
+<td>11800c2c-e6b9-11df-b9ae-0014c2c00eab</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>language</td>
+<td>Mandatory</td>
+<td>primary language used for documenting metadata, the metadata records themselves can be provided in multiple languages nonetheless</td>
+<td>en</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>language_alternate</td>
+<td>Optional</td>
+<td>alternate language used for documenting metadata</td>
+<td>en</td>
+<td style="text-align: right;">ISO 19115:2003 Annex J</td>
+</tr>
+<tr>
+<td>charset</td>
+<td>Mandatory</td>
+<td>full name of the character coding standard used for the metadata set</td>
+<td>utf8</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>parentidentifier</td>
+<td>Optional</td>
+<td>file identifier of the metadata to which this metadata is a subset</td>
+<td>11800c2c-e6b9-11df-b9ae-0014c2c33ebe</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>hierarchylevel</td>
+<td>Mandatory</td>
+<td>level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'</td>
+<td>dataset</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>datestamp</td>
+<td>Mandatory</td>
+<td>date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time</td>
+<td>2000-11-11 or 2000-01-12T11:11:11Z</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>dataseturi</td>
+<td>Optional</td>
+<td>Uniformed Resource Identifier (URI) of the dataset to which the metadata applies</td>
+<td><code>urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance</code></td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="metadataadditional_identifiers"><code>metadata.additional_identifiers</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>Mandatory</td>
+<td>identifier</td>
+<td>10.5324/3f342f64</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>scheme</td>
+<td>Optional</td>
+<td>scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI</td>
+<td>https://doi.org</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="metadatarelations"><code>metadata.relations</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>Mandatory</td>
+<td>identifier</td>
+<td>10.5324/3f342f64</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>scheme</td>
+<td>Optional</td>
+<td>scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI</td>
+<td>https://doi.org</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Optional</td>
+<td>a relation type (source, partof, version, reference, ...)</td>
+<td>source</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spatial"><code>spatial</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>datatype</td>
+<td>Mandatory</td>
+<td>method used to represent geographic information in the dataset (must be one of 'vector', 'grid', 'textTable', 'tin', 'stereoModel', 'video')</td>
+<td>vector</td>
+<td style="text-align: right;">Section B.5.26</td>
+</tr>
+<tr>
+<td>geomtype</td>
+<td>Mandatory</td>
+<td>name of point or vector objects used to locate zero-, one-, two-, or threedimensional spatial locations in the dataset (must be one of 'complex', 'composite', 'curve', 'point', 'solid', 'surface')</td>
+<td>point</td>
+<td style="text-align: right;">ISO 19115:2003 B.5.15</td>
+</tr>
+</tbody>
+</table>
+<h3 id="identification"><code>identification</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>language</td>
+<td>Optional</td>
+<td>language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'</td>
+<td>eng; CAN</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.1</td>
+</tr>
+<tr>
+<td>charset</td>
+<td>Optional</td>
+<td>full name of the character coding standard used for the dataset</td>
+<td>eng; CAN</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Mandatory</td>
+<td>name by which the cited resource is known</td>
+<td>Important Bird Areas</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.1</td>
+</tr>
+<tr>
+<td>edition</td>
+<td>Optional</td>
+<td>version of the cited resource</td>
+<td>1.8.0</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.1</td>
+</tr>
+<tr>
+<td>abstract</td>
+<td>Mandatory</td>
+<td>brief narrative summary of the content of the resource(s)</td>
+<td>Birds in important areas...</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.1</td>
+</tr>
+<tr>
+<td>topiccategory</td>
+<td>Optional</td>
+<td>main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified</td>
+<td>climatologyMeteorologyAtmosphere</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.5.27</td>
+</tr>
+<tr>
+<td>fees</td>
+<td>Optional</td>
+<td>fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'</td>
+<td>None</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.10.6</td>
+</tr>
+<tr>
+<td>accessconstraints</td>
+<td>Optional</td>
+<td>access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'</td>
+<td>None</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.3</td>
+</tr>
+<tr>
+<td>rights</td>
+<td>Mandatory</td>
+<td>Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time.</td>
+<td>Copyright (c) 2010 Her Majesty the Queen in Right of Canada</td>
+<td style="text-align: right;">DMCI 1.1</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Mandatory</td>
+<td>URL of the dataset to which the metadata applies</td>
+<td>https://example.org/data</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Mandatory</td>
+<td>"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')"</td>
+<td>completed</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.1</td>
+</tr>
+<tr>
+<td>maintenancefrequency</td>
+<td>Optional</td>
+<td>frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'</td>
+<td>continual</td>
+<td style="text-align: right;">ISO 19115:2003 B.5.18</td>
+</tr>
+<tr>
+<td>browsegraphic</td>
+<td>Optional</td>
+<td>graphic that provides an illustration of the dataset</td>
+<td>https://example.org/dataset.png</td>
+<td style="text-align: right;">ISO 19115:2003 B.2.2.2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="identificationdates"><code>identification.dates</code></h4>
+<p><code>identification.dates</code> sections can have 1..n <code>dates</code> sections as required with the following object names/types:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>creation</td>
+<td>Mandatory*</td>
+<td>'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation or publication or revision is mandatory</td>
+<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.4</td>
+</tr>
+<tr>
+<td>publication</td>
+<td>Optional*</td>
+<td>'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation or publication or revision is mandatory</td>
+<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.4</td>
+</tr>
+<tr>
+<td>revision</td>
+<td>Optional*</td>
+<td>'revision' reference date for the cited resource, refersring to when the resource was examined or re-examined and improved or amended, *: presence of creation or publication or revision is mandatory</td>
+<td>2000-09-01 or 2000-09-01T00:00:00Z</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.4</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-yaml">identification:
+    ...
+    dates:
+        creation: 2011-11-11
+        publication: 2000-09-01T00:00:00Z
+</code></pre>
+<h4 id="identificationextents"><code>identification.extents</code></h4>
+<p><code>identification.extents</code> sections can have 1..n <code>spatial</code> and <code>temporal</code> sections as required with the following properties.</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spatial.bbox</td>
+<td>Mandatory</td>
+<td>geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy]</td>
+<td>-141,42,-52,84</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.1.2</td>
+</tr>
+<tr>
+<td>spatial.crs</td>
+<td>Mandatory</td>
+<td>EPSG code identifier</td>
+<td>4326</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.7.3</td>
+</tr>
+<tr>
+<td>spatial.description</td>
+<td>Optional</td>
+<td>description of the geographic area using an identifier</td>
+<td>Toronto, Ontario, Canada</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.1.2</td>
+</tr>
+<tr>
+<td>temporal.begin</td>
+<td>Optional</td>
+<td>Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value</td>
+<td>1950-07-31</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.1.3</td>
+</tr>
+<tr>
+<td>temporal.end</td>
+<td>Optional</td>
+<td>End time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value.  For data updated in realtime, use the term <code>now</code></td>
+<td>now</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.1.3</td>
+</tr>
+<tr>
+<td>temporal.resolution</td>
+<td>Optional</td>
+<td>Minimum time period resolvable in the dataset, as an ISO 8601 duration</td>
+<td>P1D</td>
+<td style="text-align: right;">ISO 19108</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-yaml">identification:
+    ...
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
+              resolution: P1D
+</code></pre>
+<h4 id="identificationkeywords"><code>identification.keywords</code></h4>
+<p><code>identification</code> sections can have 1..n <code>keywords</code> sections as required using nesting.  Example:</p>
+<pre><code class="language-yaml">identification:
+    ...
+    keywords:
+        default:
+            keywords:
+                en: [foo1, bar1]
+                fr: [foo2, bar2]
+            keywords_type: theme
+            vocabulary:
+                name: my vocabulary
+                url: https://example.org/vocab
+        wmo:
+            keywords:
+                en: [foo3, bar3]
+                fr: [foo4, bar4]
+            keywords_type: theme
+            keywords_codelist: https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
+</code></pre>
+<p>Schema specific keywords sections</p>
+<ul>
+<li><code>wmo</code>: World Meteorological Organization keywords (used for WMO Core Metadata Profile)</li>
+<li><code>gc_cst</code>: Government of Canada Core Subject Thesaurus (used for HNAP)</li>
+<li><code>hnap_category_information</code>: HNAP</li>
+<li><code>hnap_category_geography</code>: HNAP</li>
+<li><code>hnap_category_content</code>: HNAP</li>
+</ul>
+<p>Within each <code>keywords</code> section, the following elements are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keywords</td>
+<td>Mandatory</td>
+<td>category keywords</td>
+<td>keyword1,keyword2,keyword3</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.1</td>
+</tr>
+<tr>
+<td>keywords_type</td>
+<td>Mandatory</td>
+<td>subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')</td>
+<td>theme</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.3</td>
+</tr>
+<tr>
+<td>keywords_codelist</td>
+<td>Optional</td>
+<td>specific code list URL (for advanced use cases, else the default is as per the given specified schema)</td>
+<td>https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.3</td>
+</tr>
+</tbody>
+</table>
+<h5 id="identificationkeywordsvocabulary"><code>identification.keywords.vocabulary</code></h5>
+<p><code>identification.keywords</code> sections can specify an optional <code>vocabulary</code> section with the following elements:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>name of the source of keywords (English)</td>
+<td>my thesaurus name</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.2.3</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Optional</td>
+<td>URL of source of keywords</td>
+<td>https://example.org/my-vocab</td>
+<td style="text-align: right;">-</td>
+</tr>
+</tbody>
+</table>
+<h5 id="identificationlicense"><code>identification.license</code></h5>
+<p><code>identification.license</code> sections can provide a optinoal license via a name or URL using the following elements:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>name of license</td>
+<td>CC BY 4.0</td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Optional</td>
+<td>URL of license</td>
+<td>https://creativecommons.org/licenses/by/4.0</td>
+<td style="text-align: right;">-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="content_info"><code>content_info</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>Mandatory</td>
+<td>Content type (must be one of 'coverage', 'image', 'feature_catalogue'</td>
+<td>image</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+<tr>
+<td>cloud_cover</td>
+<td>Optional</td>
+<td>area of the dataset obscured by clouds, expressed as a percentage of the spatial extent</td>
+<td>72</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+<tr>
+<td>processing_level</td>
+<td>Optional</td>
+<td>image distributor’s code that identifies the level of radiometric and geometric processing that has been applied</td>
+<td>L1</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="content_infoattributes"><code>content_info.attributes</code></h4>
+<p><code>content_info</code> sections can have 1..n <code>attributes</code> sections as required using nesting.  Example:</p>
+<pre><code class="language-yaml">attributes:
+    - name: temperature
+      title:
+          en: Air temperature
+      abstract:
+          en: Description of air temperature attribute
+      type: number
+      units: K
+      values: [1.2, 2.5, 1.3]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>attribute name</td>
+<td><code>temperature</code></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>title</td>
+<td>Optional</td>
+<td>attribute title</td>
+<td>Air temperature</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>abstract</td>
+<td>Optional</td>
+<td>attribute description</td>
+<td>Description of air temperature</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>url</td>
+<td>Optional</td>
+<td>URL with more information about the attribute</td>
+<td>Air temperature</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>type</td>
+<td>Optional</td>
+<td>data type</td>
+<td>(must be one of 'string', 'number', 'integer', 'object', 'array', 'boolean')</td>
+<td style="text-align: right;">string</td>
+</tr>
+<tr>
+<td>units</td>
+<td>Optional</td>
+<td>SI units</td>
+<td>K</td>
+<td style="text-align: right;">https://en.wikipedia.org/wiki/International_System_of_Units</td>
+</tr>
+<tr>
+<td>values</td>
+<td>Optional</td>
+<td>specification of attribute values</td>
+<td>see below</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<h5 id="content_infoattributesvalues"><code>content_info.attributes.values</code></h5>
+<p>Attributes may also provide the values within a given domain, via one of the following constructs:</p>
+<h6 id="content_infoattributesvaluesenum"><code>content_info.attributes.values.enum</code></h6>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enum</td>
+<td>Optional</td>
+<td>Enumerated list of values</td>
+<td>[1, 2, 3, 4]</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="language-yaml"> values:
+    enum: [1, 2, 3. 4]
+</code></pre>
+<h6 id="content_infoattributesvaluesrange"><code>content_info.attributes.values.range</code></h6>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>range</td>
+<td>Optional</td>
+<td>Range of values (min/max)</td>
+<td>[1, 4]</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="language-yaml"> values:
+    range: [1, 4]
+</code></pre>
+<h6 id="content_infoattributesvaluescodelist"><code>content_info.attributes.values.codelist</code></h6>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>codelist</td>
+<td>Optional</td>
+<td>codelist of values</td>
+<td>see below</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>codelist.name</td>
+<td>Mandatory</td>
+<td>value name</td>
+<td>foo</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>codelist.title</td>
+<td>Optional</td>
+<td>value title</td>
+<td>Foo</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>codelist.abstract</td>
+<td>Optional</td>
+<td>value abstract</td>
+<td>Description of value Foo</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>codelist.url</td>
+<td>Optional</td>
+<td>URL with more information about the value</td>
+<td>https://example.org/foo</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="language-yaml">values:
+    codelist:
+     - name: foo
+       title:
+           en: foo title
+       abstract:
+           en: foo description
+       url: https://example.org/values/foo
+</code></pre>
+<h4 id="content_infodimensions"><code>content_info.dimensions</code></h4>
+<p><code>content_info</code> objects support 1..n <code>dimension</code> objects.</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>name of dimension</td>
+<td>B1</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>units</td>
+<td>Mandatory</td>
+<td>units in which sensor wavelengths are expressed</td>
+<td>nm</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>min</td>
+<td>Mandatory</td>
+<td>shortest wavelength that the sensor is capable of collecting within a designated band</td>
+<td>101</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+<tr>
+<td>max</td>
+<td>Mandatory</td>
+<td>longest wavelength that the sensor is capable of collecting within a designated band</td>
+<td>199</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.8.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="contact"><code>contact</code></h3>
+<p>MCFs can have 1..n <code>contact</code> sections as required using nesting.  Example:</p>
+<pre><code class="language-yaml">contact:
+    pointOfContact:
+        ....
+    distributor:
+        ....
+</code></pre>
+<p>The <code>contact.pointOfContact</code> section provides information for the <code>pointOfContact</code> role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.</p>
+<p>Within each <code>contact</code> section, the following elements are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organization</td>
+<td>Mandatory</td>
+<td>name of the responsible organization</td>
+<td>Environment Canada</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.1</td>
+</tr>
+<tr>
+<td>url</td>
+<td>Mandatory</td>
+<td>on-line information that can be used to contact the individual or organization</td>
+<td>https://example.org/data</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.3</td>
+</tr>
+<tr>
+<td>individualname</td>
+<td>Mandatory</td>
+<td>name of the responsible person-surname</td>
+<td>given name</td>
+<td style="text-align: right;">title seperated by a delimiter</td>
+</tr>
+<tr>
+<td>positionname</td>
+<td>Mandatory</td>
+<td>role or position of the responsible person</td>
+<td>Senior Systems Scientist</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.1</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>Mandatory</td>
+<td>telephone number by which individuals can speak to the responsible organization or individual</td>
+<td>+01-123-456-7890</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.7</td>
+</tr>
+<tr>
+<td>fax</td>
+<td>Mandatory</td>
+<td>telephone number of a facsimile machine for the responsible organization or individual</td>
+<td>+01-123-456-7890</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.7</td>
+</tr>
+<tr>
+<td>address</td>
+<td>Mandatory</td>
+<td>address line for the location (as described in ISO 11180</td>
+<td>Annex A)</td>
+<td style="text-align: right;">4905 Dufferin Street</td>
+</tr>
+<tr>
+<td>city</td>
+<td>Mandatory</td>
+<td>city of the location</td>
+<td>Toronto</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
+</tr>
+<tr>
+<td>administrativearea</td>
+<td>Mandatory</td>
+<td>state, province of the location</td>
+<td>Ontario</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
+</tr>
+<tr>
+<td>postalcode</td>
+<td>Mandatory</td>
+<td>ZIP or other postal code</td>
+<td>M3H 5T4</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
+</tr>
+<tr>
+<td>country</td>
+<td>Mandatory</td>
+<td>country of the physical address</td>
+<td>Canada</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Mandatory</td>
+<td>address of the electronic mailbox of the responsible organization or individual</td>
+<td>foo@bar.tld</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
+</tr>
+<tr>
+<td>hoursofservice</td>
+<td>Optional</td>
+<td>time period (including time zone) when individuals can contact the organization or individual</td>
+<td>0700h - 1500h EST</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.3</td>
+</tr>
+<tr>
+<td>contactinstructions</td>
+<td>Optional</td>
+<td>supplementalinstructions on how or when to contact the individual or organization</td>
+<td>contact during working business hours</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="contactdistributor"><code>contact.distributor</code></h3>
+<p>The <code>contact.distributor</code> section provides information for the <code>distributor</code> role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as <code>contact.pointOfContact</code>.</p>
+<p>If contact information is the same for both, use YAML node anchors and references to have it provided in both sections in the metadata:</p>
+<pre><code class="language-yaml">contact:
+    pointOfContact: &amp;id_contact_poc
+        ...
+
+    distributor: *id_contact_poc
+</code></pre>
+<h3 id="distribution"><code>distribution</code></h3>
+<p>MCFs can have 1..n <code>distribution</code> sections as required using nesting.  Example:</p>
+<pre><code class="language-yaml">distribution:
+    wms:
+        ....
+    waf:
+        ....
+</code></pre>
+<p>Within each <code>distribution</code> section, the following elements are supported:</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>Mandatory</td>
+<td>location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/</td>
+<td>https://example.org/data</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Mandatory</td>
+<td>connection protocol to be used.  Must be one of the <code>identifier</code> values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv</td>
+<td>WWW:LINK</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
+</tr>
+<tr>
+<td>rel</td>
+<td>Optional</td>
+<td>the type or semantic of the relation.  The value should be an <a href="https://www.iana.org/assignments/link-relations/link-relations.xhtml">IANA link relation</a> or a relation type specific to an established standard</td>
+<td>canonical</td>
+<td style="text-align: right;">Link Relations - Internet Assigned Numbers Authority</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Mandatory</td>
+<td>name of the online resource</td>
+<td>Download portal</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Mandatory</td>
+<td>detailed text description of what the online resources is/does</td>
+<td>brief description of the online resource (English)</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
+</tr>
+<tr>
+<td>function</td>
+<td>Mandatory</td>
+<td>code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')</td>
+<td>download</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
+</tr>
+<tr>
+<td>format</td>
+<td>Optional</td>
+<td>Format of the distribution method</td>
+<td>WMS</td>
+<td style="text-align: right;">HNAP 2.3</td>
+</tr>
+<tr>
+<td>format_version</td>
+<td>Optional</td>
+<td>Format version of the distribution method. Note: this value needs to be encoded as a string</td>
+<td>1.0</td>
+<td style="text-align: right;">HNAP 2.3</td>
+</tr>
+<tr>
+<td>channel</td>
+<td>Optional</td>
+<td>channel/topic/exchange when link is a Pub/Sub endpoint</td>
+<td>my/cool/topic</td>
+<td style="text-align: right;">OGC API - Pub/Sub</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dataquality"><code>dataquality</code></h3>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Mandatory/Optional</th>
+<th>Description</th>
+<th>Example</th>
+<th style="text-align: right;">Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scope.level</td>
+<td>Optional</td>
+<td>hierarchical level of the data specificed by the scope</td>
+<td>dataset</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.4.5</td>
+</tr>
+<tr>
+<td>lineage.statement</td>
+<td>Optional</td>
+<td>general explanation of the data producer's knowledge about the lineage of a dataset</td>
+<td>this dataset was produced from a custom process against dataset xyz</td>
+<td style="text-align: right;">ISO 19115:2003 Section B.2.4.2.1</td>
+</tr>
+</tbody>
+</table></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright (c) 2015 - 2025 the pygeometa team</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
