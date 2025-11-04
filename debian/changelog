@@ -1,3 +1,16 @@
+pygeometa (0.19.0) noble; urgency=medium
+
+  * add support for schema.org
+  * safeguard ISO element parsing
+  * remove duplicate definition of dataset attributes
+  * add metadata.related_identifiers to MCF 
+  * add metadata.relations to MCF 
+  * replace identification.doi with metadata.additional_identifiers in MCF 
+  * update to Python 3.12
+  * update testing toolchain
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 04 Nov 2025 03:31:42 +0000
+
 pygeometa (0.18.0) jammy; urgency=medium
 
   * add support for CWL parsing
