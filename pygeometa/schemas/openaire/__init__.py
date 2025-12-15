@@ -108,18 +108,18 @@ class OpenAireOutputSchema(BaseOutputSchema):
 
         # mcf: metadata
 
-        pids_ = metadata_.get('pids')
-        pids_schemevalue = [
-        {
-        'identifier': i.get('value'),
-        'scheme': i.get('scheme')
-         }
-        for i in pids_]
-        children_instances_ = metadata_.get('instances')
-        main_id_, main_instance_ = process_id_and_instance(pids_, children_instances_)
+        pids_ = metadata_.get('pids', [])
+        originIds_ = metadata_.get('originalIds', [])
+        id_ = metadata_.get('id')
 
-        mcf['metadata']['identifier'] = main_id_
-        mcf['metadata']['additional_identifiers'] = pids_schemevalue
+        children_instances_ = metadata_.get('instances')
+        main_id_, altIds_, main_instance_ = process_id_and_instance(pids_, originIds_, id_, children_instances_)
+
+        if main_id_:
+            mcf['metadata']['identifier'] = main_id_
+
+        if altIds_:
+            mcf['metadata']['additional_identifiers'] = altIds_
 
         project_ = metadata_.get('projects')
         if project_ is not None and isinstance(project_, list):
@@ -134,18 +134,19 @@ class OpenAireOutputSchema(BaseOutputSchema):
             if len(rel_project) > 0:
                 mcf['metadata']['relations'] = rel_project
 
-
-        instance_type_ = main_instance_.get('type')
-        if instance_type_:
-            mcf['metadata']['hierarchylevel'] = instance_type_
+        if main_instance_:
+            instance_type_ = main_instance_.get('type')
+            if instance_type_:
+                mcf['metadata']['hierarchylevel'] = instance_type_
         
         date_of_collection = metadata_.get('dateOfCollection')
         if date_of_collection:
             mcf['metadata']['datestamp'] = metadata_.get('dateOfCollection')
 
-        urls = main_instance_.get('urls')
-        if urls:
-            mcf['metadata']['dataseturi'] = urls[0]
+        if main_instance_:
+            urls = main_instance_.get('urls')
+            if urls:
+                mcf['metadata']['dataseturi'] = urls[0]
 
         # mcf: identification
         language_ = metadata_.get('language', {}).get('code')
@@ -168,15 +169,18 @@ class OpenAireOutputSchema(BaseOutputSchema):
         ## topiccategory
 
         right_ = metadata_.get('bestAccessRight', {}).get('label')
-        instance_right_ = main_instance_.get('accessRight', {}).get('label')
+        instance_right_ = None
+        if main_instance_:
+            instance_right_ = main_instance_.get('accessRight', {}).get('label')
         if right_ is not None and right_ != 'unspecified':
             mcf['identification']['rights'] = right_
         elif instance_right_ is not None and instance_right_ != 'unspecified':
             mcf['identification']['rights'] = instance_right_
         
-        license_ = main_instance_.get('license')
-        if license_:
-            mcf['identification']['license'] = {'name': license_, 'url': ''}
+        if main_instance_:
+            license_ = main_instance_.get('license')
+            if license_:
+                mcf['identification']['license'] = {'name': license_, 'url': ''}
         
         ## url
         dates_dict = {}
@@ -233,26 +237,70 @@ def xml_to_json(content: str) -> str:
     return content
 
 
-def process_id_and_instance(ids: list, instances: list) -> tuple[str, object]:
+def process_id_and_instance(pids: list, originIds: list, id: str, instances: list) -> tuple[str, list, dict]:
     """
-    Find one pair of children instance and pid with the same doi. 
-    Use the instance as the entry of mcf attributes. Use the doi as the identifier.
-    If can't find a match, use instance[0] and pid[0]
+    Get the main_id, alternative_ids and main_instance from the input data
+    
+    Alternative ids are the unique ids from pids and originIds
+    
+    Main id is the first doi from pids, otherwise the first pid, 
+    otherwise a doi from originId, otherwise an http url from originId, otherwise the first originId.
+
+    main_instance is the first instance with the matched id of main_id, otherwise the first instance.
+
     """
 
-    # get the first doi as main id
-    if len(ids) == 0:
-        LOGGER.info('identifier missed')
-        return None, instances[0] if instances else None
-    first_id = ids[0]
-    main_id = first_id.get('value') if first_id else None
-    if len(ids) > 1:
-        for i in ids:
-            if i.get('schema') == "doi":
-                main_id = i.get('value')
-                break
-    if len(instances) == 0:
-        return main_id, None
+    # altids and main_id
+    pids_schemevalue = None
+    if pids is not None:
+        first_id = pids[0]
+        main_id = first_id.get('value') if first_id else None
+        if len(pids) > 1:
+            for i in pids:
+                if i.get('scheme') == "doi":
+                    main_id = i.get('value')
+                    break
+        pids_schemevalue = [
+        {
+        'identifier': i.get('value'),
+        'scheme': i.get('scheme')
+         }
+        for i in pids]
+    elif originIds is not None:
+        main_id = next((item for item in originIds if item.startswith('10.')), None)
+        if main_id is None:
+            main_id = next((item for item in originIds if item.startswith('http')), None)
+        if main_id is None:
+            main_id = originIds[0]
+    elif id is not None:
+        main_id = id
+    else:
+        LOGGER.error('no valid identifier')
+        main_id = None
+    
+    origin_and_ids = originIds + [id] if originIds else [id]
+    origin_and_ids_uni = list(set(origin_and_ids)) if origin_and_ids is not None else []
+
+    if pids_schemevalue:
+        pids_values = [i.get('identifier') for i in pids_schemevalue]
+        for i in origin_and_ids_uni:
+            if i not in pids_values and i is not None:
+                pids_schemevalue.append({
+                'identifier': i,
+                'scheme': None
+                })
+    else:
+        pids_schemevalue = [
+        {
+            'identifier': i,
+            'scheme': None
+        }
+        for i in origin_and_ids_uni
+        ]
+     
+    # instance
+    if instances is None or len(instances) == 0:
+        return main_id, pids_schemevalue, None
     
     # get the instance matched with the main id
     main_instance = instances[0]
@@ -269,7 +317,8 @@ def process_id_and_instance(ids: list, instances: list) -> tuple[str, object]:
                 break
         else:
             continue
-    return main_id, main_instance
+    
+    return main_id, pids_schemevalue, main_instance
     
 def process_keywords(subjects: list) -> dict:
     """
