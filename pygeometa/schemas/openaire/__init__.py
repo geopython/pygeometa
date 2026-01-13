@@ -43,16 +43,12 @@
 #
 # =================================================================
 
-from datetime import date, datetime
 import logging
 import os
 import json
 from typing import Union
 import uuid
 
-from pygeometa import __version__
-from pygeometa.core import get_charstring
-from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -90,30 +86,25 @@ class OpenAireOutputSchema(BaseOutputSchema):
             },
             'metadata': {},
             'identification': {},
-            'contact': {},
-            'tag': 'test'
+            'contact': {}
         }
 
-        # Process metadata (convert XML to JSON if needed)
-        metadata = xml_to_json(metadata)
         md = json.loads(metadata)
 
         if md is None:
             LOGGER.info('invalid openaire metadata')
             return mcf
-        
 
-        header_ = md.get('header')
-        metadata_ = md.get('results')[0]  
+        metadata_ = md.get('results')[0]
 
         # mcf: metadata
-
         pids_ = metadata_.get('pids', [])
         originIds_ = metadata_.get('originalIds', [])
         id_ = metadata_.get('id')
 
         children_instances_ = metadata_.get('instances')
-        main_id_, altIds_, main_instance_ = process_id_and_instance(pids_, originIds_, id_, children_instances_)
+        main_id_, altIds_, main_instance_ = process_id_and_instance(
+            pids_, originIds_, id_, children_instances_)
 
         if main_id_:
             mcf['metadata']['identifier'] = main_id_
@@ -129,7 +120,11 @@ class OpenAireOutputSchema(BaseOutputSchema):
                 if pids is None or len(pids) == 0:
                     continue
                 pid = pids[0]
-                pro_dict = {'identifier': pid.get('value'), 'scheme': pid.get('scheme'), 'type': 'project'}
+                pro_dict = {
+                    'identifier': pid.get('value'),
+                    'scheme': pid.get('scheme'),
+                    'type': 'project'
+                }
                 rel_project.append(pro_dict)
             if len(rel_project) > 0:
                 mcf['metadata']['relations'] = rel_project
@@ -138,7 +133,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
             instance_type_ = main_instance_.get('type')
             if instance_type_:
                 mcf['metadata']['hierarchylevel'] = instance_type_
-        
+
         date_of_collection = metadata_.get('dateOfCollection')
         if date_of_collection:
             mcf['metadata']['datestamp'] = metadata_.get('dateOfCollection')
@@ -152,12 +147,12 @@ class OpenAireOutputSchema(BaseOutputSchema):
         language_ = metadata_.get('language', {}).get('code')
         if language_:
             mcf['identification']['language'] = language_
-        
+
         main_title = metadata_.get('mainTitle')
         # subtitle also exists
         if main_title:
             mcf['identification']['title'] = main_title
-        
+
         description_ = metadata_.get('descriptions')
         if description_:
             mcf['identification']['abstract'] = description_[0]
@@ -166,33 +161,36 @@ class OpenAireOutputSchema(BaseOutputSchema):
         if version_:
             mcf['identification']['edition'] = version_
 
-        ## topiccategory
-
+        # topiccategory
         right_ = metadata_.get('bestAccessRight', {}).get('label')
         instance_right_ = None
         if main_instance_:
-            instance_right_ = main_instance_.get('accessRight', {}).get('label')
+            instance_right_ = main_instance_.get(
+                'accessRight', {}).get('label')
         if right_ is not None and right_ != 'unspecified':
             mcf['identification']['rights'] = right_
         elif instance_right_ is not None and instance_right_ != 'unspecified':
             mcf['identification']['rights'] = instance_right_
-        
+
         if main_instance_:
             license_ = main_instance_.get('license')
             if license_:
-                mcf['identification']['license'] = {'name': license_, 'url': ''}
-        
-        ## url
+                mcf['identification']['license'] = {
+                    'name': license_,
+                    'url': ''
+                }
+
+        # url
         dates_dict = {}
         p_date = metadata_.get('publicationDate')
         e_date = metadata_.get('embargoEndDate')
         if p_date:
             dates_dict['publication'] = p_date
+            mcf['identification']['datestamp'] = [p_date]
         if e_date:
             dates_dict['embargoend'] = e_date
         if dates_dict:
             mcf['identification']['dates'] = dates_dict
-
 
         subjects_ = metadata_.get('subjects')
         if isinstance(subjects_, dict):
@@ -200,7 +198,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
         elif isinstance(subjects_, list):
             mcf['identification']['keywords'] = process_keywords(subjects_)
 
-        ## contact point
+        # contact point
         authors_ = metadata_.get('authors', [])
         orgs_ = metadata_.get('organizations', [])
         authors_ = authors_ or []
@@ -223,31 +221,23 @@ class OpenAireOutputSchema(BaseOutputSchema):
         """
 
         # no write implementation for now
-
-        return 'test'
-      
-        # return None
-
-def xml_to_json(content: str) -> str:
-    """
-    Convert XML to JSON if content is detected as XML
-    
-    Write it later
-    """
-    return content
+        return ''
 
 
-def process_id_and_instance(pids: list, originIds: list, id: str, instances: list) -> tuple[str, list, dict]:
+def process_id_and_instance(
+        pids: list, originIds: list,
+        id: str, instances: list) -> tuple[str, list, dict]:
     """
     Get the main_id, alternative_ids and main_instance from the input data
-    
+
     Alternative ids are the unique ids from pids and originIds
-    
-    Main id is the first doi from pids, otherwise the first pid, 
-    otherwise a doi from originId, otherwise an http url from originId, otherwise the first originId.
 
-    main_instance is the first instance with the matched id of main_id, otherwise the first instance.
+    Main id is the first doi from pids, otherwise the first pid,
+    otherwise a doi from originId, otherwise an http url from originId,
+    otherwise the first originId.
 
+    main_instance is the first instance with the matched id of main_id,
+    otherwise the first instance.
     """
 
     # altids and main_id
@@ -261,15 +251,18 @@ def process_id_and_instance(pids: list, originIds: list, id: str, instances: lis
                     main_id = i.get('value')
                     break
         pids_schemevalue = [
-        {
-        'identifier': i.get('value'),
-        'scheme': i.get('scheme')
-         }
-        for i in pids]
+            {
+                'identifier': i.get('value'),
+                'scheme': i.get('scheme')
+            }
+            for i in pids
+        ]
     elif originIds is not None:
-        main_id = next((item for item in originIds if item.startswith('10.')), None)
+        main_id = next((item for item in originIds
+                        if item.startswith('10.')), None)
         if main_id is None:
-            main_id = next((item for item in originIds if item.startswith('http')), None)
+            main_id = next((item for item in originIds
+                            if item.startswith('http')), None)
         if main_id is None:
             main_id = originIds[0]
     elif id is not None:
@@ -277,68 +270,70 @@ def process_id_and_instance(pids: list, originIds: list, id: str, instances: lis
     else:
         LOGGER.error('no valid identifier')
         main_id = None
-    
+
     origin_and_ids = originIds + [id] if originIds else [id]
-    origin_and_ids_uni = list(set(origin_and_ids)) if origin_and_ids is not None else []
+    origin_and_ids_uni = list(set(origin_and_ids)) if (
+        origin_and_ids is not None) else []
 
     if pids_schemevalue:
         pids_values = [i.get('identifier') for i in pids_schemevalue]
         for i in origin_and_ids_uni:
             if i not in pids_values and i is not None:
                 pids_schemevalue.append({
-                'identifier': i,
-                'scheme': None
+                    'identifier': i,
+                    'scheme': None
                 })
     else:
         pids_schemevalue = [
-        {
-            'identifier': i,
-            'scheme': None
-        }
-        for i in origin_and_ids_uni
+            {
+                'identifier': i,
+                'scheme': None
+            }
+            for i in origin_and_ids_uni
         ]
-     
+
     # instance
     if instances is None or len(instances) == 0:
         return main_id, pids_schemevalue, None
-    
+
     # get the instance matched with the main id
     main_instance = instances[0]
     for ins in instances:
         pid = ins.get('pid', {})
-        if isinstance(pid, list): # instance has multiple pid
+        if isinstance(pid, list):  # instance has multiple pid
             pid_values = [i.get('value') for i in pid]
             if main_id in pid_values:
                 main_instance = ins
                 break
-        elif isinstance(pid, dict): # instance has one pid
+        elif isinstance(pid, dict):  # instance has one pid
             if pid.get('value') == main_id:
                 main_instance = ins
                 break
         else:
             continue
-    
+
     return main_id, pids_schemevalue, main_instance
-    
+
+
 def process_keywords(subjects: list) -> dict:
     """
     convert openaire keywords to mcf keywords
 
     group keywords by scheme
-    
     """
-    unique_scheme = list(set([s.get('subject', {}).get('scheme') for s in subjects]))
+    unique_scheme = list(set([s.get('subject', {}).get('scheme')
+                              for s in subjects]))
 
     scheme_uuid_dict = {scheme: str(uuid.uuid4()) for scheme in unique_scheme}
 
     keywords_dict = {
-    value: {
-        'keywords': [],
-        'vocabulary': {
-            'name': key
+        value: {
+            'keywords': [],
+            'vocabulary': {
+                'name': key
+            }
         }
-    }
-    for key, value in scheme_uuid_dict.items()
+        for key, value in scheme_uuid_dict.items()
     }
 
     for s in subjects:
@@ -346,21 +341,21 @@ def process_keywords(subjects: list) -> dict:
         for k, v in keywords_dict.items():
             if s_value.get('scheme') == v.get('vocabulary', {}).get('name'):
                 v['keywords'].append(s_value.get('value'))
-                break 
+                break
     return keywords_dict
 
 
 def process_contact(contact_list: list) -> dict:
     """
     Process authors and organizations into MCF contact format
-    
+
     :param authors: list of author objects
     :param orgs: list of organization objects
-    
+
     :returns: dict with UUID keys and contact point values
     """
     contact_dict = {}
-    
+
     for contact in contact_list:
         contact_uuid = str(uuid.uuid4())
         # Initialize contact point structure
@@ -378,32 +373,36 @@ def process_contact(contact_list: list) -> dict:
                 pid_value = pid.get('id', {}).get('value')
                 if pid_scheme is not None and pid_value is not None:
                     contactpoint_dict['url'] = id2url(pid_scheme, pid_value)
-        
+
         # Process organizations
         elif 'legalName' in contact:
-            org_name = contact.get('legalName') 
+            org_name = contact.get('legalName')
             contactpoint_dict['organization'] = org_name
             pids = contact.get('pids', [])
             if pids is not None:
                 for p in pids:
                     if p.get('scheme').lower() == 'ror':
-                        contactpoint_dict['url'] = id2url(p.get('scheme'), p.get('value'))
+                        contactpoint_dict['url'] = id2url(
+                            p.get('scheme'), p.get('value'))
                         break
                     elif p.get('scheme').lower() == 'grid':
-                        contactpoint_dict['url'] = id2url(p.get('scheme'), p.get('value'))
+                        contactpoint_dict['url'] = id2url(
+                            p.get('scheme'), p.get('value'))
                         break
                     elif p.get('scheme').lower() == 'wikidata':
-                        contactpoint_dict['url'] = id2url(p.get('scheme'), p.get('value'))
+                        contactpoint_dict['url'] = id2url(
+                            p.get('scheme'), p.get('value'))
                         break
                     elif p.get('scheme').lower() == 'isni':
-                        contactpoint_dict['url'] = id2url(p.get('scheme'), p.get('value'))
-                        break      
+                        contactpoint_dict['url'] = id2url(
+                            p.get('scheme'), p.get('value'))
+                        break
         # Add to contactpoint dict
-        if contactpoint_dict['individualname'] or contactpoint_dict['organization']:
+        if (contactpoint_dict['individualname'] or
+                contactpoint_dict['organization']):
             contact_dict[contact_uuid] = contactpoint_dict
-    
-    return contact_dict
 
+    return contact_dict
 
 
 def id2url(scheme: str, id: str) -> str:
@@ -422,4 +421,3 @@ def id2url(scheme: str, id: str) -> str:
         return 'https://isni.org/isni/' + id
     else:
         return None
-
