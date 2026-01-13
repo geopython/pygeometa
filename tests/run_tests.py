@@ -64,6 +64,7 @@ from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
+from pygeometa.schemas.gbif_eml import GBIF_EMLOutputSchema
 
 from sample_schema import SampleOutputSchema
 
@@ -226,17 +227,17 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 11,
+        self.assertEqual(len(schemas), 12,
                          'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
                          sorted(['cwl', 'dcat', 'iso19139', 'iso19139-2',
                                  'iso19139-hnap', 'oarec-record', 'schema-org',
                                  'stac-item', 'wmo-cmp', 'wmo-wcmp2',
-                                 'wmo-wigos']),
+                                 'wmo-wigos', 'gbif-eml']),
                          'Expected exact list of supported schemas')
 
         schemas = get_supported_schemas(include_autodetect=True)
-        self.assertEqual(len(schemas), 12,
+        self.assertEqual(len(schemas), 13,
                          'Expected specific number of supported schemas')
         self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
@@ -441,6 +442,22 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(expected_bbox, result_bbox,
                              'Expected specific BBOX')
 
+        with open(get_abspath('eml.xml')) as fh:  # noqa
+            mcf = GBIF_EMLOutputSchema().import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'Artsprosjekt Endofyttisk sopp i trær 23-19',  # noqa
+                'Expected specific title')
+
+            self.assertEqual(len(mcf['distribution']), 1,
+                             'Expected specific number of links')
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [4.79, 58.008, 11.184, 60.984]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
+
     def test_import_metadata(self):
         """test metadata import"""
 
@@ -504,6 +521,15 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(
                 m['properties']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+        with open(get_abspath('eml.xml')) as fh:
+            m = transform_metadata('gbif-eml', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'Artsprosjekt Endofyttisk sopp i trær 23-19',
                 'Expected specific title')
 
 
