@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
 
+import pycountry
 from bs4 import BeautifulSoup
 from pygeometa.schemas.base import BaseOutputSchema
 
@@ -91,7 +92,11 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             mcf["metadata"]["identifier"] = text_or_null(identifier)
 
         if language := dataset.find("language"):
-            mcf["metadata"]["language"] = text_or_null(language)
+            lang = text_or_null(language)
+            if lang and pycountry.languages.get(alpha_3=lang):
+                mcf["metadata"]["language"] = pycountry.languages.get(
+                    alpha_3=lang
+                ).alpha_2
 
         idf = mcf["identification"]
 
@@ -118,8 +123,8 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
         #     )
 
         idf["maintenancefrequency"] = (
-            text_or_null(dataset.find("maintenanceUpdateFrequency")) or
-            "unknown"
+            text_or_null(dataset.find("maintenanceUpdateFrequency"))
+            or "unknown"
         )
 
         idf["dates"] = {"publication": text_or_null(dataset.find("pubDate"))}
@@ -137,8 +142,9 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             ]
 
             spatial["crs"] = "4326"
-            spatial["description"] = \
-                text_or_null(dataset.find("geographicDescription"))
+            spatial["description"] = text_or_null(
+                dataset.find("geographicDescription")
+            )
 
         # temporal = idf["extents"]["temporal"]
         # temporal["begin"]
@@ -152,17 +158,17 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
         for r, obj in to_contact_role(dataset, "contact", "pointOfContact"):
             ct[r] = obj
 
-        for r, obj in to_contact_role(dataset,
-                                      "metadataProvider",
-                                      "distributor"):
+        for r, obj in to_contact_role(
+            dataset, "metadataProvider", "distributor"
+        ):
             ct[r] = obj
 
         for r, obj in to_contact_role(dataset, "creator"):
             ct[r] = obj
 
-        for r, obj in to_contact_role(dataset,
-                                      "personnel",
-                                      "projectPersonnel"):
+        for r, obj in to_contact_role(
+            dataset, "personnel", "projectPersonnel"
+        ):
             ct[r] = obj
 
         for idx, keyword_set in enumerate(dataset.find_all("keywordSet")):

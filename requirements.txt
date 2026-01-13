@@ -5,3 +5,4 @@ lxml
 OWSLib
 pyyaml
 beautifulsoup4
+pycountry
