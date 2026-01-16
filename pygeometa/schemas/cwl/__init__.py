@@ -106,7 +106,7 @@ class CWLOutputSchema(BaseOutputSchema):
             }
         }
 
-        now = datetime.datetime.now(datetime.UTC)
+        now = datetime.datetime.now(datetime.timezone.utc)
 
         wf = list(filter(lambda x: x['class'] == 'Workflow', metadata.get('$graph')))[0]  # noqa
 
