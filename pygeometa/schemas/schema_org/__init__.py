@@ -125,46 +125,66 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         id_ = md.get('identifier', md.get('@id'))
         mcf['metadata']['identifier'] = id_
         mcf['metadata']['charset'] = 'utf-8'
-        mcf['metadata']['type'] = TYPES[md.get('type', 'Dataset')]
+        mcf['metadata']['type'] = TYPES.get(
+            md.get('type', 'Dataset'), 'dataset')
         mcf['metadata']['language'] = md.get('inLanguage', 'en')
 
         if 'spatialCoverage' in md or 'spatial' in md:
-            sc = _get_list_or_dict(md['spatialCoverage'])
+            if 'spatialCoverage' in md:
+                sc = _get_list_or_dict(md['spatialCoverage'])
+            else:
+                sc = _get_list_or_dict(md['spatial'])
+
             crs = 4326
 
-            geo = _get_list_or_dict(sc['geo'])
+            if isinstance(sc, str):
+                # simple location name
+                mcf['identification']['extents']['spatial'].append({
+                    'description': sc
+                })
+            elif 'geo' in sc:
+                geo = _get_list_or_dict(sc['geo'])
 
-            if geo['@type'] == 'GeoCoordinates':
-                mcf['spatial']['datatype'] = 'vector'
-                mcf['spatial']['geomtype'] = 'point'
-                bbox = [geo['longitude'], geo['latitude'],
-                        geo['longitude'], geo['latitude']]
-            elif geo['@type'] == 'GeoShape':
-                mcf['spatial']['datatype'] = 'vector'
-                mcf['spatial']['geomtype'] = 'polygon'
-                bt = geo['box'].split()
-                bbox = bt[1], bt[0], bt[3], bt[2]
+                if geo['@type'] == 'GeoCoordinates':
+                    mcf['spatial']['datatype'] = 'vector'
+                    mcf['spatial']['geomtype'] = 'point'
+                    bbox = [geo['longitude'], geo['latitude'],
+                            geo['longitude'], geo['latitude']]
+                elif geo['@type'] == 'GeoShape':
+                    mcf['spatial']['datatype'] = 'vector'
+                    mcf['spatial']['geomtype'] = 'polygon'
+                    bt = geo['box'].split()
+                    bbox = bt[1], bt[0], bt[3], bt[2]
+                else:
+                    bbox = [-180, -90, 180, 90]
+
+                mcf['identification']['extents']['spatial'].append({
+                    'bbox': bbox,
+                    'crs': crs
+                })
+
+        if 'temporalCoverage' in md or 'temporal' in md:
+            if 'temporalCoverage' in md:
+                tc = _get_list_or_dict(md['temporalCoverage'])
             else:
-                bbox = [-180, -90, 180, 90]
-
-            mcf['identification']['extents']['spatial'].append({
-                'bbox': bbox,
-                'crs': crs
-            })
-
-        if 'temporalCoverage' in md:
-            begin, end = md['temporalCoverage'][0].split('/')
+                tc = _get_list_or_dict(md['temporal'])
+            beg_end = tc.split('/')
+            begin = beg_end[0]
+            end = ''
+            if len(beg_end) > 1:
+                end = beg_end[1]
             mcf['identification']['extents']['temporal'] = [{
                 'begin': begin,
                 'end': end
             }]
 
         mcf['identification']['language'] = mcf['metadata']['language']
-        mcf['identification']['title'] = md['name']
-        mcf['identification']['abstract'] = md['description']
+        mcf['identification']['title'] = md.get('name', md.get('title', ''))
+        mcf['identification']['abstract'] = md.get('description',
+                                                   md.get('abstract', ''))
 
         if 'dateCreated' in md:
-            mcf['identification']['creation'] = md['datePublished']
+            mcf['identification']['creation'] = md['dateCreated']
         if 'datePublished' in md:
             mcf['identification']['publication'] = md['datePublished']  # noqa
         if 'dateModified' in md:
@@ -173,19 +193,30 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         if 'version' in md:
             mcf['identification']['edition'] = md['version']
 
-        mcf['identification']['keywords'] = {
-            'default': {
-                'keywords': md['keywords']
+        if 'keywords' in md:
+            mcf['identification']['keywords'] = {
+                'default': {
+                    'keywords': md['keywords']
+                }
             }
-        }
 
-        for dist in md['distribution']:
-            mcf['distribution'][dist['name']] = {
-                'name': dist['name'],
-                'type': dist['encodingFormat'],
-                'url': dist['contentUrl'],
-                'rel': 'download',
-                'function': 'download'
+        if 'distribution' in md:
+            for dist in md['distribution']:
+                mcf['distribution'][dist['name']] = {
+                    'name': dist['name'],
+                    'type': dist['encodingFormat'],
+                    'url': dist['contentUrl'],
+                    'rel': 'download',
+                    'function': 'download'
+                }
+
+        if 'url' in md:
+            mcf['distribution']['landingPage'] = {
+                'name': 'landing page',
+                'type': 'text/html',
+                'url': md['url'],
+                'rel': 'alternate',
+                'function': 'information'
             }
 
         for ct in ['author', 'publisher', 'creator', 'provider', 'funder']:
