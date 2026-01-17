@@ -125,7 +125,7 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
     :returns: string of properly formatted datestring
     """
 
-    today_and_now = datetime.datetime.now(datetime.UTC)
+    today_and_now = datetime.datetime.now(datetime.timezone.utc)
 
     re1 = r'\$Date: (?P<year>\d{4})'
     re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
