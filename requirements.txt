@@ -2,5 +2,5 @@ Click
 Jinja2
 jsonschema
 lxml
-OWSLib
+OWSLib>=0.35.0
 pyyaml
