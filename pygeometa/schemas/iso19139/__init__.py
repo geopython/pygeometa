@@ -84,6 +84,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
                 'version': '1.0',
             },
             'metadata': {},
+            'spatial': {},
             'identification': {},
             'contact': {},
             'distribution': {}
@@ -164,7 +165,22 @@ class ISO19139OutputSchema(BaseOutputSchema):
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
-        if identification.accessconstraints:
+        if hasattr(identification, 'denominators'):
+            mcf['spatial']['denominators'] = identification.denominators
+
+        if hasattr(identification, 'distance'):
+            mcf['spatial']['resolution'] = []
+            for k, v in enumerate(identification.distance):
+                uom = ''
+                if hasattr(identification, 'uom') and len(identification.uom) > k: # noqa
+                    uom = identification.uom[k]
+                mcf['spatial']['resolution'].append({'distance': v,
+                                                     'uom': uom})
+
+        if hasattr(identification, 'spatialrepresentationtype') and len(identification.spatialrepresentationtype) > 0:  # noqa
+            mcf['spatial']['datatype'] = identification.spatialrepresentationtype[0] # noqa
+
+        if hasattr(identification, 'accessconstraints'):
             mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
 
         mcf['identification']['status'] = identification.status
