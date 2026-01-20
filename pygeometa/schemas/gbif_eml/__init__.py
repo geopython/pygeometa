@@ -141,7 +141,7 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
                 float(coords.find("northBoundingCoordinate").text),
             ]
 
-            spatial["crs"] = "4326"
+            spatial["crs"] = 4326
             spatial["description"] = text_or_null(
                 dataset.find("geographicDescription")
             )
