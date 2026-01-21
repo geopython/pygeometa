@@ -489,7 +489,7 @@ class PygeometaTest(unittest.TestCase):
         """test metadata transform"""
 
         with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
-            m = transform_metadata('iso19139', 'oarec-record', fh.read())
+            m = transform_metadata('autodetect', 'oarec-record', fh.read())
 
             m = json.loads(m)
             self.assertEqual(
