@@ -81,7 +81,7 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             "metadata": {
                 "charset": "utf8",
                 "hierarchylevel": "dataset",
-                "datestamp": "$datetime$",
+                "datestamp": text_or_null(dataset.find("pubDate")) or "$date$",
             },
             "identification": {},
             "contact": {},
