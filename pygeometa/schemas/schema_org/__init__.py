@@ -125,8 +125,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         id_ = md.get('identifier', md.get('@id'))
         mcf['metadata']['identifier'] = id_
         mcf['metadata']['charset'] = 'utf-8'
-        mcf['metadata']['type'] = TYPES.get(
-            md.get('type', 'Dataset'), 'dataset')
+        mcf['metadata']['hierarchylevel'] = TYPES.get(
+            md.get('@type', md.get('type', 'Dataset')), 'dataset')
         mcf['metadata']['language'] = md.get('inLanguage', 'en')
 
         if 'spatialCoverage' in md or 'spatial' in md:
@@ -168,6 +168,8 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 tc = _get_list_or_dict(md['temporalCoverage'])
             else:
                 tc = _get_list_or_dict(md['temporal'])
+            if len(tc.split('-')) == 2:  # prevent case 1999-2006
+                tc = tc.replace('-', '/')
             beg_end = tc.split('/')
             begin = beg_end[0]
             end = ''
@@ -201,14 +203,17 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             }
 
         if 'distribution' in md:
+            if isinstance(md['distribution'], dict):
+                md['distribution'] = [md['distribution']]
             for dist in md['distribution']:
-                mcf['distribution'][dist['name']] = {
-                    'name': dist['name'],
-                    'type': dist['encodingFormat'],
-                    'url': dist['contentUrl'],
-                    'rel': 'download',
-                    'function': 'download'
-                }
+                if 'contentUrl' in dist:
+                    mcf['distribution'][f"{dist['contentUrl']}#{dist.get('name', '')}"] = {  # noqa
+                        'name': dist.get('name'),
+                        'type': dist.get('encodingFormat'),
+                        'url': dist['contentUrl'],
+                        'rel': 'download',
+                        'function': 'download'
+                    }
 
         if 'url' in md:
             mcf['distribution']['landingPage'] = {
@@ -223,23 +228,25 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             if ct in md:
                 contact = {}
 
-                ct2 = _get_list_or_dict(md[ct])
+                ct2 = _get_list_or_dict(md[ct])  # first contact as dict or str
 
-                if ct2:
-                    contact['individualname'] = ct2['name']
+                if isinstance(ct2, str):
+                    contact['individualname'] = ct2
+                elif ct2:
+                    contact['individualname'] = ct2.get('name', '')
 
                     if 'url' in ct2:
-                        contact['url'] = ct2['url']
+                        contact['url'] = ct2.get('url', '')
 
                     if ct2['@type'] == 'Organization':
-                        contact['organization'] = ct2['name']
+                        contact['organization'] = ct2.get('name', '')
 
                     if 'address' in ct2:
-                        contact['address'] = ct2['address']['streetAddress']
-                        contact['city'] = ct2['address']['addressLocality']
-                        contact['administrativearea'] = ct2['address']['addressRegion']  # noqa
-                        contact['postalcode'] = ct2['address']['postalCode']
-                        contact['country'] = ct2['address']['addressCountry']
+                        contact['address'] = ct2['address'].get('streetAddress')  # noqa
+                        contact['city'] = ct2['address'].get('addressLocality')  # noqa
+                        contact['administrativearea'] = ct2['address'].get('addressRegion')  # noqa
+                        contact['postalcode'] = ct2['address'].get('postalCode')  # noqa
+                        contact['country'] = ct2['address'].get('addressCountry')  # noqa
 
                     if 'contactPoint' in ct2:
                         cp = _get_list_or_dict(ct2['contactPoint'])
@@ -568,9 +575,11 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
         return link
 
 
-def _get_list_or_dict(value: Union[None, list, dict]) -> Union[None, dict]:
+def _get_list_or_dict(value:
+                      Union[None, list, dict, str]) -> Union[None, str, dict]:
     """
-    Helper function to determine whether an element is a list, object or `None`
+    Helper function to determine whether an element is a str, list,
+    object or `None`
 
     :param value: value to evaluate
 
@@ -580,11 +589,12 @@ def _get_list_or_dict(value: Union[None, list, dict]) -> Union[None, dict]:
     if value is None:
         return None
 
+    if not isinstance(value, (dict, list)):
+        return value
     if isinstance(value, list):
         if len(value) == 0:
             return None
         else:
             return value[0]
-
     else:
         return value
