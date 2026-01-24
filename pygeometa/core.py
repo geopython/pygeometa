@@ -52,6 +52,7 @@ import logging
 import os
 import pathlib
 import re
+import traceback
 from typing import IO, Union
 from xml.dom import minidom
 
@@ -358,9 +359,11 @@ def import_metadata(schema: str, metadata: str) -> dict:
             error_message = f'Import not supported for {s}'
         except Exception as err:
             error_message = f'Import failed: {err}'
+            error_trace = traceback.format_exc()
 
     if error_message is not None:
         LOGGER.warning(error_message)
+        LOGGER.debug(error_trace)
 
     return content
 
