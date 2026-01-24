@@ -4,3 +4,5 @@ jsonschema
 lxml
 OWSLib>=0.35.0
 pyyaml
+beautifulsoup4
+pycountry
