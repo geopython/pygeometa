@@ -255,6 +255,28 @@
       <gmd:spatialRepresentationType>
         <gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['spatial']['datatype'] }}">{{ record['spatial']['datatype'] }}</gmd:MD_SpatialRepresentationTypeCode>
       </gmd:spatialRepresentationType>
+      {% for res in record['spatial']['resolutions'] %}
+      <gmd:spatialResolution>
+        <gmd:MD_Resolution>
+          <gmd:distance>
+            <gco:Distance uom="{{ res['uom'] }}">{{ res['distance'] }}</gco:Distance>
+          </gmd:distance>
+        </gmd:MD_Resolution>
+      </gmd:spatialResolution>
+      {% endfor %}
+      {% for d in record['spatial']['denominators']  %}
+      <gmd:spatialResolution>
+        <gmd:MD_Resolution>
+          <gmd:equivalentScale>
+            <gmd:MD_RepresentativeFraction>
+              <gmd:denominator>
+                <gco:Integer>{{ d }}</gco:Integer>
+              </gmd:denominator>
+            </gmd:MD_RepresentativeFraction>
+          </gmd:equivalentScale>
+        </gmd:MD_Resolution>
+      </gmd:spatialResolution>
+      {% endfor %}
       {% if record['identification']['language'] in ['inapplicable', 'missing', 'template', 'unknown', 'withheld'] %}
       <gmd:language gco:nilReason="{{ record['identification']['language'] }}"/>
       {% else %}
