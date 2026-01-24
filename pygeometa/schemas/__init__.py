@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2025 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -53,6 +53,7 @@ LOGGER = logging.getLogger(__name__)
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 SCHEMAS = {
+    'csvw': 'pygeometa.schemas.csvw.CSVWOutputSchema',
     'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
     'iso19139-2': 'pygeometa.schemas.iso19139_2.ISO19139_2OutputSchema',
