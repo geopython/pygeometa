@@ -5,7 +5,7 @@
 <h2>Metadata Creation for the Rest of Us</h2>
 
 pygeometa provides a lightweight and Pythonic approach for users to easily
-create geospatial metadata in standards-based formats using simple
+manage geospatial metadata in standards-based formats using simple
 configuration files (affectionately called Metadata Control Files [MCF]).
 Leveraging the simple but powerful YAML format, pygeometa can generate metadata
 in numerous standards. Users can also create their own custom metadata formats
