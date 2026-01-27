@@ -4,7 +4,7 @@
 # pygeometa
 
 [pygeometa](https://geopython.github.io/pygeometa) is a Python package to
-generate metadata for geospatial datasets.
+manage metadata for geospatial datasets.
 
 ## Installation
 
