@@ -229,14 +229,14 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(len(schemas), 13,
                          'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
-                         sorted(['cwl', 'csvw', 'dcat', 'iso19139', 'iso19139-2',
+                         sorted(['cwl', 'csvw', 'dcat', 'iso19139', 'iso19139-2',  # noqa
                                  'iso19139-hnap', 'oarec-record', 'openaire',
                                  'schema-org', 'stac-item', 'wmo-cmp',
                                  'wmo-wcmp2', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
 
         schemas = get_supported_schemas(include_autodetect=True)
-        self.assertEqual(len(schemas), 13,
+        self.assertEqual(len(schemas), 14,
                          'Expected specific number of supported schemas')
         self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
@@ -450,6 +450,17 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(
                 mcf['identification']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+    def test_openaire(self):
+        """test metadata import openaire"""
+
+        with open(get_abspath('openaire.json')) as fh:
+            mcf = import_metadata('openaire', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'Dataset to: Foundation for an Austrian NIR Soil Spectral Library for Soil Health Assessments',  # noqa
                 'Expected specific title')
 
         with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:

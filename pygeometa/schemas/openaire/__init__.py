@@ -18,7 +18,9 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2025 Tom Kralidis, Jiarong Li, Paul van Genuchten
+# Copyright (c) 2026 Tom Kralidis
+# Copyright (c) 2026 Jiarong Li
+# Copyright (c) 2026 Paul van Genuchten
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,11 +45,11 @@
 #
 # =================================================================
 
+import json
 import logging
 import os
-import json
-from typing import Union
 import uuid
+from typing import Union
 
 from pygeometa.schemas.base import BaseOutputSchema
 
@@ -92,10 +94,15 @@ class OpenAireOutputSchema(BaseOutputSchema):
         md = json.loads(metadata)
 
         if md is None:
-            LOGGER.info('invalid openaire metadata')
-            return mcf
+            raise ValueError('No openaire metadata')
 
-        metadata_ = md.get('results')[0]
+        if 'results' in md:
+            LOGGER.info('Using first record from results')
+            md = next(iter(md.get('results')), None)
+            if md is None:
+                raise ValueError('No openaire metadata in results')
+
+        metadata_ = md
 
         # mcf: metadata
         pids_ = metadata_.get('pids', [])
@@ -108,6 +115,8 @@ class OpenAireOutputSchema(BaseOutputSchema):
 
         if main_id_:
             mcf['metadata']['identifier'] = main_id_
+        else:
+            raise ValueError('No identification on record')
 
         if altIds_:
             mcf['metadata']['additional_identifiers'] = altIds_
@@ -135,30 +144,30 @@ class OpenAireOutputSchema(BaseOutputSchema):
                 mcf['metadata']['hierarchylevel'] = instance_type_
 
         date_of_collection = metadata_.get('dateOfCollection')
-        if date_of_collection:
+        if date_of_collection is not None:
             mcf['metadata']['datestamp'] = metadata_.get('dateOfCollection')
 
-        if main_instance_:
+        if main_instance_ is not None:
             urls = main_instance_.get('urls')
             if urls:
-                mcf['metadata']['dataseturi'] = urls[0]
+                mcf['metadata']['dataseturi'] = next(iter(urls), '')
 
         # mcf: identification
         language_ = metadata_.get('language', {}).get('code')
-        if language_:
+        if language_ is not None:
             mcf['identification']['language'] = language_
 
         main_title = metadata_.get('mainTitle')
         # subtitle also exists
-        if main_title:
+        if main_title is not None:
             mcf['identification']['title'] = main_title
 
         description_ = metadata_.get('descriptions')
-        if description_:
-            mcf['identification']['abstract'] = description_[0]
+        if description_ is not None:
+            mcf['identification']['abstract'] = next(iter(description_), '')
 
         version_ = metadata_.get('version')
-        if version_:
+        if version_ is not None:
             mcf['identification']['edition'] = version_
 
         # topiccategory
@@ -172,7 +181,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
         elif instance_right_ is not None and instance_right_ != 'unspecified':
             mcf['identification']['rights'] = instance_right_
 
-        if main_instance_:
+        if main_instance_ is not None:
             license_ = main_instance_.get('license')
             if license_:
                 mcf['identification']['license'] = {
@@ -238,11 +247,18 @@ def process_id_and_instance(
 
     main_instance is the first instance with the matched id of main_id,
     otherwise the first instance.
+
+    :param pids: main pids
+    :param originIds: pids from original
+    :param id: id of the record
+    :param instances: instances in the record
+
+    :returns: `tuple` of (main_id, alternative_ids, main_instance)
     """
 
     # altids and main_id
     pids_schemevalue = None
-    if pids is not None:
+    if pids is not None and len(pids) > 0:
         first_id = pids[0]
         main_id = first_id.get('value') if first_id else None
         if len(pids) > 1:
@@ -257,7 +273,7 @@ def process_id_and_instance(
             }
             for i in pids
         ]
-    elif originIds is not None:
+    elif originIds is not None and len(originIds) > 0:
         main_id = next((item for item in originIds
                         if item.startswith('10.')), None)
         if main_id is None:
@@ -320,6 +336,10 @@ def process_keywords(subjects: list) -> dict:
     convert openaire keywords to mcf keywords
 
     group keywords by scheme
+
+    :param subjects: list
+
+    :returns: `dict` grouped keywords
     """
     unique_scheme = list(set([s.get('subject', {}).get('scheme')
                               for s in subjects]))
@@ -371,7 +391,7 @@ def process_contact(contact_list: list) -> dict:
             if pid is not None and pid.get('id') is not None:
                 pid_scheme = pid.get('id', {}).get('scheme')
                 pid_value = pid.get('id', {}).get('value')
-                if pid_scheme is not None and pid_value is not None:
+                if None not in [pid_scheme, pid_value]:
                     contactpoint_dict['url'] = id2url(pid_scheme, pid_value)
 
         # Process organizations
@@ -381,22 +401,12 @@ def process_contact(contact_list: list) -> dict:
             pids = contact.get('pids', [])
             if pids is not None:
                 for p in pids:
-                    if p.get('scheme').lower() == 'ror':
+                    if p.get('scheme').lower() in ['ror', 'grid',
+                                                   'wikidata', 'isni']:
                         contactpoint_dict['url'] = id2url(
                             p.get('scheme'), p.get('value'))
                         break
-                    elif p.get('scheme').lower() == 'grid':
-                        contactpoint_dict['url'] = id2url(
-                            p.get('scheme'), p.get('value'))
-                        break
-                    elif p.get('scheme').lower() == 'wikidata':
-                        contactpoint_dict['url'] = id2url(
-                            p.get('scheme'), p.get('value'))
-                        break
-                    elif p.get('scheme').lower() == 'isni':
-                        contactpoint_dict['url'] = id2url(
-                            p.get('scheme'), p.get('value'))
-                        break
+
         # Add to contactpoint dict
         if (contactpoint_dict['individualname'] or
                 contactpoint_dict['organization']):
@@ -405,19 +415,24 @@ def process_contact(contact_list: list) -> dict:
     return contact_dict
 
 
-def id2url(scheme: str, id: str) -> str:
+def id2url(scheme: str, id_: str) -> str:
     """
     Convert orcid, wikidata, ror or grid value to url
+
+    :param scheme: scheme
+    :param id: identifier
+
+    :returns: `str` url
     """
-    if scheme.lower() == 'orcid':
-        return 'https://orcid.org/' + id
-    elif scheme.lower() == 'ror':
-        return id
-    elif scheme.lower() == 'grid':
-        return id
-    elif scheme.lower() == 'wikidata':
-        return 'https://www.wikidata.org/wiki/' + id
-    elif scheme.lower() == 'isni':
-        return 'https://isni.org/isni/' + id
-    else:
-        return None
+    scheme2 = scheme.lower()
+
+    if scheme2 in ['ror', 'grid']:
+        return id_
+    elif scheme2 == 'orcid':
+        return f'https://orcid.org/{id_}'
+    elif scheme2 == 'wikidata':
+        return f'https://www.wikidata.org/wiki/{id_}'
+    elif scheme2 == 'isni':
+        return f'https://isni.org/isni/{id_}'
+
+    return None
