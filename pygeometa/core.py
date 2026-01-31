@@ -348,6 +348,16 @@ def import_metadata(schema: str, metadata: str) -> dict:
     else:
         schemas = [schema]
 
+    try:
+        LOGGER.debug('Checking for MCF')
+        mcf = read_mcf(metadata)
+        _ = mcf['mcf']
+        LOGGER.debug('Already an MCF; skipping')
+        return mcf
+    except Exception as err:
+        LOGGER.debug(f'Not an MCF: {err}')
+        LOGGER.debug('Continuing')
+
     for s in schemas:
         LOGGER.debug(f'Attempting to import into {s}')
         schema_object = load_schema(s)
