@@ -1,10 +1,10 @@
 mcf:
     version: 1.0
 
-base_mcf: contact.yml
+base_mcf: deep-nest-parent.mcf.yml
 
 metadata:
-    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    identifier: MYID
     language: en
     language_alternate: fr
     charset: utf8
@@ -20,7 +20,7 @@ spatial:
 identification:
     language: eng; CAN
     charset: utf8
-    title_en: title in English
+    title_en: child title
     title_fr: title in French
     abstract_en: abstract in English
     abstract_fr: abstract in French
@@ -53,21 +53,3 @@ identification:
     url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
     status: onGoing
     maintenancefrequency: continual
-
-distribution:
-    waf:
-        url: http://dd.meteo.gc.ca
-        type: WWW:LINK
-        name: my waf
-        description_en: description in English
-        description_fr: description in French
-        function: download
-
-    wms:
-        url: http://dd.meteo.gc.ca
-        type: OGC:WMS
-        name_en: roads
-        name_fr: routes
-        description_en: description in English
-        description_fr: description in French
-        function: download

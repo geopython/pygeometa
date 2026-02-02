@@ -17,6 +17,10 @@ Version: 1.0
     * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
 * For colons (`:`) in text values, use quotation marks (`"` or `'`) on either side of your text to avoid parsing errors
 
+## File extension
+
+MCFs do not require a fixed file extension, although typical file extensions used over time have included `.mcf`, `.yaml`, `.yml`.  Starting with 0.20.0, the file extension **convention** is `.mcf.yml` (example: `sample.mcf.yml`).  Using `.mcf.yml` will also enable associating opening the MCF file with a given application on your system.
+
 ## Version format
 
 MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.
