@@ -460,6 +460,14 @@ class PygeometaTest(unittest.TestCase):
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
 
+        with open(get_abspath('../sample.yml')) as fh:
+            mcf = import_metadata('autodetect', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title']['en'],
+                'title in English',
+                'Expected specific title')
+
     def test_empty_extents(self):
         # do not fail on empty elements
         schema = ISO19139OutputSchema()
