@@ -75,10 +75,13 @@ pygeometa metadata transform path/to/file.xml --input-schema=autodetect --output
 
 ### Supported schemas
 Schemas supported by pygeometa:
+* CSV on the web, [reference](https://www.w3.org/TR/2015/REC-tabular-metadata-20151217/)
 * dcat, [reference](https://www.w3.org/TR/vocab-dcat-2/)
 * iso19139, [reference](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557)
 * iso19139-hnap, [reference](http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP)
 * OGC API - Records - Part 1: Core, record model, [reference](https://github.com/opengeospatial/ogcapi-records/blob/master/core/openapi/schemas/recordGeoJSON.yaml)
+* OpenAire metadata schema, [reference](https://graph.openaire.eu/docs/data-model/entities/research-product)
+* Schema.org, [reference](https://schema.org/Dataset)
 * SpatioTemporal Asset Catalog [(STAC)](https://stacspec.org)
 * iso19139-2, [reference](https://www.iso.org/standard/67039.html)
 * [wmo-cmp](doc/content/reference/formats/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf)
