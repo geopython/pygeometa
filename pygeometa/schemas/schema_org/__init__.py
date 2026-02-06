@@ -47,6 +47,7 @@ import json
 import logging
 import os
 from typing import Union
+from shapely.geometry import Polygon
 
 from pygeometa.core import get_charstring
 from pygeometa.helpers import generate_datetime, json_dumps
@@ -136,13 +137,14 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 sc = _get_list_or_dict(md['spatial'])
 
             crs = 4326
-
-            if isinstance(sc, str):
+            if sc in [None, '']:
+                None
+            elif isinstance(sc, str):
                 # simple location name
                 mcf['identification']['extents']['spatial'].append({
                     'description': sc
                 })
-            elif 'geo' in sc:
+            elif isinstance(sc, dict) and 'geo' in sc:
                 geo = _get_list_or_dict(sc['geo'])
 
                 if geo['@type'] == 'GeoCoordinates':
@@ -153,8 +155,7 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 elif geo['@type'] == 'GeoShape':
                     mcf['spatial']['datatype'] = 'vector'
                     mcf['spatial']['geomtype'] = 'polygon'
-                    bt = geo['box'].split()
-                    bbox = bt[1], bt[0], bt[3], bt[2]
+                    bbox = _get_box_from_coords(geo)
                 else:
                     bbox = [-180, -90, 180, 90]
 
@@ -573,6 +574,37 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
             link['description'] = desc[0]
 
         return link
+
+
+def _get_box_from_coords(geo: dict) -> list:
+    """
+    Helper function to retrieve box from GeoCoordinates
+
+    :param geo: a schema-org geometry object
+
+    :returns: `list` bbox or None
+    """
+    if 'bbox' in geo:
+        bt = geo['bbox'].split()
+        if bt and len(bt) == 4:
+            return [float(bt[1]), float(bt[0]), float(bt[3]), float(bt[2])]
+    elif 'polygon' in geo:
+        # polygon string is space or comma separated
+        if ',' in geo['polygon']:
+            coords = geo['polygon'].split(",")
+            latlon_points = [
+                tuple(map(float, p.strip().split()))
+                for p in coords
+            ]
+        else:
+            coords = list(map(float, geo['polygon'].split()))
+            latlon_points = list(zip(coords[0::2], coords[1::2]))
+        # flip (lat, lon) → (lon, lat) for Shapely
+        lonlat_points = [(lon, lat) for lat, lon in latlon_points]
+        poly = Polygon(lonlat_points)
+        return list(poly.bounds)
+    else:
+        return None
 
 
 def _get_list_or_dict(value:
