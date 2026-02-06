@@ -64,6 +64,7 @@ from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
+from pygeometa.schemas.schema_org import _get_box_from_coords
 
 from sample_schema import SampleOutputSchema
 
@@ -518,6 +519,24 @@ class PygeometaTest(unittest.TestCase):
                 m['properties']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
+
+    def test_schema_org_coords(self):
+        """Test helper method schema-org parse geometry"""
+        geo1 = {
+            "@type": "GeoShape",
+            "box": "2 1 4 3"
+        }
+        self.assertEqual(_get_box_from_coords(geo1), [1, 2, 3, 4])
+        geo2 = {
+            "@type": "GeoShape",
+            "polygon": "2 1,4 1,2 3,2 1"
+        }
+        self.assertEqual(_get_box_from_coords(geo2), [1, 2, 3, 4])
+        geo3 = {
+            "@type": "GeoShape",
+            "polygon": "2 1 4 1 2 3 4 3 2 1"
+        }
+        self.assertEqual(_get_box_from_coords(geo3), [1, 2, 3, 4])
 
 
 def get_abspath(filepath):
