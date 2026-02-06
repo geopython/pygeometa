@@ -233,14 +233,12 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 if isinstance(ct2, str):
                     contact['individualname'] = ct2
                 elif ct2:
-                    contact['individualname'] = ct2.get('name', '')
-
                     if 'url' in ct2:
                         contact['url'] = ct2.get('url', '')
-
-                    if ct2['@type'] == 'Organization':
+                    if ct2.get('@type', ct2.get('type', '')).lower() == 'organization':  # noqa
                         contact['organization'] = ct2.get('name', '')
-
+                    else:
+                        contact['individualname'] = ct2.get('name', '')
                     if 'address' in ct2:
                         contact['address'] = ct2['address'].get('streetAddress')  # noqa
                         contact['city'] = ct2['address'].get('addressLocality')  # noqa
