@@ -81,7 +81,8 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             "metadata": {
                 "charset": "utf8",
                 "hierarchylevel": "dataset",
-                "datestamp": text_or_null(dataset.find("pubDate")) or "$date$",
+                "datestamp": text_or_null(dataset.find("pubDate"), strip=True)
+                or "$date$",
             },
             "identification": {},
             "contact": {},
@@ -127,7 +128,9 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             or "unknown"
         )
 
-        idf["dates"] = {"publication": text_or_null(dataset.find("pubDate"))}
+        idf["dates"] = {
+            "publication": text_or_null(dataset.find("pubDate"), strip=True)
+        }
         idf["extents"] = {}
 
         if coords := dataset.find("boundingCoordinates"):
