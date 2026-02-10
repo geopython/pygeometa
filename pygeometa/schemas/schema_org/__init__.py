@@ -180,6 +180,15 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 'end': end
             }]
 
+        if 'thumbnailUrl' in md:
+            mcf['identification']['browsegraphic'] = _get_list_or_dict(md['thumbnailUrl'])  # noqa
+        elif 'thumbnail' in md:
+            tmp_ = _get_list_or_dict(md['thumbnail'])
+            if isinstance(tmp_, str) and tmp_ not in (None, ''):
+                mcf['identification']['browsegraphic'] = tmp_
+            elif isinstance(tmp_, dict):
+                mcf['identification']['browsegraphic'] = tmp_.get('contentUrl', tmp_.get('url'))  # noqa
+
         mcf['identification']['language'] = mcf['metadata']['language']
         mcf['identification']['title'] = md.get('name', md.get('title', ''))
         mcf['identification']['abstract'] = md.get('description',
@@ -321,6 +330,11 @@ class SchemaOrgOutputSchema(BaseOutputSchema):
                 record['temporalCoverage'] = [f'{begin}/{end}']
         except (IndexError, KeyError):
             pass
+
+        LOGGER.debug('Checking for browsegraphic')
+
+        if mcf['identification'].get('browsegraphic'):
+            record['thumbnailUrl'] = mcf['identification']['browsegraphic']
 
         LOGGER.debug('Checking for dates')
 
