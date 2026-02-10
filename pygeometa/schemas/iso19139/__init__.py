@@ -133,6 +133,9 @@ class ISO19139OutputSchema(BaseOutputSchema):
                         'url': value.thesaurus['url']
                     }
 
+        if hasattr(identification, 'graphicoverview'):
+            mcf['identification']['browsegraphic'] = next(iter(identification.graphicoverview), None)  # noqa
+
         mcf['identification']['topiccategory'] = identification.topiccategory  # noqa
 
         mcf['identification']['extents'] = {
