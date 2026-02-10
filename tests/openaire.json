@@ -1,0 +1,243 @@
+{
+    "header": {
+        "numFound": 1,
+        "maxScore": 1.0,
+        "queryTime": 10,
+        "page": 1,
+        "pageSize": 10
+    },
+    "results": [
+        {
+            "authors": [
+                {
+                    "fullName": "Fohrafellner, Julia",
+                    "name": "Julia",
+                    "surname": "Fohrafellner",
+                    "rank": 1,
+                    "pid": {
+                        "id": {
+                            "scheme": "orcid_pending",
+                            "value": "0000-0001-5734-7353"
+                        },
+                        "provenance": null
+                    }
+                }
+            ],
+            "openAccessColor": null,
+            "publiclyFunded": null,
+            "type": "dataset",
+            "language": {
+                "code": "eng",
+                "label": "English"
+            },
+            "countries": null,
+            "subjects": [
+                {
+                    "subject": {
+                        "scheme": "keyword",
+                        "value": "EJP SOIL"
+                    },
+                    "provenance": null
+                },
+                {
+                    "subject": {
+                        "scheme": "keyword",
+                        "value": "ProbeField"
+                    },
+                    "provenance": null
+                },
+                {
+                    "subject": {
+                        "scheme": "keyword",
+                        "value": "Spectroscopy, Near-Infrared"
+                    },
+                    "provenance": null
+                },
+                {
+                    "subject": {
+                        "scheme": "keyword",
+                        "value": "data"
+                    },
+                    "provenance": null
+                }
+            ],
+            "mainTitle": "Dataset to: Foundation for an Austrian NIR Soil Spectral Library for Soil Health Assessments",
+            "subTitle": null,
+            "descriptions": [
+                "Dataset description  This is the corresponding dataset to the publication \"Foundation for an Austrian NIR Soil Spectral Library for Soil Health Assessments\" by Fohrafellner et al. (2025). In this publication, we created the first Near-Infrared (NIR) Austrian Soil Spectral Library (ASSL, 680 – 2500 nm) using 2,129 legacy samples from all environmental zones of Austria. Additionally, we utilized partial least squares regression modeling to evaluate the dataset's current effectiveness for soil health assessments. The dataset contains three tabs, \"Document meta data\", \"Legend\" and \"Dataset\". Tab \"Document meta data\" gives information on the authors, the data collection time frame, terms of use, etc. In \"Legend\", each column of the \"Dataset\" is described. The \"Dataset\" contains information on the legacy soil samples including:     meta data (e.g. sample number, sampling year, zip code, environmental zone, land use),   soil properties (soil organic carbon [SOC], SOC to clay ratio, total carbon, labile carbon, CaCO3, total nitrogen, plant available phosphorus, pH measured in CaCl2 and acetate, cation exchange capacity, texture [sand, silt, clay content], and clay content measured by density in suspension), and  measured NIR soil spectra, also for the standards.   Project description  This Austrian Soil Spectral Library was built within the ProbeField project (November 2021 – January 2025), which was part of the European Joint Program for SOIL ‘Towards climate-smart sustainable management of agricultural soils’ (EJP SOIL) funded by the European Union Horizon 2020 research and innovation programme (Grant Agreement N° 862695). The project aimed to create a protocol detailing procedures and methodologies for accurately estimating fertility-related properties in agricultural soils in the field. Additionally, the potential for extending this data to two- and three-dimensional mapping using co-variates was demonstrated. ProbeField further collected field spectra that closely match laboratory spectra, enabling the prediction of soil properties using models calibrated with soil spectral libraries.  References  Fohrafellner, J., Lippl, M., Bajraktarevic, A., Baumgarten, A., Spiegel, H., Körner, R. and Sandén, T.: Foundation for an Austrian NIR Soil Spectral Library for Soil Health Assessments, 2025, in review."
+            ],
+            "publicationDate": "2025-07-07",
+            "publisher": "Zenodo",
+            "embargoEndDate": null,
+            "sources": null,
+            "formats": null,
+            "contributors": [
+                "Fohrafellner, Julia",
+                "Lippl, Maximilian",
+                "Bajraktarevic, Armin",
+                "Spiegel, Heide",
+                "Körner, Robert",
+                "Sandén, Taru"
+            ],
+            "coverages": null,
+            "bestAccessRight": {
+                "code": "c_abf2",
+                "label": "OPEN",
+                "scheme": "http://vocabularies.coar-repositories.org/documentation/access_rights/"
+            },
+            "container": null,
+            "documentationUrls": null,
+            "codeRepositoryUrl": null,
+            "programmingLanguage": null,
+            "contactPeople": null,
+            "contactGroups": null,
+            "tools": null,
+            "size": null,
+            "version": "1",
+            "geoLocations": null,
+            "id": "doi_dedup___::344b6b438c623855996b060ef6656bdd",
+            "originalIds": [
+                "50|datacite____::344b6b438c623855996b060ef6656bdd",
+                "10.5281/zenodo.15772619",
+                "50|sygma_______::344b6b438c623855996b060ef6656bdd"
+            ],
+            "pids": [
+                {
+                    "scheme": "doi",
+                    "value": "10.5281/zenodo.15772619"
+                }
+            ],
+            "dateOfCollection": null,
+            "lastUpdateTimeStamp": null,
+            "indicators": {
+                "citationImpact": {
+                    "citationCount": 0.0,
+                    "influence": 2.4895952E-9,
+                    "popularity": 2.7494755E-9,
+                    "impulse": 0.0,
+                    "citationClass": "C5",
+                    "influenceClass": "C5",
+                    "impulseClass": "C5",
+                    "popularityClass": "C5"
+                }
+            },
+            "projects": [
+                {
+                    "id": "corda__h2020::f3d09ef95fcf5a35c0e90e6560b6b2e0",
+                    "code": "862695",
+                    "acronym": "EJP SOIL",
+                    "title": "Towards climate-smart sustainable management of agricultural soils",
+                    "funder": "European Commission",
+                    "pids": [
+                        {
+                            "scheme": "doi",
+                            "value": "10.3030/862695"
+                        }
+                    ]
+                }
+            ],
+            "organizations": [
+                {
+                    "legalName": "Austrian Agency for Health and Food Safety",
+                    "acronym": "AGES",
+                    "id": "openorgs____::fcf31bab84c16bfd27726caa5bb57126",
+                    "pids": [
+                        {
+                            "scheme": "OrgReg",
+                            "value": "AT3001"
+                        },
+                        {
+                            "scheme": "GRID",
+                            "value": "grid.414107.7"
+                        },
+                        {
+                            "scheme": "ROR",
+                            "value": "https://ror.org/055xb4311"
+                        },
+                        {
+                            "scheme": "PIC",
+                            "value": "998254743"
+                        },
+                        {
+                            "scheme": "ISNI",
+                            "value": "0000000122246253"
+                        }
+                    ]
+                }
+            ],
+            "communities": [
+                {
+                    "code": "eosc",
+                    "label": "EOSC",
+                    "provenance": null
+                }
+            ],
+            "collectedFrom": [
+                {
+                    "key": "openaire____::9e3be59865b2c1c335d32dae2fe7b254",
+                    "value": "Datacite"
+                },
+                {
+                    "key": "openaire____::a8db6f6b2ce4fe72e8b2314a9a93e7d9",
+                    "value": "Sygma"
+                }
+            ],
+            "instances": [
+                {
+                    "pids": [
+                        {
+                            "scheme": "doi",
+                            "value": "10.5281/zenodo.15772619"
+                        }
+                    ],
+                    "license": "CC BY",
+                    "type": "Dataset",
+                    "urls": [
+                        "https://dx.doi.org/10.5281/zenodo.15772619"
+                    ],
+                    "publicationDate": "2025-07-07",
+                    "refereed": "nonPeerReviewed",
+                    "hostedBy": {
+                        "key": "opendoar____::358aee4cc897452c00244351e4d91f69",
+                        "value": "ZENODO"
+                    },
+                    "collectedFrom": {
+                        "key": "openaire____::9e3be59865b2c1c335d32dae2fe7b254",
+                        "value": "Datacite"
+                    }
+                },
+                {
+                    "alternateIdentifiers": [
+                        {
+                            "scheme": "doi",
+                            "value": "10.5281/zenodo.15772619"
+                        }
+                    ],
+                    "license": "CC BY",
+                    "accessRight": {
+                        "code": "c_abf2",
+                        "label": "OPEN",
+                        "scheme": "http://vocabularies.coar-repositories.org/documentation/access_rights/",
+                        "openAccessRoute": null
+                    },
+                    "type": "Dataset",
+                    "urls": [
+                        "https://doi.org/10.5281/zenodo.15772619"
+                    ],
+                    "publicationDate": "2025-07-07",
+                    "refereed": "nonPeerReviewed",
+                    "hostedBy": {
+                        "key": "openaire____::55045bd2a65019fd8e6741a755395c8c",
+                        "value": "Unknown Repository"
+                    },
+                    "collectedFrom": {
+                        "key": "openaire____::a8db6f6b2ce4fe72e8b2314a9a93e7d9",
+                        "value": "Sygma"
+                    }
+                }
+            ],
+            "isGreen": null,
+            "isInDiamondJournal": null
+        }
+    ]
+}
