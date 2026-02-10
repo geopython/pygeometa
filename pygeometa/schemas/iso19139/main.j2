@@ -275,7 +275,7 @@
           {% for spatial in record['identification']['extents']['spatial'] %}
           {% set bbox = spatial['bbox'] %}
           <gmd:geographicElement>
-            {% if spatial['crs'] != 4326 %}
+            {% if bbox and spatial['crs'] != 4326 %}
             <gmd:EX_BoundingPolygon>
               <gmd:extentTypeCode>
                 <gco:Boolean>1</gco:Boolean>
@@ -290,7 +290,7 @@
                 </gml:Polygon>
               </gmd:polygon>
             </gmd:EX_BoundingPolygon>
-            {% else %}
+            {% elif bbox %}
             <gmd:EX_GeographicBoundingBox>
               <gmd:extentTypeCode>
                 <gco:Boolean>1</gco:Boolean>
@@ -308,8 +308,7 @@
                 <gco:Decimal>{{ bbox[3] }}</gco:Decimal>
               </gmd:northBoundLatitude>
             </gmd:EX_GeographicBoundingBox>
-            {% endif %}
-            {% if spatial['description'] %}
+            {% elif spatial['description'] %}
             <gmd:EX_GeographicDescription>
               <gmd:MD_Identifier>
                 <gmd:code>
@@ -395,7 +394,7 @@
       {% if v['format'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
-          <gmd:name>{{ v['format'] }}</gmd:name>
+          <gmd:name><gco:CharacterString>{{ v['format'] }}</gco:CharacterString></gmd:name>
           {% if v['format_version'] %}
           <gmd:version>
             <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
