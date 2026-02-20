@@ -86,8 +86,21 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         self.lang1 = mcf['metadata'].get('language')
         self.lang2 = mcf['metadata'].get('language_alternate')
 
-        minx, miny, maxx, maxy = (mcf['identification']['extents']
-                                  ['spatial'][0]['bbox'])
+        try:
+            minx, miny, maxx, maxy = (mcf['identification']['extents']
+                                      ['spatial'][0]['bbox'])
+            geometry = {
+                'type': 'Polygon',
+                'coordinates': [[
+                    [minx, miny],
+                    [minx, maxy],
+                    [maxx, maxy],
+                    [maxx, miny],
+                    [minx, miny]
+                ]]
+            }
+        except TypeError:
+            geometry = None
 
         title = get_charstring(mcf['identification'].get('title'),
                                self.lang1, self.lang2)
@@ -102,16 +115,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
                 'http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/record-core',  # noqa
             ],
             'type': 'Feature',
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': [[
-                    [minx, miny],
-                    [minx, maxy],
-                    [maxx, maxy],
-                    [maxx, miny],
-                    [minx, miny]
-                ]]
-            },
+            'geometry': geometry,
             'properties': {
                 'title': title[0],
                 'description': description[0],
