@@ -274,23 +274,29 @@ properties:
                     spatial:
                         type: array
                         description: spatial extent and CRS
-                        properties:
-                            bbox:
-                                type: array
-                                description: bounding box of resource
-                                items:
-                                    type: number
-                                minItems: 4
-                                maxItems: 6
-                            crs:
-                                type: string
-                                description: coordinate reference system of bbox
-                                default: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
-                            description:
-                                type: string
-                                description: description of the geographic area using an identifier
-                        required:
-                            - bbox
+                        items:
+                            type: object
+                            properties:
+                                bbox:
+                                    type:
+                                        - array
+                                        - 'null'
+                                    description: bounding box of resource
+                                    items:
+                                        type: number
+                                    minItems: 4
+                                    maxItems: 6
+                                crs:
+                                    type:
+                                        - string
+                                        - integer
+                                    description: coordinate reference system of bbox
+                                    default: 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'
+                                description:
+                                    type: string
+                                    description: description of the geographic area using an identifier
+                            required:
+                                - bbox
                     temporal:
                         type: array
                         description: temporal extent of resource
