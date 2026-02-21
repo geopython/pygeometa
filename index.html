@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="pygeometa is a Python package to manage metadata for geospatial datasets">
+        <meta name="author" content="the pygeometa team">
+        <link rel="canonical" href="https://geopython.github.io/pygeometa/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>pygeometa: Metadata Creation for the Rest of Us</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">pygeometa: Metadata Creation for the Rest of Us</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="https://github.com/geopython/pygeometa" class="nav-link">Code</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="tutorial/" class="nav-link">Tutorial</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Reference</a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Metadata Control File</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="reference/mcf/" class="dropdown-item">Core</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Extensions</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="reference/extensions/iso19139-2/" class="dropdown-item">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
+</li>
+            
+<li>
+    <a href="reference/extensions/iso19139-hnap/" class="dropdown-item">ISO Harmonized North American Profile (HNAP)</a>
+</li>
+            
+<li>
+    <a href="reference/extensions/wmo-cmp/" class="dropdown-item">WMO Core Metadata Profile</a>
+</li>
+            
+<li>
+    <a href="reference/extensions/wmo-wcmp2/" class="dropdown-item">WMO Core Metadata Profile 2</a>
+</li>
+            
+<li>
+    <a href="reference/extensions/wmo-wigos/" class="dropdown-item">WMO WIGOS Metadata Standard</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pygeoapi-plugin/" class="nav-link">pygeoapi plugin</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/index.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#pygeometa" class="nav-link">pygeometa</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#features" class="nav-link">Features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#history" class="nav-link">History</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="pygeometa">pygeometa</h2>
+<p><a href="https://matrix.to/#/#geopython_pygeometa:gitter.im"><img alt="Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im" src="https://badges.gitter.im/Join%20Chat.svg" /></a></p>
+<h2>Metadata Creation for the Rest of Us</h2>
+
+<p>pygeometa provides a lightweight and Pythonic approach for users to easily
+manage geospatial metadata in standards-based formats using simple
+configuration files (affectionately called Metadata Control Files [MCF]).
+Leveraging the simple but powerful YAML format, pygeometa can generate metadata
+in numerous standards. Users can also create their own custom metadata formats
+which can be plugged into pygeometa for custom metadata format output.</p>
+<p>For developers, pygeometa provides a Pythonic API that allows developers to
+tightly couple metadata generation within their systems and integrate nicely
+into metadata production pipelines.</p>
+<p>The project supports various metadata formats out of the box including ISO
+19115, the WMO Core Metadata Profile, and the WIGOS Metadata Standard. Can't
+find the format you're looking for?  Element(s) missing from a given format?
+Feel free to open an <a href="https://github.com/geopython/pygeometa/issues">issue</a>!</p>
+<p>pygeometa has minimal dependencies (wheel install is less than 100 kB), and provides
+a flexible extension mechanism leveraging the Jinja2 templating system.</p>
+<p>pygeometa is <a href="https://opensource.org">open source</a> and released under an
+<a href="https://github.com/geopython/pygeometa/blob/master/LICENSE.md">MIT license</a>.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>simple YAML-based configuration</li>
+<li>real-time MCF validation</li>
+<li>extensible: plugin architecture allows for easy addition of new metadata
+  formats using Jinja2 templates or custom workflow (JSON, YAML, CSV, etc.)</li>
+<li>flexible: use as a command-line tool or integrate as a library</li>
+<li>import from external metadata sources</li>
+<li>multilingual support</li>
+</ul>
+<h2 id="history">History</h2>
+<p>Started in 2009, pygeometa originated within an internal project called pygdm,
+which provided generic geospatial data management functions.  pygdm (now end
+of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was
+pulled out of pygdm to focus on the core requirement of generating geospatial
+metadata within a real-time environment and automated workflows.</p>
+<p>In 2015 pygeometa was made publically available in support of the Treasury
+Board <a href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122">Policy on Acceptable Network and Device Use</a>.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright (c) 2009-2025 Government of Canada, 2015-2026 pygeometa development team</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-02-21 08:55:15.351155+00:00
+-->
