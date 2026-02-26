@@ -10,28 +10,23 @@ jobs:
         python-version: ["3.12"]
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       name: Setup Python ${{ matrix.python-version }}
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install system dependencies 📦
-      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all build-essential
-    - name: Install requirements 📦
+      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts debhelper pybuild-plugin-pyproject build-essential python3-all
+    - name: Install package and doc requirements 📦
       run: |
-        python3 -m pip install --upgrade pip
-        pip3 install setuptools
-        pip3 install -r requirements-dev.txt
-    - name: Install package 📦
-      run: pip3 install .
-    - name: run tests with coverage ⚙️
-      run: |
-        coverage run --source pygeometa tests/run_tests.py
-        coverage report -m
+        pip3 install .
+        pip3 install ".[dev]"
+        pip3 install ".[docs]"
+        pip3 install ".[release]"
     - name: build docs 🏗️
       run: mkdocs build -f docs/mkdocs.yml
     - name: run flake8 ⚙️
       run: flake8
     - name: build Python package 🏗️
-      run: python3 setup.py sdist bdist_wheel --universal
+      run: python3 -m build
     - name: build Debian package 🏗️
       run: sudo debuild -b -uc -us

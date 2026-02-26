@@ -3,11 +3,12 @@ Section: python
 Priority: optional
 Maintainer: Tom Kralidis <tomkralidis@gmail.com>
 Uploaders: Angelos Tzotsos <gcpp.kalxas@gmail.com>
-Build-Depends: debhelper (>= 9),
+Build-Depends: debhelper (>= 13),
                dh-python,
                python3-all,
-               python3-setuptools
-Standards-Version: 4.3.0
+               python3-setuptools,
+               pybuild-plugin-pyproject
+Standards-Version: 4.6.0
 Vcs-Git: https://github.com/geopython/pygeometa.git
 Homepage: https://geopython.github.io/pygeometa
 

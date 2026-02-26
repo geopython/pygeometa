@@ -1,3 +1,52 @@
 [build-system]
-requires = ["setuptools>=46.4", "wheel"]
+requires = ["setuptools<69", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pygeometa"
+version = "0.20.dev0"
+description = "pygeometa is a Python package to manage metadata for geospatial dataset"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT"}
+keywords = ["geospatial", "metadata", "catalogue", "discovery"]
+authors = [
+    {name = "Tom Kralidis", email = "tomkralidis@gmail.com"}
+]
+maintainers = [
+    {name = "Tom Kralidis", email = "tomkralidis@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering :: GIS"
+]
+dependencies = [
+    "Click",
+    "Jinja2",
+    "jsonschema",
+    "lxml",
+    "OWSLib",
+    "pyyaml"
+]
+
+[project.optional-dependencies]
+dev = ["flake8"]
+docs = ["mkdocs", "mkdocs-bootswatch"]
+release = ["build", "twine", "wheel"]
+
+[project.scripts]
+pygeometa = "pygeometa:cli"
+
+[project.urls]
+homepage = "https://geopython.github.io/pygeometa"
+source = "https://github.com/geopython/pygeometa"
+documentation = "https://geopython.github.io/pygeometa"
+issues = "https://github.com/geopython/pygeometa/issues"
+
+[tool.setuptools.package-data]
+"pygeometa" = ["schemas/**/*"]
