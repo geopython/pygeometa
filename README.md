@@ -122,7 +122,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer
 requirements:
 
 ```bash
-pip3 install -r requirements-dev.txt
+pip3 install ".[dev]"
 ```
 
 ### Adding a Metadata Schema to the Core
@@ -173,16 +173,16 @@ python3 run_tests.py
 
 ```bash
 # update version
-vi pygeometa/__init__.py
+vi pyproject.toml  # update [project]/version
 vi debian/changelog  # add changelog entry and summary of updates
-git commit -m 'update release version' pygeometa/__init__.py debian/changelog
+git commit -m 'update release version' pyproject.toml debian/changelog
 # push changes
 git push origin master
 git tag -a x.y.z -m 'tagging release x.y.z'
 # push tag
 git push --tags
 rm -fr build dist *.egg-info
-python3 setup.py sdist bdist_wheel --universal
+python3 -m build
 twine upload dist/*
 ```
 

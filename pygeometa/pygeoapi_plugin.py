@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -102,9 +102,9 @@
 
 import logging
 
-from pygeometa import __version__
 from pygeometa.core import read_mcf, validate_mcf
 from pygeometa.schemas import get_supported_schemas, load_schema
+from pygeometa.util import get_package_version
 
 from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
 
@@ -151,7 +151,7 @@ INPUT_SCHEMA = {
 
 
 PROCESS_METADATA_SCHEMAS = {
-    'version': __version__,
+    'version': get_package_version(),
     'id': 'pygeometa-metadata-schemas',
     'title': {
         'en': 'pygeometa metadata schemas',
@@ -183,7 +183,7 @@ PROCESS_METADATA_SCHEMAS = {
     }
 }
 PROCESS_METADATA_IMPORT = {
-    'version': __version__,
+    'version': get_package_version(),
     'id': 'pygeometa-metadata-import',
     'title': {
         'en': 'pygeometa metadata import',
@@ -222,7 +222,7 @@ PROCESS_METADATA_IMPORT = {
 }
 
 PROCESS_METADATA_VALIDATE = {
-    'version': __version__,
+    'version': get_package_version(),
     'id': 'pygeometa-metadata-validate',
     'title': {
         'en': 'pygeometa metadata control file (MCF) validation',
@@ -260,7 +260,7 @@ PROCESS_METADATA_VALIDATE = {
 
 
 PROCESS_METADATA_GENERATE = {
-    'version': __version__,
+    'version': get_package_version(),
     'id': 'pygeometa-metadata-generate',
     'title': {
         'en': 'pygeometa metadata generation',
@@ -300,7 +300,7 @@ PROCESS_METADATA_GENERATE = {
 
 
 PROCESS_METADATA_TRANSFORM = {
-    'version': __version__,
+    'version': get_package_version(),
     'id': 'pygeometa-metadata-transform',
     'title': {
         'en': 'pygeometa metadata transformation',

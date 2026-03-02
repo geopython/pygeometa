@@ -18,7 +18,6 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2016 Government of Canada
 # Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
@@ -44,31 +43,14 @@
 #
 # =================================================================
 
-import click
-
-from pygeometa.core import (generate, import_, info, schemas,
-                            transform, validate)
-from pygeometa.util import get_package_version
-
-__version__ = get_package_version()
+import importlib.metadata
 
 
-@click.group()
-@click.version_option(version=__version__)
-def cli():
-    pass
+def get_package_version() -> str:
+    """
+    Helper function to get package version
 
+    :returns: `str` of version of package
+    """
 
-@click.group()
-def metadata():
-    """Metadata management"""
-    pass
-
-
-metadata.add_command(generate)
-metadata.add_command(import_)
-metadata.add_command(info)
-metadata.add_command(schemas)
-metadata.add_command(transform)
-metadata.add_command(validate)
-cli.add_command(metadata)
+    return importlib.metadata.version('pygeometa')
