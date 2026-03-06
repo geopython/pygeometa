@@ -46,9 +46,11 @@
   <gmd:metadataStandardVersion>
     <gco:CharacterString>CAN/CGSB-171.100-2009</gco:CharacterString>
   </gmd:metadataStandardVersion>
+  {% if record['metadata'].get('dataseturi') %}
   <gmd:dataSetURI>
     <gco:CharacterString>{{ record['metadata']['dataseturi']|e }}</gco:CharacterString>
   </gmd:dataSetURI>
+  {% endif %}
   <gmd:locale>
     <gmd:PT_Locale id="fra">
       <gmd:languageCode>
@@ -63,7 +65,7 @@
     </gmd:PT_Locale>
   </gmd:locale>
   <gmd:spatialRepresentationInfo>
-    {% if record['spatial']['datatype'] == 'vector' %}
+    {% if record.get('spatial',{}).get('datatype','') == 'vector' %}
     <gmd:MD_VectorSpatialRepresentation>
       <gmd:topologyLevel>
         <gmd:MD_TopologyLevelCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopologyLevelCode" codeSpace="ISOTC211/19115" codeListValue="geometryOnly">geometryOnly</gmd:MD_TopologyLevelCode>
