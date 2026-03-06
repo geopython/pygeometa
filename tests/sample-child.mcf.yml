@@ -2,7 +2,7 @@ mcf:
     version: 1.0
 
 metadata:
-    base_mcf: base-metadata.yml
+    base_mcf: base-metadata.mcf.yml
     language: en
     language_alternate: fr
     charset: utf8

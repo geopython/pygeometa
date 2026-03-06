@@ -1,0 +1,898 @@
+<gmd:MD_Metadata xmlns:gmd="http://www.isotc211.org/2005/gmd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+  xsi:schemaLocation="http://www.isotc211.org/2005/gmd https://web.bonares.de/md_schema/apiso/apiso.xsd">
+  <gmd:fileIdentifier>
+    <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">
+      707a02ac-9240-4a2d-afbd-395b69756534</gco:CharacterString>
+  </gmd:fileIdentifier>
+  <gmd:language>
+    <LanguageCode xmlns="http://www.isotc211.org/2005/gmd"
+      codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="eng"
+      codeSpace="ISO639-2" />
+  </gmd:language>
+  <gmd:characterSet>
+    <MD_CharacterSetCode xmlns="http://www.isotc211.org/2005/gmd"
+      codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode"
+      codeListValue="utf8" codeSpace="ISOTC211/19115" />
+  </gmd:characterSet>
+  <gmd:hierarchyLevel>
+    <MD_ScopeCode xmlns="http://www.isotc211.org/2005/gmd"
+      codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode"
+      codeListValue="dataset" codeSpace="ISOTC211/19115" />
+  </gmd:hierarchyLevel>
+  <gmd:hierarchyLevelName>
+    <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">CATCHY</gco:CharacterString>
+  </gmd:hierarchyLevelName>
+  <gmd:contact>
+    <gmd:CI_ResponsibleParty>
+      <gmd:individualName>
+        <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Schweneker, Doerte</gco:CharacterString>
+      </gmd:individualName>
+      <gmd:organisationName>
+        <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Deutsche Saatveredelung AG</gco:CharacterString>
+      </gmd:organisationName>
+      <gmd:positionName>
+        <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Assistance Breeder</gco:CharacterString>
+      </gmd:positionName>
+      <gmd:contactInfo>
+        <gmd:CI_Contact>
+          <gmd:address>
+            <gmd:CI_Address>
+              <gmd:deliveryPoint>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Steimker Weg 7</gco:CharacterString>
+              </gmd:deliveryPoint>
+              <gmd:city>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Asendorf</gco:CharacterString>
+              </gmd:city>
+              <gmd:administrativeArea>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Lower Saxony</gco:CharacterString>
+              </gmd:administrativeArea>
+              <gmd:postalCode>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">27330</gco:CharacterString>
+              </gmd:postalCode>
+              <gmd:country>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">Germany</gco:CharacterString>
+              </gmd:country>
+              <gmd:electronicMailAddress>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">
+                  doerte.schweneker@dsv-saaten.de</gco:CharacterString>
+              </gmd:electronicMailAddress>
+            </gmd:CI_Address>
+          </gmd:address>
+          <gmd:onlineResource>
+            <gmd:CI_OnlineResource>
+              <gmd:linkage>
+                <gmd:URL>www.dsv-saaten.de</gmd:URL>
+              </gmd:linkage>
+            </gmd:CI_OnlineResource>
+          </gmd:onlineResource>
+        </gmd:CI_Contact>
+      </gmd:contactInfo>
+      <gmd:role>
+        <gmd:CI_RoleCode
+          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+          codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+      </gmd:role>
+    </gmd:CI_ResponsibleParty>
+  </gmd:contact>
+  <gmd:dateStamp>
+    <gco:Date xmlns:gco="http://www.isotc211.org/2005/gco">2022-10-19</gco:Date>
+  </gmd:dateStamp>
+  <gmd:metadataStandardName>
+    <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">BonaRes Metadata Schema
+      (https://doi.org/10.20387/BonaRes-5PGG-8YRP)</gco:CharacterString>
+  </gmd:metadataStandardName>
+  <gmd:metadataStandardVersion>
+    <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">1.0</gco:CharacterString>
+  </gmd:metadataStandardVersion>
+  <gmd:referenceSystemInfo>
+    <gmd:MD_ReferenceSystem>
+      <gmd:referenceSystemIdentifier>
+        <gmd:RS_Identifier>
+          <gmd:code>
+            <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">4326</gco:CharacterString>
+          </gmd:code>
+          <gmd:codeSpace>
+            <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">urn:ogc:def:crs:EPSG</gco:CharacterString>
+          </gmd:codeSpace>
+          <gmd:version>
+            <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">6.11.2</gco:CharacterString>
+          </gmd:version>
+        </gmd:RS_Identifier>
+      </gmd:referenceSystemIdentifier>
+    </gmd:MD_ReferenceSystem>
+  </gmd:referenceSystemInfo>
+  <gmd:identificationInfo xmlns:bnr="http://www.bonares.de/gmd"
+    xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml"
+    xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:srv="http://www.isotc211.org/2005/srv"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <gmd:MD_DataIdentification>
+      <gmd:citation>
+        <gmd:CI_Citation>
+          <gmd:title xsi:type="gmd:PT_FreeText_PropertyType">
+            <gco:CharacterString>Agronomic data of long term field experiment CATCHY Asendorf</gco:CharacterString>
+            <gmd:PT_FreeText>
+              <gmd:textGroup>
+                <gmd:LocalisedCharacterString locale="ger">Agronomische Daten des Langzeitversuches CATCHY in Asendorf</gmd:LocalisedCharacterString>
+              </gmd:textGroup>
+            </gmd:PT_FreeText>
+          </gmd:title>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2015-08-01</gco:Date>
+              </gmd:date>
+              <gmd:dateType>
+                <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                  codeListValue="issued" />
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2020-08-31</gco:Date>
+              </gmd:date>
+              <gmd:dateType>
+                <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                  codeListValue="creation" />
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2020-11-06</gco:Date>
+              </gmd:date>
+              <gmd:dateType>
+                <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                  codeListValue="revision" />
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:date>
+            <gmd:CI_Date>
+              <gmd:date>
+                <gco:Date>2020-10-09</gco:Date>
+              </gmd:date>
+              <gmd:dateType>
+                <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                  codeListValue="publication" />
+              </gmd:dateType>
+            </gmd:CI_Date>
+          </gmd:date>
+          <gmd:identifier>
+            <gmd:MD_Identifier>
+              <gmd:code>
+                <gco:CharacterString> https://doi.org/10.20387/bonares-1naq-dvww</gco:CharacterString>
+              </gmd:code>
+            </gmd:MD_Identifier>
+          </gmd:identifier>
+          <gmd:presentationForm>
+            <gmd:CI_PresentationFormCode
+              codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode"
+              codeListValue="tableDigital" codeSpace="ISOTC211/19115" />
+          </gmd:presentationForm>
+        </gmd:CI_Citation>
+      </gmd:citation>
+      <gmd:abstract xsi:type="gmd:PT_FreeText_PropertyType">
+        <gco:CharacterString>This WMS Service includes spatial information used by all datasets
+          using information from the long-term field experiment CATCHY in Asendorf
+        </gco:CharacterString>
+        <gmd:PT_FreeText>
+          <gmd:textGroup>
+            <gmd:LocalisedCharacterString locale="ger">Dieser WMS Kartendienst enth&#228;lt r&#228;umliche Informationen zu allen Datens&#228;tzen, deren Informationen im Langzeit-Feld-Experiment CATCHY in Asendorf erhoben worden sind</gmd:LocalisedCharacterString>
+          </gmd:textGroup>
+        </gmd:PT_FreeText>
+      </gmd:abstract>
+      <gmd:pointOfContact>
+        <gmd:CI_ResponsibleParty>
+          <gmd:organisationName>
+            <gco:CharacterString>Deutsche Saatveredelung AG</gco:CharacterString>
+          </gmd:organisationName>
+          <gmd:positionName>
+            <gco:CharacterString>Assistance Breeder</gco:CharacterString>
+          </gmd:positionName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Steimker Weg 7</gco:CharacterString>
+                  </gmd:deliveryPoint>
+                  <gmd:city>
+                    <gco:CharacterString>Asendorf</gco:CharacterString>
+                  </gmd:city>
+                  <gmd:administrativeArea>
+                    <gco:CharacterString>Lower Saxony</gco:CharacterString>
+                  </gmd:administrativeArea>
+                  <gmd:postalCode>
+                    <gco:CharacterString>27330</gco:CharacterString>
+                  </gmd:postalCode>
+                  <gmd:country>
+                    <gco:CharacterString>Germany</gco:CharacterString>
+                  </gmd:country>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+              codeListValue="author">author</gmd:CI_RoleCode>
+          </gmd:role>
+        </gmd:CI_ResponsibleParty>
+      </gmd:pointOfContact>
+      <gmd:pointOfContact>
+        <gmd:CI_ResponsibleParty>
+          <gmd:individualName>
+            <gco:CharacterString>BonaRes Data Centre</gco:CharacterString>
+          </gmd:individualName>
+          <gmd:organisationName>
+            <gco:CharacterString>Leibniz Centre for Agricultural Landscape Research (ZALF)</gco:CharacterString>
+          </gmd:organisationName>
+          <gmd:positionName>
+            <gco:CharacterString>Research Platform 'Data Analysis &amp; Simulation' - WG Geodata</gco:CharacterString>
+          </gmd:positionName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Eberswalder Strasse 84</gco:CharacterString>
+                  </gmd:deliveryPoint>
+                  <gmd:city>
+                    <gco:CharacterString>M&#252;ncheberg</gco:CharacterString>
+                  </gmd:city>
+                  <gmd:administrativeArea>
+                    <gco:CharacterString>Brandenburg</gco:CharacterString>
+                  </gmd:administrativeArea>
+                  <gmd:postalCode>
+                    <gco:CharacterString>15374</gco:CharacterString>
+                  </gmd:postalCode>
+                  <gmd:country>
+                    <gco:CharacterString>Germany</gco:CharacterString>
+                  </gmd:country>
+                  <gmd:electronicMailAddress>
+                    <gco:CharacterString>bonares-datenzentrum@zalf.de</gco:CharacterString>
+                  </gmd:electronicMailAddress>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+              codeListValue="publisher">publisher</gmd:CI_RoleCode>
+          </gmd:role>
+        </gmd:CI_ResponsibleParty>
+      </gmd:pointOfContact>
+      <gmd:pointOfContact>
+        <gmd:CI_ResponsibleParty>
+          <gmd:organisationName>
+            <gco:CharacterString>Deutsche Saatveredelung AG</gco:CharacterString>
+          </gmd:organisationName>
+          <gmd:positionName>
+            <gco:CharacterString>Project Manager</gco:CharacterString>
+          </gmd:positionName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Steimker Weg 7</gco:CharacterString>
+                  </gmd:deliveryPoint>
+                  <gmd:city>
+                    <gco:CharacterString>Asendorf</gco:CharacterString>
+                  </gmd:city>
+                  <gmd:administrativeArea>
+                    <gco:CharacterString>Lower Saxony</gco:CharacterString>
+                  </gmd:administrativeArea>
+                  <gmd:postalCode>
+                    <gco:CharacterString>27330</gco:CharacterString>
+                  </gmd:postalCode>
+                  <gmd:country>
+                    <gco:CharacterString>Germany</gco:CharacterString>
+                  </gmd:country>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+              codeListValue="projectLeader">projectLeader</gmd:CI_RoleCode>
+          </gmd:role>
+        </gmd:CI_ResponsibleParty>
+      </gmd:pointOfContact>
+      <gmd:pointOfContact>
+        <gmd:CI_ResponsibleParty>
+          <gmd:organisationName>
+            <gco:CharacterString>Bremen University</gco:CharacterString>
+          </gmd:organisationName>
+          <gmd:positionName>
+            <gco:CharacterString>Professor</gco:CharacterString>
+          </gmd:positionName>
+          <gmd:contactInfo>
+            <gmd:CI_Contact>
+              <gmd:address>
+                <gmd:CI_Address>
+                  <gmd:deliveryPoint>
+                    <gco:CharacterString>Leobener Stra&#223;e</gco:CharacterString>
+                  </gmd:deliveryPoint>
+                  <gmd:city>
+                    <gco:CharacterString>Bremen</gco:CharacterString>
+                  </gmd:city>
+                  <gmd:administrativeArea>
+                    <gco:CharacterString>Bremen</gco:CharacterString>
+                  </gmd:administrativeArea>
+                  <gmd:postalCode>
+                    <gco:CharacterString>28359</gco:CharacterString>
+                  </gmd:postalCode>
+                  <gmd:country>
+                    <gco:CharacterString>Germany</gco:CharacterString>
+                  </gmd:country>
+                </gmd:CI_Address>
+              </gmd:address>
+            </gmd:CI_Contact>
+          </gmd:contactInfo>
+          <gmd:role>
+            <gmd:CI_RoleCode
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+              codeListValue="principalInvestigator">principalInvestigator</gmd:CI_RoleCode>
+          </gmd:role>
+        </gmd:CI_ResponsibleParty>
+      </gmd:pointOfContact>
+      <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_1971">cropping systems</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_2807">farming systems</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_73e14678">research systems</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_1385">catch cropping</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_29684">catch crops</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_12332">maize</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_8373">wheat</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_10722">faba beans</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_1061">Sinapis alba</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_25488">mustard</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_33798">Phacelia tanacetifolia</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_16277">Phacelia</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_5287">oats</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_7911">Trifolium alexandrinum</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_6662">crop rotation</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_8504">Zea mays</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_7951">Triticum aestivum</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_1373987580598">above ground biomass</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_926">biomass</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_10176">crop yield</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_24419">yield components</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+              xlink:href="http://aims.fao.org/aos/agrovoc/c_5274">nutrients</gmx:Anchor>
+          </gmd:keyword>
+          <gmd:type>
+            <MD_KeywordTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+              codeListValue="theme" />
+          </gmd:type>
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              <gmd:title>
+                <gco:CharacterString>AGROVOC Multilingual agricultural thesaurus</gco:CharacterString>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2017-07-01</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                      codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                      codeListValue="revision" />
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+        </gmd:MD_Keywords>
+      </gmd:descriptiveKeywords>
+      <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+          <gmd:keyword>
+            <gco:CharacterString>opendata</gco:CharacterString>
+          </gmd:keyword>
+          <gmd:type>
+            <MD_KeywordTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+              codeListValue="discipline" />
+          </gmd:type>
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              <gmd:title>
+                <gco:CharacterString>Individual</gco:CharacterString>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2019-04-12</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                      codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                      codeListValue="creation" />
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+        </gmd:MD_Keywords>
+      </gmd:descriptiveKeywords>
+      <gmd:descriptiveKeywords>
+        <gmd:MD_Keywords>
+          <gmd:keyword>
+            <gco:CharacterString>Fruchtfolge</gco:CharacterString>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gco:CharacterString>Geografische Bezeichnungen</gco:CharacterString>
+          </gmd:keyword>
+          <gmd:keyword>
+            <gco:CharacterString>Boden</gco:CharacterString>
+          </gmd:keyword>
+          <gmd:type>
+            <MD_KeywordTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+              codeListValue="theme" />
+          </gmd:type>
+          <gmd:thesaurusName>
+            <gmd:CI_Citation>
+              <gmd:title>
+                <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+              </gmd:title>
+              <gmd:date>
+                <gmd:CI_Date>
+                  <gmd:date>
+                    <gco:Date>2008-06-01</gco:Date>
+                  </gmd:date>
+                  <gmd:dateType>
+                    <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                      codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                      codeListValue="publication">publication</CI_DateTypeCode>
+                  </gmd:dateType>
+                </gmd:CI_Date>
+              </gmd:date>
+            </gmd:CI_Citation>
+          </gmd:thesaurusName>
+        </gmd:MD_Keywords>
+      </gmd:descriptiveKeywords>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:useLimitation>
+            <gco:CharacterString>Restrictions applied to assure the protection of privacy or
+              intellectual property, and any special restrictions or limitations or warnings on
+              using the resource or metadata. Reports, articles, papers, scientific and non -
+              scientific works of any form, including tables, maps, or any other kind of output, in
+              printed or electronic form, based in whole or in part on the data supplied, must
+              contain an acknowledgement of the form: "Data reused from the BonaRes Data Centre
+              www.bonares.de. These data were created as part of the BonaRes Module A-Project -
+              CATCHY's research activities." Although every care has been taken in preparing and
+              testing the data, the BonaRes Module A-Project - CATCHY and the BonaRes Data Centre
+              cannot guarantee that the data are correct; neither does the BonaRes Module A-Project
+              - CATCHY and the BonaRes Data Centre accept any liability whatsoever for any error,
+              missing data or omission in the data, or for any loss or damage arising from its use.
+              The BonaRes Module A-Project - CATCHY and BonaRes Data Centre will not be responsible
+              for any direct or indirect use which might be made of the data.</gco:CharacterString>
+          </gmd:useLimitation>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:accessConstraints>
+            <MD_RestrictionCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
+              codeListValue="copyright" />
+          </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:accessConstraints>
+            <MD_RestrictionCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
+              codeListValue="intellectualPropertyRights" />
+          </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:accessConstraints>
+            <MD_RestrictionCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
+              codeListValue="restricted" />
+          </gmd:accessConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:useConstraints>
+            <MD_RestrictionCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
+              codeListValue="license" />
+          </gmd:useConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:resourceConstraints>
+        <gmd:MD_LegalConstraints>
+          <gmd:otherConstraints>
+            <gco:CharacterString>CC BY</gco:CharacterString>
+          </gmd:otherConstraints>
+        </gmd:MD_LegalConstraints>
+      </gmd:resourceConstraints>
+      <gmd:aggregationInfo>
+        <gmd:MD_AggregateInformation>
+          <gmd:aggregateDataSetIdentifier>
+            <gmd:RS_Identifier>
+              <gmd:code>
+                <gco:CharacterString>
+                  https://maps.bonares.de/mapapps/resources/apps/bonares/index.html?lang=en&amp;mid=3139a989-68de-4b85-a786-5c2fd2f0b069</gco:CharacterString>
+              </gmd:code>
+              <gmd:codeSpace>
+                <gco:CharacterString>URL</gco:CharacterString>
+              </gmd:codeSpace>
+            </gmd:RS_Identifier>
+          </gmd:aggregateDataSetIdentifier>
+          <gmd:associationType>
+            <DS_AssociationTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_AssociationTypeCode"
+              codeListValue="IsReferencedBy" />
+          </gmd:associationType>
+        </gmd:MD_AggregateInformation>
+      </gmd:aggregationInfo>
+      <gmd:aggregationInfo>
+        <gmd:MD_AggregateInformation>
+          <gmd:aggregateDataSetIdentifier>
+            <gmd:RS_Identifier>
+              <gmd:code>
+                <gco:CharacterString>
+                  https://maps.bonares.de/mapapps/resources/apps/bonares/index.html?lang=en&amp;mid=acdda4dd-d73e-4396-880e-fc64d249cbe4</gco:CharacterString>
+              </gmd:code>
+              <gmd:codeSpace>
+                <gco:CharacterString>URL</gco:CharacterString>
+              </gmd:codeSpace>
+            </gmd:RS_Identifier>
+          </gmd:aggregateDataSetIdentifier>
+          <gmd:associationType>
+            <DS_AssociationTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_AssociationTypeCode"
+              codeListValue="IsDerivedFrom" />
+          </gmd:associationType>
+        </gmd:MD_AggregateInformation>
+      </gmd:aggregationInfo>
+      <gmd:language>
+        <LanguageCode xmlns="http://www.isotc211.org/2005/gmd"
+          codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="eng"
+          codeSpace="ISO639-2" />
+      </gmd:language>
+      <gmd:topicCategory>
+        <gmd:MD_TopicCategoryCode>environment</gmd:MD_TopicCategoryCode>
+      </gmd:topicCategory>
+      <gmd:environmentDescription>
+        <gco:CharacterString />
+      </gmd:environmentDescription>
+      <gmd:extent>
+        <gmd:EX_Extent>
+          <gmd:geographicElement>
+            <gmd:EX_BoundingPolygon>
+              <gmd:extentTypeCode>
+                <gco:Boolean>false</gco:Boolean>
+              </gmd:extentTypeCode>
+              <gmd:polygon>
+                <gml:Polygon gml:id="w1285aaa" srsName="EPSG:4326">
+                  <gml:exterior>
+                    <gml:LinearRing>
+                      <gml:pos>52.76 9.00</gml:pos>
+                      <gml:pos>52.76 9.02</gml:pos>
+                      <gml:pos>52.75 9.02</gml:pos>
+                      <gml:pos>52.75 9.03</gml:pos>
+                      <gml:pos>52.76 9.00</gml:pos>
+                    </gml:LinearRing>
+                  </gml:exterior>
+                </gml:Polygon>
+              </gmd:polygon>
+            </gmd:EX_BoundingPolygon>
+          </gmd:geographicElement>
+        </gmd:EX_Extent>
+      </gmd:extent>
+      <gmd:extent>
+        <gmd:EX_Extent>
+          <gmd:geographicElement>
+            <gmd:EX_GeographicBoundingBox>
+              <gmd:extentTypeCode>
+                <gco:Boolean>false</gco:Boolean>
+              </gmd:extentTypeCode>
+              <gmd:westBoundLongitude>
+                <gco:Decimal>9.02</gco:Decimal>
+              </gmd:westBoundLongitude>
+              <gmd:eastBoundLongitude>
+                <gco:Decimal>9.03</gco:Decimal>
+              </gmd:eastBoundLongitude>
+              <gmd:southBoundLatitude>
+                <gco:Decimal>52.76</gco:Decimal>
+              </gmd:southBoundLatitude>
+              <gmd:northBoundLatitude>
+                <gco:Decimal>52.76</gco:Decimal>
+              </gmd:northBoundLatitude>
+            </gmd:EX_GeographicBoundingBox>
+          </gmd:geographicElement>
+        </gmd:EX_Extent>
+      </gmd:extent>
+      <gmd:extent>
+        <gmd:EX_Extent>
+          <gmd:temporalElement>
+            <gmd:EX_TemporalExtent>
+              <gmd:extent>
+                <gml:TimePeriod gml:id="w1290aaa">
+                  <gml:beginPosition>2015-05-01</gml:beginPosition>
+                  <gml:endPosition>2024-04-30</gml:endPosition>
+                </gml:TimePeriod>
+              </gmd:extent>
+            </gmd:EX_TemporalExtent>
+          </gmd:temporalElement>
+        </gmd:EX_Extent>
+      </gmd:extent>
+      <gmd:extent>
+        <gmd:EX_Extent>
+          <gmd:geographicElement>
+            <gmd:EX_GeographicDescription>
+              <gmd:geographicIdentifier>
+                <gmd:RS_Identifier>
+                  <gmd:code>
+                    <gco:CharacterString>A</gco:CharacterString>
+                  </gmd:code>
+                  <gmd:codeSpace>
+                    <gco:CharacterString>Asendorf</gco:CharacterString>
+                  </gmd:codeSpace>
+                  <gmd:version>
+                    <gco:CharacterString />
+                  </gmd:version>
+                </gmd:RS_Identifier>
+              </gmd:geographicIdentifier>
+            </gmd:EX_GeographicDescription>
+          </gmd:geographicElement>
+        </gmd:EX_Extent>
+      </gmd:extent>
+    </gmd:MD_DataIdentification>
+  </gmd:identificationInfo>
+  <gmd:distributionInfo>
+    <MD_Distribution xmlns="http://www.isotc211.org/2005/gmd"
+      xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml"
+      xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:srv="http://www.isotc211.org/2005/srv"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+      <distributionFormat>
+        <MD_Format>
+          <name>
+            <gco:CharacterString>CSV</gco:CharacterString>
+          </name>
+          <version>
+            <gco:CharacterString />
+          </version>
+        </MD_Format>
+      </distributionFormat>
+      <distributionFormat>
+        <MD_Format>
+          <name>
+            <gco:CharacterString>Microsoft Excel (xlsx)</gco:CharacterString>
+          </name>
+          <version>
+            <gco:CharacterString />
+          </version>
+        </MD_Format>
+      </distributionFormat>
+      <distributionFormat>
+        <MD_Format>
+          <name>
+            <gco:CharacterString>File-Geodatabase</gco:CharacterString>
+          </name>
+          <version>
+            <gco:CharacterString />
+          </version>
+        </MD_Format>
+      </distributionFormat>
+      <distributor>
+        <MD_Distributor>
+          <distributorContact>
+            <CI_ResponsibleParty>
+              <individualName>
+                <gco:CharacterString>BonaRes Data Centre</gco:CharacterString>
+              </individualName>
+              <organisationName>
+                <gco:CharacterString>Leibniz Centre for Agricultural Landscape Research (ZALF)</gco:CharacterString>
+              </organisationName>
+              <positionName>
+                <gco:CharacterString>Research Platform 'Data Analysis &amp; Simulation' - WG Geodata</gco:CharacterString>
+              </positionName>
+              <contactInfo>
+                <CI_Contact>
+                  <address>
+                    <CI_Address>
+                      <deliveryPoint>
+                        <gco:CharacterString>Eberswalder Strasse 84</gco:CharacterString>
+                      </deliveryPoint>
+                      <city>
+                        <gco:CharacterString>M&#252;ncheberg</gco:CharacterString>
+                      </city>
+                      <administrativeArea>
+                        <gco:CharacterString>Brandenburg</gco:CharacterString>
+                      </administrativeArea>
+                      <postalCode>
+                        <gco:CharacterString>15374</gco:CharacterString>
+                      </postalCode>
+                      <country>
+                        <gco:CharacterString>Germany</gco:CharacterString>
+                      </country>
+                      <electronicMailAddress>
+                        <gco:CharacterString>bonares-datenzentrum@zalf.de</gco:CharacterString>
+                      </electronicMailAddress>
+                    </CI_Address>
+                  </address>
+                  <onlineResource>
+                    <CI_OnlineResource>
+                      <linkage>
+                        <URL>https://www.bonares.de/research-data</URL>
+                      </linkage>
+                    </CI_OnlineResource>
+                  </onlineResource>
+                </CI_Contact>
+              </contactInfo>
+              <role>
+                <CI_RoleCode
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+                  codeListValue="distributor">distributor</CI_RoleCode>
+              </role>
+            </CI_ResponsibleParty>
+          </distributorContact>
+        </MD_Distributor>
+      </distributor>
+      <transferOptions>
+        <MD_DigitalTransferOptions>
+          <onLine>
+            <CI_OnlineResource>
+              <linkage>
+                <URL>
+                  https://maps.bonares.de/mapapps/resources/apps/bonares/index.html?lang=en&amp;mid=707a02ac-9240-4a2d-afbd-395b69756534</URL>
+              </linkage>
+              <function>
+                <CI_OnLineFunctionCode
+                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode"
+                  codeListValue="download" />
+              </function>
+            </CI_OnlineResource>
+          </onLine>
+        </MD_DigitalTransferOptions>
+      </transferOptions>
+    </MD_Distribution>
+  </gmd:distributionInfo>
+  <gmd:dataQualityInfo>
+    <gmd:DQ_DataQuality>
+      <gmd:scope>
+        <gmd:DQ_Scope>
+          <gmd:level>
+            <MD_ScopeCode xmlns="http://www.isotc211.org/2005/gmd"
+              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_ScopeCode"
+              codeListValue="dataset" />
+          </gmd:level>
+          <gmd:levelDescription xmlns:gco="http://www.isotc211.org/2005/gco"
+            gco:nilReason="inapplicable" />
+        </gmd:DQ_Scope>
+      </gmd:scope>
+      <gmd:report>
+        <gmd:DQ_DomainConsistency>
+          <gmd:result>
+            <gmd:DQ_ConformanceResult>
+              <gmd:specification>
+                <gmd:CI_Citation>
+                  <gmd:title>
+                    <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">unknown</gco:CharacterString>
+                  </gmd:title>
+                  <gmd:date>
+                    <gmd:CI_Date>
+                      <gmd:date>
+                        <gco:Date xmlns:gco="http://www.isotc211.org/2005/gco">2020-11-06</gco:Date>
+                      </gmd:date>
+                      <gmd:dateType>
+                        <CI_DateTypeCode xmlns="http://www.isotc211.org/2005/gmd"
+                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                          codeListValue="creation" />
+                      </gmd:dateType>
+                    </gmd:CI_Date>
+                  </gmd:date>
+                </gmd:CI_Citation>
+              </gmd:specification>
+              <gmd:explanation>
+                <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">unknown</gco:CharacterString>
+              </gmd:explanation>
+              <gmd:pass xmlns:gco="http://www.isotc211.org/2005/gco" gco:nilReason="unknown" />
+            </gmd:DQ_ConformanceResult>
+          </gmd:result>
+        </gmd:DQ_DomainConsistency>
+      </gmd:report>
+      <gmd:lineage>
+        <gmd:LI_Lineage>
+          <gmd:statement>
+            <gco:CharacterString xmlns:gco="http://www.isotc211.org/2005/gco">2020-08-31 export from
+              Mini_Gis to csv 2020-08-31 Data submitted to the BonaRes Data Centre 2020-09-08 Data
+              imported to database 2020-09-11 Metadata xml for dataset created 2021-04-13 Dataset
+              published in the BonaRes Repository</gco:CharacterString>
+          </gmd:statement>
+        </gmd:LI_Lineage>
+      </gmd:lineage>
+    </gmd:DQ_DataQuality>
+  </gmd:dataQualityInfo>
+</gmd:MD_Metadata>

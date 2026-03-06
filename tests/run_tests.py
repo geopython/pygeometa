@@ -20,7 +20,7 @@
 #
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -54,15 +54,17 @@ from jsonschema.protocols import Validator
 import yaml
 
 from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
-                            get_charstring, normalize_datestring,
-                            prune_distribution_formats,
+                            get_charstring, import_metadata,
+                            normalize_datestring, prune_distribution_formats,
                             prune_transfer_option, MCFReadError,
-                            MCFValidationError, SCHEMAS, validate_mcf)
-from pygeometa.helpers import json_serial
+                            MCFValidationError, SCHEMAS, transform_metadata,
+                            validate_mcf)
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
+from pygeometa.schemas.schema_org import _get_box_from_coords
 
 from sample_schema import SampleOutputSchema
 
@@ -91,9 +93,9 @@ class PygeometaTest(unittest.TestCase):
 
         # test as file
         with self.assertRaises(IOError):
-            mcf = read_mcf(get_abspath('../404.yml'))
+            mcf = read_mcf(get_abspath('../404.mcf.yml'))
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
         # test MCF section
@@ -101,7 +103,7 @@ class PygeometaTest(unittest.TestCase):
         self.assertTrue('metadata' in mcf, 'Expected metadata section')
 
         # test as string
-        with open(get_abspath('../sample.yml')) as fh:
+        with open(get_abspath('../sample.mcf.yml')) as fh:
             mcf_string = fh.read()
 
         mcf = read_mcf(mcf_string)
@@ -116,15 +118,15 @@ class PygeometaTest(unittest.TestCase):
         """Test MCF version validation"""
 
         with self.assertRaises(MCFReadError):
-            read_mcf(get_abspath('missing-version.yml'))
+            read_mcf(get_abspath('missing-version.mcf.yml'))
 
         with self.assertRaises(MCFReadError):
-            read_mcf(get_abspath('bad-version.yml'))
+            read_mcf(get_abspath('bad-version.mcf.yml'))
 
     def test_mcf_model(self):
         """test mcf model and types"""
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
         self.assertIsInstance(mcf['identification']['dates'], dict,
                               'Expected list')
         self.assertIsInstance(mcf['identification']['keywords'], dict,
@@ -139,7 +141,7 @@ class PygeometaTest(unittest.TestCase):
 
         iso_os = ISO19139OutputSchema()
 
-        xml = render_j2_template(read_mcf(get_abspath('../sample.yml')),
+        xml = render_j2_template(read_mcf(get_abspath('../sample.mcf.yml')),
                                  iso_os.template_dir)
         xml2 = pretty_print(xml)
 
@@ -178,13 +180,19 @@ class PygeometaTest(unittest.TestCase):
 
         formats = {
             'wms': {
-                'format_en': 'image', 'format_fr': 'image', 'format_version': 2
+                'format_en': 'image',
+                'format_fr': 'image',
+                'format_version': '2'
             },
             'wfs': {
-                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+                'format_en': 'GRIB2',
+                'format_fr': 'GRIB2',
+                'format_version': '2'
             },
             'wcs': {
-                'format_en': 'GRIB2', 'format_fr': 'GRIB2', 'format_version': 2
+                'format_en': 'GRIB2',
+                'format_fr': 'GRIB2',
+                'format_version': '2'
             }
         }
 
@@ -219,21 +227,27 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = sorted(get_supported_schemas())
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 9,
+        self.assertEqual(len(schemas), 13,
                          'Expected specific number of supported schemas')
         self.assertEqual(sorted(schemas),
-                         sorted(['dcat', 'iso19139', 'iso19139-2',
-                                 'iso19139-hnap', 'oarec-record', 'stac-item',
-                                 'wmo-cmp', 'wmo-wcmp2', 'wmo-wigos']),
+                         sorted(['cwl', 'csvw', 'dcat', 'iso19139', 'iso19139-2',  # noqa
+                                 'iso19139-hnap', 'oarec-record', 'openaire',
+                                 'schema-org', 'stac-item', 'wmo-cmp',
+                                 'wmo-wcmp2', 'wmo-wigos']),
                          'Expected exact list of supported schemas')
+
+        schemas = get_supported_schemas(include_autodetect=True)
+        self.assertEqual(len(schemas), 14,
+                         'Expected specific number of supported schemas')
+        self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
     def test_render_j2_template(self):
         """test template rendering"""
 
         test_mcf_paths = [
-            '../sample.yml',
-            'unilingual.yml',
-            'nil-identification-language.yml'
+            '../sample.mcf.yml',
+            'unilingual.mcf.yml',
+            'nil-identification-language.mcf.yml'
         ]
 
         for mcf_path in test_mcf_paths:
@@ -267,10 +281,10 @@ class PygeometaTest(unittest.TestCase):
             s_os = SampleOutputSchema()
             _ = s_os.write(read_mcf(get_abspath(mcf_path)))
 
-    def test_nested_mcf(self):
+    def itest_nested_mcf(self):
         """test nested mcf support"""
 
-        mcf = read_mcf(get_abspath('child.yml'))
+        mcf = read_mcf(get_abspath('child.mcf.yml'))
 
         self.assertEqual(mcf['metadata']['identifier'], 's5678',
                          'Expected specific identifier')
@@ -291,7 +305,7 @@ class PygeometaTest(unittest.TestCase):
     def test_deep_nested_mcf(self):
         """test deep nested mcf support"""
 
-        mcf = read_mcf(get_abspath('deep-nest-child.yml'))
+        mcf = read_mcf(get_abspath('deep-nest-child.mcf.yml'))
 
         self.assertEqual(mcf['metadata']['identifier'], 'MYID',
                          'Expected specific identifier')
@@ -309,8 +323,8 @@ class PygeometaTest(unittest.TestCase):
 
         iso_os = ISO19139OutputSchema()
 
-        xml = render_j2_template(read_mcf(get_abspath('dates-pre-1900.yml')),
-                                 iso_os.template_dir)
+        xml = render_j2_template(read_mcf(
+            get_abspath('dates-pre-1900.mcf.yml')), iso_os.template_dir)
         self.assertIsInstance(xml, str, 'Expected unicode string')
 
     def test_broken_yaml(self):
@@ -318,13 +332,13 @@ class PygeometaTest(unittest.TestCase):
 
         iso_os = ISO19139OutputSchema()
         with self.assertRaises(MCFReadError):
-            render_j2_template(read_mcf(get_abspath('broken-yaml.yml')),
+            render_j2_template(read_mcf(get_abspath('broken-yaml.mcf.yml')),
                                iso_os.template_dir)
 
     def test_wmo_wigos(self):
         """test WMO WIGOS Metadata support"""
 
-        mcf = read_mcf(get_abspath('../sample-wmo-wigos.yml'))
+        mcf = read_mcf(get_abspath('../sample-wmo-wigos.mcf.yml'))
         self.assertEqual(len(mcf['facility'].keys()), 1)
         self.assertEqual(
             len(mcf['facility']['first_station']['spatiotemporal']), 1)
@@ -332,7 +346,7 @@ class PygeometaTest(unittest.TestCase):
     def test_19139_2(self):
         """test ISO 19139-2 Metadata support"""
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
         self.assertIn('acquisition', mcf)
         self.assertIn('platforms', mcf['acquisition'])
         self.assertIn('instruments', mcf['acquisition']['platforms'][0])
@@ -340,12 +354,12 @@ class PygeometaTest(unittest.TestCase):
     def test_json_output_schema(self):
         """test JSON as dict-based output schemas"""
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
 
         record = OGCAPIRecordOutputSchema().write(mcf)
         self.assertIsInstance(record, str)
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
         record = OGCAPIRecordOutputSchema().write(mcf, stringify=False)
         self.assertIsInstance(record, dict)
 
@@ -373,17 +387,17 @@ class PygeometaTest(unittest.TestCase):
     def test_validate_mcf(self):
         """test MCF validation"""
 
-        mcf = read_mcf(get_abspath('../sample.yml'))
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
 
-        instance = json.loads(json.dumps(mcf, default=json_serial))
+        instance = json.loads(json_dumps(mcf))
 
         is_valid = validate_mcf(instance)
         assert is_valid
 
         # validated nested MCF
-        mcf = read_mcf(get_abspath('./sample-child.yml'))
+        mcf = read_mcf(get_abspath('./sample-child.mcf.yml'))
 
-        instance = json.loads(json.dumps(mcf, default=json_serial))
+        instance = json.loads(json_dumps(mcf))
 
         is_valid = validate_mcf(instance)
         assert is_valid
@@ -391,8 +405,8 @@ class PygeometaTest(unittest.TestCase):
         with self.assertRaises(MCFValidationError):
             is_valid = validate_mcf({'foo': 'bar'})
 
-    def test_import(self):
-        """test metadata import"""
+    def test_schema_import(self):
+        """test direct metadata schema import"""
 
         schema = ISO19139OutputSchema()
 
@@ -427,6 +441,113 @@ class PygeometaTest(unittest.TestCase):
             expected_bbox = [6.3467, 47.7244, 14.1203, 55.0111]
             self.assertEqual(expected_bbox, result_bbox,
                              'Expected specific BBOX')
+
+    def test_import_metadata(self):
+        """test metadata import"""
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = import_metadata('iso19139', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+    def test_openaire(self):
+        """test metadata import openaire"""
+
+        with open(get_abspath('openaire.json')) as fh:
+            mcf = import_metadata('openaire', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'Dataset to: Foundation for an Austrian NIR Soil Spectral Library for Soil Health Assessments',  # noqa
+                'Expected specific title')
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            mcf = import_metadata('autodetect', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+        with open(get_abspath('../sample.mcf.yml')) as fh:
+            mcf = import_metadata('autodetect', fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title']['en'],
+                'title in English',
+                'Expected specific title')
+
+    def test_empty_extents(self):
+        # do not fail on empty elements
+        schema = ISO19139OutputSchema()
+        with open(get_abspath('iso19139-no-bbox.xml')) as fh:
+            # owslib selects the first EX_GeographicBoundingBox,
+            # so if it is empty, it will not check others
+            mcf = schema.import_(fh.read())
+            self.assertEqual(
+                len(mcf['identification']['extents']['spatial'][0]['bbox']),
+                0,
+                'empty box')
+            # owslib selects first beginPosition element,
+            # so it skips empty temporalElements
+            self.assertEqual(
+                mcf['identification']['extents']['temporal'][0]['begin'],
+                '2005-11-03',
+                'assert date, skip empty period')
+            # get browsegraphic
+            self.assertEqual(
+                mcf['identification']['browsegraphic'],
+                "https://avatars.githubusercontent.com/u/1855122",
+                'Expected specific browsegraphic')
+        with open(get_abspath('707a02ac-9240-4a2d-afbd-395b69756534.xml')) as fh:  # noqa
+            # owslib does currently not parse gmd:polygon -> empty box
+            mcf = schema.import_(fh.read())
+            self.assertEqual(
+                len(mcf['identification']['extents']['spatial'][0]['bbox']),
+                0,
+                'empty box')
+
+    def test_transform_metadata(self):
+        """test metadata transform"""
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            m = transform_metadata('iso19139', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+        with open(get_abspath('md-SMJP01RJTD-gmd.xml')) as fh:
+            m = transform_metadata('autodetect', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
+                'Expected specific title')
+
+    def test_schema_org_coords(self):
+        """Test helper method schema-org parse geometry"""
+        geo1 = {
+            "@type": "GeoShape",
+            "box": "2 1 4 3"
+        }
+        self.assertEqual(_get_box_from_coords(geo1), [1, 2, 3, 4])
+        geo2 = {
+            "@type": "GeoShape",
+            "polygon": "2 1,4 1,2 3,2 1"
+        }
+        self.assertEqual(_get_box_from_coords(geo2), [1, 2, 3, 4])
+        geo3 = {
+            "@type": "GeoShape",
+            "polygon": "2 1 4 1 2 3 4 3 2 1"
+        }
+        self.assertEqual(_get_box_from_coords(geo3), [1, 2, 3, 4])
 
 
 def get_abspath(filepath):

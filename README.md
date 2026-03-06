@@ -4,7 +4,7 @@
 # pygeometa
 
 [pygeometa](https://geopython.github.io/pygeometa) is a Python package to
-generate metadata for geospatial datasets.
+manage metadata for geospatial datasets.
 
 ## Installation
 
@@ -28,8 +28,7 @@ cd my-env
 . bin/activate
 git clone https://github.com/geopython/pygeometa.git
 cd pygeometa
-python3 setup.py build
-python3 setup.py install
+pip3 install .
 ```
 
 ## Running
@@ -64,16 +63,25 @@ pygeometa metadata validate path/to/file.yml
 # import a metadata document to MCF
 pygeometa metadata import path/to/file.xml --schema=iso19139
 
+# import a metadata document to MCF, autodetecting the metadata file format
+pygeometa metadata import path/to/file.xml --schema=autodetect  # --schema=autodetect is default
+
 # transform from one metadata representation to another
 pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-schema=oarec-record
+
+# transform from one metadata representation to another, autodetecting the metadata file format
+pygeometa metadata transform path/to/file.xml --input-schema=autodetect --output-schema=oarec-record  # --input-schema=autodetect is default
 ```
 
 ### Supported schemas
 Schemas supported by pygeometa:
+* CSV on the web, [reference](https://www.w3.org/TR/2015/REC-tabular-metadata-20151217/)
 * dcat, [reference](https://www.w3.org/TR/vocab-dcat-2/)
 * iso19139, [reference](http://www.iso.org/iso/catalogue_detail.htm?csnumber=32557)
 * iso19139-hnap, [reference](http://www.gcpedia.gc.ca/wiki/Federal_Geospatial_Platform/Policies_and_Standards/Catalogue/Release/Appendix_B_Guidelines_and_Best_Practices/Guide_to_Harmonized_ISO_19115:2003_NAP)
-* OGC API - Records - Part 1: Core, record model, [reference](https://github.com/opengeospatial/ogcapi-records/blob/master/core/openapi/schemas/record.yaml)
+* OGC API - Records - Part 1: Core, record model, [reference](https://github.com/opengeospatial/ogcapi-records/blob/master/core/openapi/schemas/recordGeoJSON.yaml)
+* OpenAire metadata schema, [reference](https://graph.openaire.eu/docs/data-model/entities/research-product)
+* Schema.org, [reference](https://schema.org/Dataset)
 * SpatioTemporal Asset Catalog [(STAC)](https://stacspec.org)
 * iso19139-2, [reference](https://www.iso.org/standard/67039.html)
 * [wmo-cmp](doc/content/reference/formats/wmo-cmp.md), [reference](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf)
@@ -114,7 +122,7 @@ Same as installing a package.  Use a virtualenv.  Also install developer
 requirements:
 
 ```bash
-pip3 install -r requirements-dev.txt
+pip3 install ".[dev]"
 ```
 
 ### Adding a Metadata Schema to the Core
@@ -123,7 +131,7 @@ Adding an output metadata schemas to pygeometa involves extending
 `pygeometa.schemas.base.BaseOutputSchema` and supporting the `write`
 function to return a string of exported metadata content.  If you are using
 Jinja2 templates, see the next section.  If you are using another means of
-generating metadata (lxml, xml.etree, json, etc.), override the ABS `write`
+generating metadata (lxml, xml.etree, json, etc.), override the ABC `write`
 class to emit a string using your tooling/workflow accordingly.  See the
 below sections for examples.
 
@@ -152,13 +160,11 @@ mkdir pygeometa/schemas/foo
 cp pygeometa/schemas/iso19139/__init__.py pygeometa/schemas/foo
 vi pygeometa/schemas/foo/__init__.py
 # update class name and super().__init__() function accordingly 
+```
 
 ### Running Tests
 
 ```bash
-# via setuptools
-python3 setup.py test
-# manually
 cd tests
 python3 run_tests.py
 ```
@@ -167,16 +173,16 @@ python3 run_tests.py
 
 ```bash
 # update version
-vi pygeometa/__init__.py
+vi pyproject.toml  # update [project]/version
 vi debian/changelog  # add changelog entry and summary of updates
-git commit -m 'update release version' pygeometa/__init__.py debian/changelog
+git commit -m 'update release version' pyproject.toml debian/changelog
 # push changes
 git push origin master
 git tag -a x.y.z -m 'tagging release x.y.z'
 # push tag
 git push --tags
 rm -fr build dist *.egg-info
-python3 setup.py sdist bdist_wheel --universal
+python3 -m build
 twine upload dist/*
 ```
 

@@ -4,39 +4,29 @@ on: [ push, pull_request ]
 
 jobs:
   main:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.12"]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@master
+    - uses: actions/setup-python@v6
       name: Setup Python ${{ matrix.python-version }}
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install system dependencies 📦
-      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts fakeroot debhelper python3-all python3-setuptools
-    - name: Install requirements 📦
+      run: sudo apt-get update && sudo apt-get install -y dh-python devscripts debhelper pybuild-plugin-pyproject build-essential python3-all
+    - name: Install package and doc requirements 📦
       run: |
-        python3 -m pip install --upgrade pip
-        pip3 install -r requirements-dev.txt
-    - name: Install package 📦
-      run: python3 setup.py install
-    - name: run tests ⚙️
-      run: python3 setup.py test
-    - name: run test coverage ⚙️
-      run: |
-        coverage run --source pygeometa setup.py test
-        coverage report -m
-#      with:
-#        fail_ci_if_error: false
+        pip3 install .
+        pip3 install ".[dev]"
+        pip3 install ".[docs]"
+        pip3 install ".[release]"
     - name: build docs 🏗️
       run: mkdocs build -f docs/mkdocs.yml
     - name: run flake8 ⚙️
       run: flake8
     - name: build Python package 🏗️
-      run: python3 setup.py sdist bdist_wheel --universal
+      run: python3 -m build
     - name: build Debian package 🏗️
-#      with:
-#        fail_ci_if_error: false
       run: sudo debuild -b -uc -us

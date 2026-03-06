@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2023 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -48,8 +48,9 @@ import click
 
 from pygeometa.core import (generate, import_, info, schemas,
                             transform, validate)
+from pygeometa.util import get_package_version
 
-__version__ = '0.16.dev0'
+__version__ = get_package_version()
 
 
 @click.group()

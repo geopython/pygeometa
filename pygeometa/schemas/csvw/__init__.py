@@ -44,59 +44,92 @@
 # =================================================================
 
 import os
+import csv
+from io import StringIO
 from typing import Union
 
-from pygeometa import core
+from pygeometa.core import get_charstring, get_typed_value
+from pygeometa.helpers import json_dumps
+from pygeometa.schemas.base import BaseOutputSchema
 
-TEMPLATES = os.path.dirname(os.path.realpath(__file__))
+THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 
-class BaseOutputSchema:
-    """generic OutputSchema ABC"""
+class CSVWOutputSchema(BaseOutputSchema):
+    """CSVS output schema"""
 
-    def __init__(self, name: str = None, description: str = None,
-                 outputformat: str = None, template_dir: str = None):
+    def __init__(self):
         """
         Initialize object
-
-        :param name: name of output schema
-        :param description: description of output schema
-        :param outputformat: output format (XML, JSON)
 
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        self.name = name
-        self.description = description
-        self.outputformat = outputformat
-        self.template_dir = template_dir
+        description = 'CWVW'
+
+        super().__init__('csvw', description, 'json', THISDIR)
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
         """
-        Write outputschema to string buffer
+        Write MCF attributes to CSVW
 
         :param mcf: dict of MCF content model
         :param stringify: whether to return a string representation (default)
                           else native (dict, etree)
 
-        :returns: `dict` or `str` of metadata in outputschema representation
+        :returns: `dict` or `str` of MCF as a CSVW
         """
+
+        lang1 = mcf['metadata'].get('language')
+        lang2 = mcf['metadata'].get('language_alternate')
+
+        csvw = {
+            '@context': 'http://www.w3.org/ns/csvw',
+            'tableSchema': {'columns': []}
+        }
+
+        title = get_charstring(mcf['identification'].get('title'),
+                               lang1, lang2)
+
+        description = get_charstring(mcf['identification'].get('abstract'),
+                                     lang1, lang2)
+
+        csvw['dc:title'] = title[0]
+        csvw['dc:description'] = description[0]
+
+        for attribute in mcf.get('content_info', {}).get('attributes', {}):
+            column = {
+                'name': attribute['name'],
+                'datatype': attribute['type']
+            }
+            if 'url' in attribute:
+                column['propertyUrl'] = attribute['url']
+
+            csvw['tableSchema']['columns'].append(column)
 
         if stringify:
-            return core.render_j2_template(mcf, template_dir=self.template_dir)
+            return json_dumps(csvw)
 
-        return mcf
+        return csvw
 
     def import_(self, metadata: str) -> dict:
-        """
-        Import metadata into MCF
 
-        :param metadata: `str` of metadata content
+        mcf = {
+            'identification'
+            'content_info': {
+                'attributes': []
+            }
+        }
 
-        :returns: `dict` of MCF content
-        """
+        with StringIO(metadata) as fh:
+            reader = csv.DictReader(fh)
+            next(reader)
+            test_row = next(reader)
 
-        raise NotImplementedError()
+            for key, value in test_row.items():
+                mcf['content_info']['attributes'].append({
+                    'name': key,
+                    'type': type(get_typed_value(value)).__name__
+                })
 
-    def __repr__(self):
-        return f'<{self.name.upper()}OutputSchema> {self.name}'
+        return mcf

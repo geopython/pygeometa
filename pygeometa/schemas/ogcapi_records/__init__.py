@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2023 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -43,14 +43,13 @@
 #
 # =================================================================
 
-from datetime import datetime
-import json
 import logging
 import os
 from typing import Union
 
-from pygeometa.core import get_charstring, normalize_datestring
-from pygeometa.helpers import json_serial
+from pygeometa import __version__
+from pygeometa.core import get_charstring
+from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
@@ -87,8 +86,21 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         self.lang1 = mcf['metadata'].get('language')
         self.lang2 = mcf['metadata'].get('language_alternate')
 
-        minx, miny, maxx, maxy = (mcf['identification']['extents']
-                                  ['spatial'][0]['bbox'])
+        try:
+            minx, miny, maxx, maxy = (mcf['identification']['extents']
+                                      ['spatial'][0]['bbox'])
+            geometry = {
+                'type': 'Polygon',
+                'coordinates': [[
+                    [minx, miny],
+                    [minx, maxy],
+                    [maxx, maxy],
+                    [maxx, miny],
+                    [minx, miny]
+                ]]
+            }
+        except TypeError:
+            geometry = None
 
         title = get_charstring(mcf['identification'].get('title'),
                                self.lang1, self.lang2)
@@ -100,34 +112,40 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         record = {
             'id': mcf['metadata']['identifier'],
             'conformsTo': [
-                'http://www.opengis.net/spec/ogcapi-records-1/1.0/req/record-core',  # noqa
+                'http://www.opengis.net/spec/ogcapi-records-1/1.0/conf/record-core',  # noqa
             ],
             'type': 'Feature',
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': [[
-                    [minx, miny],
-                    [minx, maxy],
-                    [maxx, maxy],
-                    [maxx, miny],
-                    [minx, miny]
-                ]]
-            },
+            'geometry': geometry,
             'properties': {
-                'identifier': mcf['metadata']['identifier'],
                 'title': title[0],
                 'description': description[0],
                 'themes': [],
-                'language': self.lang1,
                 'type': mcf['metadata']['hierarchylevel'],
             },
             'links': []
         }
 
-        LOGGER.debug('Checking for temporal')
-        if all(['temporal' in mcf['identification']['extents'],
-                mcf['identification']['extents']['temporal'] != [{}]]):
+        if 'additional_identifiers' in mcf['metadata']:
+            LOGGER.debug('Adding additional identifiers')
 
+            record['properties']['externalIds'] = []
+
+            for ai in mcf['metadata'].get('additional_identifiers', []):
+                ai_dict = {
+                    'value': ai['identifier']
+                }
+                if 'scheme' in ai:
+                    ai_dict['scheme'] = ai['scheme']
+
+                record['properties']['externalIds'].append(ai_dict)
+
+        if self.lang1 is not None:
+            record['properties']['language'] = {
+                'code': self.lang1
+            }
+
+        LOGGER.debug('Checking for temporal')
+        try:
             begin = mcf['identification']['extents']['temporal'][0]['begin']
             end = mcf['identification']['extents']['temporal'][0].get('end')
 
@@ -143,6 +161,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
             if [begin, end] == [None, None]:
                 record['time'] = None
+            elif [begin, end] == ['..', '..']:
+                pass
             else:
                 record['time'] = {
                     'interval': [begin, end]
@@ -151,33 +171,33 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             if 'resolution' in  mcf['identification']['extents']['temporal'][0]:  # noqa
                 record['time']['resolution'] =  mcf['identification']['extents']['temporal'][0]['resolution']  # noqa
 
-        LOGGER.debug('Checking for dates')
-        if 'dates' in mcf['identification']:
-            if 'creation' in mcf['identification']['dates']:
-                record['properties']['created'] = str(mcf['identification']['dates']['creation'])  # noqa
-            if 'revision' in mcf['identification']['dates']:
-                record['properties']['updated'] = str(mcf['identification']['dates']['revision'])  # noqa
-            if 'publication' in mcf['identification']['dates']:
-                record['properties']['updated'] = normalize_datestring(mcf['identification']['dates']['publication'])  # noqa
+        except (IndexError, KeyError):
+            record['time'] = None
 
-        if record['properties'].get('created') is None:
-                record['properties']['created'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+        LOGGER.debug('Checking for dates')
+
+        for key, value in mcf['identification']['dates'].items():
+            if key == 'creation':
+                record['properties']['created'] = generate_datetime(value)
+            elif key == 'revision':
+                record['properties']['updated'] = generate_datetime(value)
 
         rights = get_charstring(mcf['identification'].get('rights'),
                                 self.lang1, self.lang2)
 
-        record['properties']['rights'] = rights[0]
+        if rights != [None, None]:
+            record['properties']['rights'] = rights[0]
 
         formats = []
         for v in mcf['distribution'].values():
             format_ = get_charstring(v.get('format'), self.lang1, self.lang2)
             if format_[0] is not None:
-                formats.append(format_)
+                formats.append(format_[0])
 
         LOGGER.debug('Checking for formats')
         if formats:
-            record['properties']['formats'] = list(
-                set([f[0] for f in formats]))
+            formats2 = set(formats)
+            record['properties']['formats'] = [{'name': f} for f in formats2]
 
         LOGGER.debug('Checking for contacts')
         record['properties']['contacts'] = self.generate_contacts(
@@ -215,6 +235,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         if all_keywords:
             record['properties']['keywords'] = all_keywords
 
+        if not record['properties']['themes']:
+            _ = record['properties'].pop('themes', None)
+
         LOGGER.debug('Checking for licensing')
         if mcf['identification'].get('license') is not None:
             license = mcf['identification']['license']
@@ -236,8 +259,10 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         for value in mcf['distribution'].values():
             record['links'].append(self.generate_link(value))
 
+        record['generated_by'] = f'pygeometa {__version__}'
+
         if stringify:
-            return json.dumps(record, default=json_serial, indent=4)
+            return json_dumps(record)
 
         return record
 
@@ -256,6 +281,9 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         organization_name = get_charstring(contact.get('organization'),
                                            self.lang1, self.lang2)
+
+        individual_name = get_charstring(contact.get('individualname'),
+                                         self.lang1, self.lang2)
 
         position_name = get_charstring(contact.get('positionname'),
                                        self.lang1, self.lang2)
@@ -285,14 +313,14 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             'roles': []
         }
 
-        if organization_name[0] == contact.get('organization'):
-            LOGGER.debug('Contact name is organization')
-            rp['name'] = organization_name[0]
-
+        if organization_name[0] is not None:
+            rp['organization'] = organization_name[0]
+        if individual_name[0] is not None:
+            rp['name'] = individual_name[0]
         if position_name[0] is not None:
-            rp['positionName'] = position_name[0]
+            rp['position'] = position_name[0]
         if hours_of_service[0] is not None:
-            rp['positionName'] = hours_of_service[0]
+            rp['hoursOfService'] = hours_of_service[0]
         if contact_instructions[0] is not None:
             rp['contactInstructions'] = contact_instructions[0]
 
@@ -308,7 +336,13 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
             rp['addresses'][0]['country'] = country[0]
 
         if contact.get('phone') is not None:
-            rp['phones'] = [{'value': contact.get('phone')}]
+            LOGGER.debug('Formatting phone number')
+            phone = contact['phone']
+            phone = phone.replace('-', '').replace('(', '').replace(')', '')
+            phone = phone.replace('+0', '+').replace(' ', '')
+
+            rp['phones'] = [{'value': phone}]
+
         if contact.get('email') is not None:
             rp['emails'] = [{'value': contact.get('email')}]
 
@@ -380,9 +414,11 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         name = get_charstring(distribution.get('name'), self.lang1, self.lang2)
 
         link = {
-            'href': distribution['url'],
-            'type': distribution['type']
+            'href': distribution['url']
         }
+
+        if distribution.get('type') is not None:
+            link['type'] = distribution['type']
 
         reltype = distribution.get('rel') or distribution.get('function')
         if reltype is not None:

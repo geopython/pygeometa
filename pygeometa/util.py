@@ -43,60 +43,14 @@
 #
 # =================================================================
 
-import os
-from typing import Union
-
-from pygeometa import core
-
-TEMPLATES = os.path.dirname(os.path.realpath(__file__))
+import importlib.metadata
 
 
-class BaseOutputSchema:
-    """generic OutputSchema ABC"""
+def get_package_version() -> str:
+    """
+    Helper function to get package version
 
-    def __init__(self, name: str = None, description: str = None,
-                 outputformat: str = None, template_dir: str = None):
-        """
-        Initialize object
+    :returns: `str` of version of package
+    """
 
-        :param name: name of output schema
-        :param description: description of output schema
-        :param outputformat: output format (XML, JSON)
-
-        :returns: pygeometa.schemas.base.BaseOutputSchema
-        """
-
-        self.name = name
-        self.description = description
-        self.outputformat = outputformat
-        self.template_dir = template_dir
-
-    def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
-        """
-        Write outputschema to string buffer
-
-        :param mcf: dict of MCF content model
-        :param stringify: whether to return a string representation (default)
-                          else native (dict, etree)
-
-        :returns: `dict` or `str` of metadata in outputschema representation
-        """
-
-        if stringify:
-            return core.render_j2_template(mcf, template_dir=self.template_dir)
-
-        return mcf
-
-    def import_(self, metadata: str) -> dict:
-        """
-        Import metadata into MCF
-
-        :param metadata: `str` of metadata content
-
-        :returns: `dict` of MCF content
-        """
-
-        raise NotImplementedError()
-
-    def __repr__(self):
-        return f'<{self.name.upper()}OutputSchema> {self.name}'
+    return importlib.metadata.version('pygeometa')

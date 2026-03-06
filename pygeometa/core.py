@@ -19,7 +19,7 @@
 # referenced with those assets.
 #
 # Copyright (c) 2016 Government of Canada
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2025 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -45,13 +45,14 @@
 # =================================================================
 
 from collections.abc import Mapping
-from datetime import date, datetime
+from importlib.metadata import version, PackageNotFoundError
+import datetime
 import json
 import logging
 import os
 import pathlib
-import pkg_resources
 import re
+import traceback
 from typing import IO, Union
 from xml.dom import minidom
 
@@ -63,14 +64,19 @@ from jsonschema.exceptions import ValidationError
 import yaml
 
 from pygeometa import cli_options
-from pygeometa.helpers import json_serial
+from pygeometa.helpers import json_dumps
 from pygeometa.schemas import get_supported_schemas, load_schema
 
 LOGGER = logging.getLogger(__name__)
 
 SCHEMAS = pathlib.Path(__file__).resolve().parent / 'schemas'
 
-VERSION = pkg_resources.require('pygeometa')[0].version
+try:
+    package_version = version('pygeometa')
+except PackageNotFoundError:
+    package_version = 'unknown'
+
+VERSION = package_version
 
 
 def get_charstring(option: Union[str, dict], language: str,
@@ -120,14 +126,14 @@ def normalize_datestring(datestring: str, format_: str = 'default') -> str:
     :returns: string of properly formatted datestring
     """
 
-    today_and_now = datetime.utcnow()
+    today_and_now = datetime.datetime.now(datetime.timezone.utc)
 
     re1 = r'\$Date: (?P<year>\d{4})'
     re2 = r'\$Date: (?P<date>\d{4}-\d{2}-\d{2}) (?P<time>\d{2}:\d{2}:\d{2})'
     re3 = r'(?P<start>.*)\$Date: (?P<year>\d{4}).*\$(?P<end>.*)'
 
     try:
-        if isinstance(datestring, date):
+        if isinstance(datestring, datetime.date):
             if datestring.year < 1900:
                 datestring2 = '{0.day:02d}.{0.month:02d}.{0.year:4d}'.format(
                     datestring)
@@ -324,6 +330,79 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
     return mcf_dict
 
 
+def import_metadata(schema: str, metadata: str) -> dict:
+    """
+    Import metadata
+
+    :param schema: schema / format
+    :metadata: metadata string
+
+    :returns: MCF object
+    """
+
+    content = None
+    error_message = None
+
+    if schema == 'autodetect':
+        schemas = get_supported_schemas()
+    else:
+        schemas = [schema]
+
+    try:
+        LOGGER.debug('Checking for MCF')
+        mcf = read_mcf(metadata)
+        _ = mcf['mcf']
+        LOGGER.debug('Already an MCF; skipping')
+        return mcf
+    except Exception as err:
+        LOGGER.debug(f'Not an MCF: {err}')
+        LOGGER.debug('Continuing')
+
+    for s in schemas:
+        LOGGER.debug(f'Attempting to import into {s}')
+        schema_object = load_schema(s)
+
+        try:
+            content = schema_object.import_(metadata)
+            break
+        except NotImplementedError:
+            error_message = f'Import not supported for {s}'
+        except Exception as err:
+            error_message = f'Import failed: {err}'
+            error_trace = traceback.format_exc()
+
+    if error_message is not None:
+        LOGGER.warning(error_message)
+        LOGGER.debug(error_trace)
+
+    return content
+
+
+def transform_metadata(input_schema: str, output_schema: str,
+                       metadata: str) -> str:
+    """
+    Transform metadata
+
+    :param input_schema: input schema / format
+    :param output_schema: output schema / format
+    :metadata: metadata string
+
+    :returns: transformed metadata or `None`
+    """
+
+    try:
+        content = import_metadata(input_schema, metadata)
+
+        LOGGER.info(f'Processing into {output_schema}')
+        schema_object_output = load_schema(output_schema)
+        content = schema_object_output.write(content)
+    except Exception as err:
+        LOGGER.debug(err)
+        return None
+
+    return content
+
+
 def pretty_print(xml: str) -> str:
     """
     clean up indentation and spacing
@@ -478,24 +557,22 @@ class MCFValidationError(Exception):
 @cli_options.ARGUMENT_METADATA_FILE
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
-@click.option('--schema', required=True,
-              type=click.Choice(get_supported_schemas()),
+@click.option('-s', '--schema', required=True,
+              type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
+              default='autodetect',
               help='Metadata schema')
 def import_(ctx, metadata_file, schema, output, verbosity):
     """import metadata"""
 
-    LOGGER.info(f'Importing {metadata_file} into {schema}')
-    schema_object = load_schema(schema)
-
     try:
-        content = schema_object.import_(metadata_file.read())
-    except NotImplementedError:
-        raise click.ClickException(f'Import not supported for {schema}')
-
-    if output is None:
-        click.echo(yaml.dump(content))
-    else:
-        output.write(yaml.dump(content, indent=4))
+        content = import_metadata(schema, metadata_file.read())
+        if output is None:
+            click.echo(yaml.dump(content))
+        else:
+            output.write(yaml.dump(content, indent=4))
+    except Exception as err:
+        raise click.ClickException(
+            f'No supported schema detected/found: {err}')
 
 
 @click.command()
@@ -573,7 +650,7 @@ def validate(ctx, mcf, verbosity):
 
     click.echo(f'Validating {mcf}')
 
-    instance = json.loads(json.dumps(read_mcf(mcf), default=json_serial))
+    instance = json.loads(json_dumps(read_mcf(mcf)))
     validate_mcf(instance)
 
     click.echo('Valid MCF document')
@@ -585,7 +662,8 @@ def validate(ctx, mcf, verbosity):
 @cli_options.OPTION_OUTPUT
 @cli_options.OPTION_VERBOSITY
 @click.option('--input-schema', required=True,
-              type=click.Choice(get_supported_schemas()),
+              type=click.Choice(get_supported_schemas(include_autodetect=True)),  # noqa
+              default='autodetect',
               help='Metadata schema of input file')
 @click.option('--output-schema', required=True,
               type=click.Choice(get_supported_schemas()),
@@ -594,18 +672,11 @@ def transform(ctx, metadata_file, input_schema, output_schema, output,
               verbosity):
     """transform metadata"""
 
-    LOGGER.info(f'Importing {metadata_file} into {input_schema}')
-    schema_object_input = load_schema(input_schema)
-    content = None
+    content = transform_metadata(input_schema, output_schema,
+                                 metadata_file.read())
 
-    try:
-        content = schema_object_input.import_(metadata_file.read())
-    except NotImplementedError:
-        raise click.ClickException(f'Import not supported for {input_schema}')
-
-    LOGGER.info(f'Processing into {output_schema}')
-    schema_object_output = load_schema(output_schema)
-    content = schema_object_output.write(content)
+    if content is None:
+        raise click.ClickException('No supported input schema detected/found')
 
     if output is None:
         click.echo(content)

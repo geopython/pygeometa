@@ -2,11 +2,11 @@ mcf:
     version: 1.0
 
 metadata:
-    base_mcf: base-metadata.yml
+    base_mcf: base-metadata.mcf.yml
     identifier: s5678
 
 distribution:
-    base_mcf: base-distribution.yml
+    base_mcf: base-distribution.mcf.yml
     waf:
         url: http://example.org/waf
 

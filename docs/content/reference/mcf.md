@@ -4,18 +4,22 @@ Version: 1.0
 
 ## Basic Concepts
 
-* Sections are case sensitive
-* Section parameters are case sensitive
-* Section parameter values are case sensitive
+* Section names are case sensitive
+* Section parameter names are case sensitive
+* Section parameter codelist values are case sensitive
 * YAML [rules, conventions and features](https://en.wikipedia.org/wiki/YAML) are suppported, such as:
-  * node anchors / references
-  * data typing
-* If an optional section is specified, then its child parameters' cardinality are enforced
+    * node anchors / references
+    * data typing
+    * commented lines (`#`)
+* If an optional section is specified, then its child parameter cardinality is enforced
 * Filename conventions are up to the user. However, below are some suggestions:
     * use `.yml` as file extension
     * name the MCF basename the same as the dataset (e.g. `foo.shp`, `foo.yml`)
-* To add a comment in a MCF, a line that begins with a hash tag (`#`) will be ignored
-* If you have a colon (`:`) in your text / value, use quotation marks (`"` or `'`) on either side of your text to avoid mapping errors when parsing the YAML file
+* For colons (`:`) in text values, use quotation marks (`"` or `'`) on either side of your text to avoid parsing errors
+
+## File extension
+
+MCFs do not require a fixed file extension, although typical file extensions used over time have included `.mcf`, `.yaml`, `.yml`.  Starting with 0.20.0, the file extension **convention** is `.mcf.yml` (example: `sample.mcf.yml`).  Using `.mcf.yml` will also enable associating opening the MCF file with a given application on your system.
 
 ## Version format
 
@@ -23,15 +27,13 @@ MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MC
 
 ## Encoding
 
-The MCF **MUST** be utf8 encoded.  That is all.
-
-Is your MCF Encoded as UTF8?
+The MCF **MUST** be UTF-8 encoded.  That is all.
 
 ```bash
 # editing in vim
 # :set encoding=utf8
 # pasting in vim
-# in insert mode, hit CTRL-V $CODE, where $CODE is as per http://www.htmlhelp.com/reference/charset
+# in insert mode, hit CTRL-V $CODE, where $CODE is as per https://www.htmlhelp.com/reference/charset
 # to see how the file is actually encoded on disk
 file --mime-encoding file.txt
 file -i file.txt
@@ -41,23 +43,24 @@ iconv -f iso8859-1 -t utf-8 file.yml > file.yml.new
 
 ## Nesting MCFs
 
-In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCF together. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
+In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCFs. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.
 
 To use MCF nesting:
 
-* At the top of any section of a MCF add `base_mcf: foo.yml`
+* Add `base_mcf: foo.yml` at the top of any section of a MCF
 * Specify the corresponding section in the base_mcf file
 
 Notes about nesting MCFs: 
 
-* You can refer to one `base_mcf` per section of a MCF
+* One `base_mcf` per section of a MCF may be used
 * Multiple sections can refer to the same base_mcf file
 * When a parameter is defined in both the base_mcf file and the current MCF, it's always the current MCF that overwrites the base_mcf file
+    * Note that if a parameter in the current MCF is a YAML list, the corresponding base_mcf list (if it exists) is entirely overwritten  
 * MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF
 
 ## Environment variables
 
-pygeometa supports environment variables, using the notation in the example MCF snippet below:
+pygeometa supports use of environment variables, using the notation in the example MCF snippet below:
 
 ```yaml
 metadata:
@@ -100,7 +103,19 @@ title:
     fr: bar
 ```
 
-The ```language``` value in the ```metadata``` section <b>must</b> be a 2 letters language code. The user can use any language. For example: ```es``` for Spanish.
+The ```language``` value in the ```metadata``` section **must** be a 2 letter language code (e.g. ```es``` for Spanish).
+
+## Keyword Substitution
+
+pygeometa supports using the following keyword substitutions:
+
+Keyword|Description|Format|Example
+-------|-----------|------|-------:
+`$year$`|current year|`YYYY`|2016
+`$date$`|current date|`YYYY-MM-DD`|2016-12-22
+`$datetime$`|current date and time|`YYYY-MM-DDThh:mm:ssZ`|2016-12-22T16:34:15Z
+
+# Reference
 
 ## Sections
 
@@ -123,31 +138,48 @@ hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'se
 datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Optional|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
 
+### `metadata.additional_identifiers`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+identifier|Mandatory|identifier|10.5324/3f342f64|ISO 19115:2003 Section B.2.1
+scheme|Optional|scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI|https://doi.org|ISO 19115:2003 Section B.2.1
+
+### `metadata.relations`
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+identifier|Mandatory|identifier|10.5324/3f342f64|ISO 19115:2003 Section B.2.1
+scheme|Optional|scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI|https://doi.org|ISO 19115:2003 Section B.2.1
+type|Optional|a relation type (source, partof, version, reference, ...)|source|ISO 19115:2003 Section B.2.1
+
 ### `spatial`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 datatype|Mandatory|method used to represent geographic information in the dataset (must be one of 'vector', 'grid', 'textTable', 'tin', 'stereoModel', 'video')|vector|Section B.5.26
 geomtype|Mandatory|name of point or vector objects used to locate zero-, one-, two-, or threedimensional spatial locations in the dataset (must be one of 'complex', 'composite', 'curve', 'point', 'solid', 'surface')|point|ISO 19115:2003 B.5.15
+denominators|Optional|level of detail expressed as the scale of a comparable hardcopy map or chart|5000|ISO 19115:2003 Section B.2.2.5
+resolution.distance|Optional|ground sample distance|100|ISO 19115:2003 Section B.2.2.5
+resolution.uom|Optional|unit of measure of the distance|m|ISO 19115:2003 Section B.2.2.5
 
 ### `identification`
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-doi|Optional|Digital Object Identifier (DOI)|12345|ISO 19115:2003 Section B.3.2.1
 language|Optional|language(s) used within the dataset. If the dataset is made of numerical values, the dataset language can be set to 'missing', 'withheld', 'inapplicable', 'unknown' or 'template'|eng; CAN|ISO 19115:2003 Section B.2.2.1
 charset|Optional|full name of the character coding standard used for the dataset|eng; CAN|ISO 19115:2003 Section B.2.1
 title|Mandatory|name by which the cited resource is known|Important Bird Areas|ISO 19115:2003 Section B.3.2.1
 edition|Optional|version of the cited resource|1.8.0|ISO 19115:2003 Section B.3.2.1
 abstract|Mandatory|brief narrative summary of the content of the resource(s)|Birds in important areas...|ISO 19115:2003 Section B.2.2.1
-topiccategory|Mandatory|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
-fees|Mandatory|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None,ISO 19115:2003 Section B.2.10.6
-accessconstraints|Mandatory|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
+topiccategory|Optional|main theme(s) of the dataset (must be one of 'geoscientificInformation', 'farming', 'elevation', 'utilitiesCommunication', 'oceans', 'boundaries', 'inlandWaters', 'intelligenceMilitary', 'environment', 'location', 'economy', 'planningCadastre','biota', 'health', 'imageryBaseMapsEarthCover', 'transportation', 'society', 'structure', 'climatologyMeteorologyAtmosphere'. More than one topic category can be specified|climatologyMeteorologyAtmosphere|ISO 19115:2003 Section B.5.27
+fees|Optional|fees and terms for retreiving the resource.  Include monetary units (as specified in ISO 4217).  If there are no fees, use the term 'None'|None|ISO 19115:2003 Section B.2.10.6
+accessconstraints|Optional|access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource or metadata (must be one of 'patent', 'otherRestrictions','copyright','trademark', 'patentPending','restricted','license', 'intellectualPropertyRights').  If there are no accessconstraints, use the term 'otherRestrictions'|None|ISO 19115:2003 Section B.2.3
 rights|Mandatory|Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time. |Copyright (c) 2010 Her Majesty the Queen in Right of Canada|DMCI 1.1
-url|Mandatory|URL of the dataset to which the metadata applies|http://host/path/|ISO 19115:2003 Section B.2.1
+url|Mandatory|URL of the dataset to which the metadata applies|https://example.org/data|ISO 19115:2003 Section B.2.1
 status|Mandatory|"the status of the resource(s) (must be one of 'planned','historicalArchive','completed','onGoing', 'underDevelopment','required','obsolete')"|completed|ISO 19115:2003 Section B.2.2.1
-maintenancefrequency|Mandatory|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
-browsegraphic|Optional|graphic that provides an illustration of the dataset|http://example.org/dataset.png|ISO 19115:2003 B.2.2.2
+maintenancefrequency|Optional|frequency with which modifications and deletions are made to the data after it is first produced (must be one of 'continual', 'daily', 'weekly', 'fortnightly', 'monthly', 'quarterly', 'biannually', 'annually', 'asNeeded', 'irregular', 'notPlanned', 'unknown'|continual|ISO 19115:2003 B.5.18
+browsegraphic|Optional|graphic that provides an illustration of the dataset|https://example.org/dataset.png|ISO 19115:2003 B.2.2.2
 
 #### `identification.dates`
 
@@ -173,7 +205,7 @@ identification:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy]|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
+spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy] or null|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
 spatial.crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 Section B.2.7.3
 spatial.description|Optional|description of the geographic area using an identifier|Toronto, Ontario, Canada|ISO 19115:2003 Section B.3.1.2
 temporal.begin|Optional|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
@@ -214,7 +246,7 @@ identification:
                 en: [foo3, bar3]
                 fr: [foo4, bar4]
             keywords_type: theme
-            keywords_codelist: http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
+            keywords_codelist: https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
 ```
 
 Schema specific keywords sections
@@ -231,7 +263,7 @@ Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 keywords|Mandatory|category keywords|keyword1,keyword2,keyword3|ISO 19115:2003 Section B.2.2.1
 keywords_type|Mandatory|subject matter used to group similar keywords (must be one of 'discipline', 'place', 'stratum', 'temporal', 'theme')|theme|ISO 19115:2003 Section B.2.2.3
-keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|http://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
+keywords_codelist|Optional|specific code list URL (for advanced use cases, else the default is as per the given specified schema)|https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml|ISO 19115:2003 Section B.2.2.3
 
 
 ##### `identification.keywords.vocabulary`
@@ -370,7 +402,7 @@ Within each `contact` section, the following elements are supported:
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 organization|Mandatory|name of the responsible organization|Environment Canada|ISO 19115:2003 Section B.3.2.1
-url|Mandatory|on-line information that can be used to contact the individual or organization|http://host/path|ISO 19115:2003 Section B.3.2.3
+url|Mandatory|on-line information that can be used to contact the individual or organization|https://example.org/data|ISO 19115:2003 Section B.3.2.3
 individualname|Mandatory|name of the responsible person-surname|given name|title seperated by a delimiter|Lastname, Firstname|ISO 19115:2003 Section B.3.2.1
 positionname|Mandatory|role or position of the responsible person|Senior Systems Scientist|ISO 19115:2003 Section B.3.2.1
 phone|Mandatory|telephone number by which individuals can speak to the responsible organization or individual|+01-123-456-7890|ISO 19115:2003 Section B.3.2.7
@@ -414,14 +446,14 @@ Within each `distribution` section, the following elements are supported:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|http://host/path|ISO 19115:2003 Section B.3.2.5
+url|Mandatory|location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/|https://example.org/data|ISO 19115:2003 Section B.3.2.5
 type|Mandatory|connection protocol to be used.  Must be one of the `identifier` values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv|WWW:LINK|ISO 19115:2003 Section B.3.2.5
 rel|Optional|the type or semantic of the relation.  The value should be an [IANA link relation](https://www.iana.org/assignments/link-relations/link-relations.xhtml) or a relation type specific to an established standard|canonical|Link Relations - Internet Assigned Numbers Authority
 name|Mandatory|name of the online resource|Download portal|ISO 19115:2003 Section B.3.2.5
 description|Mandatory|detailed text description of what the online resources is/does|brief description of the online resource (English)|ISO 19115:2003 Section B.3.2.5
 function|Mandatory|code for function performed by the online resource (must be one of 'download', 'information', 'offlineAccess', 'order', 'search')|download|ISO 19115:2003 Section B.3.2.5
 format|Optional|Format of the distribution method|WMS|HNAP 2.3
-format_version|Optional|Format version of the distribution method|1.0|HNAP 2.3
+format_version|Optional|Format version of the distribution method. Note: this value needs to be encoded as a string|1.0|HNAP 2.3
 channel|Optional|channel/topic/exchange when link is a Pub/Sub endpoint|my/cool/topic|OGC API - Pub/Sub
 
 
@@ -431,14 +463,4 @@ channel|Optional|channel/topic/exchange when link is a Pub/Sub endpoint|my/cool/
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
 scope.level|Optional|hierarchical level of the data specificed by the scope|dataset|ISO 19115:2003 Section B.2.4.5
-lineage.statement|Optional|general explanationn of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1
-
-## Tips
-
-### Keyword Substitution
-
-pygeometa supports using the following keyword substitutions:
-
-* `$year$`, which is substituted for the current year with the YYYY format, example: 2016
-* `$date$`, which is substituted for the current date with the YYYY-MM-DD, example: 2016-12-22 format
-* `$datetime$`, which is substituted for the current date and time with the YYYY-MM-DDThh:mm:ssZ, example: 2016-12-22T16:34:15Z format
+lineage.statement|Optional|general explanation of the data producer's knowledge about the lineage of a dataset|this dataset was produced from a custom process against dataset xyz|ISO 19115:2003 Section B.2.4.2.1

@@ -28,7 +28,7 @@
   {% endif %}
   {% endfor %}
   <gmd:dateStamp>
-    {% set datestamp = record['metadata']['datestamp']|normalize_datestring %}
+    {% set datestamp = record['metadata'].get('datestamp','')|normalize_datestring %}
     {% if datestamp|length > 11 %}
     <gco:DateTime>{{ datestamp }}</gco:DateTime>
     {% else %}
@@ -41,9 +41,11 @@
   <gmd:metadataStandardVersion>
     <gco:CharacterString>ISO 19115:2003</gco:CharacterString>
   </gmd:metadataStandardVersion>
+  {% if record['metadata'].get('dataseturi') %}
   <gmd:dataSetURI>
     <gco:CharacterString>{{ record['metadata']['dataseturi']|e }}</gco:CharacterString>
   </gmd:dataSetURI>
+  {% endif %}
   {% if record['metadata']['language_alternate'] %}
   <gmd:locale>
     <gmd:PT_Locale id="locale-fr">
@@ -57,7 +59,7 @@
   </gmd:locale>
   {% endif %}
   <gmd:spatialRepresentationInfo>
-    {% if record['spatial']['datatype'] == 'vector' %}
+    {% if record.get('spatial',{}).get('datatype','') == 'vector' %}
     <gmd:MD_VectorSpatialRepresentation>
       <gmd:topologyLevel>
         <gmd:MD_TopologyLevelCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopologyLevelCode" codeSpace="ISOTC211/19115" codeListValue="geometryOnly">geometryOnly</gmd:MD_TopologyLevelCode>
@@ -239,14 +241,44 @@
       {% endfor %}
       <gmd:resourceConstraints>
         <gmd:MD_LegalConstraints>
+          {{ cs.get_freetext('useLimitation', record.get('metadata',{}).get('language_alternate'), get_charstring(record['identification'].get('rights'), record.get('metadata',{}).get('language'), record.get('metadata',{}).get('language_alternate'))) }}
           <gmd:accessConstraints>
             <gmd:MD_RestrictionCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['identification']['accessconstraints'] }}">{{ record['identification']['accessconstraints'] }}</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
+          {% if record['identification'].get('license',{}).get('url','').startswith('http') %}
+          <gmd:otherConstraints>
+            <gmx:Anchor xlink:href="{{ record['identification'].get('license',{}).get('url') }}">{{ record['identification'].get('license',{}).get('name') }}</gmx:Anchor>
+          </gmd:otherConstraints>
+          {% else %}
+            {{ cs.get_freetext('otherConstraints', record.get('metadata',{}).get('language_alternate'), get_charstring(record['identification'].get('license',{}).get('name',''), record.get('metadata',{}).get('language'), record.get('metadata',{}).get('language_alternate'))) }}
+          {% endif %}
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
       <gmd:spatialRepresentationType>
         <gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeSpace="ISOTC211/19115" codeListValue="{{ record['spatial']['datatype'] }}">{{ record['spatial']['datatype'] }}</gmd:MD_SpatialRepresentationTypeCode>
       </gmd:spatialRepresentationType>
+      {% for res in record['spatial']['resolutions'] %}
+      <gmd:spatialResolution>
+        <gmd:MD_Resolution>
+          <gmd:distance>
+            <gco:Distance uom="{{ res['uom'] }}">{{ res['distance'] }}</gco:Distance>
+          </gmd:distance>
+        </gmd:MD_Resolution>
+      </gmd:spatialResolution>
+      {% endfor %}
+      {% for d in record['spatial']['denominators']  %}
+      <gmd:spatialResolution>
+        <gmd:MD_Resolution>
+          <gmd:equivalentScale>
+            <gmd:MD_RepresentativeFraction>
+              <gmd:denominator>
+                <gco:Integer>{{ d }}</gco:Integer>
+              </gmd:denominator>
+            </gmd:MD_RepresentativeFraction>
+          </gmd:equivalentScale>
+        </gmd:MD_Resolution>
+      </gmd:spatialResolution>
+      {% endfor %}
       {% if record['identification']['language'] in ['inapplicable', 'missing', 'template', 'unknown', 'withheld'] %}
       <gmd:language gco:nilReason="{{ record['identification']['language'] }}"/>
       {% else %}
@@ -267,7 +299,7 @@
           {% for spatial in record['identification']['extents']['spatial'] %}
           {% set bbox = spatial['bbox'] %}
           <gmd:geographicElement>
-            {% if spatial['crs'] != 4326 %}
+            {% if bbox and spatial['crs'] != 4326 %}
             <gmd:EX_BoundingPolygon>
               <gmd:extentTypeCode>
                 <gco:Boolean>1</gco:Boolean>
@@ -282,7 +314,7 @@
                 </gml:Polygon>
               </gmd:polygon>
             </gmd:EX_BoundingPolygon>
-            {% else %}
+            {% elif bbox %}
             <gmd:EX_GeographicBoundingBox>
               <gmd:extentTypeCode>
                 <gco:Boolean>1</gco:Boolean>
@@ -300,8 +332,7 @@
                 <gco:Decimal>{{ bbox[3] }}</gco:Decimal>
               </gmd:northBoundLatitude>
             </gmd:EX_GeographicBoundingBox>
-            {% endif %}
-            {% if spatial['description'] %}
+            {% elif spatial['description'] %}
             <gmd:EX_GeographicDescription>
               <gmd:MD_Identifier>
                 <gmd:code>
@@ -384,11 +415,17 @@
   <gmd:distributionInfo>
     <gmd:MD_Distribution>
       {% for k, v in record['distribution'].items() %}
-      {% if v['format'] and v['format_version'] %}
+      {% if v['format'] %}
       <gmd:distributionFormat>
         <gmd:MD_Format>
-          <gmd:name>{{ v['format'] }}</gmd:name>
-          <gmd:version>{{ v['format_version'] }}</gmd:version>
+          <gmd:name><gco:CharacterString>{{ v['format'] }}</gco:CharacterString></gmd:name>
+          {% if v['format_version'] %}
+          <gmd:version>
+            <gco:CharacterString>{{ v['format_version'] }}</gco:CharacterString>
+          </gmd:version>
+          {% else %}
+          <gmd:version gco:nilReason="missing"/>
+          {% endif %}
         </gmd:MD_Format>
       </gmd:distributionFormat>
       {% endif %}

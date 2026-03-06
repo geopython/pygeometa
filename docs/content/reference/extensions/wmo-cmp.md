@@ -1,7 +1,6 @@
 # WMO Core Metadata Profile Schema Reference
 
-This documentation focuses on the [WMO Core Metadata Profile](http://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf) based schema
-enhancements in pygeometa.
+This document describes [WMO Core Metadata Profile](https://wis.wmo.int/2013/metadata/version_1-3-0/WMO_Core_Metadata_Profile_v1.3_Part_1.pdf) schema extensions in pygeometa.
 
 ## Sections
 

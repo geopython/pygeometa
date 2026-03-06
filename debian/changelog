@@ -1,3 +1,54 @@
+pygeometa (0.19.0) noble; urgency=medium
+
+  * add support for schema.org
+  * safeguard ISO element parsing
+  * remove duplicate definition of dataset attributes
+  * add metadata.related_identifiers to MCF 
+  * add metadata.relations to MCF 
+  * replace identification.doi with metadata.additional_identifiers in MCF 
+  * update to Python 3.12
+  * update testing toolchain
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 04 Nov 2025 03:31:42 +0000
+
+pygeometa (0.18.0) jammy; urgency=medium
+
+  * add support for CWL parsing
+  * fix typo in error message
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Mon, 29 Sep 2025 20:54:23 +0000
+
+pygeometa (0.17.0) jammy; urgency=medium
+
+  * do not force ASCII on JSON dump, add json_dumps helper function
+  * OARec: remove properties.identifier
+  * OARec: add DOI support
+  * OARec: update to latest changes in standard
+  * fix pygeoapi plugin execute signature
+  * handle YYYY-MM-DDTHH:MM:SS date parsing
+  * use field uselimitation to set rights property and license in othercontstraints
+  * STAC: fix item provider output
+  * add support for import/transform schema autodetection
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Thu, 31 July 2025 12:11:32 +0000
+
+pygeometa (0.16.1) jammy; urgency=medium
+
+  * OARec: time and created/updated date-time fixes
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 27 Aug 2024 01:56:22 +0000
+
+pygeometa (0.16.0) focal; urgency=medium
+
+  * MCF core: make identification topiccategory, fees, accessconstraints, maintenancefrequency optional (#242)
+  * OARec: write keywords as theme/concepts if vocabulary exists (#233)
+  * OARec: safeguard properties.rights
+  * WMO WCMP2: various fixes based on specification updates
+  * CLI: add -o as short option for --output
+  * ISO: distribution: ensure format_version exists or emit gco:nilReason=missing (#240)
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Sun, 10 Mar 2024 23:07:13 +0000
+
 pygeometa (0.15.3) focal; urgency=medium
 
   * OARec bugfixes

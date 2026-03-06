@@ -84,6 +84,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
                 'version': '1.0',
             },
             'metadata': {},
+            'spatial': {},
             'identification': {},
             'contact': {},
             'distribution': {}
@@ -107,7 +108,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
         elif m.languagecode:
             mcf['metadata']['language'] = m.languagecode
 
-        identification = m.identification[0]
+        identification = next(iter(m.identification), {})
 
         LOGGER.debug('Setting identification')
         mcf['identification']['title'] = identification.title
@@ -132,19 +133,28 @@ class ISO19139OutputSchema(BaseOutputSchema):
                         'url': value.thesaurus['url']
                     }
 
+        if hasattr(identification, 'graphicoverview'):
+            mcf['identification']['browsegraphic'] = next(iter(identification.graphicoverview), None)  # noqa
+
         mcf['identification']['topiccategory'] = identification.topiccategory  # noqa
 
         mcf['identification']['extents'] = {
             'spatial': [{
-                'bbox': [
+                'bbox': []
+            }],
+            'temporal': []
+        }
+        try:
+            mcf['identification']['extents']['spatial'][0]['bbox'] = [
                     ast.literal_eval(identification.extent.boundingBox.minx),
                     ast.literal_eval(identification.extent.boundingBox.miny),
                     ast.literal_eval(identification.extent.boundingBox.maxx),
                     ast.literal_eval(identification.extent.boundingBox.maxy)
                 ]
-            }],
-            'temporal': []
-        }
+        except ValueError as err:
+            LOGGER.info(f'boundingBox empty: {err}')
+        except AttributeError as err:
+            LOGGER.info(f'boundingBox missing: {err}')
 
         temp_extent = {
             'begin': None,
@@ -158,15 +168,29 @@ class ISO19139OutputSchema(BaseOutputSchema):
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
-        if identification.accessconstraints:
-            mcf['identification']['accessconstraints'] = identification.accessconstraints[0]  # noqa
+        if hasattr(identification, 'denominators'):
+            mcf['spatial']['denominators'] = identification.denominators
+
+        if hasattr(identification, 'distance'):
+            mcf['spatial']['resolution'] = []
+            for k, v in enumerate(identification.distance):
+                uom = ''
+                if hasattr(identification, 'uom') and len(identification.uom) > k: # noqa
+                    uom = identification.uom[k]
+                mcf['spatial']['resolution'].append({'distance': v,
+                                                     'uom': uom})
+
+        if hasattr(identification, 'spatialrepresentationtype') and len(identification.spatialrepresentationtype) > 0:  # noqa
+            mcf['spatial']['datatype'] = next(iter(identification.spatialrepresentationtype), '') # noqa
+
+        if hasattr(identification, 'accessconstraints'):
+            mcf['identification']['accessconstraints'] = next(iter(identification.accessconstraints), '')  # noqa
 
         mcf['identification']['status'] = identification.status
 
         LOGGER.debug('Setting contacts')
-#        for contact in m.get_all_contacts():
-#            mcf['contact'].update(get_contact(contact))
-        mcf['contact'].update(get_contact(m.contact[0]))
+        for contact in m.get_all_contacts():
+            mcf['contact'].update(get_contact(contact))
 
         LOGGER.debug('Setting distribution')
         if m.distribution:

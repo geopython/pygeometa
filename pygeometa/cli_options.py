@@ -54,6 +54,7 @@ ARGUMENT_METADATA_FILE = click.argument('metadata-file', type=click.File())
 
 OPTION_OUTPUT = click.option(
     '--output',
+    '-o',
     type=click.File('w', encoding='utf-8'),
     help='Name of output file')
 

@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2022 Tom Kralidis
+# Copyright (c) 2024 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -46,17 +46,31 @@
 import base64
 from datetime import date, datetime, time
 from decimal import Decimal
+import json
 import logging
 from pathlib import Path
+from typing import Any
 
 LOGGER = logging.getLogger(__name__)
 
 THISDIR = Path(__file__).resolve().parent
 
 
-def json_serial(obj):
+def json_dumps(obj) -> str:
     """
-    helper function to convert to JSON non-default
+    Helper function to dump dict to JSON string
+
+    :param obj: `dict` of JSON
+
+    :returns: `str` of JSON
+    """
+
+    return json.dumps(obj, default=json_serial, indent=4, ensure_ascii=False)
+
+
+def json_serial(obj) -> Any:
+    """
+    Helper function to convert to JSON non-default
     types (source: https://stackoverflow.com/a/22238613)
 
     :param obj: `object` to be evaluated
@@ -79,3 +93,48 @@ def json_serial(obj):
     msg = f'{obj} type {type(obj)} not serializable'
     LOGGER.error(msg)
     raise TypeError(msg)
+
+
+def generate_datetime(date_value: str) -> str:
+    """
+    Helper function to derive RFC3339 date from MCF date type
+
+    :param date_value: `str` of date value
+
+    :returns: `str` of date-time value
+    """
+
+    value = None
+
+    if isinstance(date_value, str) and date_value != 'None':
+        if len(date_value) == 10:  # YYYY-MM-DD
+            format_ = '%Y-%m-%d'
+        elif len(date_value) == 7:  # YYYY-MM
+            format_ = '%Y-%m'
+        elif len(date_value) == 4:  # YYYY
+            format_ = '%Y'
+        elif len(date_value) == 19:  # YYYY-MM-DDTHH:MM:SS
+            msg = 'YYYY-MM-DDTHH:MM:SS with no timezone; converting to UTC'
+            LOGGER.debug(msg)
+            format_ = '%Y-%m-%dT%H:%M:%S'
+
+        LOGGER.debug('date type found; expanding to date-time')
+        value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+    elif isinstance(date_value, int) and len(str(date_value)) == 4:
+        date_value2 = str(date_value)
+        LOGGER.debug('date type found; expanding to date-time')
+        format_ = '%Y'
+        value = datetime.strptime(date_value2, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+
+    elif isinstance(date_value, (date, datetime)):
+        value = date_value.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    elif date_value in [None, 'None']:
+        value = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    else:
+        msg = f'Unknown date string: {date_value}'
+        raise RuntimeError(msg)
+
+    return value

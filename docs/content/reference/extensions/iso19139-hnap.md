@@ -1,6 +1,6 @@
 # HNAP Schema Reference
 
-This documentation focuses on unique HNAP schema specifities in pygeometa.
+This document describes HNAP schema extensions in pygeometa.
 
 ### `identification.keywords`
 
@@ -36,7 +36,7 @@ Example of valid HNAP distribution sections:
 ```yaml
 distribution:
     waf_fra-CAN:
-        url: http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
+        url: https://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
         type: WWW:LINK
         name:
             en: MSC Datamart
@@ -47,11 +47,11 @@ distribution:
         format:
             en: Other
             fr: Autre
-        format_version: 0
+        format_version: '0'
         function: download
         
     waf_eng-CAN:
-        url: http://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
+        url: https://dd.weather.gc.ca/model_gem_global/25km/grib2/lat_lon/
         type: WWW:LINK
         name:
             en: MSC Datamart
@@ -62,30 +62,30 @@ distribution:
         format:
             en: Other
             fr: Autre
-        format_version: 0
+        format_version: '0'
         function: download
         
     wms_eng-CAN:
-        url: http://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
+        url: https://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
         hnap_contenttype:
             en: Web Service
             fr: Service Web
         type: OGC:WMS
         format: WMS
-        format_version: 1.1.1
+        format_version: '1.1.1'
         name:
             en: GDPS.ETA_TT
             fr: GDPS.ETA_TT
         function: download
         
     wms_fra-CAN:
-        url: http://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
+        url: https://geo.weather.gc.ca/geomet/?lang=E&service=WMS&request=GetCapabilities&layers=GDPS.ETA_TT
         hnap_contenttype:
             en: Web Service
             fr: Service Web
         type: OGC:WMS
         format: WMS
-        format_version: 1.1.1
+        format_version: '1.1.1'
         name:
             en: GDPS.ETA_TT
             fr: GDPS.ETA_TT
