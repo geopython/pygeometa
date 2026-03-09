@@ -1,0 +1,40 @@
+[project]
+site_name = "pygeometa: Metadata Creation for the Rest of Us"
+site_description = "pygeometa is a Python package to manage metadata for geospatial datasets"
+site_author = "the pygeometa team"
+copyright = "© 2009-2025 Government of Canada, 2015-2026 pygeometa development team"
+site_url = "https://geopython.github.io/pygeometa"
+repo_url = "https://github.com/geopython/pygeometa"
+docs_dir = "content"
+edit_uri = "edit/master/content"
+
+nav = [
+    {"Code" = "https://github.com/geopython/pygeometa"},
+    {"Tutorial" = "tutorial.md"},
+    {"Reference" = [
+        {"Metadata Control File" = [
+          {"Core" = "reference/mcf.md"},
+          {"Extensions" = [
+            {"ISO 19115-2, Part 2: Extensions for acquisition and processing" = "reference/extensions/iso19139-2.md"},
+            {"ISO Harmonized North American Profile (HNAP)" = "reference/extensions/iso19139-hnap.md"},
+            {"WMO Core Metadata Profile" = "reference/extensions/wmo-cmp.md"},
+            {"WMO Core Metadata Profile 2" = "reference/extensions/wmo-wcmp2.md"},
+            {"WMO WIGOS Metadata Standard" = "reference/extensions/wmo-wigos.md"}
+          ]},
+        ]},
+      ]},
+    {"pygeoapi plugin" = "pygeoapi-plugin.md"}
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "navigation.top",
+  "navigation.tracking.prev_next",
+  "navigation.tracking.section"
+]
+
+[project.extra]
+homepage = "https://geopython.github.io/pygeometa"

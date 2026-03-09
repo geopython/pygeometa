@@ -18,6 +18,22 @@ jobs:
           python-version: '3.12'
       - name: Install requirements 📦
         run: |
-          pip3 install mkdocs
-      - name: Deploy 📦
-        run: cd docs && mkdocs gh-deploy --force -m 'update website'
+          pip3 install zensical
+      - name: Build site 📦
+        run: |
+          zensical build --clean --strict
+          mv site /tmp/
+      - name: checkout gh-pages branch
+        uses: actions/checkout@master
+        with:
+          ref: gh-pages
+      - name: Deploy to GitHub Pages 📦
+        run: |
+          git checkout gh-pages
+          git config --global user.email "tomkralidis@gmail.com"
+          git config --global user.name "Tom Kralidis"
+          ls | grep -v ".nojekyll"| xargs rm -fr
+          mv -f /tmp/site/* .
+          git add .
+          git commit -am "update website via GitHub Actions"
+          git push
