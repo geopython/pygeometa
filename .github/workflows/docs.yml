@@ -21,6 +21,7 @@ jobs:
           pip3 install zensical
       - name: Build site 📦
         run: |
+          cd docs
           zensical build --clean --strict
           mv site /tmp/
       - name: checkout gh-pages branch
