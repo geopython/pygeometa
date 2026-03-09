@@ -1,4 +1,4 @@
-# pygeometa Website
+# pygeometa website
 
 The pygeometa [website](https://geopython.github.io/pygeometa/) is powered
 by [Zensical](https://zensical.org) which facilitates easy management
