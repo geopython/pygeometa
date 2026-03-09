@@ -23,7 +23,7 @@ jobs:
         pip3 install ".[docs]"
         pip3 install ".[release]"
     - name: build docs 🏗️
-      run: mkdocs build -f docs/mkdocs.yml
+      run: cd docs && zensical build --clean --strict
     - name: run flake8 ⚙️
       run: flake8
     - name: build Python package 🏗️

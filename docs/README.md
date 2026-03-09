@@ -1,7 +1,7 @@
 # pygeometa Website
 
 The pygeometa [website](https://geopython.github.io/pygeometa/) is powered
-by [MkDocs](https://www.mkdocs.org) which facilitates easy management
+by [Zensical](https://zensical.org) which facilitates easy management
 of website content and publishing.
 
 ## Setting up the website environment locally
@@ -16,9 +16,9 @@ git clone https://github.com/geopython/pygeometa.git
 pip3 install -r requirements-dev.txt
 cd pygeometa/doc
 # build the website
-mkdocs build
+zensical build --clean --strict
 # serve locally
-mkdocs serve  # website is made available on http://localhost:8000/
+zensical serve  # website is made available on http://localhost:8000/
 ```
 
 ## Content management workflow
@@ -39,10 +39,10 @@ The basic workflow is as follows:
 
 ```bash
 vi content/new-page.md  # add content
-vi mkdocs.yml  # add to navigation section
+vi zensical.toml # add to navigation section
 # edit any other files necessary which may want to link to the new page
 git add content/new-page.md
-git commit -m 'add new page on topic x' content/new-page.md mkdocs.yml
+git commit -m 'add new page on topic x' content/new-page.md zensical.toml
 git push origin master
 ```
 
@@ -56,8 +56,4 @@ git push origin master
 
 ## Publishing updates to the live site
 
-```bash
-# NOTE: you require access privileges to the GitHub repository
-# to publish live updates
-mkdocs gh-deploy -m 'add new page on topic x'
-```
+Website updates are automatically published via GitHub Actions.

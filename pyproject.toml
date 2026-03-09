@@ -36,7 +36,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["flake8"]
-docs = ["mkdocs", "mkdocs-bootswatch"]
+docs = ["zensical"]
 release = ["build", "twine", "wheel"]
 
 [project.scripts]
