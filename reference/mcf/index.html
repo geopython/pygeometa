@@ -1,181 +1,902 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="pygeometa is a Python package to manage metadata for geospatial datasets">
+      
+      
         <meta name="author" content="the pygeometa team">
+      
+      
         <link rel="canonical" href="https://geopython.github.io/pygeometa/reference/mcf/">
-        <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Core - pygeometa: Metadata Creation for the Rest of Us</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../css/brands.min.css" rel="stylesheet">
-        <link href="../../css/solid.min.css" rel="stylesheet">
-        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+      
+        <link rel="prev" href="../../tutorial/">
+      
+      
+        <link rel="next" href="../extensions/iso19139-2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.24">
+    
+    
+      
+        <title>Metadata Control File Reference - pygeometa: Metadata Creation for the Rest of Us</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.28978c9b.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../..">pygeometa: Metadata Creation for the Rest of Us</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="https://github.com/geopython/pygeometa" class="nav-link">Code</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../../tutorial/" class="nav-link">Tutorial</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Reference</a>
-                                <ul class="dropdown-menu">
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Metadata Control File</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">Core</a>
-</li>
-            
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Extensions</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../extensions/iso19139-2/" class="dropdown-item">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
-</li>
-            
-<li>
-    <a href="../extensions/iso19139-hnap/" class="dropdown-item">ISO Harmonized North American Profile (HNAP)</a>
-</li>
-            
-<li>
-    <a href="../extensions/wmo-cmp/" class="dropdown-item">WMO Core Metadata Profile</a>
-</li>
-            
-<li>
-    <a href="../extensions/wmo-wcmp2/" class="dropdown-item">WMO Core Metadata Profile 2</a>
-</li>
-            
-<li>
-    <a href="../extensions/wmo-wigos/" class="dropdown-item">WMO WIGOS Metadata Standard</a>
-</li>
-    </ul>
-  </li>
-    </ul>
-  </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../../pygeoapi-plugin/" class="nav-link">pygeoapi plugin</a>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../../tutorial/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../extensions/iso19139-2/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/reference/mcf.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#metadata-control-file-reference" class="nav-link">Metadata Control File Reference</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#basic-concepts" class="nav-link">Basic Concepts</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#file-extension" class="nav-link">File extension</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#version-format" class="nav-link">Version format</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#encoding" class="nav-link">Encoding</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#nesting-mcfs" class="nav-link">Nesting MCFs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#environment-variables" class="nav-link">Environment variables</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#multilingual-support" class="nav-link">Multilingual support</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#keyword-substitution" class="nav-link">Keyword Substitution</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#reference" class="nav-link">Reference</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#sections" class="nav-link">Sections</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
 
-<h1 id="metadata-control-file-reference">Metadata Control File Reference</h1>
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#metadata-control-file-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://geopython.github.io/pygeometa" title="pygeometa: Metadata Creation for the Rest of Us" class="md-header__button md-logo" aria-label="pygeometa: Metadata Creation for the Rest of Us" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pygeometa: Metadata Creation for the Rest of Us
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Metadata Control File Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/geopython/pygeometa" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://geopython.github.io/pygeometa" title="pygeometa: Metadata Creation for the Rest of Us" class="md-nav__button md-logo" aria-label="pygeometa: Metadata Creation for the Rest of Us" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    pygeometa: Metadata Creation for the Rest of Us
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/geopython/pygeometa" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/geopython/pygeometa" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata Control File
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata Control File
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nesting-mcfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nesting MCFs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multilingual-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multilingual support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyword-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyword Substitution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/iso19139-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO 19115-2, Part 2: Extensions for acquisition and processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/iso19139-hnap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO Harmonized North American Profile (HNAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/wmo-cmp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO Core Metadata Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/wmo-wcmp2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO Core Metadata Profile 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extensions/wmo-wigos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO WIGOS Metadata Standard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pygeoapi-plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pygeoapi plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encoding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nesting-mcfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nesting MCFs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multilingual-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multilingual support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyword-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyword Substitution
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+    <a href="https://github.com/geopython/pygeometa/edit/master/content/reference/mcf.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/geopython/pygeometa/raw/master/content/reference/mcf.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code-2" viewBox="0 0 24 24"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5M5 16l-3 3 3 3M9 22l3-3-3-3"/></svg>
+    </a>
+  
+
+
+<h1 id="metadata-control-file-reference">Metadata Control File Reference<a class="headerlink" href="#metadata-control-file-reference" title="Permanent link">&para;</a></h1>
 <p>Version: 1.0</p>
-<h2 id="basic-concepts">Basic Concepts</h2>
+<h2 id="basic-concepts">Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Section names are case sensitive</li>
 <li>Section parameter names are case sensitive</li>
@@ -194,23 +915,23 @@
 </li>
 <li>For colons (<code>:</code>) in text values, use quotation marks (<code>"</code> or <code>'</code>) on either side of your text to avoid parsing errors</li>
 </ul>
-<h2 id="file-extension">File extension</h2>
+<h2 id="file-extension">File extension<a class="headerlink" href="#file-extension" title="Permanent link">&para;</a></h2>
 <p>MCFs do not require a fixed file extension, although typical file extensions used over time have included <code>.mcf</code>, <code>.yaml</code>, <code>.yml</code>.  Starting with 0.20.0, the file extension <strong>convention</strong> is <code>.mcf.yml</code> (example: <code>sample.mcf.yml</code>).  Using <code>.mcf.yml</code> will also enable associating opening the MCF file with a given application on your system.</p>
-<h2 id="version-format">Version format</h2>
+<h2 id="version-format">Version format<a class="headerlink" href="#version-format" title="Permanent link">&para;</a></h2>
 <p>MCFs are versioned using X.Y (MAJOR.MINOR changes) format. If a non supported MCF version is provided, pygeometa will throw an error and stop processing the MCF. Thus, the user must provide a valid and supported MCF version to generate the metadata.</p>
-<h2 id="encoding">Encoding</h2>
+<h2 id="encoding">Encoding<a class="headerlink" href="#encoding" title="Permanent link">&para;</a></h2>
 <p>The MCF <strong>MUST</strong> be UTF-8 encoded.  That is all.</p>
-<pre><code class="language-bash"># editing in vim
-# :set encoding=utf8
-# pasting in vim
-# in insert mode, hit CTRL-V $CODE, where $CODE is as per https://www.htmlhelp.com/reference/charset
-# to see how the file is actually encoded on disk
-file --mime-encoding file.txt
-file -i file.txt
-# to convert from one encoding to another
-iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
-</code></pre>
-<h2 id="nesting-mcfs">Nesting MCFs</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># editing in vim</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># :set encoding=utf8</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># pasting in vim</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># in insert mode, hit CTRL-V $CODE, where $CODE is as per https://www.htmlhelp.com/reference/charset</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># to see how the file is actually encoded on disk</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>file<span class="w"> </span>--mime-encoding<span class="w"> </span>file.txt
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>file<span class="w"> </span>-i<span class="w"> </span>file.txt
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># to convert from one encoding to another</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>iconv<span class="w"> </span>-f<span class="w"> </span>iso8859-1<span class="w"> </span>-t<span class="w"> </span>utf-8<span class="w"> </span>file.yml<span class="w"> </span>&gt;<span class="w"> </span>file.yml.new
+</span></code></pre></div>
+<h2 id="nesting-mcfs">Nesting MCFs<a class="headerlink" href="#nesting-mcfs" title="Permanent link">&para;</a></h2>
 <p>In the case where the user is generating metadata for multiple datasets which have common information, it becomes efficient to nest MCFs. pygeometa allows chaining MCFs to inherit values from other MCFs. Example: multiple datasets MCFs can refer a single MCF that contain contact information common to all those datasets.</p>
 <p>To use MCF nesting:</p>
 <ul>
@@ -227,13 +948,13 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
 </li>
 <li>MCFs can be nested in chains, meaning a MCF can be use a 'child' MCF and be used by a 'parent' MCF</li>
 </ul>
-<h2 id="environment-variables">Environment variables</h2>
+<h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <p>pygeometa supports use of environment variables, using the notation in the example MCF snippet below:</p>
-<pre><code class="language-yaml">metadata:
-    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
-    parentidentifier: ${COLLECTION_ID}
-</code></pre>
-<h2 id="multilingual-support">Multilingual support</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">identifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3f342f64-9348-11df-ba6a-0014c2c00eab</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">parentidentifier</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${COLLECTION_ID}</span>
+</span></code></pre></div>
+<h2 id="multilingual-support">Multilingual support<a class="headerlink" href="#multilingual-support" title="Permanent link">&para;</a></h2>
 <p>pygeometa supports default and alternate languages in ISO metadata.</p>
 <p>Multilingual support is driven by the following sections in <code>[metadata]</code>:</p>
 <ul>
@@ -241,26 +962,26 @@ iconv -f iso8859-1 -t utf-8 file.yml &gt; file.yml.new
 <li><code>language_alternate</code>: 2 letter language code (i.e. <code>en</code>, <code>fr</code>) of secondary language</li>
 </ul>
 <p>Example:</p>
-<pre><code class="language-yaml">metadata:
-    language: en
-    language_alternate: fr
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">en</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">language_alternate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fr</span>
+</span></code></pre></div>
 <p>If <code>language_alternate</code> is not defined or missing, pygeometa assumes a single language.</p>
 <p>Values which support multilingual values can be specified with as keys to denote the respective language.  Examples:</p>
-<pre><code class="language-yaml"># single language
-title: foo
-
-# single language, explicit
-title:
-    en: foo
-
-# two languages, explicit
-title:
-    en: foo
-    fr: bar
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># single language</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># single language, explicit</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nt">title</span><span class="p">:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># two languages, explicit</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nt">title</span><span class="p">:</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">fr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar</span>
+</span></code></pre></div>
 <p>The <code>language</code> value in the <code>metadata</code> section <strong>must</strong> be a 2 letter language code (e.g. <code>es</code> for Spanish).</p>
-<h2 id="keyword-substitution">Keyword Substitution</h2>
+<h2 id="keyword-substitution">Keyword Substitution<a class="headerlink" href="#keyword-substitution" title="Permanent link">&para;</a></h2>
 <p>pygeometa supports using the following keyword substitutions:</p>
 <table>
 <thead>
@@ -292,9 +1013,9 @@ title:
 </tr>
 </tbody>
 </table>
-<h1 id="reference">Reference</h1>
-<h2 id="sections">Sections</h2>
-<h3 id="mcf"><code>mcf</code></h3>
+<h1 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h1>
+<h2 id="sections">Sections<a class="headerlink" href="#sections" title="Permanent link">&para;</a></h2>
+<h3 id="mcf"><code>mcf</code><a class="headerlink" href="#mcf" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -315,7 +1036,7 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="metadata"><code>metadata</code></h3>
+<h3 id="metadata"><code>metadata</code><a class="headerlink" href="#metadata" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -372,7 +1093,7 @@ title:
 <tr>
 <td>datestamp</td>
 <td>Mandatory</td>
-<td>date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time</td>
+<td>date that the metadata was created, pygeometa supports specifying the <span class="arithmatex">\(date\)</span> or <span class="arithmatex">\(datetime\)</span> variable to update the date value at run time</td>
 <td>2000-11-11 or 2000-01-12T11:11:11Z</td>
 <td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
 </tr>
@@ -385,7 +1106,7 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="metadataadditional_identifiers"><code>metadata.additional_identifiers</code></h3>
+<h3 id="metadataadditional_identifiers"><code>metadata.additional_identifiers</code><a class="headerlink" href="#metadataadditional_identifiers" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -408,12 +1129,12 @@ title:
 <td>scheme</td>
 <td>Optional</td>
 <td>scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI</td>
-<td>https://doi.org</td>
+<td><a href="https://doi.org">https://doi.org</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
 </tr>
 </tbody>
 </table>
-<h3 id="metadatarelations"><code>metadata.relations</code></h3>
+<h3 id="metadatarelations"><code>metadata.relations</code><a class="headerlink" href="#metadatarelations" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -436,7 +1157,7 @@ title:
 <td>scheme</td>
 <td>Optional</td>
 <td>scheme in which this identifier is defined (e.g. ark, doi, handle, isbn, lccn, sku).  Note that the schema may also be a URI</td>
-<td>https://doi.org</td>
+<td><a href="https://doi.org">https://doi.org</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
 </tr>
 <tr>
@@ -448,7 +1169,7 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="spatial"><code>spatial</code></h3>
+<h3 id="spatial"><code>spatial</code><a class="headerlink" href="#spatial" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -497,7 +1218,7 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="identification"><code>identification</code></h3>
+<h3 id="identification"><code>identification</code><a class="headerlink" href="#identification" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -568,15 +1289,15 @@ title:
 <tr>
 <td>rights</td>
 <td>Mandatory</td>
-<td>Information about rights held in and over the resource. pygeometa supports using the $year$ variable to update the year value at run time.</td>
-<td>Copyright (c) 2010 Her Majesty the Queen in Right of Canada</td>
+<td>Information about rights held in and over the resource. pygeometa supports using the <span class="arithmatex">\(year\)</span> variable to update the year value at run time.</td>
+<td>Copyright &copy; 2010 Her Majesty the Queen in Right of Canada</td>
 <td style="text-align: right;">DMCI 1.1</td>
 </tr>
 <tr>
 <td>url</td>
 <td>Mandatory</td>
 <td>URL of the dataset to which the metadata applies</td>
-<td>https://example.org/data</td>
+<td><a href="https://example.org/data">https://example.org/data</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.2.1</td>
 </tr>
 <tr>
@@ -597,12 +1318,12 @@ title:
 <td>browsegraphic</td>
 <td>Optional</td>
 <td>graphic that provides an illustration of the dataset</td>
-<td>https://example.org/dataset.png</td>
+<td><a href="https://example.org/dataset.png">https://example.org/dataset.png</a></td>
 <td style="text-align: right;">ISO 19115:2003 B.2.2.2</td>
 </tr>
 </tbody>
 </table>
-<h4 id="identificationdates"><code>identification.dates</code></h4>
+<h4 id="identificationdates"><code>identification.dates</code><a class="headerlink" href="#identificationdates" title="Permanent link">&para;</a></h4>
 <p><code>identification.dates</code> sections can have 1..n <code>dates</code> sections as required with the following object names/types:</p>
 <table>
 <thead>
@@ -638,13 +1359,13 @@ title:
 </tr>
 </tbody>
 </table>
-<pre><code class="language-yaml">identification:
-    ...
-    dates:
-        creation: 2011-11-11
-        publication: 2000-09-01T00:00:00Z
-</code></pre>
-<h4 id="identificationextents"><code>identification.extents</code></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">identification</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">dates</span><span class="p p-Indicator">:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="nt">creation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2011-11-11</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="nt">publication</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000-09-01T00:00:00Z</span>
+</span></code></pre></div>
+<h4 id="identificationextents"><code>identification.extents</code><a class="headerlink" href="#identificationextents" title="Permanent link">&para;</a></h4>
 <p><code>identification.extents</code> sections can have 1..n <code>spatial</code> and <code>temporal</code> sections as required with the following properties.</p>
 <table>
 <thead>
@@ -701,37 +1422,37 @@ title:
 </tr>
 </tbody>
 </table>
-<pre><code class="language-yaml">identification:
-    ...
-    extents:
-        spatial:
-            - bbox: [-141,42,-52,84]
-              crs: 4326
-        temporal:
-            - begin: 1950-07-31
-              end: now
-              resolution: P1D
-</code></pre>
-<h4 id="identificationkeywords"><code>identification.keywords</code></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">identification</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">extents</span><span class="p p-Indicator">:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="nt">spatial</span><span class="p">:</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">bbox</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-141</span><span class="p p-Indicator">,</span><span class="nv">42</span><span class="p p-Indicator">,</span><span class="nv">-52</span><span class="p p-Indicator">,</span><span class="nv">84</span><span class="p p-Indicator">]</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">              </span><span class="nt">crs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4326</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="nt">temporal</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">begin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1950-07-31</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">              </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">now</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">              </span><span class="nt">resolution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">P1D</span>
+</span></code></pre></div>
+<h4 id="identificationkeywords"><code>identification.keywords</code><a class="headerlink" href="#identificationkeywords" title="Permanent link">&para;</a></h4>
 <p><code>identification</code> sections can have 1..n <code>keywords</code> sections as required using nesting.  Example:</p>
-<pre><code class="language-yaml">identification:
-    ...
-    keywords:
-        default:
-            keywords:
-                en: [foo1, bar1]
-                fr: [foo2, bar2]
-            keywords_type: theme
-            vocabulary:
-                name: my vocabulary
-                url: https://example.org/vocab
-        wmo:
-            keywords:
-                en: [foo3, bar3]
-                fr: [foo4, bar4]
-            keywords_type: theme
-            keywords_codelist: https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">identification</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">keywords</span><span class="p p-Indicator">:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">        </span><span class="nt">default</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">            </span><span class="nt">keywords</span><span class="p">:</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">                </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">foo1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">bar1</span><span class="p p-Indicator">]</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">                </span><span class="nt">fr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">foo2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">bar2</span><span class="p p-Indicator">]</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">            </span><span class="nt">keywords_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">theme</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">            </span><span class="nt">vocabulary</span><span class="p">:</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my vocabulary</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">                </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://example.org/vocab</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nt">wmo</span><span class="p">:</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">            </span><span class="nt">keywords</span><span class="p">:</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">                </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">foo3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">bar3</span><span class="p p-Indicator">]</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">                </span><span class="nt">fr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">foo4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">bar4</span><span class="p p-Indicator">]</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">            </span><span class="nt">keywords_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">theme</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">            </span><span class="nt">keywords_codelist</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode</span>
+</span></code></pre></div>
 <p>Schema specific keywords sections</p>
 <ul>
 <li><code>wmo</code>: World Meteorological Organization keywords (used for WMO Core Metadata Profile)</li>
@@ -770,12 +1491,12 @@ title:
 <td>keywords_codelist</td>
 <td>Optional</td>
 <td>specific code list URL (for advanced use cases, else the default is as per the given specified schema)</td>
-<td>https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml</td>
+<td><a href="https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml">https://wis.wmo.int/2011/schemata/iso19139_2007/schema/resources/Codelist/gmxCodelists.xml</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.2.2.3</td>
 </tr>
 </tbody>
 </table>
-<h5 id="identificationkeywordsvocabulary"><code>identification.keywords.vocabulary</code></h5>
+<h5 id="identificationkeywordsvocabulary"><code>identification.keywords.vocabulary</code><a class="headerlink" href="#identificationkeywordsvocabulary" title="Permanent link">&para;</a></h5>
 <p><code>identification.keywords</code> sections can specify an optional <code>vocabulary</code> section with the following elements:</p>
 <table>
 <thead>
@@ -799,12 +1520,12 @@ title:
 <td>url</td>
 <td>Optional</td>
 <td>URL of source of keywords</td>
-<td>https://example.org/my-vocab</td>
+<td><a href="https://example.org/my-vocab">https://example.org/my-vocab</a></td>
 <td style="text-align: right;">-</td>
 </tr>
 </tbody>
 </table>
-<h5 id="identificationlicense"><code>identification.license</code></h5>
+<h5 id="identificationlicense"><code>identification.license</code><a class="headerlink" href="#identificationlicense" title="Permanent link">&para;</a></h5>
 <p><code>identification.license</code> sections can provide a optinoal license via a name or URL using the following elements:</p>
 <table>
 <thead>
@@ -828,12 +1549,12 @@ title:
 <td>url</td>
 <td>Optional</td>
 <td>URL of license</td>
-<td>https://creativecommons.org/licenses/by/4.0</td>
+<td><a href="https://creativecommons.org/licenses/by/4.0">https://creativecommons.org/licenses/by/4.0</a></td>
 <td style="text-align: right;">-</td>
 </tr>
 </tbody>
 </table>
-<h3 id="content_info"><code>content_info</code></h3>
+<h3 id="content_info"><code>content_info</code><a class="headerlink" href="#content_info" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -868,18 +1589,18 @@ title:
 </tr>
 </tbody>
 </table>
-<h4 id="content_infoattributes"><code>content_info.attributes</code></h4>
+<h4 id="content_infoattributes"><code>content_info.attributes</code><a class="headerlink" href="#content_infoattributes" title="Permanent link">&para;</a></h4>
 <p><code>content_info</code> sections can have 1..n <code>attributes</code> sections as required using nesting.  Example:</p>
-<pre><code class="language-yaml">attributes:
-    - name: temperature
-      title:
-          en: Air temperature
-      abstract:
-          en: Description of air temperature attribute
-      type: number
-      units: K
-      values: [1.2, 2.5, 1.3]
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">attributes</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">temperature</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">      </span><span class="nt">title</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">          </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Air temperature</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">      </span><span class="nt">abstract</span><span class="p">:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">          </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Description of air temperature attribute</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">      </span><span class="nt">units</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">K</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">      </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.3</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -931,7 +1652,7 @@ title:
 <td>Optional</td>
 <td>SI units</td>
 <td>K</td>
-<td style="text-align: right;">https://en.wikipedia.org/wiki/International_System_of_Units</td>
+<td style="text-align: right;"><a href="https://en.wikipedia.org/wiki/International_System_of_Units">https://en.wikipedia.org/wiki/International_System_of_Units</a></td>
 </tr>
 <tr>
 <td>values</td>
@@ -942,9 +1663,9 @@ title:
 </tr>
 </tbody>
 </table>
-<h5 id="content_infoattributesvalues"><code>content_info.attributes.values</code></h5>
+<h5 id="content_infoattributesvalues"><code>content_info.attributes.values</code><a class="headerlink" href="#content_infoattributesvalues" title="Permanent link">&para;</a></h5>
 <p>Attributes may also provide the values within a given domain, via one of the following constructs:</p>
-<h6 id="content_infoattributesvaluesenum"><code>content_info.attributes.values.enum</code></h6>
+<h6 id="content_infoattributesvaluesenum"><code>content_info.attributes.values.enum</code><a class="headerlink" href="#content_infoattributesvaluesenum" title="Permanent link">&para;</a></h6>
 <table>
 <thead>
 <tr>
@@ -966,10 +1687,10 @@ title:
 </tbody>
 </table>
 <p>Example:</p>
-<pre><code class="language-yaml"> values:
-    enum: [1, 2, 3. 4]
-</code></pre>
-<h6 id="content_infoattributesvaluesrange"><code>content_info.attributes.values.range</code></h6>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w"> </span><span class="nt">values</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nt">enum</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3. 4</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
+<h6 id="content_infoattributesvaluesrange"><code>content_info.attributes.values.range</code><a class="headerlink" href="#content_infoattributesvaluesrange" title="Permanent link">&para;</a></h6>
 <table>
 <thead>
 <tr>
@@ -991,10 +1712,10 @@ title:
 </tbody>
 </table>
 <p>Example:</p>
-<pre><code class="language-yaml"> values:
-    range: [1, 4]
-</code></pre>
-<h6 id="content_infoattributesvaluescodelist"><code>content_info.attributes.values.codelist</code></h6>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w"> </span><span class="nt">values</span><span class="p">:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
+<h6 id="content_infoattributesvaluescodelist"><code>content_info.attributes.values.codelist</code><a class="headerlink" href="#content_infoattributesvaluescodelist" title="Permanent link">&para;</a></h6>
 <table>
 <thead>
 <tr>
@@ -1038,22 +1759,22 @@ title:
 <td>codelist.url</td>
 <td>Optional</td>
 <td>URL with more information about the value</td>
-<td>https://example.org/foo</td>
+<td><a href="https://example.org/foo">https://example.org/foo</a></td>
 <td style="text-align: right;"></td>
 </tr>
 </tbody>
 </table>
 <p>Example:</p>
-<pre><code class="language-yaml">values:
-    codelist:
-     - name: foo
-       title:
-           en: foo title
-       abstract:
-           en: foo description
-       url: https://example.org/values/foo
-</code></pre>
-<h4 id="content_infodimensions"><code>content_info.dimensions</code></h4>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">values</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="nt">codelist</span><span class="p">:</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">       </span><span class="nt">title</span><span class="p">:</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">           </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo title</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">       </span><span class="nt">abstract</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">           </span><span class="nt">en</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">foo description</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">       </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://example.org/values/foo</span>
+</span></code></pre></div>
+<h4 id="content_infodimensions"><code>content_info.dimensions</code><a class="headerlink" href="#content_infodimensions" title="Permanent link">&para;</a></h4>
 <p><code>content_info</code> objects support 1..n <code>dimension</code> objects.</p>
 <table>
 <thead>
@@ -1096,14 +1817,14 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="contact"><code>contact</code></h3>
+<h3 id="contact"><code>contact</code><a class="headerlink" href="#contact" title="Permanent link">&para;</a></h3>
 <p>MCFs can have 1..n <code>contact</code> sections as required using nesting.  Example:</p>
-<pre><code class="language-yaml">contact:
-    pointOfContact:
-        ....
-    distributor:
-        ....
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">contact</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nt">pointOfContact</span><span class="p">:</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">distributor</span><span class="p">:</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+</span></code></pre></div>
 <p>The <code>contact.pointOfContact</code> section provides information for the <code>pointOfContact</code> role (see ISO 19115:2003 Section B.3.2.1).  This section is minimally required.</p>
 <p>Within each <code>contact</code> section, the following elements are supported:</p>
 <table>
@@ -1128,7 +1849,7 @@ title:
 <td>url</td>
 <td>Mandatory</td>
 <td>on-line information that can be used to contact the individual or organization</td>
-<td>https://example.org/data</td>
+<td><a href="https://example.org/data">https://example.org/data</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.3.2.3</td>
 </tr>
 <tr>
@@ -1198,7 +1919,7 @@ title:
 <td>email</td>
 <td>Mandatory</td>
 <td>address of the electronic mailbox of the responsible organization or individual</td>
-<td>foo@bar.tld</td>
+<td><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#102;&#111;&#111;&#64;&#98;&#97;&#114;&#46;&#116;&#108;&#100;">&#102;&#111;&#111;&#64;&#98;&#97;&#114;&#46;&#116;&#108;&#100;</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.3.2.2</td>
 </tr>
 <tr>
@@ -1217,23 +1938,23 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="contactdistributor"><code>contact.distributor</code></h3>
+<h3 id="contactdistributor"><code>contact.distributor</code><a class="headerlink" href="#contactdistributor" title="Permanent link">&para;</a></h3>
 <p>The <code>contact.distributor</code> section provides information for the <code>distributor</code> role (see ISO 19115:2003 Section B.3.2.1) and has the identical structure as <code>contact.pointOfContact</code>.</p>
 <p>If contact information is the same for both, use YAML node anchors and references to have it provided in both sections in the metadata:</p>
-<pre><code class="language-yaml">contact:
-    pointOfContact: &amp;id_contact_poc
-        ...
-
-    distributor: *id_contact_poc
-</code></pre>
-<h3 id="distribution"><code>distribution</code></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">contact</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="nt">pointOfContact</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;id_contact_poc</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">distributor</span><span class="p">:</span><span class="w"> </span><span class="nv">*id_contact_poc</span>
+</span></code></pre></div>
+<h3 id="distribution"><code>distribution</code><a class="headerlink" href="#distribution" title="Permanent link">&para;</a></h3>
 <p>MCFs can have 1..n <code>distribution</code> sections as required using nesting.  Example:</p>
-<pre><code class="language-yaml">distribution:
-    wms:
-        ....
-    waf:
-        ....
-</code></pre>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">distribution</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="nt">wms</span><span class="p">:</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">waf</span><span class="p">:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+</span></code></pre></div>
 <p>Within each <code>distribution</code> section, the following elements are supported:</p>
 <table>
 <thead>
@@ -1249,14 +1970,14 @@ title:
 <tr>
 <td>url</td>
 <td>Mandatory</td>
-<td>location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as http://www.isotc211.org/</td>
-<td>https://example.org/data</td>
+<td>location (address) for on-line access using a Uniform Resource Locator address or similar addressing scheme such as <a href="http://www.isotc211.org/">http://www.isotc211.org/</a></td>
+<td><a href="https://example.org/data">https://example.org/data</a></td>
 <td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
 </tr>
 <tr>
 <td>type</td>
 <td>Mandatory</td>
-<td>connection protocol to be used.  Must be one of the <code>identifier</code> values from https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv</td>
+<td>connection protocol to be used.  Must be one of the <code>identifier</code> values from <a href="https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv">https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv</a></td>
 <td>WWW:LINK</td>
 <td style="text-align: right;">ISO 19115:2003 Section B.3.2.5</td>
 </tr>
@@ -1311,7 +2032,7 @@ title:
 </tr>
 </tbody>
 </table>
-<h3 id="dataquality"><code>dataquality</code></h3>
+<h3 id="dataquality"><code>dataquality</code><a class="headerlink" href="#dataquality" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1338,83 +2059,74 @@ title:
 <td style="text-align: right;">ISO 19115:2003 Section B.2.4.2.1</td>
 </tr>
 </tbody>
-</table></div>
-            </div>
-        </div>
+</table>
 
-        <footer class="col-md-12">
-            <hr>
-                <p>Copyright (c) 2009-2025 Government of Canada, 2015-2026 pygeometa development team</p>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "../..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../../js/base.js"></script>
-        <script src="../../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2009-2025 Government of Canada, 2015-2026 pygeometa development team
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["content.action.edit","content.action.view","navigation.top","navigation.tracking.prev_next","navigation.tracking.section"],"search":"../../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.16f8adc2.min.js"></script>
+      
+    
+  </body>
 </html>

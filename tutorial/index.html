@@ -1,175 +1,1267 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="pygeometa is a Python package to manage metadata for geospatial datasets">
+      
+      
         <meta name="author" content="the pygeometa team">
+      
+      
         <link rel="canonical" href="https://geopython.github.io/pygeometa/tutorial/">
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Tutorial - pygeometa: Metadata Creation for the Rest of Us</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../css/brands.min.css" rel="stylesheet">
-        <link href="../css/solid.min.css" rel="stylesheet">
-        <link href="../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
+      
+      
+        <link rel="prev" href="https://github.com/geopython/pygeometa">
+      
+      
+        <link rel="next" href="../reference/mcf/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.24">
+    
+    
+      
+        <title>pygeometa Tutorial - pygeometa: Metadata Creation for the Rest of Us</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.28978c9b.min.css">
+      
+      
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="..">pygeometa: Metadata Creation for the Rest of Us</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="https://github.com/geopython/pygeometa" class="nav-link">Code</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Tutorial</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Reference</a>
-                                <ul class="dropdown-menu">
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Metadata Control File</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../reference/mcf/" class="dropdown-item">Core</a>
-</li>
-            
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Extensions</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../reference/extensions/iso19139-2/" class="dropdown-item">ISO 19115-2, Part 2: Extensions for acquisition and processing</a>
-</li>
-            
-<li>
-    <a href="../reference/extensions/iso19139-hnap/" class="dropdown-item">ISO Harmonized North American Profile (HNAP)</a>
-</li>
-            
-<li>
-    <a href="../reference/extensions/wmo-cmp/" class="dropdown-item">WMO Core Metadata Profile</a>
-</li>
-            
-<li>
-    <a href="../reference/extensions/wmo-wcmp2/" class="dropdown-item">WMO Core Metadata Profile 2</a>
-</li>
-            
-<li>
-    <a href="../reference/extensions/wmo-wigos/" class="dropdown-item">WMO WIGOS Metadata Standard</a>
-</li>
-    </ul>
-  </li>
-    </ul>
-  </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../pygeoapi-plugin/" class="nav-link">pygeoapi plugin</a>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../reference/mcf/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/geopython/pygeometa/edit/master/docs/content/tutorial.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#pygeometa-tutorial" class="nav-link">pygeometa Tutorial</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#for-users" class="nav-link">For Users</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#for-developers" class="nav-link">For Developers</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#development" class="nav-link">Development</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#releasing" class="nav-link">Releasing</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#history" class="nav-link">History</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
 
-<h1 id="pygeometa-tutorial">pygeometa Tutorial</h1>
-<h2 id="overview">Overview</h2>
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pygeometa-tutorial" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://geopython.github.io/pygeometa" title="pygeometa: Metadata Creation for the Rest of Us" class="md-header__button md-logo" aria-label="pygeometa: Metadata Creation for the Rest of Us" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            pygeometa: Metadata Creation for the Rest of Us
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pygeometa Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/geopython/pygeometa" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://geopython.github.io/pygeometa" title="pygeometa: Metadata Creation for the Rest of Us" class="md-nav__button md-logo" aria-label="pygeometa: Metadata Creation for the Rest of Us" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    pygeometa: Metadata Creation for the Rest of Us
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/geopython/pygeometa" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/geopython/pygeometa" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Users
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="For Users">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Developers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="For Developers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-package-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Package from Source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-api-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the API from Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-a-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up a Development Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-metadata-schema-to-the-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a Metadata Schema to the Core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a Metadata Schema to the Core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jinja2-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jinja2 templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Releasing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Releasing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Conventions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugs-and-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bugs and Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        History
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metadata Control File
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metadata Control File
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/mcf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/extensions/iso19139-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO 19115-2, Part 2: Extensions for acquisition and processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/extensions/iso19139-hnap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO Harmonized North American Profile (HNAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/extensions/wmo-cmp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO Core Metadata Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/extensions/wmo-wcmp2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO Core Metadata Profile 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/extensions/wmo-wigos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WMO WIGOS Metadata Standard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pygeoapi-plugin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pygeoapi plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Users
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="For Users">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Developers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="For Developers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-package-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the Package from Source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-api-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the API from Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-a-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setting up a Development Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-metadata-schema-to-the-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a Metadata Schema to the Core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a Metadata Schema to the Core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jinja2-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jinja2 templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Releasing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Releasing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Conventions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugs-and-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bugs and Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        History
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+    <a href="https://github.com/geopython/pygeometa/edit/master/content/tutorial.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/geopython/pygeometa/raw/master/content/tutorial.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code-2" viewBox="0 0 24 24"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5M5 16l-3 3 3 3M9 22l3-3-3-3"/></svg>
+    </a>
+  
+
+
+<h1 id="pygeometa-tutorial">pygeometa Tutorial<a class="headerlink" href="#pygeometa-tutorial" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>This tutorial provides a tour of pygeometa for both users and developers,
 and is aimed at getting you up and running quickly.  Let's go!</p>
-<h2 id="for-users">For Users</h2>
-<h3 id="installation">Installation</h3>
+<h2 id="for-users">For Users<a class="headerlink" href="#for-users" title="Permanent link">&para;</a></h2>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
 <p>You require Python 3 or greater to use pygeometa.</p>
 <p>The easiest way to install pygeometa is using pip:</p>
-<pre><code class="language-bash">pip3 install pygeometa
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip3<span class="w"> </span>install<span class="w"> </span>pygeometa
+</span></code></pre></div>
 <p>This will install the latest stable release.  If you are looking to work with
 pygeometa from source, see the <a href="#for-developers">For Developers</a> section for
 more information.</p>
-<h3 id="workflow">Workflow</h3>
+<h3 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h3>
 <p>The basic pygeometa workflow is:</p>
 <ol>
 <li>Create a 'Metadata Control File' YAML file that contains metadata information </li>
@@ -179,105 +1271,103 @@ more information.</p>
 <li>Refer to the <a href="https://geopython.github.io/pygeometa/reference/mcf">Metadata Control File Reference documentation</a> </li>
 <li>Run pygeometa for the .yml file with a specified target metadata schema</li>
 </ol>
-<h3 id="running">Running</h3>
-<pre><code class="language-bash"># show all subcommands
-pygeometa
-
-# show all supported schemas
-pygeometa metadata schemas
-
-# provide a basic sanity check/report on an MCF (Metadata Control File)
-pygeometa metadata info path/to/file.yml
-
-# generate an ISO 19139 document to stdout
-pygeometa metadata generate path/to/file.yml --schema=iso19139
-
-# generate an ISO 19139 document to disk
-pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml
-
-# generate an ISO 19139 document to disk with debugging (ERROR, WARNING, INFO, DEBUG)
-pygeometa metadata generate path/to/file.yml --schema=iso19139 --output=some_file.xml --verbosity=DEBUG # add verbose (ERROR, WARNING, INFO, DEBUG)
-
-# use your own defined schema
-pygeometa metadata generate path/to/file.yml --schema_local=/path/to/my-schema --output=some_file.xml  # to file
-
-# validate an MCF document
-pygeometa validate path/to/file.yml
-
-# import a metadata document to MCF
-pygeometa metadata import path/to/file.xml --schema=iso19139
-
-# import a metadata document to MCF, autodetecting the metadata file format
-pygeometa metadata import path/to/file.xml --schema=autodetect  # --schema=autodetect is default
-
-# transform from one metadata representation to another
-pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-schema=oarec-record
-
-# transform from one metadata representation to another, autodetecting the metadata file format
-pygeometa metadata transform path/to/file.xml --input-schema=autodetect --output-schema=oarec-record  # --input-schema=autodetect is default
-</code></pre>
-<h2 id="for-developers">For Developers</h2>
-<h3 id="installation_1">Installation</h3>
+<h3 id="running">Running<a class="headerlink" href="#running" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># show all subcommands</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>pygeometa
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># show all supported schemas</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>schemas
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># provide a basic sanity check/report on an MCF (Metadata Control File)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>info<span class="w"> </span>path/to/file.yml
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># generate an ISO 19139 document to stdout</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>generate<span class="w"> </span>path/to/file.yml<span class="w"> </span>--schema<span class="o">=</span>iso19139
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># generate an ISO 19139 document to disk</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>generate<span class="w"> </span>path/to/file.yml<span class="w"> </span>--schema<span class="o">=</span>iso19139<span class="w"> </span>--output<span class="o">=</span>some_file.xml
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># generate an ISO 19139 document to disk with debugging (ERROR, WARNING, INFO, DEBUG)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>generate<span class="w"> </span>path/to/file.yml<span class="w"> </span>--schema<span class="o">=</span>iso19139<span class="w"> </span>--output<span class="o">=</span>some_file.xml<span class="w"> </span>--verbosity<span class="o">=</span>DEBUG<span class="w"> </span><span class="c1"># add verbose (ERROR, WARNING, INFO, DEBUG)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># use your own defined schema</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>generate<span class="w"> </span>path/to/file.yml<span class="w"> </span>--schema_local<span class="o">=</span>/path/to/my-schema<span class="w"> </span>--output<span class="o">=</span>some_file.xml<span class="w">  </span><span class="c1"># to file</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="c1"># validate an MCF document</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>pygeometa<span class="w"> </span>validate<span class="w"> </span>path/to/file.yml
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># import a metadata document to MCF</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>import<span class="w"> </span>path/to/file.xml<span class="w"> </span>--schema<span class="o">=</span>iso19139
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="c1"># import a metadata document to MCF, autodetecting the metadata file format</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>import<span class="w"> </span>path/to/file.xml<span class="w"> </span>--schema<span class="o">=</span>autodetect<span class="w">  </span><span class="c1"># --schema=autodetect is default</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="c1"># transform from one metadata representation to another</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>transform<span class="w"> </span>path/to/file.xml<span class="w"> </span>--input-schema<span class="o">=</span>iso19139<span class="w"> </span>--output-schema<span class="o">=</span>oarec-record
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="c1"># transform from one metadata representation to another, autodetecting the metadata file format</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>pygeometa<span class="w"> </span>metadata<span class="w"> </span>transform<span class="w"> </span>path/to/file.xml<span class="w"> </span>--input-schema<span class="o">=</span>autodetect<span class="w"> </span>--output-schema<span class="o">=</span>oarec-record<span class="w">  </span><span class="c1"># --input-schema=autodetect is default</span>
+</span></code></pre></div>
+<h2 id="for-developers">For Developers<a class="headerlink" href="#for-developers" title="Permanent link">&para;</a></h2>
+<h3 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link">&para;</a></h3>
 <p>pygeometa is best installed and used within a Python virtualenv.</p>
-<h4 id="requirements">Requirements</h4>
+<h4 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Python 3 and above</li>
 <li>Python <a href="https://virtualenv.pypa.io/">virtualenv</a> package</li>
 </ul>
-<h4 id="dependencies">Dependencies</h4>
+<h4 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h4>
 <p>Dependencies are listed in <code>requirements.txt</code>. Dependencies
 are automatically installed during pygeometa's installation.</p>
-<h4 id="installing-the-package-from-source">Installing the Package from Source</h4>
-<pre><code class="language-bash">python3 -m venv my-env
-cd my-env
-. bin/activate
-git clone https://github.com/geopython/pygeometa.git
-cd pygeometa
-python3 setup.py build
-python3 setup.py install
-</code></pre>
-<h3 id="using-the-api-from-python">Using the API from Python</h3>
-<pre><code class="language-python">from pygeometa.core import read_mcf, render_j2_template
-
-# read from disk
-mcf_dict = read_mcf('/path/to/file.yml')
-# read from string
-mcf_dict = read_mcf(mcf_string)
-
-# choose ISO 19139 output schema
-from pygeometa.schemas.iso19139 import ISO19139OutputSchema
-iso_os = ISO19139OutputSchema()
-
-# default schema
-xml_string = iso_os.write(mcf_dict)
-
-# user-defined schema
-xml_string = render_j2_template(mcf_dict, schema_local='/path/to/new-schema')
-
-# write to disk
-with open('output.xml', 'wb') as ff:
-    ff.write(xml_string)
-</code></pre>
-<h2 id="development">Development</h2>
-<h3 id="setting-up-a-development-environment">Setting up a Development Environment</h3>
+<h4 id="installing-the-package-from-source">Installing the Package from Source<a class="headerlink" href="#installing-the-package-from-source" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>my-env
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>my-env
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>.<span class="w"> </span>bin/activate
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/geopython/pygeometa.git
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">cd</span><span class="w"> </span>pygeometa
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>python3<span class="w"> </span>setup.py<span class="w"> </span>build
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>python3<span class="w"> </span>setup.py<span class="w"> </span>install
+</span></code></pre></div>
+<h3 id="using-the-api-from-python">Using the API from Python<a class="headerlink" href="#using-the-api-from-python" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pygeometa.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_mcf</span><span class="p">,</span> <span class="n">render_j2_template</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># read from disk</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">mcf_dict</span> <span class="o">=</span> <span class="n">read_mcf</span><span class="p">(</span><span class="s1">&#39;/path/to/file.yml&#39;</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># read from string</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">mcf_dict</span> <span class="o">=</span> <span class="n">read_mcf</span><span class="p">(</span><span class="n">mcf_string</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># choose ISO 19139 output schema</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pygeometa.schemas.iso19139</span><span class="w"> </span><span class="kn">import</span> <span class="n">ISO19139OutputSchema</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">iso_os</span> <span class="o">=</span> <span class="n">ISO19139OutputSchema</span><span class="p">()</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># default schema</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">xml_string</span> <span class="o">=</span> <span class="n">iso_os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mcf_dict</span><span class="p">)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># user-defined schema</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">xml_string</span> <span class="o">=</span> <span class="n">render_j2_template</span><span class="p">(</span><span class="n">mcf_dict</span><span class="p">,</span> <span class="n">schema_local</span><span class="o">=</span><span class="s1">&#39;/path/to/new-schema&#39;</span><span class="p">)</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># write to disk</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;output.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<h3 id="setting-up-a-development-environment">Setting up a Development Environment<a class="headerlink" href="#setting-up-a-development-environment" title="Permanent link">&para;</a></h3>
 <p>Same as installing a package.  Use a virtualenv.  Also install developer
 requirements:</p>
-<pre><code class="language-bash">pip3 install -r requirements-dev.txt
-</code></pre>
-<h3 id="adding-a-metadata-schema-to-the-core">Adding a Metadata Schema to the Core</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
+</span></code></pre></div>
+<h3 id="adding-a-metadata-schema-to-the-core">Adding a Metadata Schema to the Core<a class="headerlink" href="#adding-a-metadata-schema-to-the-core" title="Permanent link">&para;</a></h3>
 <p>Adding metadata schemas to pygeometa involves extending
 <code>pygeometa.schemas.base.BaseOutputSchema</code> and implementing the following design pattern:</p>
 <ul>
-<li><code>__init__</code>: initializer, including the following code:</li>
-</ul>
-<pre><code class="language-python"># initialize args:
-super().__init__('shortname', 'my cool metadata', 'xml', THISDIR)
-# - 'shortname': shortname identifier for metadata schema
-# - 'my cool metadata': descripts of metadata schema
-# - 'xml': encoding type (default is `xml`; `json` also supported)
-# - 'THISDIR': current directory of plugin file for template rendering
-</code></pre>
-<ul>
+<li><code>__init__</code>: initializer, including the following code:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># initialize args:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;shortname&#39;</span><span class="p">,</span> <span class="s1">&#39;my cool metadata&#39;</span><span class="p">,</span> <span class="s1">&#39;xml&#39;</span><span class="p">,</span> <span class="n">THISDIR</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># - &#39;shortname&#39;: shortname identifier for metadata schema</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># - &#39;my cool metadata&#39;: descripts of metadata schema</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># - &#39;xml&#39;: encoding type (default is `xml`; `json` also supported)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># - &#39;THISDIR&#39;: current directory of plugin file for template rendering</span>
+</span></code></pre></div></li>
 <li><code>write</code>: write a string or dictionary of metadata output.  Default behaviour
   consists of Jinja2 template rendering (see <a href="#jinja2-templates">Jinja2 templates</a>
   for more information). Outputs can be generated via other means (lxml, xml.tree,
@@ -286,123 +1376,114 @@ super().__init__('shortname', 'my cool metadata', 'xml', THISDIR)
 </ul>
 <p>Once you have added your metadata schema plugin, it needs to be registered it with
 pygeometa's schema registry:</p>
-<pre><code class="language-bash">vi pygeometa/schemas/__init__.py
-# edit the SCHEMAS dict with the metadata schema name and dotted path of class
-</code></pre>
-<h4 id="jinja2-templates">Jinja2 templates</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>vi<span class="w"> </span>pygeometa/schemas/__init__.py
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># edit the SCHEMAS dict with the metadata schema name and dotted path of class</span>
+</span></code></pre></div>
+<h4 id="jinja2-templates">Jinja2 templates<a class="headerlink" href="#jinja2-templates" title="Permanent link">&para;</a></h4>
 <p>To add support for a new metadata schema using Jinja2 templates:</p>
-<pre><code class="language-bash">cp -r pygeometa/schemas/iso19139 pygeometa/schemas/new-schema
-</code></pre>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cp<span class="w"> </span>-r<span class="w"> </span>pygeometa/schemas/iso19139<span class="w"> </span>pygeometa/schemas/new-schema
+</span></code></pre></div>
 <p>Then modify <code>*.j2</code> files in the new <code>pygeometa/schemas/new-schema</code> directory
 to comply to new metadata schema.</p>
-<h4 id="custom-tooling">Custom tooling</h4>
-<p>To add support for a new metadata schemas using other tooling/workflow:</p>
-<pre><code class="language-bash">mkdir pygeometa/schemas/foo
-cp pygeometa/schemas/iso19139/__init__.py pygeometa/schemas/foo
-vi pygeometa/schemas/foo/__init__.py
-# update class name and super().__init__() function accordingly 
-</code></pre>
-<h3 id="running-tests">Running Tests</h3>
-<pre><code class="language-bash"># via distutils
-python3 setup.py test
-# manually
-cd tests
-python3 run_tests.py
-</code></pre>
-<h2 id="releasing">Releasing</h2>
-<pre><code class="language-bash">python3 setup.py sdist bdist_wheel --universal
-twine upload dist/*
-</code></pre>
-<h3 id="code-conventions">Code Conventions</h3>
+<h4 id="custom-tooling">Custom tooling<a class="headerlink" href="#custom-tooling" title="Permanent link">&para;</a></h4>
+<p>To add support for a new metadata schemas using other tooling/workflow:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdir<span class="w"> </span>pygeometa/schemas/foo
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cp<span class="w"> </span>pygeometa/schemas/iso19139/__init__.py<span class="w"> </span>pygeometa/schemas/foo
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>vi<span class="w"> </span>pygeometa/schemas/foo/__init__.py
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># update class name and super().__init__() function accordingly </span>
+</span></code></pre></div></p>
+<h3 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># via distutils</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>python3<span class="w"> </span>setup.py<span class="w"> </span><span class="nb">test</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># manually</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nb">cd</span><span class="w"> </span>tests
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>python3<span class="w"> </span>run_tests.py
+</span></code></pre></div>
+<h2 id="releasing">Releasing<a class="headerlink" href="#releasing" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python3<span class="w"> </span>setup.py<span class="w"> </span>sdist<span class="w"> </span>bdist_wheel<span class="w"> </span>--universal
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>twine<span class="w"> </span>upload<span class="w"> </span>dist/*
+</span></code></pre></div>
+<h3 id="code-conventions">Code Conventions<a class="headerlink" href="#code-conventions" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="https://www.python.org/dev/peps/pep-0008">PEP8</a></li>
 </ul>
-<h3 id="bugs-and-issues">Bugs and Issues</h3>
+<h3 id="bugs-and-issues">Bugs and Issues<a class="headerlink" href="#bugs-and-issues" title="Permanent link">&para;</a></h3>
 <p>All bugs, enhancements and issues are managed on <a href="https://github.com/geopython/pygeometa/issues">GitHub</a>.</p>
-<h2 id="history">History</h2>
+<h2 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
 <p>Started in 2009, pygeometa originated within an internal project called pygdm,
 which provided generic geospatial data management functions.  pygdm (now end
 of life) was used for generating MSC/CMC geospatial metadata.  pygeometa was
 pulled out of pygdm to focus on the core requirement of generating geospatial
 metadata within a real-time environment and automated workflows.</p>
 <p>In 2015 pygeometa was made publically available in support of the Treasury
-Board <a href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122">Policy on Acceptable Network and Device Use</a>.</p></div>
-            </div>
-        </div>
+Board <a href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=27122">Policy on Acceptable Network and Device Use</a>.</p>
 
-        <footer class="col-md-12">
-            <hr>
-                <p>Copyright (c) 2009-2025 Government of Canada, 2015-2026 pygeometa development team</p>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
             </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2009-2025 Government of Canada, 2015-2026 pygeometa development team
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
 </div>
-
-    </body>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["content.action.edit","content.action.view","navigation.top","navigation.tracking.prev_next","navigation.tracking.section"],"search":"../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.16f8adc2.min.js"></script>
+      
+    
+  </body>
 </html>
