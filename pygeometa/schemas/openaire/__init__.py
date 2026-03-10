@@ -216,6 +216,12 @@ class OpenAireOutputSchema(BaseOutputSchema):
         if len(contact_) > 0:
             mcf['contact'] = process_contact(contact_)
 
+        # distribution
+        if isinstance(children_instances_, list) and children_instances_:
+            dist_ = process_dist(children_instances_)
+            if dist_ is not None:
+                mcf['distribution'] = dist_
+
         return mcf
 
     def write(self, mcf: dict, stringify: str = True) -> Union[dict, str]:
@@ -436,3 +442,41 @@ def id2url(scheme: str, id_: str) -> str:
         return f'https://isni.org/isni/{id_}'
 
     return None
+
+def process_dist(instances_: list) -> dict | None:
+    """
+    Extract instances with PDF URLs
+
+    :param instances_: list of instance dictionaries
+
+    :returns: `dict` with UUID keys and instance info, or None if no PDFs found
+    """
+    result_dict = {}
+    seen_urls = set()
+    
+    for instance in instances_:
+        type_ = instance.get('type')
+        urls_ = instance.get('urls')
+        
+        # Check if urls_ is a list and not empty
+        if not isinstance(urls_, list) or not urls_:
+            continue
+            
+        # Find first URL ending with .pdf
+        pdf_url = None
+        for url in urls_:
+            if isinstance(url, str) and url.endswith('.pdf'):
+                pdf_url = url
+                break
+        
+        # If we found a PDF URL and haven't seen it before, add to result
+        if pdf_url and pdf_url not in seen_urls:
+            seen_urls.add(pdf_url)
+            instance_uuid = str(uuid.uuid4())
+            result_dict[instance_uuid] = {
+                'type': type_,
+                'url': pdf_url
+            }
+    
+    # Return None if no results, otherwise return the dict
+    return result_dict if result_dict else None
