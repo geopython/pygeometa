@@ -158,7 +158,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
             mcf['identification']['language'] = language_
 
         main_title = metadata_.get('mainTitle')
-        # subtitle also exists
+        
         if main_title is not None:
             mcf['identification']['title'] = main_title
 
@@ -170,7 +170,6 @@ class OpenAireOutputSchema(BaseOutputSchema):
         if version_ is not None:
             mcf['identification']['edition'] = version_
 
-        # topiccategory
         right_ = metadata_.get('bestAccessRight', {}).get('label')
         instance_right_ = None
         if main_instance_:
@@ -188,8 +187,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
                     'name': license_,
                     'url': ''
                 }
-
-        # url
+        
         dates_dict = {}
         p_date = metadata_.get('publicationDate')
         e_date = metadata_.get('embargoEndDate')
@@ -200,22 +198,25 @@ class OpenAireOutputSchema(BaseOutputSchema):
             dates_dict['embargoend'] = e_date
         if dates_dict:
             mcf['identification']['dates'] = dates_dict
-
+        
         subjects_ = metadata_.get('subjects')
         if isinstance(subjects_, dict):
             mcf['identification']['keywords'] = process_keywords([subjects_])
         elif isinstance(subjects_, list):
             mcf['identification']['keywords'] = process_keywords(subjects_)
 
-        # contact point
-        authors_ = metadata_.get('authors', [])
-        orgs_ = metadata_.get('organizations', [])
-        authors_ = authors_ or []
-        orgs_ = orgs_ or []
-        contact_ = authors_ + orgs_
-        if len(contact_) > 0:
-            mcf['contact'] = process_contact(contact_)
+        
+        # contact
+        authors_ = metadata_.get('authors', []) or []
+        orgs_ = metadata_.get('organizations', []) or []
+        publisher_ = metadata_.get('publisher') or ''
+        contribs_ = metadata_.get('contributors', []) or []
 
+        contact_ = process_contact(authors_, orgs_, publisher_, contribs_)
+        if contact_:
+            mcf['contact'] = contact_
+
+        
         # distribution
         if isinstance(children_instances_, list) and children_instances_:
             dist_ = process_dist(children_instances_)
@@ -371,51 +372,88 @@ def process_keywords(subjects: list) -> dict:
     return keywords_dict
 
 
-def process_contact(contact_list: list) -> dict:
+def process_contact(author_list: list, 
+                    organization_list: list,
+                    publisher: str,
+                    contributor_list: list) -> dict:
     """
-    Process authors and organizations into MCF contact format
+    Process authors, organizations, publisher, and contributors into MCF contact format
 
-    :param authors: list of author objects
-    :param orgs: list of organization objects
+    :param author_list: list of author objects
+    :param organization_list: list of organization objects
+    :param publisher: publisher string
+    :param contributor_list: list of contributor objects
 
     :returns: dict with UUID keys and contact point values
     """
     contact_dict = {}
 
-    for contact in contact_list:
+    # Process authors
+    for author in author_list:
         contact_uuid = str(uuid.uuid4())
-        # Initialize contact point structure
         contactpoint_dict = {
-            'individualname': '',
-            'organization': '',
-            'url': ''
+            'individualname': None,
+            'organization': None,
+            'url': None,
+            'role': 'author'
         }
-        # Process authors
-        if 'fullName' in contact:
-            contactpoint_dict['individualname'] = contact.get('fullName')
-            pid = contact.get('pid')
-            if pid is not None and pid.get('id') is not None:
-                pid_scheme = pid.get('id', {}).get('scheme')
-                pid_value = pid.get('id', {}).get('value')
-                if None not in [pid_scheme, pid_value]:
-                    contactpoint_dict['url'] = id2url(pid_scheme, pid_value)
+        contactpoint_dict['individualname'] = author.get('fullName', '')
+        pid = author.get('pid')
+        if pid is not None and pid.get('id') is not None:
+            pid_scheme = pid.get('id', {}).get('scheme')
+            pid_value = pid.get('id', {}).get('value')
+            if None not in [pid_scheme, pid_value]:
+                contactpoint_dict['url'] = id2url(pid_scheme, pid_value)
+        
+        if contactpoint_dict['individualname']:
+            contact_dict[contact_uuid] = contactpoint_dict
 
-        # Process organizations
-        elif 'legalName' in contact:
-            org_name = contact.get('legalName')
-            contactpoint_dict['organization'] = org_name
-            pids = contact.get('pids', [])
-            if pids is not None:
-                for p in pids:
-                    if p.get('scheme').lower() in ['ror', 'grid',
-                                                   'wikidata', 'isni']:
-                        contactpoint_dict['url'] = id2url(
-                            p.get('scheme'), p.get('value'))
-                        break
+    # Process organizations
+    for org in organization_list:
+        contact_uuid = str(uuid.uuid4())
+        contactpoint_dict = {
+            'individualname': None,
+            'organization': None,
+            'url': None,
+            'role': 'contributor'
+        }
+        contactpoint_dict['organization'] = org.get('legalName', '')
+        pids = org.get('pids', [])
+        if pids:
+            for p in pids:
+                scheme = p.get('scheme', '')
+                if scheme and scheme.lower() in ['ror', 'grid', 'wikidata', 'isni']:
+                    contactpoint_dict['url'] = id2url(
+                        p.get('scheme'), p.get('value'))
+                    break
+        
+        if contactpoint_dict['organization']:
+            contact_dict[contact_uuid] = contactpoint_dict
 
-        # Add to contactpoint dict
-        if (contactpoint_dict['individualname'] or
-                contactpoint_dict['organization']):
+    # Process publisher
+    if publisher:
+        contact_uuid = str(uuid.uuid4())
+        contactpoint_dict = {
+            'individualname': None,
+            'organization': publisher,
+            'url': None,
+            'role': 'publisher'
+        }
+        contact_dict[contact_uuid] = contactpoint_dict
+
+    # Process contributors
+    for contrib in contributor_list:
+        contact_uuid = str(uuid.uuid4())
+        contactpoint_dict = {
+            'individualname': None,
+            'organization': None,
+            'url': None,
+            'role': 'contributor'
+        }
+
+        contactpoint_dict['organization'] = str(contrib) if contrib else ''
+        
+        if contactpoint_dict['organization']:
             contact_dict[contact_uuid] = contactpoint_dict
 
     return contact_dict
