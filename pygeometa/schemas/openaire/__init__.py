@@ -158,7 +158,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
             mcf['identification']['language'] = language_
 
         main_title = metadata_.get('mainTitle')
-        
+
         if main_title is not None:
             mcf['identification']['title'] = main_title
 
@@ -187,7 +187,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
                     'name': license_,
                     'url': ''
                 }
-        
+
         dates_dict = {}
         p_date = metadata_.get('publicationDate')
         e_date = metadata_.get('embargoEndDate')
@@ -205,7 +205,6 @@ class OpenAireOutputSchema(BaseOutputSchema):
         elif isinstance(subjects_, list):
             mcf['identification']['keywords'] = process_keywords(subjects_)
 
-        
         # contact
         authors_ = metadata_.get('authors', []) or []
         orgs_ = metadata_.get('organizations', []) or []
@@ -216,7 +215,6 @@ class OpenAireOutputSchema(BaseOutputSchema):
         if contact_:
             mcf['contact'] = contact_
 
-        
         # distribution
         if isinstance(children_instances_, list) and children_instances_:
             dist_ = process_dist(children_instances_)
@@ -372,12 +370,13 @@ def process_keywords(subjects: list) -> dict:
     return keywords_dict
 
 
-def process_contact(author_list: list, 
+def process_contact(author_list: list,
                     organization_list: list,
                     publisher: str,
                     contributor_list: list) -> dict:
     """
-    Process authors, organizations, publisher, and contributors into MCF contact format
+    Process authors, organizations, publisher, and contributors into MCF
+    contact format
 
     :param author_list: list of author objects
     :param organization_list: list of organization objects
@@ -404,7 +403,7 @@ def process_contact(author_list: list,
             pid_value = pid.get('id', {}).get('value')
             if None not in [pid_scheme, pid_value]:
                 contactpoint_dict['url'] = id2url(pid_scheme, pid_value)
-        
+
         if contactpoint_dict['individualname']:
             contact_dict[contact_uuid] = contactpoint_dict
 
@@ -422,11 +421,12 @@ def process_contact(author_list: list,
         if pids:
             for p in pids:
                 scheme = p.get('scheme', '')
-                if scheme and scheme.lower() in ['ror', 'grid', 'wikidata', 'isni']:
+                if scheme and scheme.lower() in [
+                        'ror', 'grid', 'wikidata', 'isni']:
                     contactpoint_dict['url'] = id2url(
                         p.get('scheme'), p.get('value'))
                     break
-        
+
         if contactpoint_dict['organization']:
             contact_dict[contact_uuid] = contactpoint_dict
 
@@ -452,7 +452,7 @@ def process_contact(author_list: list,
         }
 
         contactpoint_dict['organization'] = str(contrib) if contrib else ''
-        
+
         if contactpoint_dict['organization']:
             contact_dict[contact_uuid] = contactpoint_dict
 
