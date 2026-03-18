@@ -1,5 +1,7 @@
 [![Build Status](https://github.com/geopython/pygeometa/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/geopython/pygeometa/actions)
 [![Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im](https://badges.gitter.im/Join%20Chat.svg)](https://matrix.to/#/#geopython_pygeometa:gitter.im)
+[![Docker](https://github.com/geopython/pygeometa/actions/workflows/containers.yml/badge.svg)](https://github.com/geopython/pygeometa/actions/workflows/containers.yml)
+[![Vulnerabilities](https://github.com/geopython/pygeometa/actions/workflows/vulnerabilities.yml/badge.svg)](https://github.com/geopython/pygeometa/actions/workflows/vulnerabilities.yml)
 
 # pygeometa
 
@@ -72,6 +74,16 @@ pygeometa metadata transform path/to/file.xml --input-schema=iso19139 --output-s
 # transform from one metadata representation to another, autodetecting the metadata file format
 pygeometa metadata transform path/to/file.xml --input-schema=autodetect --output-schema=oarec-record  # --input-schema=autodetect is default
 ```
+
+## Docker
+
+pygeometa can also be run as a Docker application:
+
+```bash
+# run pygeometa via Docker, and map local path /path/to/my-data-dir to /data in Docker
+docker run -ti -v /path/to/my-data-dir/:/data/ pygeometa:latest metadata generate --schema oarec-record /data/sample.mcf.yml
+```
+
 
 ### Supported schemas
 Schemas supported by pygeometa:
