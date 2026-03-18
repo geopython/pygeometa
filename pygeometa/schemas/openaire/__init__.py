@@ -198,7 +198,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
             dates_dict['embargoend'] = e_date
         if dates_dict:
             mcf['identification']['dates'] = dates_dict
-        
+
         subjects_ = metadata_.get('subjects')
         if isinstance(subjects_, dict):
             mcf['identification']['keywords'] = process_keywords([subjects_])
