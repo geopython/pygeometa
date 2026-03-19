@@ -1,7 +1,6 @@
 [![Build Status](https://github.com/geopython/pygeometa/workflows/build%20%E2%9A%99%EF%B8%8F/badge.svg)](https://github.com/geopython/pygeometa/actions)
 [![Join the chat at https://matrix.to/#/#geopython_pygeometa:gitter.im](https://badges.gitter.im/Join%20Chat.svg)](https://matrix.to/#/#geopython_pygeometa:gitter.im)
 [![Docker](https://github.com/geopython/pygeometa/actions/workflows/containers.yml/badge.svg)](https://github.com/geopython/pygeometa/actions/workflows/containers.yml)
-[![Vulnerabilities](https://github.com/geopython/pygeometa/actions/workflows/vulnerabilities.yml/badge.svg)](https://github.com/geopython/pygeometa/actions/workflows/vulnerabilities.yml)
 
 # pygeometa
 
