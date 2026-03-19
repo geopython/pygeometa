@@ -21,7 +21,10 @@ jobs:
   on-success:
     name: Build, Test and Push Docker Image to DockerHub
     runs-on: ubuntu-24.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
+    if: |
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     permissions:
       packages: write
       contents: read
@@ -50,7 +53,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4.0.1
+        uses: docker/metadata-action@v5
         with:
           images: |
             ${{ env.DOCKER_REPOSITORY }}
@@ -60,7 +63,7 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
 
       - name: Build and push Docker images
-        uses: docker/build-push-action@v3.3.0
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
