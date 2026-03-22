@@ -112,7 +112,7 @@ class CWLOutputSchema(BaseOutputSchema):
 
         mcf['metadata']['identifier'] = wf['id']
         mcf['metadata']['hierarchylevel'] = 'application'
-        mcf['metadata']['datestamp'] = now
+        mcf['metadata']['dates']['creation'] = now
         mcf['identification']['title'] = wf['label']
         mcf['identification']['abstract'] = wf['doc']
 

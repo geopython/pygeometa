@@ -176,7 +176,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
 
         LOGGER.debug('Checking for dates')
 
-        for key, value in mcf['identification']['dates'].items():
+        for key, value in mcf['metadata']['dates'].items():
             if key == 'creation':
                 record['properties']['created'] = generate_datetime(value)
             elif key == 'revision':

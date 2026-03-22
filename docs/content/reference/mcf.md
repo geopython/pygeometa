@@ -135,8 +135,24 @@ language_alternate|Optional|alternate language used for documenting metadata|en|
 charset|Mandatory|full name of the character coding standard used for the metadata set|utf8|ISO 19115:2003 Section B.2.1
 parentidentifier|Optional|file identifier of the metadata to which this metadata is a subset|11800c2c-e6b9-11df-b9ae-0014c2c33ebe|ISO 19115:2003 Section B.2.1
 hierarchylevel|Mandatory|level to which the metadata applies (must be one of 'series', 'software', 'featureType', 'model', 'collectionHardware', 'collectionSession', 'nonGeographicDataset', 'propertyType', 'fieldSession', 'dataset', 'service', 'attribute', 'attributeType', 'tile', 'feature', 'dimensionGroup'|dataset|ISO 19115:2003 Section B.2.1
-datestamp|Mandatory|date that the metadata was created, pygeometa supports specifying the $date$ or $datetime$ variable to update the date value at run time|2000-11-11 or 2000-01-12T11:11:11Z|ISO 19115:2003 Section B.2.1
 dataseturi|Optional|Uniformed Resource Identifier (URI) of the dataset to which the metadata applies|`urn:x-wmo:md:int.wmo.wis::http://geo.woudc.org/def/data/uv-radiation/uv-irradiance`|ISO 19115:2003 Section B.2.1
+
+#### `metadata.dates`
+
+`metadata.dates` sections (in the context of metadata record lifecycle) can have 1..n `dates` sections as required with the following object names/types:
+
+Property Name|Mandatory/Optional|Description|Example|Reference
+-------------|------------------|-----------|-------|---------:
+creation|Mandatory|record creation date|2000-09-01 or 2000-09-01T00:00:00Z|OGC API - Records - Part 1: Core, Subclause 7.2.2, Table 8
+revision|Optional|record update date|2000-09-01 or 2000-09-01T00:00:00Z|OGC API - Records - Part 1: Core, Subclause 7.2.2, Table 8
+
+```yaml
+metadata:
+    ...
+    dates:
+        creation: 2025-03-21
+        revision: 2026-11-25
+```
 
 ### `metadata.additional_identifiers`
 
@@ -183,13 +199,13 @@ browsegraphic|Optional|graphic that provides an illustration of the dataset|http
 
 #### `identification.dates`
 
-`identification.dates` sections can have 1..n `dates` sections as required with the following object names/types:
+`identification.dates` sections (in the context of data citation) can have 1..n `dates` sections as required with the following object names/types:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-creation|Mandatory*|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
-publication|Optional*|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
-revision|Optional*|'revision' reference date for the cited resource, referring to when the resource was examined or re-examined and improved or amended, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+creation|Optional|'creation' reference date for the cited resource, referring to when the resource was brought into existence, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+publication|Optional|'publication' reference date for the cited resource, referring to when the resource was issued, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
+revision|Optional|'revision' reference date for the cited resource, referring to when the resource was examined or re-examined and improved or amended, *: presence of creation or publication or revision is mandatory|2000-09-01 or 2000-09-01T00:00:00Z|ISO 19115:2003 Section B.3.2.4
 
 ```yaml
 identification:

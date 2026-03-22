@@ -6,7 +6,8 @@ metadata:
     language: en
     language_alternate: fr
     charset: utf8
-    datestamp: 2014-11-11T11:11:11Z
+    dates:
+        creation: 2014-11-11T11:11:11Z
 
 contact:
     main: &contact_main

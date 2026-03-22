@@ -15,7 +15,8 @@ metadata:
           scheme: http://doi.org
           type: source 
     hierarchylevel: dataset
-    datestamp: 2014-11-11
+    dates:
+        creation: 2014-11-11
     dataseturi: http://some/minted/uri
 
 spatial:
