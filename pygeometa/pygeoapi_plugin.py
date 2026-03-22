@@ -167,6 +167,7 @@ PROCESS_METADATA_SCHEMAS = {
         'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
+    'jobControlOptions': ['sync-execute', 'async-execute'],
     'inputs': {},
     'outputs': {
         'result': {
@@ -199,6 +200,7 @@ PROCESS_METADATA_IMPORT = {
         'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
+    'jobControlOptions': ['sync-execute', 'async-execute'],
     'inputs': {
         'metadata': INPUT_METADATA,
         'schema': INPUT_SCHEMA
@@ -238,6 +240,7 @@ PROCESS_METADATA_VALIDATE = {
         'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
+    'jobControlOptions': ['sync-execute', 'async-execute'],
     'inputs': {
         'mcf': INPUT_MCF
     },
@@ -276,6 +279,7 @@ PROCESS_METADATA_GENERATE = {
         'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
+    'jobControlOptions': ['sync-execute', 'async-execute'],
     'inputs': {
         'mcf': INPUT_MCF,
         'schema': INPUT_SCHEMA
@@ -316,6 +320,7 @@ PROCESS_METADATA_TRANSFORM = {
         'href': 'https://geopython.github.io/pygeometa/pygeoapi-plugin',
         'hreflang': 'en-US'
     }],
+    'jobControlOptions': ['sync-execute', 'async-execute'],
     'inputs': {
         'metadata': INPUT_METADATA,
         'input-schema': INPUT_SCHEMA,
