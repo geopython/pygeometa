@@ -26,7 +26,7 @@ more information.
 The basic pygeometa workflow is:
 
 1. Create a 'Metadata Control File' YAML file that contains metadata information 
-  1. Modify the [sample.yml](https://github.com/geopython/pygeometa/blob/master/sample.yml) example
+  1. Modify the [sample.mcf.yml](https://github.com/geopython/pygeometa/blob/master/sample.mcf.yml) example
   2. pygeometa supports nesting MCFs together, allowing providing a single MCF
      for common metadata parameters (e.g. common contact information)
   3. Refer to the [Metadata Control File Reference documentation](https://geopython.github.io/pygeometa/reference/mcf) 
