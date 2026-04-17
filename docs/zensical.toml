@@ -6,7 +6,7 @@ copyright = "© 2009-2025 Government of Canada, 2015-2026 pygeometa development 
 site_url = "https://geopython.github.io/pygeometa"
 repo_url = "https://github.com/geopython/pygeometa"
 docs_dir = "content"
-edit_uri = "edit/master/content"
+edit_uri = "edit/master/docs/content"
 
 nav = [
     {"Code" = "https://github.com/geopython/pygeometa"},
