@@ -195,6 +195,12 @@ git push --tags
 rm -fr build dist *.egg-info
 python3 -m build
 twine upload dist/*
+
+# publish release on GitHub (https://github.com/geopython/pygeometa/releases/new)
+
+# bump version back to dev
+vi pyproject.toml  # update [project]/version
+git push origin master
 ```
 
 ### Code Conventions
