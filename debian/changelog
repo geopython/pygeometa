@@ -1,3 +1,24 @@
+pygeometa (0.20.0) noble; urgency=medium
+
+  * use datetime.timezone.utc for Python 3.10 compat
+  * update schema.org parsing
+  * add scale/resolution to spatial
+  * add support for CSVW
+  * add MCF to autodetection
+  * update file extension convention (.mcf.yml)
+  * support thumbnail/graphicoverview options provided by schema.org and ISO
+  * add support for OpenAIRE
+  * ISO: remove geographic description,  add character string in gmd:name
+  * ISO: harden / safeguard spatial.datatype on export
+  * make MCF identification.extents.spatial.bbox nullable
+  * move to pyproject for project configuration
+  * update doc tooling from MkDocs to Zensical
+  * add support for Docker
+  * update pygeoapi plugin jobControlOptions in process description
+  * add trivy CI
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Fri, 17 Apr 2026 22:50:22 +0000
+
 pygeometa (0.19.0) noble; urgency=medium
 
   * add support for schema.org
