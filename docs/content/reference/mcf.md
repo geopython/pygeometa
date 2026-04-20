@@ -1,6 +1,6 @@
 # Metadata Control File Reference
 
-Version: 1.0
+Version: 2.0
 
 ## Basic Concepts
 
@@ -123,7 +123,7 @@ Keyword|Description|Format|Example
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-version|Mandatory|version of MCF format|1.0|pygeometa
+version|Mandatory|version of MCF format|2.0|pygeometa
 
 ### `metadata`
 

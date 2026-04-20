@@ -234,7 +234,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
     """
 
     mcf_dict = {}
-    mcf_versions = ['1.0']
+    mcf_versions = ['2.0']
 
     def __to_dict(mcf_object):
         """normalize mcf input into dict"""

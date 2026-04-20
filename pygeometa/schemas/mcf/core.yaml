@@ -12,7 +12,7 @@ properties:
             version:
                 type: number
                 description: version of MCF format
-                const: 1.0
+                const: 2.0
         required:
             - version
     metadata:
