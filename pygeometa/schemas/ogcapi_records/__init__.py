@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2025 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -51,6 +51,7 @@ from pygeometa import __version__
 from pygeometa.core import get_charstring
 from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
+from pygeometa.schemas.util import generate_geometry
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -86,21 +87,8 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         self.lang1 = mcf['metadata'].get('language')
         self.lang2 = mcf['metadata'].get('language_alternate')
 
-        try:
-            minx, miny, maxx, maxy = (mcf['identification']['extents']
-                                      ['spatial'][0]['bbox'])
-            geometry = {
-                'type': 'Polygon',
-                'coordinates': [[
-                    [minx, miny],
-                    [minx, maxy],
-                    [maxx, maxy],
-                    [maxx, miny],
-                    [minx, miny]
-                ]]
-            }
-        except TypeError:
-            geometry = None
+        geometry = generate_geometry(
+            mcf['identification']['extents']['spatial'])
 
         title = get_charstring(mcf['identification'].get('title'),
                                self.lang1, self.lang2)

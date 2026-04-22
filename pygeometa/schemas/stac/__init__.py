@@ -18,7 +18,7 @@
 # those files. Users are asked to read the 3rd Party Licenses
 # referenced with those assets.
 #
-# Copyright (c) 2024 Tom Kralidis
+# Copyright (c) 2026 Tom Kralidis
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -49,6 +49,7 @@ from typing import Union
 from pygeometa.core import get_charstring
 from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
+from pygeometa.schemas.util import generate_geometry
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -81,8 +82,10 @@ class STACItemOutputSchema(BaseOutputSchema):
         lang1 = mcf['metadata'].get('language')
         lang2 = mcf['metadata'].get('language_alternate')
 
-        minx, miny, maxx, maxy = (mcf['identification']['extents']
-                                  ['spatial'][0]['bbox'])
+        geometry = generate_geometry(
+            mcf['identification']['extents']['spatial'])
+
+        bbox = mcf['identification']['extents']['spatial'][0]['bbox']
 
         title = get_charstring(mcf['identification'].get('title'),
                                lang1, lang2)
@@ -93,17 +96,8 @@ class STACItemOutputSchema(BaseOutputSchema):
             'stac-version': '1.0.0-beta.2',
             'id': mcf['metadata']['identifier'],
             'type': 'Feature',
-            'bbox': [minx, miny, maxx, maxy],
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': [[
-                    [minx, miny],
-                    [minx, maxy],
-                    [maxx, maxy],
-                    [maxx, miny],
-                    [minx, miny]
-                ]]
-            },
+            'bbox': bbox,
+            'geometry': geometry,
             'properties': {
                 'title': title[0],
                 'description': description[0],
