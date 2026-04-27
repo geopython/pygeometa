@@ -1,5 +1,5 @@
 mcf:
-    version: 1.0
+    version: 2.0
 
 metadata:
     identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
@@ -8,7 +8,8 @@ metadata:
     charset: utf8
     parentidentifier: someparentid
     hierarchylevel: dataset
-    datestamp: 2014-11-11
+    dates:
+        creation: 2014-11-11
     dataseturi: http://some/minted/uri
 
 spatial:

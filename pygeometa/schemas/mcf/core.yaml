@@ -12,7 +12,7 @@ properties:
             version:
                 type: number
                 description: version of MCF format
-                const: 1.0
+                const: 2.0
         required:
             - version
     metadata:
@@ -70,9 +70,18 @@ properties:
                     - tile
                     - feature
                     - dimensionGroup
-            datestamp:
-                $ref: '#/definitions/date_or_datetime_string'
-                description: date that the metadata was created, pygeometa supports specifying the `$date$` or `$datetime$` variable to update the date value at run time
+            dates:
+                type: object
+                description: record lifecycle dates
+                properties:
+                    creation:
+                        $ref: '#/definitions/date_or_datetime_string'
+                        format: string
+                    revision:
+                        $ref: '#/definitions/date_or_datetime_string'
+                        format: string
+                required:
+                    - creation
             dataseturi:
                 type: string
                 description: Uniform Resource Identifier (URI) of the dataset to which the metadata applies
@@ -81,7 +90,7 @@ properties:
             - language
             - charset
             - hierarchylevel
-            - datestamp
+            - dates
     spatial:
         type: object
         properties:
@@ -259,13 +268,13 @@ properties:
                 properties:
                     anyOf:
                         creation:
-                            type: '#/definitions/date_or_datetime_string'
+                            $ref: '#/definitions/date_or_datetime_string'
                             format: string
                         publication:
-                            type: '#/definitions/date_or_datetime_string'
+                            $ref: '#/definitions/date_or_datetime_string'
                             format: string
                         revision:
-                            type: '#/definitions/date_or_datetime_string'
+                            $ref: '#/definitions/date_or_datetime_string'
                             format: string
             extents:
                 type: object
@@ -358,7 +367,6 @@ properties:
             - rights
             - url
             - status
-            - dates
             - extents
             - keywords
     content_info:

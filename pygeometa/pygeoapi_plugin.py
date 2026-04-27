@@ -256,7 +256,7 @@ PROCESS_METADATA_VALIDATE = {
     },
     'example': {
         'inputs': {
-            'mcf': {'mcf': {'version': '1.0'}}
+            'mcf': {'mcf': {'version': '2.0'}}
         }
     }
 }
@@ -296,7 +296,7 @@ PROCESS_METADATA_GENERATE = {
     },
     'example': {
         'inputs': {
-            'mcf': {'mcf': {'version': '1.0'}},
+            'mcf': {'mcf': {'version': '2.0'}},
             'schema': 'oarec-record'
         }
     }

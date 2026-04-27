@@ -28,7 +28,7 @@
   {% endif %}
   {% endfor %}
   <gmd:dateStamp>
-    {% set datestamp = record['metadata'].get('datestamp','')|normalize_datestring %}
+    {% set datestamp = record['metadata']['dates']['creation']|normalize_datestring %}
     {% if datestamp|length > 11 %}
     <gco:DateTime>{{ datestamp }}</gco:DateTime>
     {% else %}

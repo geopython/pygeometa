@@ -83,7 +83,9 @@ class ISO19139OutputSchema(BaseOutputSchema):
             'mcf': {
                 'version': '1.0',
             },
-            'metadata': {},
+            'metadata': {
+                'dates': {}
+            },
             'spatial': {},
             'identification': {},
             'contact': {},
@@ -100,7 +102,7 @@ class ISO19139OutputSchema(BaseOutputSchema):
         mcf['metadata']['identifier'] = m.identifier
 
         mcf['metadata']['hierarchylevel'] = m.hierarchy
-        mcf['metadata']['datestamp'] = m.datestamp
+        mcf['metadata']['dates']['creation'] = m.datestamp
 
         LOGGER.debug('Setting language')
         if m.language:

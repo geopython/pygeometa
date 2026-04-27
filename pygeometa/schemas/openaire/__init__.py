@@ -86,7 +86,9 @@ class OpenAireOutputSchema(BaseOutputSchema):
             'mcf': {
                 'version': '1.0',
             },
-            'metadata': {},
+            'metadata': {
+                'dates': {}
+            },
             'identification': {},
             'contact': {}
         }
@@ -145,7 +147,8 @@ class OpenAireOutputSchema(BaseOutputSchema):
 
         date_of_collection = metadata_.get('dateOfCollection')
         if date_of_collection is not None:
-            mcf['metadata']['datestamp'] = metadata_.get('dateOfCollection')
+            mcf['metadata']['dates']['creation'] = \
+                metadata_.get('dateOfCollection')
 
         if main_instance_ is not None:
             urls = main_instance_.get('urls')
@@ -193,11 +196,10 @@ class OpenAireOutputSchema(BaseOutputSchema):
         e_date = metadata_.get('embargoEndDate')
         if p_date:
             dates_dict['publication'] = p_date
-            mcf['identification']['datestamp'] = [p_date]
         if e_date:
             dates_dict['embargoend'] = e_date
         if dates_dict:
-            mcf['identification']['dates'] = dates_dict
+            mcf['metadata']['dates'] = dates_dict
 
         subjects_ = metadata_.get('subjects')
         if isinstance(subjects_, dict):

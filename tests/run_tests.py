@@ -128,7 +128,7 @@ class PygeometaTest(unittest.TestCase):
 
         mcf = read_mcf(get_abspath('../sample.mcf.yml'))
         self.assertIsInstance(mcf['identification']['dates'], dict,
-                              'Expected list')
+                              'Expected dict')
         self.assertIsInstance(mcf['identification']['keywords'], dict,
                               'Expected dict')
         self.assertIsInstance(mcf['identification']['topiccategory'], list,
@@ -296,9 +296,9 @@ class PygeometaTest(unittest.TestCase):
                          'http://example.org/waf',
                          'Expected specific distribution url')
 
-        self.assertEqual(mcf['metadata']['datestamp'],
+        self.assertEqual(mcf['metadata']['dates']['creation'],
                          datetime.date(2011, 11, 11),
-                         'Expected specific metadata datestamp')
+                         'Expected specific metadata creation date')
 
         self.assertIsInstance(mcf, dict, 'Expected dict')
 
