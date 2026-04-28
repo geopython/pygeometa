@@ -558,6 +558,8 @@ class PygeometaTest(unittest.TestCase):
                          '2026-10-30T00:00:00Z')
         self.assertEqual(generate_datetime('2026-10-30T00:12:21'),
                          '2026-10-30T00:12:21Z')
+        self.assertEqual(generate_datetime('2026-10-30T00:12:21Z'),
+                         '2026-10-30T00:12:21Z')
         self.assertEqual(generate_datetime(2026), '2026-01-01T00:00:00Z')
         self.assertEqual(generate_datetime(datetime.datetime(2026, 10, 30)),
                          '2026-10-30T00:00:00Z')

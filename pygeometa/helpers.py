@@ -122,6 +122,8 @@ def generate_datetime(date_value: str) -> str:
         if format_ is not None:
             LOGGER.debug('date type found; expanding to date-time')
             value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+        else:
+            value = date_value
 
     elif isinstance(date_value, int) and len(str(date_value)) == 4:
         date_value2 = str(date_value)
