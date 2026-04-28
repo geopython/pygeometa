@@ -59,7 +59,7 @@ from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             prune_transfer_option, MCFReadError,
                             MCFValidationError, SCHEMAS, transform_metadata,
                             validate_mcf)
-from pygeometa.helpers import json_dumps
+from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
@@ -548,6 +548,23 @@ class PygeometaTest(unittest.TestCase):
             "polygon": "2 1 4 1 2 3 4 3 2 1"
         }
         self.assertEqual(_get_box_from_coords(geo3), [1, 2, 3, 4])
+
+    def test_generate_datetime(self):
+        """Test pygeometa.helpers:generate_datetime"""
+
+        self.assertEqual(generate_datetime('2026'), '2026-01-01T00:00:00Z')
+        self.assertEqual(generate_datetime('2026-10'), '2026-10-01T00:00:00Z')
+        self.assertEqual(generate_datetime('2026-10-30'),
+                         '2026-10-30T00:00:00Z')
+        self.assertEqual(generate_datetime('2026-10-30T00:12:21'),
+                         '2026-10-30T00:12:21Z')
+        self.assertEqual(generate_datetime(2026), '2026-01-01T00:00:00Z')
+        self.assertEqual(generate_datetime(datetime.datetime(2026, 10, 30)),
+                         '2026-10-30T00:00:00Z')
+        self.assertEqual(generate_datetime(datetime.datetime(2026, 10, 30, 11, 11, 11)),  # noqa
+                         '2026-10-30T11:11:11Z')
+        self.assertEqual(len(generate_datetime(None)), 20)
+        self.assertEqual(len(generate_datetime('None')), 20)
 
 
 def get_abspath(filepath):

@@ -104,6 +104,7 @@ def generate_datetime(date_value: str) -> str:
     :returns: `str` of date-time value
     """
 
+    format_ = None
     value = None
 
     if isinstance(date_value, str) and date_value != 'None':
@@ -118,8 +119,9 @@ def generate_datetime(date_value: str) -> str:
             LOGGER.debug(msg)
             format_ = '%Y-%m-%dT%H:%M:%S'
 
-        LOGGER.debug('date type found; expanding to date-time')
-        value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
+        if format_ is not None:
+            LOGGER.debug('date type found; expanding to date-time')
+            value = datetime.strptime(date_value, format_).strftime('%Y-%m-%dT%H:%M:%SZ')  # noqa
 
     elif isinstance(date_value, int) and len(str(date_value)) == 4:
         date_value2 = str(date_value)
