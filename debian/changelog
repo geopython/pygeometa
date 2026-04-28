@@ -1,3 +1,9 @@
+pygeometa (0.21.1) noble; urgency=medium
+
+  * fix pygeometa.schemas.helpers:generate_datetime
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 28 Apr 2026 06:01:34 +0000
+
 pygeometa (0.21.0) noble; urgency=medium
 
   * handle multiple MCF spatial extents as GeoJSON MultiPolygon geometries
