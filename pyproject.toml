@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygeometa"
-version = "0.21.dev0"
+version = "0.21.0"
 description = "pygeometa is a Python package to manage metadata for geospatial dataset"
 readme = "README.md"
 requires-python = ">=3.12"

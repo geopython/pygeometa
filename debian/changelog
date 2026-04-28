@@ -1,3 +1,10 @@
+pygeometa (0.21.0) noble; urgency=medium
+
+  * handle multiple MCF spatial extents as GeoJSON MultiPolygon geometries
+  * update MCF record lifecycle dates
+
+ -- Tom Kralidis <tomkralidis@gmail.com>  Tue, 28 Apr 2026 03:15:45 +0000
+
 pygeometa (0.20.0) noble; urgency=medium
 
   * use datetime.timezone.utc for Python 3.10 compat
