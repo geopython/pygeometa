@@ -53,19 +53,20 @@ LOGGER = logging.getLogger(__name__)
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
 SCHEMAS = {
+    'cwl': 'pygeometa.schemas.cwl.CWLOutputSchema',
     'csvw': 'pygeometa.schemas.csvw.CSVWOutputSchema',
     'dcat': 'pygeometa.schemas.dcat.DCATOutputSchema',
     'iso19139': 'pygeometa.schemas.iso19139.ISO19139OutputSchema',
     'iso19139-2': 'pygeometa.schemas.iso19139_2.ISO19139_2OutputSchema',
     'iso19139-hnap': 'pygeometa.schemas.iso19139_hnap.ISO19139HNAPOutputSchema',  # noqa
+    'mmd': 'pygeometa.schemas.mmd.MMDOutputSchema',
     'oarec-record': 'pygeometa.schemas.ogcapi_records.OGCAPIRecordOutputSchema', # noqa
-    'openaire': 'pygeometa.schemas.openaire.OpenAireOutputSchema',
+    'openaire': 'pygeometa.schemas.openaire.OpenAIREOutputSchema',
     'schema-org': 'pygeometa.schemas.schema_org.SchemaOrgOutputSchema',
     'stac-item': 'pygeometa.schemas.stac.STACItemOutputSchema',
     'wmo-cmp': 'pygeometa.schemas.wmo_cmp.WMOCMPOutputSchema',
     'wmo-wcmp2': 'pygeometa.schemas.wmo_wcmp2.WMOWCMP2OutputSchema',
-    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema',
-    'cwl': 'pygeometa.schemas.cwl.CWLOutputSchema'
+    'wmo-wigos': 'pygeometa.schemas.wmo_wigos.WMOWIGOSOutputSchema'
 }
 
 
@@ -102,7 +103,7 @@ def get_supported_schemas(details: bool = False,
             schemas_keys.append('autodetect')
             return schemas_keys
         else:
-            return SCHEMAS.keys()
+            return sorted(SCHEMAS.keys())
 
     for key in SCHEMAS.keys():
         schema = load_schema(key)
@@ -124,7 +125,7 @@ def get_supported_schemas(details: bool = False,
             'write': False
         })
 
-    return schema_matrix
+    return sorted(schema_matrix, key=lambda x: x['id'])
 
 
 def load_schema(schema_name: str) -> BaseOutputSchema:

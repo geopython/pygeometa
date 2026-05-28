@@ -65,7 +65,7 @@ class CSVWOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        description = 'CWVW'
+        description = 'CSVW'
 
         super().__init__('csvw', description, 'json', THISDIR)
 
