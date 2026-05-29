@@ -77,7 +77,7 @@ class CWLOutputSchema(BaseOutputSchema):
 
         mcf = {
             'mcf': {
-                'version': '1.0'
+                'version': '2.0'
             },
             'metadata': {
                 'language': 'eng',
