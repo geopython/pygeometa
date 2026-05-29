@@ -221,7 +221,7 @@ identification:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of [minx,miny,maxx,maxy] or null|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
+spatial.bbox|Mandatory|geographic position of the dataset, formatted as as list of \[minx,miny,maxx,maxy\] or null|-141,42,-52,84|ISO 19115:2003 Section B.3.1.2
 spatial.crs|Mandatory|EPSG code identifier|4326|ISO 19115:2003 Section B.2.7.3
 spatial.description|Optional|description of the geographic area using an identifier|Toronto, Ontario, Canada|ISO 19115:2003 Section B.3.1.2
 temporal.begin|Optional|Starting time period covered by the content of the dataset, either time period (startdate/enddate) or a single point in time value|1950-07-31|ISO 19115:2003 Section B.3.1.3
@@ -342,7 +342,7 @@ Attributes may also provide the values within a given domain, via one of the fol
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-enum|Optional|Enumerated list of values|[1, 2, 3, 4]||
+enum|Optional|Enumerated list of values|\[1, 2, 3, 4\]||
 
 Example:
 
@@ -355,7 +355,7 @@ Example:
 
 Property Name|Mandatory/Optional|Description|Example|Reference
 -------------|------------------|-----------|-------|---------:
-range|Optional|Range of values (min/max)|[1, 4]||
+range|Optional|Range of values (min/max)|\[1, 4\]||
 
 Example:
 
