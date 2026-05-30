@@ -10,6 +10,7 @@ edit_uri = "edit/master/docs/content"
 
 nav = [
     {"Code" = "https://github.com/geopython/pygeometa"},
+    {"Schema support" = "schema-support.md"},
     {"Tutorial" = "tutorial.md"},
     {"Reference" = [
         {"Metadata Control File" = [
