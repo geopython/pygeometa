@@ -224,6 +224,32 @@
   
   
     <li class="md-nav__item">
+      <a href="./schema-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Schema support
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="./tutorial/" class="md-nav__link">
         
   
@@ -258,10 +284,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -278,8 +304,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -303,10 +329,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
         
           
-          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
             
   
   
@@ -323,8 +349,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -375,10 +401,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_1_2" id="__nav_4_1_2_label" tabindex="0">
             
   
   
@@ -395,8 +421,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1_2">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -648,6 +674,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#format-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Format support
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#history" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -722,6 +759,103 @@ a flexible extension mechanism leveraging the Jinja2 templating system.</p>
 <li>import from external metadata sources</li>
 <li>multilingual support</li>
 </ul>
+<h2 id="format-support">Format support<a class="headerlink" href="#format-support" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Description</th>
+<th>Read</th>
+<th>Write</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://csvw.org">csvw</a></td>
+<td>CSV on the Web (CSVW)</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://www.commonwl.org">cwl</a></td>
+<td>Common Workflow Language</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr>
+<td><a href="https://dcat.org">dcat</a></td>
+<td>Data Catalog Vocabulary (DCAT)</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://www.iso.org/standard/53798.html">iso19139</a></td>
+<td>ISO 19115-1:2014 Geographic information - Metadata Part 1: Metadata Part 1: Fundamentals</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://www.iso.org/standard/67039.html">iso19139-2</a></td>
+<td>ISO 19115-2:2019 Geographic information - Metadata Part 2: Metadata Part 2: Extensions for acquisition and processing</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://docs.geocat.net/catalogue/schema_plugins/iso19139.ca.HNAP">iso19139-hnap</a></td>
+<td>Canadian profile on Harmonized North American Profile (HNAP)</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://htmlpreview.github.io/?https://github.com/metno/mmd/blob/master/doc/mmd-specification.html">mmd</a></td>
+<td>MET Norway Metadata Format Specification (MMD)</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr>
+<td><a href="https://docs.ogc.org/is/20-004r1/20-004r1.html#clause-record-core">oarec-record</a></td>
+<td>OGC API - Records: Part 1: Core (Record Core)</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://www.openaire.eu">openaire</a></td>
+<td>OpenAIRE</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr>
+<td><a href="https://schema.org">schema-org</a></td>
+<td>Schema.org</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://github.com/radiantearth/stac-spec/blob/master/item-spec/item-spec.md">stac-item</a></td>
+<td>STAC Item</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/wmo-coordination-mechanism-wcm-support-humanitarian-activities/wcmp">wmo-cmp</a></td>
+<td>WMO Core Metadata Profile (WCMP)</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://wmo-im.github.io/wcmp2/standard/wcmp2-STABLE.html">wmo-wcmp2</a></td>
+<td>WMO Core Metadata Profile (WCMP) Version 2</td>
+<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td><a href="https://library.wmo.int/idurl/4/55626">wmo-wigos</a></td>
+<td>WMO WIGOS Metadata Standard</td>
+<td>False</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
 <h2 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
 <p>Started in 2009, pygeometa originated within an internal project called pygdm,
 which provided generic geospatial data management functions.  pygdm (now end
