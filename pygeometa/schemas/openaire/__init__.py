@@ -58,8 +58,8 @@ THISDIR = os.path.dirname(os.path.realpath(__file__))
 LOGGER = logging.getLogger(__name__)
 
 
-class OpenAireOutputSchema(BaseOutputSchema):
-    """OpenAire: record schema"""
+class OpenAIREOutputSchema(BaseOutputSchema):
+    """OpenAIRE: record schema"""
 
     def __init__(self):
         """
@@ -68,7 +68,7 @@ class OpenAireOutputSchema(BaseOutputSchema):
         :returns: pygeometa.schemas.base.BaseOutputSchema
         """
 
-        description = 'OpenAire'
+        description = 'OpenAIRE'
 
         super().__init__('openaire', description, 'json', THISDIR)
 

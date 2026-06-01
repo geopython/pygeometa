@@ -632,6 +632,8 @@ def info(ctx, mcf, verbosity):
 def schemas(ctx, verbosity):
     """list supported schemas"""
     click.echo('Supported schemas')
+    click.echo('=================')
+    click.echo()
 
     for schema in get_supported_schemas(details=True):
         s = f"{schema['id']} (read: {schema['read']}, write: {schema['write']}): {schema['description']}"  # noqa
