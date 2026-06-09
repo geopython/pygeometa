@@ -173,7 +173,6 @@ class OpenAIREOutputSchema(BaseOutputSchema):
         if version_ is not None:
             mcf['identification']['edition'] = version_
 
-        #right_ = metadata_.get('bestAccessRight', {}).get('label')
         right_ = (metadata_.get('bestAccessRight') or {}).get('label')
    
         instance_right_ = None
