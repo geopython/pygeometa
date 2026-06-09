@@ -174,7 +174,7 @@ class OpenAIREOutputSchema(BaseOutputSchema):
             mcf['identification']['edition'] = version_
 
         right_ = (metadata_.get('bestAccessRight') or {}).get('label')
-   
+
         instance_right_ = None
         if main_instance_:
             instance_right_ = (main_instance_.get(
