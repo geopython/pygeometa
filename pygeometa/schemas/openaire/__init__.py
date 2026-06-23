@@ -156,7 +156,7 @@ class OpenAIREOutputSchema(BaseOutputSchema):
                 mcf['metadata']['dataseturi'] = next(iter(urls), '')
 
         # mcf: identification
-        language_ = metadata_.get('language', {}).get('code')
+        language_ = (metadata_.get('language') or {}).get('code')
         if language_ is not None:
             mcf['identification']['language'] = language_
 
@@ -173,11 +173,12 @@ class OpenAIREOutputSchema(BaseOutputSchema):
         if version_ is not None:
             mcf['identification']['edition'] = version_
 
-        right_ = metadata_.get('bestAccessRight', {}).get('label')
+        right_ = (metadata_.get('bestAccessRight') or {}).get('label')
+
         instance_right_ = None
         if main_instance_:
-            instance_right_ = main_instance_.get(
-                'accessRight', {}).get('label')
+            instance_right_ = (main_instance_.get(
+                'accessRight') or {}).get('label')
         if right_ is not None and right_ != 'unspecified':
             mcf['identification']['rights'] = right_
         elif instance_right_ is not None and instance_right_ != 'unspecified':
@@ -348,7 +349,7 @@ def process_keywords(subjects: list) -> dict:
 
     :returns: `dict` grouped keywords
     """
-    unique_scheme = list(set([s.get('subject', {}).get('scheme')
+    unique_scheme = list(set([(s.get('subject') or {}).get('scheme')
                               for s in subjects]))
 
     scheme_uuid_dict = {scheme: str(uuid.uuid4()) for scheme in unique_scheme}
@@ -364,7 +365,7 @@ def process_keywords(subjects: list) -> dict:
     }
 
     for s in subjects:
-        s_value = s.get('subject')
+        s_value = s.get('subject') or {}
         for k, v in keywords_dict.items():
             if s_value.get('scheme') == v.get('vocabulary', {}).get('name'):
                 v['keywords'].append(s_value.get('value'))
