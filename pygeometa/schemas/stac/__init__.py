@@ -113,10 +113,10 @@ class STACItemOutputSchema(BaseOutputSchema):
             stac_item['properties']['start_datetime'] = begin
             stac_item['properties']['end_datetime'] = end
 
-        if 'creation' in mcf['identification']['dates']:
-            stac_item['properties']['created'] = mcf['identification']['dates']['creation']  # noqa
-        if 'revision' in mcf['identification']['dates']:
-            stac_item['properties']['updated'] = mcf['identification']['dates']['revision']  # noqa
+        if 'creation' in mcf['metadata']['dates']:
+            stac_item['properties']['created'] = mcf['metadata']['dates']['creation']  # noqa
+        if 'revision' in mcf['metadata']['dates']:
+            stac_item['properties']['updated'] = mcf['metadata']['dates']['revision']  # noqa
 
         for value in mcf['contact'].values():
             stac_item['properties']['providers'].append({

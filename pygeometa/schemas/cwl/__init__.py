@@ -156,7 +156,7 @@ class CWLOutputSchema(BaseOutputSchema):
             }
 
         if 's:dateCreated' in metadata:
-            mcf['identification']['dates'] = {
+            mcf['metadata']['dates'] = {
                 'creation': metadata['s:dateCreated']
             }
 
