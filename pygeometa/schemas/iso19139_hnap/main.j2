@@ -150,7 +150,7 @@
       <gmd:citation>
         <gmd:CI_Citation>
           {{ cs.get_freetext('title', 'fra', get_charstring(record['identification'].get('title'), 'en', 'fr')) }}
-          {% for date_type, date in record['identification']['dates'].items() %}
+          {% for date_type, date in record.get('identification', {}).get('dates', {}).items() %}
           {% set datestamp = date|normalize_datestring %}
           <gmd:date>
             <gmd:CI_Date>
