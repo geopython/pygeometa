@@ -48,7 +48,7 @@ import logging
 LOGGER = logging.getLogger(__name__)
 
 
-def generate_geometry(spatial: list) -> dict:
+def generate_geojson_geometry(spatial: list) -> dict:
     """
     Helper function to generate GeoJSON geometry from an
     MCF spatial extent
@@ -60,10 +60,15 @@ def generate_geometry(spatial: list) -> dict:
 
     geometry = None
 
-    if len(spatial) == 1:
-        LOGGER.debug('spatial extent is a default bbox')
+    crs_list = [s.get('crs') for s in spatial]
+
+    if len(crs_list) == len(spatial):
+        single_crs = len(set(crs_list)) == 1
+
+    if not single_crs:
+        LOGGER.debug('spatial extent has multiple CRS; using first bbox')
         try:
-            minx, miny, maxx, maxy = (spatial[0]['bbox'])
+            minx, miny, maxx, maxy = spatial[0]['bbox']
             geometry = {
                 'type': 'Polygon',
                 'coordinates': [[
@@ -76,8 +81,8 @@ def generate_geometry(spatial: list) -> dict:
             }
         except TypeError:
             geometry = None
-    elif len(spatial) > 1:
-        LOGGER.debug('spatial extent is a multiple bbox')
+    else:
+        LOGGER.debug('spatial extent is a multiple bbox with same CRS')
         bboxes = []
         for s in spatial:
             try:
@@ -96,8 +101,5 @@ def generate_geometry(spatial: list) -> dict:
             'type': 'MultiPolygon',
             'coordinates': bboxes
         }
-    else:
-        LOGGER.debug('Invalid spatial extent')
-        geometry = None
 
     return geometry

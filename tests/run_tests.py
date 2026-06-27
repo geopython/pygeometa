@@ -65,6 +65,7 @@ from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 from pygeometa.schemas.schema_org import _get_box_from_coords
+from pygeometa.schemas.util import generate_geojson_geometry
 
 from sample_schema import SampleOutputSchema
 
@@ -568,6 +569,44 @@ class PygeometaTest(unittest.TestCase):
                          '2026-10-30T11:11:11Z')
         self.assertEqual(len(generate_datetime(None)), 20)
         self.assertEqual(len(generate_datetime('None')), 20)
+
+    def test_get_geojson_geometry(self):
+        """Test pygeometa.schemas.util.get_geojson_geometry"""
+
+        spatials = [{
+            'def': [{
+                'bbox': [164.1, -53.8, 180, -27.8],
+                'crs': 4326
+                }, {
+                'bbox': [-180, -53.8, -174.1, -27.8],
+                'crs': 4326
+            }],
+            'type': 'MultiPolygon'
+            }, {
+            'def': [{
+                'bbox': [-152, 42, -52, 84],
+                'crs': 4326
+                }, {
+                'bbox': [-180, -53.8, -174.1, -27.8],
+                'crs': 4269
+            }],
+            'type': 'Polygon'
+            }, {
+            'def': [{
+                'bbox': [-180, 28.896, 180, 90],
+                'crs': 4326
+                }, {
+                'bbox': [-2500.000, -2500.000, 8847500.000, 8047500.000],
+                'proj4': '+proj=stere +lat_0=90 +lon_0=-100 +k=0.93301243 +x_0=4245000 +y_0=5295000 +R=6371229 +units=m +no_defs',  # noqa
+            }],
+            'type': 'Polygon'
+        }]
+
+        for spatial in spatials:
+            geometry = generate_geojson_geometry(spatial['def'])
+            print(json.dumps(geometry, indent=4))
+            self.assertEqual(geometry['type'], spatial['type'],
+                             f"Expected geometry type {spatial['type']}")
 
 
 def get_abspath(filepath):
