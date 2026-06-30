@@ -49,7 +49,7 @@ from typing import Union
 from pygeometa.core import get_charstring
 from pygeometa.helpers import json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
-from pygeometa.schemas.util import generate_geometry
+from pygeometa.schemas.util import generate_geojson_geometry
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -82,7 +82,7 @@ class STACItemOutputSchema(BaseOutputSchema):
         lang1 = mcf['metadata'].get('language')
         lang2 = mcf['metadata'].get('language_alternate')
 
-        geometry = generate_geometry(
+        geometry = generate_geojson_geometry(
             mcf['identification']['extents']['spatial'])
 
         bbox = mcf['identification']['extents']['spatial'][0]['bbox']

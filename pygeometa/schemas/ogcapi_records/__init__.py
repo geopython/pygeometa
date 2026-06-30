@@ -51,7 +51,7 @@ from pygeometa import __version__
 from pygeometa.core import get_charstring
 from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.schemas.base import BaseOutputSchema
-from pygeometa.schemas.util import generate_geometry
+from pygeometa.schemas.util import generate_geojson_geometry
 
 THISDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -87,7 +87,7 @@ class OGCAPIRecordOutputSchema(BaseOutputSchema):
         self.lang1 = mcf['metadata'].get('language')
         self.lang2 = mcf['metadata'].get('language_alternate')
 
-        geometry = generate_geometry(
+        geometry = generate_geojson_geometry(
             mcf['identification']['extents']['spatial'])
 
         title = get_charstring(mcf['identification'].get('title'),
