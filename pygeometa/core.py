@@ -224,11 +224,13 @@ def prune_transfer_option(formats: dict, language: str) -> list:
     return unique_transfer
 
 
-def read_mcf(mcf: Union[dict, str]) -> dict:
+def read_mcf(mcf: Union[dict, str], skip_version_fail: bool = False) -> dict:
     """
     returns dict of YAML file from filepath, string or dict
 
     :param mcf: str, dict or filepath of MCF data
+    :param skip_version_fail: bool of whether to skip
+                              version failures (default=False)
 
     :returns: dict of MCF data
     """
@@ -321,7 +323,7 @@ def read_mcf(mcf: Union[dict, str]) -> dict:
         raise MCFReadError(msg)
 
     for mcf_version_ in mcf_versions:
-        if not mcf_version_.startswith(mcf_version):
+        if not mcf_version_.startswith(mcf_version) and not skip_version_fail:
             msg = f'invalid / unsupported version {mcf_version}'
             LOGGER.error(msg)
             raise MCFReadError(msg)

@@ -60,6 +60,7 @@ from pygeometa.core import (read_mcf, pretty_print, render_j2_template,
                             MCFValidationError, SCHEMAS, transform_metadata,
                             validate_mcf)
 from pygeometa.helpers import generate_datetime, json_dumps
+from pygeometa.migrations import migrate
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
@@ -608,6 +609,37 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(geometry['type'], spatial['type'],
                              f"Expected geometry type {spatial['type']}")
 
+    def test_migrate(self):
+        """Test pygeometa.migrations.migrate"""
+
+        with open(get_abspath('sample-1.0.mcf.yml')) as fh:
+            mcf_dict = yaml.load(fh, Loader=yaml.FullLoader)
+
+            self.assertEqual(mcf_dict['mcf']['version'], 1.0)
+            self.assertTrue('datestamp' in mcf_dict['metadata'])
+            self.assertFalse('dates' in mcf_dict['metadata'])
+
+            mcf_dict = migrate(mcf_dict)
+
+            self.assertEqual(mcf_dict['mcf']['version'], 2.0)
+            self.assertFalse('datestamp' in mcf_dict['metadata'])
+            self.assertTrue('dates' in mcf_dict['metadata'])
+            self.assertTrue('creation' in mcf_dict['metadata']['dates'])
+
+        with open(get_abspath('../sample.mcf.yml')) as fh:
+            mcf_dict = yaml.load(fh, Loader=yaml.FullLoader)
+
+            self.assertEqual(mcf_dict['mcf']['version'], 2.0)
+            self.assertFalse('datestamp' in mcf_dict['metadata'])
+            self.assertTrue('dates' in mcf_dict['metadata'])
+            self.assertTrue('creation' in mcf_dict['metadata']['dates'])
+
+            mcf_dict = migrate(mcf_dict)
+
+            self.assertEqual(mcf_dict['mcf']['version'], 2.0)
+            self.assertFalse('datestamp' in mcf_dict['metadata'])
+            self.assertTrue('dates' in mcf_dict['metadata'])
+            self.assertTrue('creation' in mcf_dict['metadata']['dates'])
 
 def get_abspath(filepath):
     """helper function absolute file access"""

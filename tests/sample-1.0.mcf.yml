@@ -1,0 +1,157 @@
+mcf:
+    version: 1.0
+
+metadata:
+    identifier: 3f342f64-9348-11df-ba6a-0014c2c00eab
+    additional_identifiers:
+        - identifier: 10.277/3f342f64-9348
+          scheme: https://doi.org
+    language: en
+    language_alternate: fr
+    charset: utf8
+    parentidentifier: someparentid
+    relations:
+        - identifier: 10.278/45e22-11223-2
+          scheme: http://doi.org
+          type: source 
+    hierarchylevel: dataset
+    datestamp: 2014-11-11
+    dataseturi: http://some/minted/uri
+
+spatial:
+    datatype: vector
+    geomtype: point
+
+identification:
+    language: eng; CAN
+    charset: utf8
+    title:
+        en: title in English
+        fr: title in French
+    abstract:
+        en: abstract in English
+        fr: abstract in French
+    edition: 1.8.0
+    dates:
+        creation: 2000-09-01T00:00:00Z
+        publication: 2001-11-11
+    keywords:
+        default:
+            keywords:
+                en: [kw1 in English,kw2 in English,kw3 in English]
+                fr: [kw1 in French,kw2 in French,kw3 in French]
+        wmo:
+            keywords:
+                en: [FOO,BAR]
+            keywords_type: theme
+            vocabulary:
+                name:
+                    en: My vocabulary
+                    fr: Mon vocabulaire
+                url: http://example.org/vocab
+        gc_cst:
+            keywords:
+                en: [kw1,kw2]
+                fr: [kw1,kw2]
+    topiccategory:
+        - climatologyMeteorologyAtmosphere
+    extents:
+        spatial:
+            - bbox: [-141,42,-52,84]
+              crs: 4326
+        temporal:
+            - begin: 1950-07-31
+              end: now
+              resolution: P1Y
+    fees: None
+    accessconstraints: otherRestrictions
+    license:
+        name: CC BY 4.0
+        url: https://creativecommons.org/licenses/by/4.0
+    rights:
+        en: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+        fr: Copyright (c) 2010 Her Majesty the Queen in Right of Canada
+    url: http://geogratis.ca/geogratis/en/product/search.do?id=08DB5E85-7405-FE3A-2860-CC3663245625
+    status: onGoing
+    maintenancefrequency: continual
+
+content_info:
+    type: image
+    cloud_cover: 72
+    processing_level: "1.0"
+    attributes:
+        - name: TS_OBS
+          title: Observation timestamp
+          type: datetime
+        - name: CA_MG_L
+          title: Calcium content in MG per L
+          type: number
+          url: https://en.wikipedia.org/wiki/Calcium
+          units: MilliGM-PER-L
+        - name: MG_MG_L
+          title: Magnesium content in MG per L
+          type: number
+          url: https://en.wikipedia.org/wiki/Magnesium
+          units: MilliGM-PER-L
+    dimensions:
+        - name: B1
+          units: nm
+          min: 932
+          max: 958
+
+# platform metadata, applicable to iso19139-2 output
+acquisition:
+    platforms:
+        - identifier: LANDSAT_8
+          description: Landsat 8
+          instruments:
+              - identifier: OLI_TIRS
+                type: INS-NOBS
+
+contact:
+    pointOfContact: &contact_poc
+        organization: Environment Canada
+        url: https://www.ec.gc.ca/
+        individualname: Tom Kralidis
+        positionname: Senior Systems Scientist
+        phone: +01-123-456-7890
+        fax: +01-123-456-7890
+        address: 4905 Dufferin Street
+        city: Toronto
+        administrativearea: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        email: foo@bar.tld
+        hoursofservice: 0700h - 1500h EST
+        contactinstructions: email
+
+    distributor: *contact_poc
+
+distribution:
+    waf:
+        url: https://example.org/data
+        type: WWW:LINK
+        rel: canonical
+        name: my waf
+        description:
+            en: description in English
+            fr: description in French
+        function: download
+
+    wms:
+        url: https://example.org/wms
+        type: OGC:WMS
+        rel: service
+        name:
+            en: roads
+            fr: routes
+        description:
+            en: description in English
+            fr: description in French
+        function: download
+
+dataquality:
+    scope:
+        level: dataset
+    lineage:
+        statement: this dataset was derived from a custom process against dataset xyz
