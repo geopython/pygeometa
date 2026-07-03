@@ -641,6 +641,7 @@ class PygeometaTest(unittest.TestCase):
             self.assertTrue('dates' in mcf_dict['metadata'])
             self.assertTrue('creation' in mcf_dict['metadata']['dates'])
 
+
 def get_abspath(filepath):
     """helper function absolute file access"""
 
