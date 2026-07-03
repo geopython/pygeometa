@@ -54,7 +54,7 @@ from pygeometa.core import read_mcf
 LOGGER = logging.getLogger(__name__)
 
 
-def migrate_from_1_0(mcf_dict: dict) -> dict:
+def migrate_from_1_0_to_2_0(mcf_dict: dict) -> dict:
     """
     migrate MCF from 1.0
 
@@ -75,7 +75,7 @@ def migrate_from_1_0(mcf_dict: dict) -> dict:
 LATEST_MCF = 2.0
 
 MIGRATIONS = {
-    '1.0': migrate_from_1_0
+    '1.0': migrate_from_1_0_to_2_0
 }
 
 

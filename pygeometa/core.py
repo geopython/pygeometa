@@ -324,7 +324,8 @@ def read_mcf(mcf: Union[dict, str], skip_version_fail: bool = False) -> dict:
 
     for mcf_version_ in mcf_versions:
         if not mcf_version_.startswith(mcf_version) and not skip_version_fail:
-            msg = f'invalid / unsupported version {mcf_version}'
+            msg = (f'invalid / unsupported version {mcf_version}; '
+                   f'please migrate to the latest MCF version')
             LOGGER.error(msg)
             raise MCFReadError(msg)
 
