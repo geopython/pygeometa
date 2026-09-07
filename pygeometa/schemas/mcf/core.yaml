@@ -389,107 +389,20 @@ properties:
                 description: |-
                     image distributor’s code that identifies the level of radiometric
                     and geometric processing that has been applied
-            attributes:
+            featuretypes: 
                 type: array
+                description: One or more featuretypes which are part of this dataset
                 minItems: 1
                 items:
-                    type: object
-                    properties:
-                        name:
-                            type: string
-                            description: attribute name
-                        type:
-                            type: string
-                            description: data type of attribute
-                            enum:
-                                - string
-                                - number
-                                - integer
-                                - object
-                                - array
-                                - boolean
-                                - date
-                                - datetime
-                        units:
-                            type: string
-                            description: SI Unit
-                        title:
-                            $ref: '#/definitions/i18n_string'
-                            description: human readable title of attribute
-                        abstract:
-                            $ref: '#/definitions/i18n_string'
-                            description: description of attribute
-                        url:
-                            $ref: '#/definitions/i18n_string'
-                            description: URL with more information about the attribute
-                        values:
-                            type: object
-                            oneOf:
-                                - properties:
-                                      enum:
-                                          type: array
-                                          description: enumerated list of values
-                                          minItems: 1
-                                          items:
-                                              $ref: '#/definitions/any_type'
-                                - properties:
-                                      range:
-                                          type: array
-                                          description: range of values (min/max)
-                                          minItems: 2
-                                          maxItems: 2
-                                          items:
-                                              $ref: '#/definitions/any_type'
-                                - properties:
-                                      codelist:
-                                          type: array
-                                          description: values from a codelist
-                                          minItems: 1
-                                          items:
-                                              type: object
-                                              properties:
-                                                  name:
-                                                      type: string
-                                                      description: value name
-                                                  title:
-                                                      $ref: '#/definitions/i18n_string'
-                                                      description: human readable title of value
-                                                  abstract:
-                                                      $ref: '#/definitions/i18n_string'
-                                                      description: description of value
-                                                  url:
-                                                      $ref: '#/definitions/i18n_string'
-                                                      description: URL with more information about the value
-                                              required:
-                                                      - name
-                    required:
-                        - name
-
+                    $ref: '#/definitions/featuretype'
+            attributes:
+                $ref: '#/definitions/attributes'
             dimensions:
-                type: array
-                items:
-                    type: object
-                    properties:
-                        name:
-                            type: string
-                            description: name of dimension
-                        units:
-                            type: string
-                            description: units in which sensor wavelengths are expressed
-                        min:
-                            type: number
-                            description: shortest wavelength that the sensor is capable of collecting within a designated band
-                        max:
-                            type: number
-                            description: longest wavelength that the sensor is capable of collecting within a designated band
-                    required:
-                        - name
-                        - units
-                        - min
-                        - max
+                $ref: '#/definitions/attributes'
+
         required:
             - type
-            - dimensions
+
     contact:
         patternProperties:
             "^.*":
@@ -668,6 +581,133 @@ definitions:
             - object
             - array
             - boolean
+    featuretype:
+        type: object
+        properties:
+            name:
+                type: string
+                description: featuretype name (table name or filename/path)
+            title:
+                $ref: '#/definitions/i18n_string'
+                description: human readable title of featuretype
+            abstract:
+                $ref: '#/definitions/i18n_string'
+                description: description of featuretype
+            url:
+                type: string
+                description: URI reference or URL with more information about the featuretype
+            attributes:
+                $ref: '#/definitions/attributes'
+            identifier:
+                type: string
+                description: 'Reference to the attribute which is the identifier for this featuretype'
+            foreign-key:
+                type: object
+                description: 'Reference to an attribute in another featuretype which acts as a foreign key i for that featuretype'
+                properties:
+                    featuretype: 
+                        type: string
+                        description: remote featuretype of the foreign key
+                    identifier:
+                        type: string
+                        description: identifier attribute on the remote featuretype acting as a foreign key 
+            
+    attributes:
+        type: array
+        items:
+            $ref: '#/definitions/attribute'
+        minItems: 1
+    attribute:
+        properties:
+            name:
+                type: string
+                description: Name or identifier refering to the data property, column or dimension in the dataset
+            title:
+                $ref: '#/definitions/i18n_string'
+                description: human readable title of attribute or dimension
+            abstract:
+                $ref: '#/definitions/i18n_string'
+                description: description of attribute or dimension
+            url:
+                type: string
+                description: URI reference or URL with more information about attribute or dimension
+            type:
+                type: string
+                description: data type of attribute or dimension
+                enum:
+                    - string
+                    - number
+                    - integer
+                    - object
+                    - array
+                    - boolean
+                    - date
+                    - datetime
+            units:
+                type: string
+                description: SI Unit or Uri reference
+            min:
+                type: number
+                description: Minimum value for this attribute/dimension
+            max:
+                type: number
+                description: Maximum value for this attribute/dimension
+            avg:
+                type: number
+                description: Average value for this attribute/dimension
+            std:
+                type: number
+                description: Standard deviation for this attribute/dimension
+            procedure:
+                type: object
+                description: The procedure used to collect the value
+                properties:
+                    - title:
+                        $ref: '#/definitions/i18n_string'
+                        description: 'A description of the procedure'
+                    - url:
+                        type: string
+                        description: 'URI reference or url where the procedure is described'
+            values:
+                type: object
+                oneOf:
+                    - properties:
+                            enum:
+                                type: array
+                                description: enumerated list of values
+                                minItems: 1
+                                items:
+                                    $ref: '#/definitions/any_type'
+                    - properties:
+                            range:
+                                type: array
+                                description: range of values (min/max)
+                                minItems: 2
+                                maxItems: 2
+                                items:
+                                    $ref: '#/definitions/any_type'
+                    - properties:
+                            codelist:
+                                type: array
+                                description: values from a codelist
+                                minItems: 1
+                                items:
+                                    type: object
+                                    properties:
+                                        name:
+                                            type: string
+                                            description: value name
+                                        title:
+                                            $ref: '#/definitions/i18n_string'
+                                            description: human readable title of value
+                                        abstract:
+                                            $ref: '#/definitions/i18n_string'
+                                            description: description of value
+                                        url:
+                                            $ref: '#/definitions/i18n_string'
+                                            description: URL with more information about the value
+                                    required:
+                                            - name
     i18n_array:
         oneOf:
             - type: array
