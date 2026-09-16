@@ -21,6 +21,7 @@
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
 # Copyright (c) 2026 Tom Kralidis
+# Copyright (c) 2026 Niccolò Cantù
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -63,11 +64,11 @@ from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.migrations import migrate
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
+from pygeometa.schemas.gbif_eml import GBIF_EMLOutputSchema
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 from pygeometa.schemas.schema_org import _get_box_from_coords
 from pygeometa.schemas.util import generate_geojson_geometry
-from pygeometa.schemas.gbif_eml import GBIF_EMLOutputSchema
 
 from sample_schema import SampleOutputSchema
 
@@ -451,8 +452,8 @@ class PygeometaTest(unittest.TestCase):
 
             self.assertEqual(
                 mcf['identification']['title'],
-                'Artsprosjekt Endofyttisk sopp i trær 23-19',  # noqa
-                'Expected specific title',
+                'Artsprosjekt Endofyttisk sopp i trær 23-19',
+                'Expected specific title'
             )
 
             self.assertEqual(
