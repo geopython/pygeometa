@@ -43,11 +43,12 @@
 #
 # =================================================================
 
-import re
 from pathlib import Path
+import re
 
-import pycountry
 from bs4 import BeautifulSoup
+import pycountry
+
 from pygeometa.schemas.base import BaseOutputSchema
 
 THISDIR = Path(__file__).parent
@@ -107,7 +108,7 @@ def to_contact_role(node, role, mapped_role=None):
                 'administrativearea': '',
                 'postalcode': '',
                 'country': text_or_empty(contact.find('country')),
-                'email': text_or_empty(contact.find('electronicMailAddress')),
+                'email': text_or_empty(contact.find('electronicMailAddress'))
             },
         )
 
@@ -131,7 +132,7 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             },
             'identification': {},
             'contact': {},
-            'distribution': {},
+            'distribution': {}
         }
 
         for identifier in dataset.find_all('alternateIdentifier'):
@@ -157,16 +158,11 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
             )
             idf['rights'] = {
                 'name': text_or_null(intellectual_rights.find('citetitle')),
-                'url': url,
+                'url': url
             }
 
         idf['url'] = text_or_null(dataset.find('alternateIdentifier'))
         idf['status'] = 'completed'
-
-        # if maintenance := dataset.find('maintenance'):
-        #     metadata.maintenance_update_description = text_or_null(
-        #         maintenance.find('description')
-        #     )
 
         idf['maintenancefrequency'] = (
             text_or_null(dataset.find('maintenanceUpdateFrequency'))
@@ -186,18 +182,13 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
                 float(coords.find('westBoundingCoordinate').text),
                 float(coords.find('southBoundingCoordinate').text),
                 float(coords.find('eastBoundingCoordinate').text),
-                float(coords.find('northBoundingCoordinate').text),
+                float(coords.find('northBoundingCoordinate').text)
             ]
 
             spatial['crs'] = 4326
             spatial['description'] = text_or_null(
                 dataset.find('geographicDescription')
             )
-
-        # temporal = idf['extents']['temporal']
-        # temporal['begin']
-        # temporal['end']
-        # temporal['resolution']
 
         idf['keywords'] = {}
 
@@ -239,7 +230,7 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
                 'type': 'WWW:LINK',
                 'function': 'information',
                 'description': '',
-                'name': 'Darwin Core Archive',
+                'name': 'Darwin Core Archive'
             }
         }
 
