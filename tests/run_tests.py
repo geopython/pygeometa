@@ -21,6 +21,7 @@
 # Copyright (c) 2015 Government of Canada
 # Copyright (c) 2016 ERT Inc.
 # Copyright (c) 2026 Tom Kralidis
+# Copyright (c) 2026 Niccolò Cantù
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
@@ -63,6 +64,7 @@ from pygeometa.helpers import generate_datetime, json_dumps
 from pygeometa.migrations import migrate
 from pygeometa.schemas import (get_supported_schemas, InvalidSchemaError,
                                load_schema)
+from pygeometa.schemas.gbif_eml import GBIF_EMLOutputSchema
 from pygeometa.schemas.iso19139 import ISO19139OutputSchema
 from pygeometa.schemas.ogcapi_records import OGCAPIRecordOutputSchema
 from pygeometa.schemas.schema_org import _get_box_from_coords
@@ -229,10 +231,10 @@ class PygeometaTest(unittest.TestCase):
 
         schemas = get_supported_schemas()
         self.assertIsInstance(schemas, list, 'Expected list')
-        self.assertEqual(len(schemas), 14,
+        self.assertEqual(len(schemas), 15,
                          'Expected specific number of supported schemas')
         self.assertEqual(schemas,
-                         sorted(['csvw', 'cwl', 'dcat', 'iso19139',
+                         sorted(['csvw', 'cwl', 'dcat', 'gbif-eml', 'iso19139',
                                  'iso19139-2', 'iso19139-hnap', 'mmd',
                                  'oarec-record', 'openaire',
                                  'schema-org', 'stac-item', 'wmo-cmp',
@@ -240,7 +242,7 @@ class PygeometaTest(unittest.TestCase):
                          'Expected exact list of supported schemas')
 
         schemas = get_supported_schemas(include_autodetect=True)
-        self.assertEqual(len(schemas), 15,
+        self.assertEqual(len(schemas), 16,
                          'Expected specific number of supported schemas')
         self.assertIn('autodetect', schemas, 'Expected autodetect in list')
 
@@ -445,6 +447,25 @@ class PygeometaTest(unittest.TestCase):
             self.assertEqual(expected_bbox, result_bbox,
                              'Expected specific BBOX')
 
+        with open(get_abspath('eml.xml')) as fh:  # noqa
+            mcf = GBIF_EMLOutputSchema().import_(fh.read())
+
+            self.assertEqual(
+                mcf['identification']['title'],
+                'Artsprosjekt Endofyttisk sopp i trær 23-19',
+                'Expected specific title'
+            )
+
+            self.assertEqual(
+                len(mcf['distribution']), 1,
+                'Expected specific number of links'
+            )
+
+            result_bbox = mcf['identification']['extents']['spatial'][0]['bbox']  # noqa
+            expected_bbox = [4.79, 58.008, 11.184, 60.984]
+            self.assertEqual(expected_bbox, result_bbox,
+                             'Expected specific BBOX')
+
     def test_import_metadata(self):
         """test metadata import"""
 
@@ -538,6 +559,16 @@ class PygeometaTest(unittest.TestCase):
                 m['properties']['title'],
                 'WIS/GTS bulletin SMJP01 RJTD in FM12 SYNOP',
                 'Expected specific title')
+
+        with open(get_abspath('eml.xml')) as fh:
+            m = transform_metadata('gbif-eml', 'oarec-record', fh.read())
+
+            m = json.loads(m)
+            self.assertEqual(
+                m['properties']['title'],
+                'Artsprosjekt Endofyttisk sopp i trær 23-19',
+                'Expected specific title',
+            )
 
     def test_schema_org_coords(self):
         """Test helper method schema-org parse geometry"""
