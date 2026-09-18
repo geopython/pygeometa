@@ -42,6 +42,7 @@ pygeometa is [open source](https://opensource.org) and released under an
 |[csvw](https://csvw.org)|CSV on the Web (CSVW)|True|True|
 |[cwl](https://www.commonwl.org)|Common Workflow Language|True|False|
 |[dcat](https://dcat.org)|Data Catalog Vocabulary (DCAT)|False|True|
+|[gbif-eml](https://ipt.gbif.org/manual/en/ipt/latest/gbif-metadata-profile)|GBIF Metadata Profile|True|True|
 |[iso19139](https://www.iso.org/standard/53798.html)|ISO 19115-1:2014 Geographic information - Metadata Part 1: Metadata Part 1: Fundamentals|True|True|
 |[iso19139-2](https://www.iso.org/standard/67039.html)|ISO 19115-2:2019 Geographic information - Metadata Part 2: Metadata Part 2: Extensions for acquisition and processing|False|True|
 |[iso19139-hnap](https://docs.geocat.net/catalogue/schema_plugins/iso19139.ca.HNAP)|Canadian profile on Harmonized North American Profile (HNAP)|False|True|
