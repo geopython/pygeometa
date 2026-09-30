@@ -172,6 +172,7 @@ class GBIF_EMLOutputSchema(BaseOutputSchema):
         idf['dates'] = {
             'publication': text_or_null(dataset.find('pubDate'), strip=True)
         }
+        mcf['metadata']['dates'] = {'creation': idf['dates']['publication']}
         idf['extents'] = {}
 
         if coords := dataset.find('boundingCoordinates'):
