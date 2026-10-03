@@ -413,8 +413,12 @@ def pretty_print(xml: str) -> str:
     """
 
     LOGGER.debug('pretty-printing XML')
-    val = minidom.parseString(xml)
-    return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
+    try:
+        val = minidom.parseString(xml)
+        return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
+    except Exception as err:
+        LOGGER.warning(f'pretty-printing failed: {err}; returning raw XML')
+        return xml
 
 
 def render_j2_template(mcf: dict, template_dir: str = None) -> str:
