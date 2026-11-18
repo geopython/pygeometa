@@ -179,10 +179,12 @@ class ISO19139OutputSchema(BaseOutputSchema):
             'end': None
         }
 
-        if identification.temporalextent_start:
-            temp_extent['begin'] = identification.temporalextent_start
-        if identification.temporalextent_end:
-            temp_extent['end'] = identification.temporalextent_end
+        temporal_begin = getattr(identification, 'temporalextent_start', None)
+        temporal_end = getattr(identification, 'temporalextent_end', None)
+        if temporal_begin:
+            temp_extent['begin'] = temporal_begin
+        if temporal_end:
+            temp_extent['end'] = temporal_end
 
         mcf['identification']['extents']['temporal'].append(temp_extent)
 
