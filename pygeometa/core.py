@@ -413,6 +413,15 @@ def pretty_print(xml: str) -> str:
     """
 
     LOGGER.debug('pretty-printing XML')
+    if isinstance(xml, bytes):
+        xml = xml.decode('utf-8')
+
+    # minidom rejects a bare '&', which appears when MCF text (for
+    # example a creation date) is interpolated unescaped. Existing
+    # character and numeric entities are left alone.
+    xml = re.sub(r'&(?!(?:#\d+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);)',
+                 '&amp;', xml)
+
     val = minidom.parseString(xml)
     return '\n'.join([val for val in val.toprettyxml(indent=' '*2).split('\n') if val.strip()])  # noqa
 

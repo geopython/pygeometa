@@ -153,6 +153,27 @@ class PygeometaTest(unittest.TestCase):
         self.assertEqual(xml2[-1], '>', 'Expected closing bracket')
         self.assertTrue(xml2.startswith('<?xml'), 'Expected XML declaration')
 
+    def test_pretty_print_ampersand_in_creation_date(self):
+        """bare '&' in a date must not crash pretty-print (#336)"""
+
+        iso_os = ISO19139OutputSchema()
+        mcf = read_mcf(get_abspath('../sample.mcf.yml'))
+        mcf['metadata']['dates']['creation'] = '2014-11-11 & later'
+
+        xml = render_j2_template(mcf, iso_os.template_dir)
+        self.assertIsInstance(xml, str, 'Expected unicode string')
+        self.assertIn('&amp;', xml)
+        self.assertTrue(xml.startswith('<?xml'), 'Expected XML declaration')
+        self.assertEqual(xml[-1], '>', 'Expected closing bracket')
+
+        xml2 = pretty_print('<root>2014-11-11 & later</root>')
+        self.assertIn('&amp;', xml2)
+        self.assertNotIn('&amp;amp;', xml2)
+
+        already = pretty_print('<root>a &amp; b</root>')
+        self.assertIn('&amp;', already)
+        self.assertNotIn('&amp;amp;', already)
+
     def test_get_charstring(self):
         """Test support of unilingual or multilingual value(s)"""
 
