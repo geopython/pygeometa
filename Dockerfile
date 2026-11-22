@@ -53,7 +53,7 @@ RUN useradd -m pygeometa
 WORKDIR /app
 COPY ./ /app
 
-RUN python3.14 -m venv --system-site-packages /venv && \
+RUN python3.14 -m venv /venv && \
     /venv/bin/pip3 install .
 
 USER pygeometa
