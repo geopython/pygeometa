@@ -539,6 +539,20 @@ class PygeometaTest(unittest.TestCase):
                 0,
                 'empty box')
 
+    def test_missing_extent(self):
+        # do not fail on records without an extent section (#368)
+        schema = ISO19139OutputSchema()
+        with open(get_abspath('iso19139-no-extent.xml')) as fh:
+            mcf = schema.import_(fh.read())
+            self.assertEqual(
+                mcf['identification']['extents']['spatial'][0]['bbox'],
+                [],
+                'empty box')
+            self.assertEqual(
+                mcf['identification']['extents']['temporal'],
+                [{'begin': None, 'end': None}],
+                'empty temporal extent')
+
     def test_transform_metadata(self):
         """test metadata transform"""
 
