@@ -56,7 +56,7 @@ from typing import IO, Union
 from xml.dom import minidom
 
 import click
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from jinja2.exceptions import TemplateNotFound
 from jsonschema import validate as jsonschema_validate
 from jsonschema.exceptions import ValidationError
@@ -435,7 +435,14 @@ def render_j2_template(mcf: dict, template_dir: str = None) -> str:
         raise RuntimeError(msg)
 
     LOGGER.debug(f'Setting up template environment {template_dir}')
-    env = Environment(loader=FileSystemLoader([template_dir, SCHEMAS]))
+    env = Environment(
+        loader=FileSystemLoader([template_dir, SCHEMAS]),
+        autoescape=select_autoescape(
+            enabled_extensions=('xml', 'html'),
+            default_for_string=True,
+            default=True
+        )
+    )
 
     LOGGER.debug('Adding template filters')
     env.filters['normalize_datestring'] = normalize_datestring

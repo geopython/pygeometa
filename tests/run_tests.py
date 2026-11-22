@@ -286,6 +286,14 @@ class PygeometaTest(unittest.TestCase):
             s_os = SampleOutputSchema()
             _ = s_os.write(read_mcf(get_abspath(mcf_path)))
 
+            # MCF with bare '&' character
+            xml = render_j2_template(
+                read_mcf(get_abspath('sample-xml-escape.mcf.yml')),
+                iso_os.template_dir)
+            self.assertIsInstance(xml, str, 'Expected unicode string')
+            self.assertNotIn('in English & ', xml, 'Did not expect bare "&"')
+            self.assertIn('in English &amp;', xml, 'Expected escaped "&"')
+
     def itest_nested_mcf(self):
         """test nested mcf support"""
 
